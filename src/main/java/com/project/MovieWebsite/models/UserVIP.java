@@ -1,4 +1,4 @@
-package com.project.MovieWebsite.modules;
+package com.project.MovieWebsite.models;
 
 import jakarta.persistence.*;
 import lombok.*;
@@ -14,6 +14,7 @@ import java.time.LocalDateTime;
 @NoArgsConstructor
 
 public class UserVIP {
+    @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
 

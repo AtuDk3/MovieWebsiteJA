@@ -1,9 +1,8 @@
-package com.project.MovieWebsite.modules;
+package com.project.MovieWebsite.models;
 
 import jakarta.persistence.*;
 import lombok.*;
 
-import java.time.LocalDateTime;
 import java.util.Date;
 
 @Entity
@@ -15,6 +14,7 @@ import java.util.Date;
 @NoArgsConstructor
 
 public class User extends BaseEntity {
+    @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
 
@@ -37,12 +37,12 @@ public class User extends BaseEntity {
     private String googleAccountId;
 
     @ManyToOne
-    @Column(name = "vip_id", nullable = false)
-    private UserVIP vipId;
+    @JoinColumn(name = "vip_id", nullable = false)
+    private UserVIP userVIP;
 
     @ManyToOne
-    @Column(name = "role_id", nullable = false)
-    private Role roleId;
+    @JoinColumn(name = "role_id", nullable = false)
+    private Role role;
 
     @Column(name = "is_active")
     private int isActive;

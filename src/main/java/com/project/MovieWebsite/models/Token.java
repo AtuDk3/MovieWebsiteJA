@@ -1,4 +1,4 @@
-package com.project.MovieWebsite.modules;
+package com.project.MovieWebsite.models;
 
 import jakarta.persistence.*;
 import lombok.*;
@@ -14,6 +14,7 @@ import java.time.LocalDateTime;
 @NoArgsConstructor
 
 public class Token {
+    @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
 
@@ -33,6 +34,6 @@ public class Token {
     private int expired;
 
     @ManyToOne
-    @Column(name = "user_id", nullable = false)
-    private User userId;
+    @JoinColumn(name = "user_id", nullable = false)
+    private User user;
 }

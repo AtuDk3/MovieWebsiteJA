@@ -1,4 +1,4 @@
-package com.project.MovieWebsite.modules;
+package com.project.MovieWebsite.models;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.PrePersist;

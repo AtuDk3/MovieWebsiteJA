@@ -1,10 +1,10 @@
-package com.project.MovieWebsite.modules;
+package com.project.MovieWebsite.models;
 
 import jakarta.persistence.*;
 import lombok.*;
 
 @Entity
-@Table(name = "tab_genre")
+@Table(name = "tab_social_account")
 @Data
 @Getter
 @Setter
@@ -12,6 +12,7 @@ import lombok.*;
 @NoArgsConstructor
 
 public class SocialAccount {
+    @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
 
@@ -28,6 +29,6 @@ public class SocialAccount {
     private String name;
 
     @ManyToOne
-    @Column(name = "user_id", nullable = false)
-    private User userId;
+    @JoinColumn(name = "user_id", nullable = false)
+    private User user;
 }
