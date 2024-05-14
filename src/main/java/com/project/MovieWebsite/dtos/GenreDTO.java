@@ -15,4 +15,8 @@ public class GenreDTO {
 
     @NotEmpty(message = "Description can not empty!")
     private String description;
+
+    private String slug;
+
+    private int isActive;
 }
