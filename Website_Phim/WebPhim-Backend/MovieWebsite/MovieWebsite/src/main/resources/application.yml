@@ -21,6 +21,7 @@ logging:
   level:
       root: info
 jwt:
-  expiration: 2592000
+  expiration: 2592000 #30days
+  secretKey: I have a dream
 api:
   prefix: api/v1

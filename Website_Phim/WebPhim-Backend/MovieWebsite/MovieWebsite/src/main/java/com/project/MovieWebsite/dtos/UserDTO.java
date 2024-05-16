@@ -33,10 +33,10 @@ public class UserDTO {
     private Date dob;
 
     @JsonProperty("facebook_account_id")
-    private String facebookAccountId;
+    private int facebookAccountId;
 
     @JsonProperty("google_account_id")
-    private String googleAccountId;
+    private int googleAccountId;
 
     @NotNull(message = "Vip ID is required!")
     @JsonProperty("vip_id")

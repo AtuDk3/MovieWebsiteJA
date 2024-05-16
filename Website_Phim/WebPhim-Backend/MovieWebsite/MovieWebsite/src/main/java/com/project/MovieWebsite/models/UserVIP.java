@@ -19,17 +19,11 @@ public class UserVIP {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
 
+    private String name;
+
     private float price;
 
-    @Column(name = "registration_date")
-    private LocalDateTime registrationDate;
-
-    @Column(name = "expiration_date")
-    private LocalDateTime expirationDate;
-
-    @PrePersist
-    protected void onCreate(){
-        registrationDate = LocalDateTime.now();
-    }
+    @Column(name = "number_month")
+    private int numberMonth;
 
 }
