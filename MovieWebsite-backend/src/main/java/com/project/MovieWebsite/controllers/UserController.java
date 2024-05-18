@@ -2,6 +2,7 @@ package com.project.MovieWebsite.controllers;
 
 import com.project.MovieWebsite.dtos.GenreDTO;
 import com.project.MovieWebsite.dtos.UserDTO;
+import com.project.MovieWebsite.dtos.UserLoginDTO;
 import com.project.MovieWebsite.exceptions.DataNotFoundException;
 import com.project.MovieWebsite.models.Genre;
 import com.project.MovieWebsite.models.User;
@@ -31,7 +32,7 @@ public class UserController {
         return ResponseEntity.ok(users);
     }
 
-    @PostMapping("")
+    @PostMapping("/register")
     public ResponseEntity<?> createUser(@Valid @RequestBody UserDTO userDTO, BindingResult result) throws DataNotFoundException {
         if (result.hasErrors()){
             List<String> errorsMessage = result.getFieldErrors().stream().map(FieldError::getDefaultMessage).toList();
@@ -39,6 +40,16 @@ public class UserController {
         }
         userService.createUser(userDTO);
         return ResponseEntity.ok("Create user successfully!");
+    }
+
+    @PostMapping("/login")
+    public ResponseEntity<String> login(@Valid @RequestBody UserLoginDTO userLoginDTO, BindingResult result) throws DataNotFoundException {
+        if (result.hasErrors()){
+            List<String> errorsMessage = result.getFieldErrors().stream().map(FieldError::getDefaultMessage).toList();
+            //return ResponseEntity.badRequest().body(errorsMessage);
+        }
+        userService.login(userLoginDTO.getPhoneNumber(), userLoginDTO.getPassword());
+        return ResponseEntity.ok("Login successfully!");
     }
 
     @PutMapping("/{id}")

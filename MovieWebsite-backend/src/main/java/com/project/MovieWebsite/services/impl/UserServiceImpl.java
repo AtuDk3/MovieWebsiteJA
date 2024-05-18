@@ -22,15 +22,18 @@ public class UserServiceImpl implements UserService {
     private final UserRepository userRepository;
     private final RoleRepository roleRepository;
     private final UserVIPRepository userVIPRepository;
+    private final PasswordEncoder passwordEncoder;
 
     @Override
     public User createUser(UserDTO userDTO) throws DataNotFoundException{
         String phoneNumber = userDTO.getPhoneNumber();
-//        if(userRepository.existsByPhoneNumber(phoneNumber)){
-//            return new RuntimeException("Phone number is exists!");
-//        }
+
+        User existingUser = userRepository.findByPhoneNumber(phoneNumber).
+                orElseThrow(() -> new DataNotFoundException("Existing phone number!"));
+
         Role existingRole= roleRepository.findById(userDTO.getRoleId())
                 .orElseThrow(() -> new DataNotFoundException("Cannot find movie type with id: "+userDTO.getRoleId()));
+
         UserVIP existingUserVip= userVIPRepository.findById(userDTO.getUserVIPId())
                 .orElseThrow(() -> new DataNotFoundException("Cannot find movie type with id: "+userDTO.getUserVIPId()));
 
@@ -44,6 +47,12 @@ public class UserServiceImpl implements UserService {
                 role(existingRole).
                 isActive(userDTO.getIsActive()).
                 build();
+
+        if (userDTO.getFacebookAccountId().equals("0") || userDTO.getGoogleAccountId().equals("0")){
+            String password = userDTO.getPassword();
+            String encodedPassword = passwordEncoder.encode(password);
+            newUser.setPassword(encodedPassword);
+        }
         return userRepository.save(newUser);
     }
 

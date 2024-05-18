@@ -3,10 +3,15 @@ import { BrowserModule } from '@angular/platform-browser';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
-import { HomeComponent } from './home/home.component';
-import { HeaderComponent } from './header/header.component';
-import { FooterComponent } from './footer/footer.component';
+import { HomeComponent } from './components/home/home.component';
+import { HeaderComponent } from './components/header/header.component';
+import { FooterComponent } from './components/footer/footer.component';
 import { LoginComponent } from './login/login.component';
+import { BannerComponent } from './components/banner/banner.component';
+import { IonicModule } from '@ionic/angular';
+import { CarouselModule } from 'ngx-owl-carousel-o';
+import { GenreComponent } from './components/genre/genre.component';
+import { SidebarComponent } from './components/sidebar/sidebar.component';
 
 @NgModule({
   declarations: [
@@ -14,19 +19,20 @@ import { LoginComponent } from './login/login.component';
     HomeComponent,
     HeaderComponent,
     FooterComponent,
-    LoginComponent
+    LoginComponent,
+    BannerComponent,
+    GenreComponent,
+    SidebarComponent
   ],
   imports: [
     BrowserModule,
-    AppRoutingModule
+    AppRoutingModule,
+    IonicModule.forRoot(),
+    CarouselModule
   ],
   providers: [],
   bootstrap: [
-    // HeaderComponent,
-    // AppComponent,
-    // FooterComponent,
-    // HomeComponent
-LoginComponent
+    AppComponent
   ]
 })
 export class AppModule { }
