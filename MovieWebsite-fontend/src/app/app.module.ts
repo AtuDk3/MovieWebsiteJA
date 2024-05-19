@@ -1,4 +1,4 @@
-import { NgModule } from '@angular/core';
+import { NgModule, OnInit  } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 
 import { AppRoutingModule } from './app-routing.module';
@@ -35,4 +35,6 @@ import { SidebarComponent } from './components/sidebar/sidebar.component';
     AppComponent
   ]
 })
-export class AppModule { }
+export class AppModule { 
+
+}
