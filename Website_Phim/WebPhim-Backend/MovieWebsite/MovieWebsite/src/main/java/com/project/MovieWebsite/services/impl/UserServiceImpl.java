@@ -3,7 +3,6 @@ package com.project.MovieWebsite.services.impl;
 import com.project.MovieWebsite.components.JwtTokenUtil;
 import com.project.MovieWebsite.dtos.UserDTO;
 import com.project.MovieWebsite.exceptions.DataNotFoundException;
-import com.project.MovieWebsite.models.Genre;
 import com.project.MovieWebsite.models.Role;
 import com.project.MovieWebsite.models.User;
 import com.project.MovieWebsite.models.UserVIP;
@@ -17,7 +16,6 @@ import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
-
 import java.util.List;
 import java.util.Optional;
 
@@ -31,12 +29,13 @@ public class UserServiceImpl implements UserService {
     private final PasswordEncoder passwordEncoder;
     private final JwtTokenUtil jwtTokenUtil;
     private final AuthenticationManager authenticationManager;
+
     @Override
     public User createUser(UserDTO userDTO) throws DataNotFoundException{
         String phoneNumber = userDTO.getPhoneNumber();
-//        if(userRepository.existsByPhoneNumber(phoneNumber)){
-//            return new RuntimeException("Phone number is exists!");
-//        }
+        if(userRepository.existsByPhoneNumber(phoneNumber)){
+            throw new DataNotFoundException("Phone number is exists!");
+       }
         Role existingRole= roleRepository.findById(userDTO.getRoleId())
                 .orElseThrow(() -> new DataNotFoundException("Cannot find role with id: "+userDTO.getRoleId()));
         UserVIP existingUserVip= userVIPRepository.findById(userDTO.getVipId())
@@ -52,7 +51,7 @@ public class UserServiceImpl implements UserService {
                 role(existingRole).
                 //isActive(userDTO.ge).
                 build();
-        if(userDTO.getGoogleAccountId() == 0 && userDTO.getFacebookAccountId()==0){
+        if(userDTO.getGoogleAccountId().equals("0")  && userDTO.getFacebookAccountId().equals("0") ){
             String password= userDTO.getPassword();
             String encodedPassword = passwordEncoder.encode(password);
             newUser.setPassword(encodedPassword);
@@ -103,14 +102,15 @@ public class UserServiceImpl implements UserService {
         }
         User existingUser= optionalUser.get();
 
-        if(existingUser.getGoogleAccountId() == 0 && existingUser.getFacebookAccountId()==0){
+        if(existingUser.getGoogleAccountId().equals("0")  && existingUser.getFacebookAccountId().equals("0") ){
             if(!passwordEncoder.matches(password, existingUser.getPassword())){
                 throw new BadCredentialsException("Wrong phone number or password");
             }
         }
 
         UsernamePasswordAuthenticationToken authenticationToken= new UsernamePasswordAuthenticationToken(
-                phoneNumber, password
+                phoneNumber, password,
+                existingUser.getAuthorities()
         );
         authenticationManager.authenticate(authenticationToken);
         return jwtTokenUtil.generateToken(existingUser);

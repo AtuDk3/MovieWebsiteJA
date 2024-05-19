@@ -35,14 +35,17 @@ public class User extends BaseEntity implements UserDetails {
     @Column(name = "password", nullable = false)
     private String password;
 
+    @Column(name = "email", nullable = false)
+    private String email;
+
     @Column(name = "date_of_birth")
     private Date dob;
 
     @Column(name = "facebook_account_id")
-    private int facebookAccountId;
+    private String facebookAccountId;
 
     @Column(name = "google_account_id")
-    private int googleAccountId;
+    private String googleAccountId;
 
     @ManyToOne
     @JoinColumn(name = "vip_id", nullable = false)

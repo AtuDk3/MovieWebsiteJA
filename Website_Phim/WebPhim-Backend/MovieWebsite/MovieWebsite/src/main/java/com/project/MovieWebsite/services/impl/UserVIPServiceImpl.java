@@ -35,7 +35,7 @@ public class UserVIPServiceImpl implements UserVIPService {
     @Override
     public UserVIP updateUserVIP(int userVipId, UserVIPDTO userVIPDTO) {
         UserVIP existsUserVIP = getUserVIPById(userVipId);
-        //existsUserVIP.setNumberMonth(userVIPDTO.getNumberMonth());
+        existsUserVIP.setNumberMonth(userVIPDTO.getNumberMonth());
         existsUserVIP.setPrice(userVIPDTO.getPrice());
         existsUserVIP.setName(userVIPDTO.getName());
         userVIPRepository.save(existsUserVIP);

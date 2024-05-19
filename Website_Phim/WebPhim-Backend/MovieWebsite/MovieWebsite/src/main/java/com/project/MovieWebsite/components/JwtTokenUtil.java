@@ -4,12 +4,15 @@ import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
 import io.jsonwebtoken.io.Decoders;
+import io.jsonwebtoken.io.Encoders;
 import io.jsonwebtoken.security.Keys;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
+import java.security.InvalidParameterException;
 import java.security.Key;
+import java.security.SecureRandom;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
@@ -17,7 +20,6 @@ import java.util.function.Function;
 
 @Component
 @RequiredArgsConstructor
-
 public class JwtTokenUtil {
 
     @Value("${jwt.expiration}")
@@ -26,42 +28,47 @@ public class JwtTokenUtil {
     @Value("${jwt.secretKey}")
     private String secretKey;
 
-    public String generateToken(com.project.MovieWebsite.models.User user){
-        Map<String, Object> claims= new HashMap<>();
+    public String generateToken(com.project.MovieWebsite.models.User user) throws Exception {
+        Map<String, Object> claims = new HashMap<>();
         claims.put("phoneNumber", user.getPhoneNumber());
         try {
-            String token= Jwts.builder()
+            String token = Jwts.builder()
                     .setClaims(claims)
                     .setSubject(user.getPhoneNumber())
-                    .setExpiration(new Date(System.currentTimeMillis()+expiration*1000L))
-                    .signWith(getSignIntKey(), SignatureAlgorithm.HS256)
+                    .setExpiration(new Date(System.currentTimeMillis() + expiration * 1000L))
+                    .signWith(getSignInKey(), SignatureAlgorithm.HS256)
                     .compact();
             return token;
-        }catch (Exception e){
-            System.out.println("Cannot create jwt, error: "+e.getMessage());
-            return null;
+        } catch (Exception e) {
+            throw new InvalidParameterException("Cannot create jwt, error: " + e.getMessage());
         }
-
     }
 
-    private Key getSignIntKey(){
-        byte[] bytes= Decoders.BASE64.decode(secretKey);
+    private Key getSignInKey() {
+        byte[] bytes = Decoders.BASE64.decode(secretKey);
         return Keys.hmacShaKeyFor(bytes);
     }
 
-    public Claims extractAllClaims(String token){
-        return Jwts.parserBuilder().setSigningKey(getSignIntKey()).build()
-                .parseClaimsJwt(token).getBody();
-
+    private String generateSecretKey() {
+        SecureRandom random = new SecureRandom();
+        byte[] keyBytes = new byte[32];
+        random.nextBytes(keyBytes);
+        String secretKey = Encoders.BASE64.encode(keyBytes);
+        return secretKey;
     }
 
-    public <T> T extractClaim(String token, Function<Claims, T> claimsResolver){
+    public Claims extractAllClaims(String token) {
+        return Jwts.parserBuilder().setSigningKey(getSignInKey()).build()
+                .parseClaimsJws(token).getBody();
+    }
+
+    public <T> T extractClaim(String token, Function<Claims, T> claimsResolver) {
         final Claims claims = this.extractAllClaims(token);
         return claimsResolver.apply(claims);
     }
 
-    private boolean isTokenExpired(String token){
-        Date expirationDate= this.extractClaim(token, Claims::getExpiration);
+    private boolean isTokenExpired(String token) {
+        Date expirationDate = this.extractClaim(token, Claims::getExpiration);
         return expirationDate.before(new Date());
     }
 }

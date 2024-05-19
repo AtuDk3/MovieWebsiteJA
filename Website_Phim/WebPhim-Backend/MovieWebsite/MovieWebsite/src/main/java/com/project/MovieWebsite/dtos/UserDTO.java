@@ -29,14 +29,20 @@ public class UserDTO {
     @JsonProperty("password")
     private String password;
 
+    @JsonProperty("retype_password")
+    private String retypePassword;
+
+    @JsonProperty("email")
+    private String email;
+
     @JsonProperty("date_of_birth")
     private Date dob;
 
     @JsonProperty("facebook_account_id")
-    private int facebookAccountId;
+    private String facebookAccountId= "0";
 
     @JsonProperty("google_account_id")
-    private int googleAccountId;
+    private String googleAccountId= "0";
 
     @NotNull(message = "Vip ID is required!")
     @JsonProperty("vip_id")
