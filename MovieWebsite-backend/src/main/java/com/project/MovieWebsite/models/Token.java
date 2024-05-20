@@ -13,8 +13,8 @@ import java.time.LocalDateTime;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-
 public class Token {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;

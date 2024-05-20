@@ -11,6 +11,7 @@ import lombok.*;
 @NoArgsConstructor
 
 public class UserLoginDTO {
+
     @NotBlank(message = "Phone number can not empty!")
     @JsonProperty("phone_number")
     private String phoneNumber;
@@ -18,4 +19,5 @@ public class UserLoginDTO {
     @NotBlank(message = "Password can not empty!")
     @JsonProperty("password")
     private String password;
+
 }

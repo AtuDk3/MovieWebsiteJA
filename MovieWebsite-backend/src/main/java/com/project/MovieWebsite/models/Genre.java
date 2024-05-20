@@ -2,7 +2,7 @@ package com.project.MovieWebsite.models;
 
 import jakarta.persistence.*;
 import lombok.*;
-
+@Builder
 @Entity
 @Table(name = "tab_genre")
 @Data
@@ -10,7 +10,6 @@ import lombok.*;
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-@Builder
 
 public class Genre {
     @Id
@@ -27,4 +26,6 @@ public class Genre {
 
     @Column(name = "is_active")
     private int isActive;
+
+
 }

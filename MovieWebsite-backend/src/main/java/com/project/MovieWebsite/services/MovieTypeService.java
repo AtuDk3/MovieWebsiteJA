@@ -4,7 +4,6 @@ import com.project.MovieWebsite.dtos.MovieTypeDTO;
 import com.project.MovieWebsite.dtos.OrderDTO;
 import com.project.MovieWebsite.models.MovieType;
 import com.project.MovieWebsite.models.Order;
-import org.springframework.stereotype.Service;
 
 import java.util.List;
 

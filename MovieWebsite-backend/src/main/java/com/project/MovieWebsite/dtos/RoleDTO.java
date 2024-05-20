@@ -13,6 +13,6 @@ import lombok.*;
 
 public class RoleDTO {
     @NotBlank(message = "Name can not empty!")
-    @Size(min = 3, message = "Role must have more than 3 character!")
+    @Size(min = 5, message = "Role must have more than 3 character!")
     private String name;
 }

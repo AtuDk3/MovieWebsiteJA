@@ -1,66 +1,57 @@
 package com.project.MovieWebsite.controllers;
 
-import com.project.MovieWebsite.dtos.GenreDTO;
 import com.project.MovieWebsite.dtos.UserDTO;
 import com.project.MovieWebsite.dtos.UserLoginDTO;
-import com.project.MovieWebsite.exceptions.DataNotFoundException;
-import com.project.MovieWebsite.models.Genre;
-import com.project.MovieWebsite.models.User;
 import com.project.MovieWebsite.services.UserService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.FieldError;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
 
 @RestController
-@RequestMapping("${api.prefix}/users")
 @RequiredArgsConstructor
-
+@RequestMapping("${api.prefix}/users")
 public class UserController {
+
     private final UserService userService;
 
-    @GetMapping("")
-    public ResponseEntity<List<User>> getAllUser(
-            @RequestParam("page") int page,
-            @RequestParam("limit") int limit
-    ) {
-        List<User>users = userService.getAllUser();
-        return ResponseEntity.ok(users);
-    }
 
     @PostMapping("/register")
-    public ResponseEntity<?> createUser(@Valid @RequestBody UserDTO userDTO, BindingResult result) throws DataNotFoundException {
-        if (result.hasErrors()){
-            List<String> errorsMessage = result.getFieldErrors().stream().map(FieldError::getDefaultMessage).toList();
-            return ResponseEntity.badRequest().body(errorsMessage);
-        }
-        userService.createUser(userDTO);
-        return ResponseEntity.ok("Create user successfully!");
-    }
+    public  ResponseEntity<?> createUser(@Valid @RequestBody UserDTO userDTO,
+                                         BindingResult result){
+        try{
+            if (result.hasErrors()){
+                List<String> errorsMessage = result.getFieldErrors().stream().map(FieldError::getDefaultMessage).toList();
+                return ResponseEntity.badRequest().body(errorsMessage);
+            }
+            if(!userDTO.getPassword().equals(userDTO.getRetypePassword())){
+                return ResponseEntity.badRequest().body("Password does not match");
+            }
 
+            userService.createUser(userDTO);
+            return ResponseEntity.ok("Register successfully");
+        }catch (Exception e){
+            return ResponseEntity.badRequest().body(e.getMessage());
+        }
+    }
     @PostMapping("/login")
-    public ResponseEntity<String> login(@Valid @RequestBody UserLoginDTO userLoginDTO, BindingResult result) throws DataNotFoundException {
-        if (result.hasErrors()){
-            List<String> errorsMessage = result.getFieldErrors().stream().map(FieldError::getDefaultMessage).toList();
-            //return ResponseEntity.badRequest().body(errorsMessage);
+    public ResponseEntity <String> login(
+            @Valid @RequestBody UserLoginDTO userLoginDTO
+            ){
+
+        try{
+            String token= userService.login(userLoginDTO.getPhoneNumber(), userLoginDTO.getPassword());
+            return ResponseEntity.ok("Login successfull with token: "+token);
+        }catch (Exception e){
+            return ResponseEntity.badRequest().body(e.getMessage());
         }
-        userService.login(userLoginDTO.getPhoneNumber(), userLoginDTO.getPassword());
-        return ResponseEntity.ok("Login successfully!");
-    }
 
-    @PutMapping("/{id}")
-    public ResponseEntity<String> updateUserById(@PathVariable int id, @Valid @RequestBody UserDTO userDTO) throws DataNotFoundException {
-        userService.updateUser(id, userDTO);
-        return ResponseEntity.ok("Update user successfully!");
-    }
-
-    @DeleteMapping("/{id}")
-    public ResponseEntity<String> deleteUserById(@PathVariable int id) {
-        userService.deleteUser(id);
-        return ResponseEntity.ok("Delete users successfully!");
     }
 }

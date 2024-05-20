@@ -2,7 +2,7 @@ package com.project.MovieWebsite.models;
 
 import jakarta.persistence.*;
 import lombok.*;
-
+@Builder
 @Entity
 @Table(name="tab_favourite")
 @Data
@@ -16,13 +16,13 @@ public class Favourite {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
 
-//    @ManyToOne
-//    @JoinColumn(name="movie_id")
-//    private Movie movie;
-//
-//    @ManyToOne
-//    @JoinColumn(name="user_id")
-//    private User user;
+    @ManyToOne
+    @JoinColumn(name="movie_id")
+    private Movie movie;
+
+    @ManyToOne
+    @JoinColumn(name="user_id")
+    private User user;
 
 
 }

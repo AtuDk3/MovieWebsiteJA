@@ -10,19 +10,21 @@ import lombok.*;
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-
+@Builder
 public class Episode extends BaseEntity{
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
 
-    //@ManyToOne
-//    @JoinColumn(name="movie_id")
-//    private Movie movie;
-//
-    @Column(name="movie_url", nullable= false, length=255)
+    @ManyToOne
+    @JoinColumn(name="movie_id")
+    private Movie movie;
+
+    @Column(name="movie_url", nullable= false)
     private String movieUrl;
+
+
 
 
 }

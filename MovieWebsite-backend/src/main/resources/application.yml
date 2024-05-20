@@ -1,24 +1,44 @@
-api:
-  prefix: api/v1
-
 spring:
   datasource:
-    url: jdbc:mysql://localhost:3306/movie_website
+    url: jdbc:mysql://localhost:3306/movie_website?useSSL=false&serverTimezone=UTC
     username: root
     password:
     driver-class-name: com.mysql.cj.jdbc.Driver
 
-    jpa:
-      show-sql: true
+  jpa:
+    show-sql: true
+    hibernate:
+      ddl-auto: none
+    properties:
       hibernate:
-        ddl-auto: none
-        properties:
-          hibernate:
-            dialect: org.hibernate.dialect.MySQL8Dialect
-            format_sql: true
-
+        dialect: org.hibernate.dialect.MySQL8Dialect
+        format_sql: true
+  #  spring:
+  #    security:
+  #      oauth2:
+  #        client:
+  #          registration:
+  #            google:
+  #              client-id: 766011988725-8f67ha7rav67t61u9tfe9pjeli1an63e.apps.googleusercontent.com
+  #              client-secret: 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
+  servlet:
+    multipart:
+      max-file-size: 10MB
+      max-request-size: 10MB
 logging:
   level:
     root: info
 jwt:
-  expiration: 2592000
+  expiration: 2592000 #30days
+  secretKey: N8FG9C3xK8jqH9/y7+D7w8yDbEoYgA1i6+i4j2R7VsI=
+
+api:
+  prefix: api/v1
+
+mailServer:
+  host: smtp.gmail.com
+  port: 587
+  email: mailsender.tutorials.b2a@gmail.com
+  password: Admin@123
+  protocol: smtp
+  isSSL: false

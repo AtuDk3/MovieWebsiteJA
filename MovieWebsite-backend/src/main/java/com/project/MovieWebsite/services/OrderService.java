@@ -1,17 +1,21 @@
 package com.project.MovieWebsite.services;
 
+import com.project.MovieWebsite.dtos.OrderDTO;
+import com.project.MovieWebsite.exceptions.DataNotFoundException;
 import com.project.MovieWebsite.models.Order;
 
 import java.util.List;
 
 public interface OrderService {
-    Order createOrder(Order order);
 
-    Order getOrderById(int orderId);
+    Order createOrder(OrderDTO order) throws DataNotFoundException;
 
-    List<Order> getAllOrder();
+    Order getOrder(int id);
 
-    Order updateOrder(int orderId, Order order);
+    List<Order> getAllOrders();
 
-    void deleteOrder(int orderId);
+    Order updateOrder(int id, OrderDTO order) throws DataNotFoundException;
+
+    void deleteOrder(int id);
+
 }

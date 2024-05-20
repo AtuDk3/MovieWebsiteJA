@@ -1,50 +1,41 @@
 package com.project.MovieWebsite.controllers;
 
+import com.project.MovieWebsite.dtos.OrderDTO;
+import com.project.MovieWebsite.services.impl.OrderServiceImpl;
+import jakarta.validation.Valid;
+import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.BindingResult;
+import org.springframework.validation.FieldError;
 import org.springframework.web.bind.annotation.*;
+import java.util.List;
 
+
+@RequiredArgsConstructor
 @RestController
 @RequestMapping("${api.prefix}/orders")
 public class OrderController {
 
-//    @GetMapping
-//    public List<Order> getAllOrders() {
-//        return orderRepository.findAll();
-//    }
+    private final OrderServiceImpl orderService;
 
-    @GetMapping("")
-    public ResponseEntity<String> getOrderById() {
+    @PostMapping("")
+    public ResponseEntity<?> createOrder (
+            @Valid @RequestBody OrderDTO oderDTO,
+            BindingResult result){
+        if (result.hasErrors()){
+            List<String> errorsMessage = result.getFieldErrors().stream().map(FieldError::getDefaultMessage).toList();
+            return ResponseEntity.badRequest().body(errorsMessage);
+        }
+        try{
+            orderService.createOrder(oderDTO);
+            return ResponseEntity.ok("ok");
+        }catch (Exception e){
 
-        return ResponseEntity.ok("haha");
+        }
+        return null;
     }
-//
-//    @PostMapping
-//    public ResponseEntity<Order> createOrder(@RequestBody Order order) {
-//        Order createdOrder = orderRepository.save(order);
-//        return new ResponseEntity<>(createdOrder, HttpStatus.CREATED);
-//    }
-//
-//    @PutMapping("/{id}")
-//    public ResponseEntity<Order> updateOrder(@PathVariable Long id, @RequestBody Order updatedOrder) {
-//        Optional<Order> existingOrderOptional = orderRepository.findById(id);
-//        if (existingOrderOptional.isPresent()) {
-//            updatedOrder.setId(id);
-//            Order savedOrder = orderRepository.save(updatedOrder);
-//            return new ResponseEntity<>(savedOrder, HttpStatus.OK);
-//        } else {
-//            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-//        }
-//    }
-//
-//    @DeleteMapping("/{id}")
-//    public ResponseEntity<Void> deleteOrder(@PathVariable Long id) {
-//        Optional<Order> orderOptional = orderRepository.findById(id);
-//        if (orderOptional.isPresent()) {
-//            orderRepository.deleteById(id);
-//            return new ResponseEntity<>(HttpStatus.NO_CONTENT);
-//        } else {
-//            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-//        }
-//    }
+
+
+
 
 }

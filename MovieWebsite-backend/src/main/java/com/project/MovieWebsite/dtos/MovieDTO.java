@@ -23,6 +23,8 @@ public class MovieDTO {
     @NotBlank(message = "Image required")
     private String image;
 
+    private String slug;
+
     @JsonProperty("release_date")
     private Date releaseDate;
 
@@ -39,18 +41,20 @@ public class MovieDTO {
     private int idCountry;
 
     @Min(value=1, message = "Episode must have more than 1")
-    private int episode;
+    private int episode=1;
 
     @JsonProperty("is_fee")
-    private int isFee;
+    private int isFee=0;
 
-    private int hot;
+    private int hot=0;
 
     @Min(value=1, message = "Session must have more than 1")
-    private int session;
+    private int season;
 
     @Min(value=13, message = "Limited age must have more than 13")
     @JsonProperty("limited_age")
     private int limitedAge;
+
+
 
 }

@@ -2,6 +2,7 @@ package com.project.MovieWebsite.services.impl;
 
 import com.project.MovieWebsite.dtos.MovieTypeDTO;
 import com.project.MovieWebsite.models.MovieType;
+import com.project.MovieWebsite.models.Order;
 import com.project.MovieWebsite.repositories.MovieTypeRepository;
 import com.project.MovieWebsite.services.MovieTypeService;
 import lombok.RequiredArgsConstructor;
@@ -10,7 +11,6 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 @Service
 @RequiredArgsConstructor
-
 public class MovieTypeServiceImpl implements MovieTypeService {
 
     private final MovieTypeRepository movieTypeRepository;
@@ -22,21 +22,25 @@ public class MovieTypeServiceImpl implements MovieTypeService {
 
     @Override
     public MovieType getMovieType(int id) {
-        return movieTypeRepository.findById(id).orElseThrow(() -> new RuntimeException("Order not found"));
+        return movieTypeRepository.findById(id).orElseThrow(() -> new RuntimeException("Movie Type not found"));
     }
 
     @Override
     public List<MovieType> getAllMovieType() {
-        return List.of();
+        return movieTypeRepository.findAll();
     }
 
     @Override
     public MovieType updateMovieType(int id, MovieTypeDTO movieTypeDTO) {
-        return null;
+        MovieType existingMovieType= getMovieType(id);
+        existingMovieType.setName(movieTypeDTO.getName());
+        existingMovieType.setIsActive(movieTypeDTO.getIsActive());
+        movieTypeRepository.save(existingMovieType);
+        return existingMovieType;
     }
 
     @Override
     public void deleteMovieType(int id) {
-
+        movieTypeRepository.deleteById(id);
     }
 }

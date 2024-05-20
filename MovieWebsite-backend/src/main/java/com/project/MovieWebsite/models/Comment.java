@@ -10,20 +10,20 @@ import lombok.*;
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-
+@Builder
 public class Comment {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
 
-    //@ManyToOne
-//    @JoinColumn(name="movie_id")
-//    private Movie movie;
-//
-//    @ManyToOne
-//    @JoinColumn(name="user_id")
-//    private User user;
+    @ManyToOne
+    @JoinColumn(name="movie_id")
+    private Movie movie;
+
+    @ManyToOne
+    @JoinColumn(name="user_id")
+    private User user;
 
     @Column(name="description", nullable= false)
     private String description;

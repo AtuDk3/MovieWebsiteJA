@@ -11,7 +11,6 @@ import java.util.Date;
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-
 public class MovieTypeDTO {
 
     @NotBlank(message = "Name movie required")
@@ -19,15 +18,5 @@ public class MovieTypeDTO {
 
     @JsonProperty("is_active")
     private int isActive;
-
-
-
-
-
-
-
-
-
-
 
 }

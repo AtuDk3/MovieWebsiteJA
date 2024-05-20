@@ -12,7 +12,7 @@ import java.util.Date;
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-
+@Builder
 public class Movie {
 
     @Id
@@ -25,10 +25,9 @@ public class Movie {
     @Column(name="description", nullable= false, length=255)
     private String description;
 
-    @Column(name="image", nullable= false, length=255)
+    @Column(name="image", nullable= false)
     private String image;
 
-    @Column(name="slug", nullable= false, length=255)
     private String slug;
 
     @Column(name="release_date", nullable= false)
@@ -49,7 +48,7 @@ public class Movie {
     @JoinColumn(name="id_country")
     private Country country;
 
-    @Column(name="episode", nullable= false)
+    @Column(name="episode")
     private int episode;
 
     @Column(name="hot", nullable= false)
@@ -67,7 +66,7 @@ public class Movie {
     @Column(name="number_view", nullable= false)
     private int numberView;
 
-    @Column(name="is_active", nullable= false)
+    @Column(name="is_active")
     private int isActive;
 
 }
