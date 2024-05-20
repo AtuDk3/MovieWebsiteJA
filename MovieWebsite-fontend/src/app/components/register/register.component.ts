@@ -72,7 +72,6 @@ export class RegisterComponent {
   }
 
   register(){
-    debugger
     const registerData = {
         "full_name": this.fullName,
         "phone_number": this.phoneNumber,
@@ -84,7 +83,6 @@ export class RegisterComponent {
     this.userService.register(registerData).subscribe(
       {
         next: (response: any) => {
-          debugger
           if(response && (response.status === 200 || response.status === 201)) {
           this.router.navigate(['/login']);
         } else {
@@ -92,7 +90,6 @@ export class RegisterComponent {
         }
       },
       complete: () => {
-        debugger
       },
       error: (error: any) => {
         console.log('Registration failed!', error);

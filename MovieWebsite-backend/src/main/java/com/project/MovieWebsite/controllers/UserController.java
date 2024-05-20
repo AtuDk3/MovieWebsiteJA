@@ -5,6 +5,7 @@ import com.project.MovieWebsite.dtos.UserLoginDTO;
 import com.project.MovieWebsite.services.UserService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.FieldError;
@@ -13,7 +14,9 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @RestController
 @RequiredArgsConstructor
@@ -41,17 +44,20 @@ public class UserController {
             return ResponseEntity.badRequest().body(e.getMessage());
         }
     }
+
     @PostMapping("/login")
-    public ResponseEntity <String> login(
-            @Valid @RequestBody UserLoginDTO userLoginDTO
-            ){
-
-        try{
-            String token= userService.login(userLoginDTO.getPhoneNumber(), userLoginDTO.getPassword());
-            return ResponseEntity.ok("Login successfull with token: "+token);
-        }catch (Exception e){
-            return ResponseEntity.badRequest().body(e.getMessage());
+    public ResponseEntity<Object> login(@Valid @RequestBody UserLoginDTO userLoginDTO) {
+        try {
+            String token = userService.login(userLoginDTO.getPhoneNumber(), userLoginDTO.getPassword());
+            Map<String, String> response = new HashMap<>();
+            response.put("message", "Login successful with token: " + token);
+            return ResponseEntity.ok(response);
+        } catch (Exception e) {
+            Map<String, String> errorResponse = new HashMap<>();
+            errorResponse.put("error", "Invalid credentials. Please check your phone number and password.");
+            return ResponseEntity.badRequest().body(errorResponse);
         }
-
     }
+
+
 }
