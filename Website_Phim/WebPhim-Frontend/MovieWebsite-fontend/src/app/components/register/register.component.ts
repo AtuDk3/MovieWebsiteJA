@@ -1,16 +1,16 @@
 import { Component, ViewChild } from '@angular/core';
 import { NgForm } from '@angular/forms';
 import { Router } from '@angular/router';
-import { UserService } from '../../services/user.service';
-import { RegisterDTO } from '../../dtos/register.dto';
+import { UserService } from '../service/user.service';
+import { RegisterDTO } from '../../dtos/user/register.dto';
 @Component({
   selector: 'app-register',
   templateUrl: './register.component.html',
-  styleUrl: './register.component.scss'
+  styleUrls: ['./register.component.scss']
 })
 
 export class RegisterComponent {
-  @ViewChild('registerForm') registerForm!: NgForm; 
+  @ViewChild('registerForm') registerForm!: NgForm;
   fullName: string;
   email: string;
   phoneNumber: string;
@@ -18,11 +18,11 @@ export class RegisterComponent {
   password: string;
   retypePassword: string;
   isAccept: boolean;
-//private http: HttpClient, private router: Router
+
   constructor(private router: Router, private userService: UserService) {
-    this.fullName='huy';
+    this.fullName = 'huy hhhhh';
     this.email = 'huykvde170548@fpt.edu.vn';
-    this.phoneNumber = '0763583081';
+    this.phoneNumber = '0763583087';
     this.dob = new Date();
     this.dob.setFullYear(this.dob.getFullYear()-18);
     this.password = '123';
@@ -32,6 +32,10 @@ export class RegisterComponent {
 
   onEmailChange(){
     console.log(this.email);
+  }
+
+  onFullNameChange(){
+    console.log(this.fullName);
   }
 
   onPhoneNumberChange(){
@@ -69,32 +73,34 @@ export class RegisterComponent {
   }
 
   register(){
-    //alert("Success!");
-    
-    const registerDTO:RegisterDTO={
-      "full_name": this.fullName,
-      "phone_number": this.phoneNumber,
-      "password": this.password,
-      "retype_password": this.retypePassword,
-      "date_of_birth": this.dob,
-      "email": this.email,
-      "role_id": 1,
+    debugger
+    const registerDTO:RegisterDTO = {
+        "full_name": this.fullName,
+        "phone_number": this.phoneNumber,
+        "password": this.password,
+        "retype_password": this.retypePassword,
+        "date_of_birth": this.dob,
+        "email": this.email,
+        "role_id": 1,
       "vip_id": 2
     }
-    this.userService.register(registerDTO).subscribe({
-      next : (response : any) => {
-        this.router.navigate(['login']);
+    this.userService.register(registerDTO).subscribe(
+      {
+        next: (response: any) => {
+          debugger
+          if(response && (response.status === 200 || response.status === 201)) {
+          this.router.navigate(['/login']);
+        } else {
+  
+        }
       },
       complete: () => {
-
+        debugger
       },
-      error: (error: any)=>{
-        alert(`Cannot register, error: ${error.error}`)
-        
-      }      
-       
-  });
-    
-  
+      error: (error: any) => {
+        console.log('Registration failed!', error);
+      }}
+    )
   }
+
 }

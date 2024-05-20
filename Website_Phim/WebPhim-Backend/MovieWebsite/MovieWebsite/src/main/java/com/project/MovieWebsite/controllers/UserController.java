@@ -47,7 +47,7 @@ public class UserController {
             }
             String otpEmail= clientService.create(userDTO);
             //userService.createUser(userDTO);
-            return ResponseEntity.ok("Register successfully"+otpEmail);
+            return ResponseEntity.ok("Register successfully");
         }catch (Exception e){
             return ResponseEntity.badRequest().body(e.getMessage());
         }
@@ -99,7 +99,7 @@ public class UserController {
 
         try{
             String token= userService.login(userLoginDTO.getPhoneNumber(), userLoginDTO.getPassword());
-            return ResponseEntity.ok(token);
+            return ResponseEntity.badRequest()
         }catch (Exception e){
             return ResponseEntity.badRequest().body(e.getMessage());
         }
