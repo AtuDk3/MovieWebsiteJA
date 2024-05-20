@@ -14,6 +14,7 @@ import { GenreComponent } from './components/genre/genre.component';
 import { SidebarComponent } from './components/sidebar/sidebar.component';
 import { RegisterComponent } from './components/register/register.component';
 import { FormsModule } from '@angular/forms';
+import { HttpClientModule } from '@angular/common/http';
 
 @NgModule({
   declarations: [
@@ -32,11 +33,12 @@ import { FormsModule } from '@angular/forms';
     AppRoutingModule,
     IonicModule.forRoot(),
     CarouselModule,
-    FormsModule
+    FormsModule,
+    HttpClientModule
   ],
   providers: [],
   bootstrap: [
-    AppComponent
+     AppComponent
   ]
 })
 export class AppModule { 

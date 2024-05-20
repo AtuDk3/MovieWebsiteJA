@@ -1,14 +1,17 @@
 import { Component, ViewChild } from '@angular/core';
 import { NgForm } from '@angular/forms';
+import { Router } from '@angular/router';
+import { UserService } from '../service/user.service';
 
 @Component({
   selector: 'app-register',
   templateUrl: './register.component.html',
-  styleUrl: './register.component.scss'
+  styleUrls: ['./register.component.scss']
 })
 
 export class RegisterComponent {
   @ViewChild('registerForm') registerForm!: NgForm;
+  fullName: string;
   email: string;
   phoneNumber: string;
   dob: Date;
@@ -16,7 +19,8 @@ export class RegisterComponent {
   retypePassword: string;
   isAccept: boolean;
 
-  constructor() {
+  constructor(private router: Router, private userService: UserService) {
+    this.fullName = '';
     this.email = '';
     this.phoneNumber = '';
     this.dob = new Date();
@@ -27,6 +31,10 @@ export class RegisterComponent {
 
   onEmailChange(){
     console.log(this.email);
+  }
+
+  onFullNameChange(){
+    console.log(this.fullName);
   }
 
   onPhoneNumberChange(){
@@ -64,7 +72,32 @@ export class RegisterComponent {
   }
 
   register(){
-    alert("Success!");
+    debugger
+    const registerData = {
+        "full_name": this.fullName,
+        "phone_number": this.phoneNumber,
+        "password": this.password,
+        "retype_password": this.retypePassword,
+        "date_of_birth": this.dob,
+        "email": this.email
+    }
+    this.userService.register(registerData).subscribe(
+      {
+        next: (response: any) => {
+          debugger
+          if(response && (response.status === 200 || response.status === 201)) {
+          this.router.navigate(['/login']);
+        } else {
+  
+        }
+      },
+      complete: () => {
+        debugger
+      },
+      error: (error: any) => {
+        console.log('Registration failed!', error);
+      }}
+    )
   }
 
 }
