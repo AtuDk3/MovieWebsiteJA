@@ -1,10 +1,12 @@
-<div *ngIf="!isLoginRoute()">
-    <app-header></app-header>
-  </div>
-  
-  <router-outlet></router-outlet>
-  
-  <div *ngIf="!isLoginRoute()">
-    <app-footer></app-footer>
-  </div>
-  
+<div *ngIf="!isLoginRoute() && !isRegisterRoute()">
+  <app-header></app-header>
+</div>
+
+<router-outlet></router-outlet>
+
+<div *ngIf="!isLoginRoute() && !isRegisterRoute()">
+  <app-footer></app-footer>
+</div>
+
+
+
