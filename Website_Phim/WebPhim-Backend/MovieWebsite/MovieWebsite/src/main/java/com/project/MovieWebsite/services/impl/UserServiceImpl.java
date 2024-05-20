@@ -44,12 +44,14 @@ public class UserServiceImpl implements UserService {
         User newUser = User.builder().fullName(userDTO.getFullName()).
                 phoneNumber(userDTO.getPhoneNumber()).
                 password(userDTO.getPassword()).
+                imgAvatar(userDTO.getImgAvatar()).
                 dob(userDTO.getDob()).
                 facebookAccountId(userDTO.getFacebookAccountId()).
                 googleAccountId(userDTO.getGoogleAccountId()).
                 userVip(existingUserVip).
                 role(existingRole).
-                //isActive(userDTO.ge).
+                email(userDTO.getEmail()).
+                //isActive(userDTO).
                 build();
         if(userDTO.getGoogleAccountId().equals("0")  && userDTO.getFacebookAccountId().equals("0") ){
             String password= userDTO.getPassword();
@@ -60,7 +62,7 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public User getUserById(int userId) {
+    public User getUserById(int userId) throws DataNotFoundException{
         return userRepository.findById(userId).orElseThrow(() -> new RuntimeException("User not found!"));
     }
 
@@ -92,6 +94,13 @@ public class UserServiceImpl implements UserService {
     @Override
     public void deleteUser(int userId) {
         userRepository.deleteById(userId);
+    }
+
+    public void updatePassword(String phoneNumber, String newPassword) {
+        Optional<User> optionalUser= userRepository.findByPhoneNumber(phoneNumber);
+        User existingUser= optionalUser.get();
+        existingUser.setPassword(passwordEncoder.encode(newPassword));
+        userRepository.save(existingUser);
     }
 
     @Override

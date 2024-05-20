@@ -1,5 +1,6 @@
 package com.project.MovieWebsite.controllers;
 
+import com.project.MovieWebsite.dtos.MovieTypeDTO;
 import com.project.MovieWebsite.dtos.OrderDTO;
 import com.project.MovieWebsite.services.impl.OrderServiceImpl;
 import jakarta.validation.Valid;
@@ -35,7 +36,16 @@ public class OrderController {
         return null;
     }
 
+    @PutMapping("/{id}")
+    public ResponseEntity<String> updateOrder(@PathVariable int id, @Valid @RequestBody OrderDTO orderDTO) {
+        try{
+            orderService.updateOrder(id, orderDTO);
+            return ResponseEntity.ok("Update movie type successfully!");
+        }catch (Exception e){
+            return ResponseEntity.badRequest().body(e.getMessage());
+        }
 
+    }
 
 
 }

@@ -35,6 +35,9 @@ public class UserDTO {
     @JsonProperty("email")
     private String email;
 
+    @JsonProperty("img_avatar")
+    private String imgAvatar;
+
     @JsonProperty("date_of_birth")
     private Date dob;
 

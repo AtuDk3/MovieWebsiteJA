@@ -1,13 +1,16 @@
 package com.project.MovieWebsite.configurations;
 
+import com.project.MovieWebsite.filters.JwtTokenFilter;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
-import org.springframework.security.config.annotation.web.configurers.oauth2.client.OAuth2LoginConfigurer;
 import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
+import static org.springframework.http.HttpMethod.PUT;
 
 @Configuration
 @EnableWebSecurity
@@ -15,11 +18,22 @@ import org.springframework.security.web.SecurityFilterChain;
 
 public class WebSecurityConfig {
 
+    @Value("${api.prefix}")
+    private String apiPrefix;
+
+    private final JwtTokenFilter jwtTokenFilter;
+
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception{
         http.csrf(AbstractHttpConfigurer::disable)
+                .addFilterBefore(jwtTokenFilter, UsernamePasswordAuthenticationFilter.class)
                 .authorizeHttpRequests(requests ->{
-                    requests.requestMatchers("**").permitAll();
+                    requests.requestMatchers(
+                            String.format("%s/users/register", apiPrefix),
+                            String.format("%s/users/login", apiPrefix))
+                    .permitAll()
+                     .requestMatchers(PUT, String.format("%s/orders/**", apiPrefix)).hasRole("ADMIN")
+                            .anyRequest().authenticated();
                 });
         return http.build();
     }

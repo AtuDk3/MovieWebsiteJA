@@ -38,6 +38,9 @@ public class User extends BaseEntity implements UserDetails {
     @Column(name = "email", nullable = false)
     private String email;
 
+    @Column(name = "img_avatar")
+    private String imgAvatar;
+
     @Column(name = "date_of_birth")
     private Date dob;
 
@@ -61,8 +64,8 @@ public class User extends BaseEntity implements UserDetails {
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
         List<SimpleGrantedAuthority> authorities= new ArrayList<>();
-        authorities.add(new SimpleGrantedAuthority("ROLE_"+getRole().getName()));
-
+        //authorities.add(new SimpleGrantedAuthority("ROLE_"+getRole().getName()));
+        authorities.add(new SimpleGrantedAuthority("ROLE_ADMIN"));
         return authorities;
     }
 
