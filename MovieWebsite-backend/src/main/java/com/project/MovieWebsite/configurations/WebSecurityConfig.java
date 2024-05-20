@@ -30,27 +30,27 @@ public class WebSecurityConfig {
                 .authorizeHttpRequests(requests ->{
                     requests.requestMatchers(
                             String.format("%s/users/register", apiPrefix),
-                            String.format("%s/users/login", apiPrefix),
-                            String.format("%s/genres", apiPrefix),
-                            String.format("%s/movies", apiPrefix),
-                            String.format("%s/country", apiPrefix)
+                            String.format("%s/users/login", apiPrefix)
+//                            String.format("%s/genres", apiPrefix),
+//                            String.format("%s/movies", apiPrefix),
+//                            String.format("%s/country", apiPrefix)
                     )
                     .permitAll()
-                    .requestMatchers(HttpMethod.PUT, String.format("%s/genres/**/**", apiPrefix)).hasRole("Admin")
-                    .requestMatchers(HttpMethod.POST, String.format("%s/genres/**", apiPrefix)).hasRole("Admin")
-                    .requestMatchers(HttpMethod.DELETE, String.format("%s/genres/**", apiPrefix)).hasRole("Admin")
-                    .requestMatchers(HttpMethod.PUT, String.format("%s/movies/**", apiPrefix)).hasRole("Admin")
-                    .requestMatchers(HttpMethod.POST, String.format("%s/movies/**", apiPrefix)).hasRole("Admin")
-                    .requestMatchers(HttpMethod.DELETE, String.format("%s/movies/**", apiPrefix)).hasRole("Admin")
-                    .requestMatchers(HttpMethod.PUT, String.format("%s/episodes/**", apiPrefix)).hasRole("Admin")
-                    .requestMatchers(HttpMethod.POST, String.format("%s/episodes/**", apiPrefix)).hasRole("Admin")
-                    .requestMatchers(HttpMethod.DELETE, String.format("%s/episodes/**", apiPrefix)).hasRole("Admin")
-                    .requestMatchers(HttpMethod.PUT, String.format("%s/movie_types/**", apiPrefix)).hasRole("Admin")
-                    .requestMatchers(HttpMethod.POST, String.format("%s/movie_types/**", apiPrefix)).hasRole("Admin")
-                    .requestMatchers(HttpMethod.DELETE, String.format("%s/movie_types/**", apiPrefix)).hasRole("Admin")
-                    .requestMatchers(HttpMethod.PUT, String.format("%s/countries/**", apiPrefix)).hasRole("Admin")
-                    .requestMatchers(HttpMethod.POST, String.format("%s/countries/**", apiPrefix)).hasRole("Admin")
-                    .requestMatchers(HttpMethod.DELETE, String.format("%s/countries/**", apiPrefix)).hasRole("Admin")
+                    .requestMatchers(HttpMethod.PUT, String.format("%s/genres/**/**", apiPrefix)).hasRole("ADMIN")
+                    .requestMatchers(HttpMethod.POST, String.format("%s/genres/**", apiPrefix)).hasRole("ADMIN")
+                    .requestMatchers(HttpMethod.DELETE, String.format("%s/genres/**", apiPrefix)).hasRole("ADMIN")
+                    .requestMatchers(HttpMethod.PUT, String.format("%s/movies/**", apiPrefix)).hasRole("ADMIN")
+                    .requestMatchers(HttpMethod.POST, String.format("%s/movies/**", apiPrefix)).hasRole("ADMIN")
+                    .requestMatchers(HttpMethod.DELETE, String.format("%s/movies/**", apiPrefix)).hasRole("ADMIN")
+                    .requestMatchers(HttpMethod.PUT, String.format("%s/episodes/**", apiPrefix)).hasRole("ADMIN")
+                    .requestMatchers(HttpMethod.POST, String.format("%s/episodes/**", apiPrefix)).hasRole("ADMIN")
+                    .requestMatchers(HttpMethod.DELETE, String.format("%s/episodes/**", apiPrefix)).hasRole("ADMIN")
+                    .requestMatchers(HttpMethod.PUT, String.format("%s/movie_types/**", apiPrefix)).hasRole("ADMIN")
+                    .requestMatchers(HttpMethod.POST, String.format("%s/movie_types/**", apiPrefix)).hasRole("ADMIN")
+                    .requestMatchers(HttpMethod.DELETE, String.format("%s/movie_types/**", apiPrefix)).hasRole("ADMIN")
+                    .requestMatchers(HttpMethod.PUT, String.format("%s/countries/**", apiPrefix)).hasRole("ADMIN")
+                    .requestMatchers(HttpMethod.POST, String.format("%s/countries/**", apiPrefix)).hasRole("ADMIN")
+                    .requestMatchers(HttpMethod.DELETE, String.format("%s/countries/**", apiPrefix)).hasRole("ADMIN")
                     .anyRequest()
                     .authenticated();
                 });
