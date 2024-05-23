@@ -20,7 +20,7 @@ import java.lang.reflect.Array;
 import java.util.Arrays;
 import java.util.List;
 
-import static org.springframework.http.HttpMethod.PUT;
+import static org.springframework.http.HttpMethod.*;
 
 @Configuration
 @EnableWebSecurity
@@ -41,9 +41,18 @@ public class WebSecurityConfig {
                 .authorizeHttpRequests(requests ->{
                     requests.requestMatchers(
                             String.format("%s/users/register", apiPrefix),
-                            String.format("%s/users/login", apiPrefix))
+                            String.format("%s/users/login", apiPrefix)
+                            )
+
                     .permitAll()
+                     .requestMatchers(GET, String.format("%s/genres", apiPrefix)).permitAll()
+                     .requestMatchers(GET, String.format("%s/movies", apiPrefix)).permitAll()
                      .requestMatchers(PUT, String.format("%s/orders/**", apiPrefix)).hasRole("ADMIN")
+                     .requestMatchers(POST, String.format("%s/movies", apiPrefix)).hasRole("ADMIN")
+                     .requestMatchers(GET, String.format("%s/users/images/**", apiPrefix)).permitAll()
+                     .requestMatchers(GET, String.format("%s/movies/images/**", apiPrefix)).permitAll()
+                     .requestMatchers(POST, String.format("%s/users/upload_avatar/**", apiPrefix)).hasRole("USER")
+                     .requestMatchers(POST, String.format("%s/movies/upload_movie/**", apiPrefix)).hasRole("ADMIN")
                             .anyRequest().authenticated();
                 })
                 .csrf(AbstractHttpConfigurer::disable);

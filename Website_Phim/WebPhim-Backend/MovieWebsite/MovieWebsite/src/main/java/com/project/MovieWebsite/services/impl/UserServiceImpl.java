@@ -4,9 +4,11 @@ import com.project.MovieWebsite.components.JwtTokenUtil;
 import com.project.MovieWebsite.dtos.UserDTO;
 import com.project.MovieWebsite.exceptions.DataNotFoundException;
 import com.project.MovieWebsite.models.Role;
+import com.project.MovieWebsite.models.Token;
 import com.project.MovieWebsite.models.User;
 import com.project.MovieWebsite.models.UserVIP;
 import com.project.MovieWebsite.repositories.RoleRepository;
+import com.project.MovieWebsite.repositories.TokenRepository;
 import com.project.MovieWebsite.repositories.UserRepository;
 import com.project.MovieWebsite.repositories.UserVIPRepository;
 import com.project.MovieWebsite.services.UserService;
@@ -18,6 +20,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import java.util.List;
 import java.util.Optional;
+import java.util.UUID;
 
 @Service
 @RequiredArgsConstructor
@@ -29,7 +32,8 @@ public class UserServiceImpl implements UserService {
     private final PasswordEncoder passwordEncoder;
     private final JwtTokenUtil jwtTokenUtil;
     private final AuthenticationManager authenticationManager;
-
+    private final EmailService emailService;
+    private final TokenRepository tokenRepository;
     @Override
     public User createUser(UserDTO userDTO) throws DataNotFoundException{
         String phoneNumber = userDTO.getPhoneNumber();
@@ -59,7 +63,33 @@ public class UserServiceImpl implements UserService {
             newUser.setPassword(encodedPassword);
         }
         return userRepository.save(newUser);
+
     }
+
+//    public boolean verifyEmail(String token) {
+//        Token verificationToken = tokenRepository.findByToken(token);
+//        if (verificationToken != null) {
+//            User user = verificationToken.getUser();
+//            user.setIsActive(1);
+//            userRepository.save(user);
+//            tokenRepository.delete(verificationToken); // Optional: delete token after verification
+//            return true;
+//        }
+//        return false;
+//    }
+
+//    public User registerUser(UserDTO userDTO) {
+////        User user = new User();
+////        user.setEmail(userDto.getEmail());
+////        // Set other properties and save user
+////        userRepository.save(user);
+//
+//        String token = UUID.randomUUID().toString();
+//        Token verificationToken = new Token(user);
+//        verificationTokenRepository.save(verificationToken);
+//
+//        return user;
+//    }
 
     @Override
     public User getUserById(int userId) throws DataNotFoundException{

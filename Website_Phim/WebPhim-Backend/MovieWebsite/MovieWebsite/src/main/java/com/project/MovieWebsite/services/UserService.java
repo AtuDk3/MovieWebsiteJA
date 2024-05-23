@@ -20,4 +20,6 @@ public interface UserService {
     void updatePassword(String phoneNumber, String newPassword);
 
     String login(String phoneNumber, String password) throws Exception;
+
+    //public boolean verifyEmail(String token);
 }

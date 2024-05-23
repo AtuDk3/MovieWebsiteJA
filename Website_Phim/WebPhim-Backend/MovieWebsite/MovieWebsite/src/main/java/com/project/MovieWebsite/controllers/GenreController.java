@@ -14,8 +14,8 @@ import java.util.List;
 public class GenreController {
     @GetMapping("")
     public ResponseEntity<String> getAllGenres(
-            @RequestParam("page") int page,
-            @RequestParam("limit") int limit
+//            @RequestParam("page") int page,
+//            @RequestParam("limit") int limit
     ) {
         return ResponseEntity.ok("OK");
     }

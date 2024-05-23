@@ -22,13 +22,16 @@ export class RegisterComponent {
   constructor(private router: Router, private userService: UserService) {
     this.fullName = 'huy hhhhh';
     this.email = 'huykvde170548@fpt.edu.vn';
-    this.phoneNumber = '0763583087';
+    this.phoneNumber = '0763583007';
     this.dob = new Date();
     this.dob.setFullYear(this.dob.getFullYear()-18);
     this.password = '123';
     this.retypePassword = '123';
     this.isAccept = true;
   }
+
+  
+  
 
   onEmailChange(){
     console.log(this.email);
@@ -73,7 +76,7 @@ export class RegisterComponent {
   }
 
   register(){
-    debugger
+    //debugger
     const registerDTO:RegisterDTO = {
         "full_name": this.fullName,
         "phone_number": this.phoneNumber,
@@ -85,22 +88,34 @@ export class RegisterComponent {
       "vip_id": 2
     }
     this.userService.register(registerDTO).subscribe(
-      {
-        next: (response: any) => {
-          debugger
-          if(response && (response.status === 200 || response.status === 201)) {
-          this.router.navigate(['/login']);
-        } else {
+      
+      //   next: (response: any) => {
+      //     //debugger
+      //     if(response && (response.status === 200 || response.status === 201)) {
+      //     this.router.navigate(['/login']);
+      //   } else {
   
-        }
-      },
-      complete: () => {
+      //   }
+      // },
+      
+      // complete: () => {
+      //   debugger
+      // },
+      
+      // error: (error: any) => {
+      //   console.log('Registration failed!', error);
+      // }
+
+      response => {
         debugger
+        console.log(response);
+        alert('Please check your email for verification.');
       },
-      error: (error: any) => {
-        console.log('Registration failed!', error);
-      }}
-    )
+      error => {
+        console.error(error);
+        alert('Registration failed.');
+      }
+    );
   }
 
 }

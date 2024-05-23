@@ -6,8 +6,11 @@ import com.project.MovieWebsite.models.User;
 import com.project.MovieWebsite.repositories.UserRepository;
 import com.project.MovieWebsite.services.ClientService;
 import com.project.MovieWebsite.services.UserService;
+import com.project.MovieWebsite.services.impl.EmailService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.io.UrlResource;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -22,7 +25,9 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.nio.file.StandardCopyOption;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.UUID;
 
 @RestController
@@ -53,6 +58,31 @@ public class UserController {
         }
     }
 
+//    @Autowired
+//    private EmailService emailService;
+//
+//    @PostMapping("/register")
+//    public ResponseEntity<?> registerUser(@RequestBody UserDTO userDTO) {
+//        try{
+//            User user = userService.createUser(userDTO);
+//            emailService.sendVerificationEmail(user);
+//            return ResponseEntity.ok("User registered successfully. Please check your email for verification.");
+//        }catch (Exception e){
+//            return ResponseEntity.badRequest().body(e.getMessage());
+//        }
+//
+//    }
+
+//    @GetMapping("/verify-email")
+//    public ResponseEntity<?> verifyEmail(@RequestParam("token") String token) {
+//        boolean isVerified = userService.verifyEmail(token);
+//        if (isVerified) {
+//            return ResponseEntity.ok("Email verified successfully.");
+//        } else {
+//            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Invalid or expired token.");
+//        }
+//    }
+
     @PostMapping(value = "upload_avatar/{id}", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
     public ResponseEntity<?> uploadAvatar (
             @PathVariable("id") int userId,
@@ -78,6 +108,25 @@ public class UserController {
         }
     }
 
+    @GetMapping("/images/{imageName}")
+    public ResponseEntity<?> viewImage(@PathVariable String imageName){
+        try{
+            Path imagePath= Paths.get("uploads/img_avatar/"+imageName);
+                UrlResource resource= new UrlResource(imagePath.toUri());
+
+                if(resource.exists()){
+                    return ResponseEntity.ok()
+                            .contentType(MediaType.IMAGE_JPEG)
+                            .body(resource);
+                }else{
+                    return ResponseEntity.notFound().build();
+                }
+
+        }catch (Exception e){
+            return ResponseEntity.notFound().build();
+        }
+    }
+
     private String storeFile(MultipartFile file) throws IOException {
         String filename = StringUtils.cleanPath(file.getOriginalFilename());
         String uniqueFilename = UUID.randomUUID().toString() + "_" + filename;
@@ -92,17 +141,31 @@ public class UserController {
         return uniqueFilename;
     }
 
+//    @PostMapping("/login")
+//    public ResponseEntity <String> login(
+//            @Valid @RequestBody UserLoginDTO userLoginDTO
+//            ){
+//
+//        try{
+//            String token= userService.login(userLoginDTO.getPhoneNumber(), userLoginDTO.getPassword());
+//            return ResponseEntity.ok("ok");
+//        }catch (Exception e){
+//            return ResponseEntity.badRequest().body(e.getMessage());
+//        }
+//
+//    }
+
     @PostMapping("/login")
-    public ResponseEntity <String> login(
-            @Valid @RequestBody UserLoginDTO userLoginDTO
-            ){
-
-        try{
-            String token= userService.login(userLoginDTO.getPhoneNumber(), userLoginDTO.getPassword());
-            return ResponseEntity.badRequest()
-        }catch (Exception e){
-            return ResponseEntity.badRequest().body(e.getMessage());
+    public ResponseEntity<Object> login(@Valid @RequestBody UserLoginDTO userLoginDTO) {
+        try {
+            String token = userService.login(userLoginDTO.getPhoneNumber(), userLoginDTO.getPassword());
+            Map<String, String> response = new HashMap<>();
+            response.put("message", "Login successful with token: " + token);
+            return ResponseEntity.ok(response);
+        } catch (Exception e) {
+            Map<String, String> errorResponse = new HashMap<>();
+            errorResponse.put("error", "Invalid credentials. Please check your phone number and password.");
+            return ResponseEntity.badRequest().body(errorResponse);
         }
-
     }
 }

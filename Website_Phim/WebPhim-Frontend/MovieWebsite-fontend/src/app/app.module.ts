@@ -35,6 +35,7 @@ import { HttpClientModule } from '@angular/common/http';
     CarouselModule,
     FormsModule,
     HttpClientModule
+    
   ],
   providers: [],
   bootstrap: [

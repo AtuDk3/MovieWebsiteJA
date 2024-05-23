@@ -32,18 +32,16 @@ export class LoginComponent {
     this.userService.login(loginDTO).subscribe(
       {
         next: (response: any) => {
-          if(response==="ok") {
-            alert("ok");
+          if(response && response.message) {
            this.router.navigate(['']);
         } else {
-          alert("error");
-          this.router.navigate(['/login']);
+          
         }
       },
       complete: () => {
       },
       error: (error: any) => {
-        console.log('Registration failed!', error);
+        this.loginForm.form.controls['password'].setErrors({'wrongPassword': true});
       }}
     )
   }

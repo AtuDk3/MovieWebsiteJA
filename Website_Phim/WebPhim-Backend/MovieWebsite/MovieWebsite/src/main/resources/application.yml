@@ -1,6 +1,9 @@
 
 server:
   port: 8088
+app:
+  base:
+    url: http://localhost:4200
 
 spring:
   datasource:
