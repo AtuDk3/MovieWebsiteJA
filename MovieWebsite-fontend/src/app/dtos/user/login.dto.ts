@@ -1,9 +1,7 @@
 import {
     IsString,
-    IsEmail,
     IsNotEmpty,
     IsPhoneNumber,
-    IsDate
 } from 'class-validator';
 
 export class LoginDTO {

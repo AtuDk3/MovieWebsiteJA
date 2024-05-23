@@ -1,7 +1,9 @@
 import { Component, ViewChild } from '@angular/core';
 import { NgForm } from '@angular/forms';
 import { Router } from '@angular/router';
-import { UserService } from '../service/user.service';
+import { UserService } from '../../service/user.service';
+import {LoginResponse} from '../../responses/user/login.response';
+import {TokenService} from '../../service/token.service';
 
 @Component({
   selector: 'app-login',
@@ -14,7 +16,7 @@ export class LoginComponent {
   password: string;
   isAccept: boolean;
 
-  constructor(private router: Router, private userService: UserService) {
+  constructor(private router: Router, private userService: UserService, private tokenService: TokenService) {
     this.phoneNumber = '';
     this.password = '';
     this.isAccept = false;
@@ -31,8 +33,12 @@ export class LoginComponent {
     }
     this.userService.login(loginDTO).subscribe(
       {
-        next: (response: any) => {
+        next: (response: LoginResponse) => {
+          debugger
           if(response && response.message) {
+            const {token} = response;
+            console.log(token);
+            this.tokenService.setToken(token);
            this.router.navigate(['']);
         } else {
           

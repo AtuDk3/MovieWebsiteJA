@@ -11,6 +11,7 @@ import com.project.MovieWebsite.repositories.CountryRepository;
 import com.project.MovieWebsite.repositories.GenreRepository;
 import com.project.MovieWebsite.repositories.MovieRepository;
 import com.project.MovieWebsite.repositories.MovieTypeRepository;
+import com.project.MovieWebsite.response.MovieResponse;
 import com.project.MovieWebsite.services.MovieService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
@@ -41,6 +42,7 @@ public class MovieServiceImpl implements MovieService {
         Genre existingGenre= genreRepository.findById(movieDTO.getIdGenre())
                 .orElseThrow(() -> new DataNotFoundException("Cannot find country with id: "+movieDTO.getIdGenre()));
 
+        movieDTO.init();
         Movie newMovie= Movie.builder()
                 .name(movieDTO.getName())
                 .description(movieDTO.getDescription())
@@ -66,8 +68,29 @@ public class MovieServiceImpl implements MovieService {
     }
 
     @Override
-    public Page<Movie> getAllMovies(PageRequest pageRequest) {
-        return movieRepository.findAll(pageRequest);
+    public Page<MovieResponse> getAllMovies(PageRequest pageRequest) {
+
+        return movieRepository.findAll(pageRequest).map(
+                movie -> {
+                    MovieResponse movieResponse = MovieResponse.builder()
+                            .name(movie.getName())
+                            .description(movie.getDescription())
+                            .image(movie.getImage())
+                            .slug(movie.getSlug())
+                            .releaseDate(movie.getReleaseDate())
+                            .duration(movie.getDuration())
+                            .idGenre(movie.getGenre().getId())
+                            .idMovieType(movie.getMovieType().getId())
+                            .idCountry(movie.getCountry().getId())
+                            .episode(movie.getEpisode())
+                            .hot(movie.getHot())
+                            .isFee(movie.getIsFee())
+                            .season(movie.getSeason())
+                            .limitedAge(movie.getLimitedAge())
+                            .build();
+                    return movieResponse;
+                }
+        );
     }
 
     @Override

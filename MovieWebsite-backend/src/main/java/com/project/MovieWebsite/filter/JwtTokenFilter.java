@@ -40,9 +40,6 @@ public class JwtTokenFilter extends OncePerRequestFilter {
             @NotNull HttpServletResponse response,
             @NotNull FilterChain filterChain) throws ServletException, IOException {
         try {
-//            if(CorsUtils.isPreFlightRequest(request)){
-//                response.setStatus(HttpServletResponse.SC_OK);
-//            }
             if(isByPassToken(request)){
                 filterChain.doFilter(request, response);
                 return;
@@ -78,6 +75,7 @@ public class JwtTokenFilter extends OncePerRequestFilter {
 
     private boolean isByPassToken(@NotNull HttpServletRequest request){
         final List<Pair<String, String>> byPassTokens = Arrays.asList(
+                Pair.of(String.format("%s/roles", apiPrefix), "GET"),
                 Pair.of(String.format("%s/users/login", apiPrefix), "POST"),
                 Pair.of(String.format("%s/users/register", apiPrefix), "POST"),
                 Pair.of(String.format("%s/movies", apiPrefix), "GET"),

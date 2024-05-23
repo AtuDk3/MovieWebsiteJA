@@ -21,8 +21,6 @@ public class RoleController {
 
     @GetMapping("")
     public ResponseEntity<List<Role>> getAllGenres(
-            @RequestParam("page") int page,
-            @RequestParam("limit") int limit
     ) {
         List<Role> roles = roleService.getAllRole();
         return ResponseEntity.ok(roles);

@@ -1,8 +1,8 @@
 import { Component, ViewChild } from '@angular/core';
 import { NgForm } from '@angular/forms';
 import { Router } from '@angular/router';
-import { UserService } from '../service/user.service';
-
+import { UserService } from '../../service/user.service';
+import { RegisterDTO } from '../../dtos/user/register.dto';
 @Component({
   selector: 'app-register',
   templateUrl: './register.component.html',
@@ -72,7 +72,8 @@ export class RegisterComponent {
   }
 
   register(){
-    const registerData = {
+
+    const registerDTO:RegisterDTO = {
         "full_name": this.fullName,
         "phone_number": this.phoneNumber,
         "password": this.password,
@@ -80,19 +81,20 @@ export class RegisterComponent {
         "date_of_birth": this.dob,
         "email": this.email
     }
-    this.userService.register(registerData).subscribe(
+    this.userService.register(registerDTO).subscribe(
       {
         next: (response: any) => {
-          if(response && (response.status === 200 || response.status === 201)) {
+          if(response && response.message) {
           this.router.navigate(['/login']);
         } else {
   
         }
       },
       complete: () => {
+
       },
       error: (error: any) => {
-        console.log('Registration failed!', error);
+        this.registerForm.form.controls['phoneNumber'].setErrors({'existPhoneNumber': true});
       }}
     )
   }

@@ -1,19 +1,33 @@
 package com.project.MovieWebsite.controllers;
 
 import com.project.MovieWebsite.dtos.MovieDTO;
-import com.project.MovieWebsite.dtos.MovieTypeDTO;
+import com.project.MovieWebsite.models.Movie;
+import com.project.MovieWebsite.repositories.MovieRepository;
+import com.project.MovieWebsite.response.MovieListResponse;
+import com.project.MovieWebsite.response.MovieResponse;
 import com.project.MovieWebsite.services.MovieService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import org.springframework.core.io.UrlResource;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.util.StringUtils;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.FieldError;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.nio.file.StandardCopyOption;
 import java.util.List;
+import java.util.UUID;
 
 @RestController
 @RequiredArgsConstructor
@@ -21,10 +35,11 @@ import java.util.List;
 public class MovieController {
 
     private final MovieService movieService;
+    private final MovieRepository movieRepository;
 
     @PostMapping("")
     public ResponseEntity<?> createMovieType(@Valid @RequestBody MovieDTO movieDTO, BindingResult result) {
-        if (result.hasErrors()){
+        if (result.hasErrors()) {
             List<String> errorsMessage = result.getFieldErrors().stream().map(FieldError::getDefaultMessage).toList();
             return ResponseEntity.badRequest().body(errorsMessage);
         }
@@ -32,9 +47,81 @@ public class MovieController {
             movieService.createMovie(movieDTO);
             return ResponseEntity.ok("Create movie type successfully!");
         }catch (Exception e){
-
+            return ResponseEntity.badRequest().body(e.getMessage());
         }
-        return null;
+    }
 
+    @GetMapping("")
+    public ResponseEntity<MovieListResponse> getProducts(
+            @RequestParam("page") int page,
+            @RequestParam("limit") int limit
+    ){
+        PageRequest pageRequest = PageRequest.of(page, limit, Sort.by("releaseDate").descending());
+        Page<MovieResponse> moviePage = movieService.getAllMovies(pageRequest);
+        int totalPages = moviePage.getTotalPages();
+        List<MovieResponse> movies = moviePage.getContent();
+        return ResponseEntity.ok(MovieListResponse.builder()
+                .movies(movies).totalPages(totalPages).build());
+    }
+
+    @PostMapping(value= "upload_movie/{id}", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
+    public ResponseEntity<?> uploadAvatar (
+            @PathVariable("id") int movieId,
+            @Valid @ModelAttribute("file") MultipartFile file){
+
+        try {
+            Movie existingMovie= movieService.getMovieById(movieId);
+            if (file != null) {
+                if (file.getSize() > 10 * 1024 * 1024) {
+                    return ResponseEntity.status(HttpStatus.PAYLOAD_TOO_LARGE).body("File is too large! Maximum size is 10MB");
+                }
+                String contentType = file.getContentType();
+                if (contentType == null || !contentType.startsWith("image/")) {
+                    return ResponseEntity.status(HttpStatus.UNSUPPORTED_MEDIA_TYPE).body("File must be an image");
+                }
+                String filename = storeFile(file);
+                existingMovie.setImage(filename);
+                movieRepository.save(existingMovie);
+            }
+            return ResponseEntity.ok("Upload Success Image Movie");
+        } catch (Exception e) {
+            return ResponseEntity.badRequest().body(e.getMessage());
+        }
+    }
+
+    @GetMapping("/images/{imageName}")
+    public ResponseEntity<?> viewImage(@PathVariable String imageName){
+        try{
+            Path imagePath= Paths.get("uploads/img_movie/"+imageName);
+            UrlResource resource= new UrlResource(imagePath.toUri());
+
+            if(resource.exists()){
+                return ResponseEntity.ok()
+                        .contentType(MediaType.IMAGE_JPEG)
+                        .body(resource);
+            }else{
+                return ResponseEntity.notFound().build();
+            }
+
+        }catch (Exception e){
+            return ResponseEntity.notFound().build();
+        }
+    }
+
+    private String storeFile(MultipartFile file) throws IOException {
+        String filename = StringUtils.cleanPath(file.getOriginalFilename());
+        String uniqueFilename = UUID.randomUUID().toString() + "_" + filename;
+        Path uploadDir = Paths.get("uploads/img_movie");
+
+        if (!Files.exists(uploadDir)) {
+            Files.createDirectories(uploadDir);
+        }
+
+        Path destination = Paths.get(uploadDir.toString(), uniqueFilename);
+        Files.copy(file.getInputStream(), destination, StandardCopyOption.REPLACE_EXISTING);
+        return uniqueFilename;
     }
 }
+
+
+

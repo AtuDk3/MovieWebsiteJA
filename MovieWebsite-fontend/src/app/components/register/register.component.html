@@ -80,6 +80,10 @@
                         Password and confirmation password do not match!
                     </p>
 
+                    <p class="text-danger" *ngIf="registerForm.controls['phoneNumber']?.hasError('existPhoneNumber') && registerForm.form.touched">
+                        Phone number is existed!
+                    </p>
+
                     <div class="input-group mb-3">
                         <input type="checkbox" class="form-check-input" [(ngModel)]="isAccept" id="formCheck" name="isAccept" required>
                         <label for="formCheck" class="form-check-label text-secondary"

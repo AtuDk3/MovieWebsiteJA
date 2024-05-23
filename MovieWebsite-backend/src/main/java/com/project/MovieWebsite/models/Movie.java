@@ -3,6 +3,7 @@ package com.project.MovieWebsite.models;
 import jakarta.persistence.*;
 import lombok.*;
 
+import java.time.LocalDateTime;
 import java.util.Date;
 
 @Entity
@@ -31,7 +32,7 @@ public class Movie {
     private String slug;
 
     @Column(name="release_date", nullable= false)
-    private Date releaseDate;
+    private LocalDateTime releaseDate;
 
     @Column(name="duration", nullable= false, length=255)
     private String duration;
@@ -68,5 +69,10 @@ public class Movie {
 
     @Column(name="is_active")
     private int isActive;
+
+    @PrePersist
+    protected void onCreate(){
+        releaseDate= LocalDateTime.now();
+    }
 
 }

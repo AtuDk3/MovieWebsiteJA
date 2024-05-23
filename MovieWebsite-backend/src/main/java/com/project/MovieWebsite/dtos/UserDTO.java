@@ -51,6 +51,8 @@ public class UserDTO {
     @JsonProperty("role_id")
     private int roleId = 2;
 
+    @JsonProperty("img_avatar")
+    private String imgAvatar = "user_default.jpg";
 
 
 }
