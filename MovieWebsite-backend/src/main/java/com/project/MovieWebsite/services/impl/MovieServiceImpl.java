@@ -87,6 +87,9 @@ public class MovieServiceImpl implements MovieService {
                             .isFee(movie.getIsFee())
                             .season(movie.getSeason())
                             .limitedAge(movie.getLimitedAge())
+                            .movieTypeName(movie.getMovieType().getName())
+                            .countryName(movie.getCountry().getName())
+                            .genreName(movie.getGenre().getName())
                             .build();
                     return movieResponse;
                 }

@@ -42,7 +42,6 @@
               "src/styles.scss"
             ],
             "scripts": [
-              "src/assets/js/script.js"
             ]
           },
           "configurations": {

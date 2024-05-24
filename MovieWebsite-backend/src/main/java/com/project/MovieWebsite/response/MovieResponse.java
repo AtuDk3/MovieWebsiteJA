@@ -45,4 +45,13 @@ public class MovieResponse extends BaseResponse {
 
     @JsonProperty("limited_age")
     private int limitedAge;
+
+    @JsonProperty("movie_type_name")
+    private String movieTypeName;
+
+    @JsonProperty("genre_name")
+    private String genreName;
+
+    @JsonProperty("country_name")
+    private String countryName;
 }

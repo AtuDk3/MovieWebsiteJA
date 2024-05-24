@@ -908,61 +908,41 @@
   
               <div class="product-grid">
   
-                <div class="showcase">
-  
+                <div class="showcase" *ngFor="let movie of movies">
                   <div class="showcase-banner">
-  
-                    <img src="assets/images/products/jacket-3.jpg" alt="Mens Winter Leathers Jackets" width="300" class="product-img default">
-                    <img src="assets/images/products/jacket-4.jpg" alt="Mens Winter Leathers Jackets" width="300" class="product-img hover">
-  
-                    <p class="showcase-badge">15%</p>
-  
+                    <img [src]="movie.url" alt="{{ movie.name }}" width="300" class="product-img default">
+                    <img [src]="movie.url" alt="{{ movie.name }}" width="300" class="product-img hover">
+                    <!-- Có thể thêm logic ở đây để hiển thị badge dựa trên thông tin của mỗi phim -->
+                    <p class="showcase-badge">{{ movie.hot }}</p>
                     <div class="showcase-actions">
-  
                       <button class="btn-action">
                         <ion-icon name="heart-outline"></ion-icon>
                       </button>
-  
+                
                       <button class="btn-action">
                         <ion-icon name="eye-outline"></ion-icon>
                       </button>
-  
+                
                       <button class="btn-action">
                         <ion-icon name="repeat-outline"></ion-icon>
                       </button>
-  
+                
                       <button class="btn-action">
                         <ion-icon name="bag-add-outline"></ion-icon>
                       </button>
-  
                     </div>
-  
                   </div>
-  
                   <div class="showcase-content">
-  
-                    <a href="#" class="showcase-category">jacket</a>
-  
+                    <a href="#" class="showcase-category">{{ movie.id_genre }}</a>
+                    <a href="#" class="showcase-category">{{ movie.genre_name }}</a>
+                    <a href="#" class="showcase-category">{{ movie.country_name }}</a>
                     <a href="#">
-                      <h3 class="showcase-title">Mens Winter Leathers Jackets</h3>
+                      <h3 class="showcase-title">{{ movie.name }}</h3>
                     </a>
-  
-                    <div class="showcase-rating">
-                      <ion-icon name="star"></ion-icon>
-                      <ion-icon name="star"></ion-icon>
-                      <ion-icon name="star"></ion-icon>
-                      <ion-icon name="star-outline"></ion-icon>
-                      <ion-icon name="star-outline"></ion-icon>
-                    </div>
-  
-                    <div class="price-box">
-                      <p class="price">$48.00</p>
-                      <del>$75.00</del>
-                    </div>
-  
+                    
                   </div>
-  
                 </div>
+                
   
                 <div class="showcase">
                 
@@ -998,20 +978,7 @@
                 
                     <h3>
                       <a href="#" class="showcase-title">Pure Garment Dyed Cotton Shirt</a>
-                    </h3>
-                
-                    <div class="showcase-rating">
-                      <ion-icon name="star"></ion-icon>
-                      <ion-icon name="star"></ion-icon>
-                      <ion-icon name="star"></ion-icon>
-                      <ion-icon name="star-outline"></ion-icon>
-                      <ion-icon name="star-outline"></ion-icon>
-                    </div>
-                
-                    <div class="price-box">
-                      <p class="price">$45.00</p>
-                      <del>$56.00</del>
-                    </div>
+                    </h3>             
                 
                   </div>
                 
