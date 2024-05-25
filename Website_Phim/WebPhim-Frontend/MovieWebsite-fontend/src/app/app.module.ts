@@ -14,7 +14,10 @@ import { GenreComponent } from './components/genre/genre.component';
 import { SidebarComponent } from './components/sidebar/sidebar.component';
 import { RegisterComponent } from './components/register/register.component';
 import { FormsModule } from '@angular/forms';
-import { HttpClientModule } from '@angular/common/http';
+import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
+import { TokenInterceptor } from './intercrptors/token.interceptor';
+import { ModalComponent } from './components/modal/modal.component';
+import { IndexComponent } from './components/index/index.component';
 
 @NgModule({
   declarations: [
@@ -26,7 +29,9 @@ import { HttpClientModule } from '@angular/common/http';
     BannerComponent,
     GenreComponent,
     SidebarComponent,
-    RegisterComponent
+    RegisterComponent,
+    ModalComponent,
+    IndexComponent
   ],
   imports: [
     BrowserModule,
@@ -35,9 +40,14 @@ import { HttpClientModule } from '@angular/common/http';
     CarouselModule,
     FormsModule,
     HttpClientModule
-    
   ],
-  providers: [],
+  providers: [
+    {
+      provide: HTTP_INTERCEPTORS,
+      useClass: TokenInterceptor,
+      multi: true
+    }
+  ],
   bootstrap: [
      AppComponent
   ]

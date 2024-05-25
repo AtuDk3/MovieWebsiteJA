@@ -17,6 +17,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.time.DateTimeException;
 import java.util.Optional;
@@ -85,13 +86,15 @@ public class MovieServiceImpl implements MovieService {
                 .isFee(movie.getIsFee())
                 .season(movie.getSeason())
                 .limitedAge(movie.getLimitedAge())
-                 .releaseDate(movie.getReleaseDate())
+                .releaseDate(movie.getReleaseDate())
+                .movieTypeName(movie.getMovieType().getName())
                 .build();
                 return movieResponse;
         });
     }
 
     @Override
+    @Transactional
     public Movie updateMovies(int id, MovieDTO movieDTO) throws Exception{
         Movie existingMovie= getMovieById(id);
         if(existingMovie != null){

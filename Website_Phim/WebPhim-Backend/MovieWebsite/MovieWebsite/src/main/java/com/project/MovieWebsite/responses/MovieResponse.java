@@ -30,5 +30,6 @@ public class MovieResponse extends BaseResponse{
     private int hot;
     private int season;
     private int limitedAge;
+    private String movieTypeName;
 
 }

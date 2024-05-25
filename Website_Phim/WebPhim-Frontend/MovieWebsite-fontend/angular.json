@@ -42,7 +42,6 @@
               "src/styles.scss"
             ],
             "scripts": [
-              "src/assets/js/script.js"
             ]
           },
           "configurations": {
@@ -110,6 +109,6 @@
     }
   },
   "cli": {
-    "analytics": "d497bd1f-fb48-4fa8-943d-f24b6880583e"
+    "analytics": "73b0fb97-8108-47d5-ae0b-08a6c9e0f586"
   }
 }

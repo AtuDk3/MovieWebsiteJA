@@ -1,9 +1,8 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable } from 'rxjs';
-import { LoginDTO } from '../../dtos/user/login.dto';
-import { environment } from '../environments/environment';
-import { RegisterDTO } from '../../dtos/user/register.dto';
+import { LoginDTO } from '../dtos/user/login.dto';
+import { environment } from '../environments/environments';
 
 
 @Injectable({
@@ -25,8 +24,8 @@ export class UserService {
         });
   }
 
-  register(registerDTO: RegisterDTO): Observable<any> {
-    return this.http.post(this.apiRegister, registerDTO, this.apiConfig);
+  register(registerData: any): Observable<any> {
+    return this.http.post(this.apiRegister, registerData, this.apiConfig);
   }
 
   login(loginDTO: LoginDTO): Observable<any> {

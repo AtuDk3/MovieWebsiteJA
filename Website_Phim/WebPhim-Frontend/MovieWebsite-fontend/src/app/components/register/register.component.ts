@@ -1,7 +1,7 @@
 import { Component, ViewChild } from '@angular/core';
 import { NgForm } from '@angular/forms';
 import { Router } from '@angular/router';
-import { UserService } from '../service/user.service';
+import { UserService } from '../../service/user.service';
 import { RegisterDTO } from '../../dtos/user/register.dto';
 @Component({
   selector: 'app-register',
@@ -20,18 +20,14 @@ export class RegisterComponent {
   isAccept: boolean;
 
   constructor(private router: Router, private userService: UserService) {
-    this.fullName = 'huy hhhhh';
-    this.email = 'huykvde170548@fpt.edu.vn';
-    this.phoneNumber = '0763583007';
+    this.fullName = '';
+    this.email = '';
+    this.phoneNumber = '';
     this.dob = new Date();
-    this.dob.setFullYear(this.dob.getFullYear()-18);
-    this.password = '123';
-    this.retypePassword = '123';
-    this.isAccept = true;
+    this.password = '';
+    this.retypePassword = '';
+    this.isAccept = false;
   }
-
-  
-  
 
   onEmailChange(){
     console.log(this.email);
@@ -76,46 +72,31 @@ export class RegisterComponent {
   }
 
   register(){
-    //debugger
+
     const registerDTO:RegisterDTO = {
         "full_name": this.fullName,
         "phone_number": this.phoneNumber,
         "password": this.password,
         "retype_password": this.retypePassword,
         "date_of_birth": this.dob,
-        "email": this.email,
-        "role_id": 1,
-      "vip_id": 2
+        "email": this.email
     }
     this.userService.register(registerDTO).subscribe(
-      
-      //   next: (response: any) => {
-      //     //debugger
-      //     if(response && (response.status === 200 || response.status === 201)) {
-      //     this.router.navigate(['/login']);
-      //   } else {
+      {
+        next: (response: any) => {
+          if(response && response.message) {
+          this.router.navigate(['/login']);
+        } else {
   
-      //   }
-      // },
-      
-      // complete: () => {
-      //   debugger
-      // },
-      
-      // error: (error: any) => {
-      //   console.log('Registration failed!', error);
-      // }
-
-      response => {
-        debugger
-        console.log(response);
-        alert('Please check your email for verification.');
+        }
       },
-      error => {
-        console.error(error);
-        alert('Registration failed.');
-      }
-    );
+      complete: () => {
+
+      },
+      error: (error: any) => {
+        this.registerForm.form.controls['phoneNumber'].setErrors({'existPhoneNumber': true});
+      }}
+    )
   }
 
 }
