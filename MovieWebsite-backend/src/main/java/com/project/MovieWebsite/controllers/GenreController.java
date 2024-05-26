@@ -21,8 +21,6 @@ public class GenreController {
 
     @GetMapping("")
     public ResponseEntity<List<Genre>> getAllGenres(
-            @RequestParam("page") int page,
-            @RequestParam("limit") int limit
     ) {
         List<Genre> genres = genreService.getAllGenre();
         return ResponseEntity.ok(genres);
