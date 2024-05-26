@@ -8,7 +8,7 @@ import org.springframework.web.bind.annotation.RestController;
 import java.util.Map;
 
 @RestController
-@RequestMapping("/users")
+@RequestMapping("${api.prefix}/users")
 public class LoginGoogleController {
 
     @GetMapping("/signingoogle")

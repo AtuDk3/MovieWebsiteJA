@@ -15,14 +15,15 @@ export class HomeComponent implements OnInit {
   pages: number[] = [];
   totalPages: number = 0;
   visiblePages: number[] = []; 
+  keyword: string = '';
 
   constructor(private movieService: MovieService) {}
 
   ngOnInit() {
-    this.getMovies(this.currentPage, this.itemsPerPage);
+    this.getMovies(this.keyword, this.currentPage, this.itemsPerPage);
   }
 
-  getMovies(page: number, limit: number) {
+  getMovies(keyword: string, page: number, limit: number) {
     this.movieService.getMovies(page, limit).subscribe({
       next: (response: any) => {
         response.movies.forEach((movie: Movie) => {
@@ -38,9 +39,16 @@ export class HomeComponent implements OnInit {
     });
   }
 
+  searchMovies(){
+    this.currentPage = 1;
+    this.itemsPerPage = 10;
+
+    this.getMovies(this.keyword, this.currentPage, this.itemsPerPage);
+  }
+
   onPageChange(page: number) {
     this.currentPage = page;
-    this.getMovies(this.currentPage, this.itemsPerPage);
+    this.getMovies(this.keyword, this.currentPage, this.itemsPerPage);
   }
 
   generateVisiblePageArray(currentPage: number, totalPages: number): number[] {

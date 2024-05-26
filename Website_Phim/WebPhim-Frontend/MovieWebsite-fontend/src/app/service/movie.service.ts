@@ -19,5 +19,9 @@ export class MovieService {
     return this.http.get<Movie[]>(this.apiGetMovies, {params});
   }
 
+  getDetailMovie(movieId: number){
+    return this.http.get(`${environment.apiBaseUrl}/movies/${movieId}`);
+  }
+
 
 }

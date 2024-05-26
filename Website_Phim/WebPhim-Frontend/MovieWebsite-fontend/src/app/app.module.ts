@@ -7,17 +7,17 @@ import { HomeComponent } from './components/home/home.component';
 import { HeaderComponent } from './components/header/header.component';
 import { FooterComponent } from './components/footer/footer.component';
 import { LoginComponent } from './components/login/login.component';
-import { BannerComponent } from './components/banner/banner.component';
 import { IonicModule } from '@ionic/angular';
 import { CarouselModule } from 'ngx-owl-carousel-o';
 import { GenreComponent } from './components/genre/genre.component';
-import { SidebarComponent } from './components/sidebar/sidebar.component';
 import { RegisterComponent } from './components/register/register.component';
 import { FormsModule } from '@angular/forms';
 import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { TokenInterceptor } from './intercrptors/token.interceptor';
-import { ModalComponent } from './components/modal/modal.component';
-import { IndexComponent } from './components/index/index.component';
+import { TopViewsComponent } from './components/top-views/top-views.component';
+import { MovieDetailsComponent } from './components/movie-details/movie-details.component';
+import { WatchingComponent } from './components/watching/watching.component';
+import { MovieRelatedComponent } from './components/movie-related/movie-related.component';
 
 @NgModule({
   declarations: [
@@ -26,12 +26,12 @@ import { IndexComponent } from './components/index/index.component';
     HeaderComponent,
     FooterComponent,
     LoginComponent,
-    BannerComponent,
     GenreComponent,
-    SidebarComponent,
     RegisterComponent,
-    ModalComponent,
-    IndexComponent
+    TopViewsComponent,
+    MovieDetailsComponent,
+    WatchingComponent,
+    MovieRelatedComponent,
   ],
   imports: [
     BrowserModule,

@@ -20,14 +20,17 @@ spring:
           hibernate:
              dialect: org.hibernate.dialect.MySQL8Dialect
              format_sql: true
-#  spring:
-#    security:
-#      oauth2:
-#        client:
-#          registration:
-#            google:
-#              client-id: 766011988725-8f67ha7rav67t61u9tfe9pjeli1an63e.apps.googleusercontent.com
-#              client-secret: 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
+
+#  security:
+#    oauth2:
+#      client:
+#        registration:
+#          google:
+#            client-id: "376310187656-48ht7enjmq150efgtos8p2kfi9ghs0dh.apps.googleusercontent.com"
+#            client-secret: "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"
+
+
+
 #  mail:
 #    host: smtp.gmail.com
 #    port: 587
