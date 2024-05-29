@@ -1,0 +1,46 @@
+.form-group, .text-center {
+    color: #7aa6ce;
+    cursor: pointer;
+}
+
+.form-group input {
+    background-color: #12171b;
+}
+
+.avatar {
+    margin-top: 20px;
+}
+
+.btn-warning {
+    color: black;
+    // background-color: #ce981d;
+    margin-right: 10px;
+}
+
+.film-poster {
+    margin-top: 20px;
+    margin-left: 20px;
+}
+
+.action-user {
+    margin-top: 10px;
+    display: flex;
+    justify-content: center;
+}
+
+.form-update-profile {
+    display: block;
+}
+
+button i {
+    margin: 5px;
+}
+
+.info-user {
+    color: #7aa6ce;
+    font-weight: 300;
+}
+
+.list-info-group-item {
+    font-size: 16px;
+}

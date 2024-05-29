@@ -16,6 +16,9 @@ public class EpisodeDTO {
     @JsonProperty("movie_id")
     private int movieId;
 
+    @JsonProperty("episode")
+    private int episode = 1;
+
     @JsonProperty("movie_url")
     @NotBlank(message = "Movie url required")
     private String movieUrl;

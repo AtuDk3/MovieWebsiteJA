@@ -9,13 +9,19 @@ import com.project.MovieWebsite.response.MovieResponse;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 
+import java.util.List;
+
 public interface MovieService {
 
     Movie createMovie (MovieDTO movieDTO) throws DataNotFoundException;
 
     Movie getMovieById(int id);
 
-    Page<MovieResponse> getAllMovies(PageRequest pageRequest);
+    Page<MovieResponse> getAllMovies(String keyword, int genreId, PageRequest pageRequest);
+
+    List<Movie> getMoviesByGenreId(int genreId) throws Exception;
+
+    List<Movie> getMoviesByCountryId(int countryId) throws Exception;
 
     Movie updateMovies(int id, MovieDTO movieDTO) throws Exception;
 

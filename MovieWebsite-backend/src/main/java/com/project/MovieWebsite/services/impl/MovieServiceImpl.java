@@ -19,6 +19,7 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 
 import java.time.DateTimeException;
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -68,32 +69,48 @@ public class MovieServiceImpl implements MovieService {
     }
 
     @Override
-    public Page<MovieResponse> getAllMovies(PageRequest pageRequest) {
+    public List<Movie> getMoviesByGenreId(int genreId) throws Exception {
+        return movieRepository.findByGenreId(genreId)
+                .orElseThrow(() -> new Exception("No movies found for this genre"));
+    }
 
-        return movieRepository.findAll(pageRequest).map(
-                movie -> {
-                    MovieResponse movieResponse = MovieResponse.builder()
-                            .name(movie.getName())
-                            .description(movie.getDescription())
-                            .image(movie.getImage())
-                            .slug(movie.getSlug())
-                            .releaseDate(movie.getReleaseDate())
-                            .duration(movie.getDuration())
-                            .idGenre(movie.getGenre().getId())
-                            .idMovieType(movie.getMovieType().getId())
-                            .idCountry(movie.getCountry().getId())
-                            .episode(movie.getEpisode())
-                            .hot(movie.getHot())
-                            .isFee(movie.getIsFee())
-                            .season(movie.getSeason())
-                            .limitedAge(movie.getLimitedAge())
-                            .movieTypeName(movie.getMovieType().getName())
-                            .countryName(movie.getCountry().getName())
-                            .genreName(movie.getGenre().getName())
-                            .build();
-                    return movieResponse;
-                }
-        );
+    @Override
+    public List<Movie> getMoviesByCountryId(int countryId) throws Exception {
+        return movieRepository.findByCountryId(countryId)
+                .orElseThrow(() -> new Exception("No movies found for this country"));
+    }
+
+    @Override
+    public Page<MovieResponse> getAllMovies(String keyword, int genreId, PageRequest pageRequest) {
+        Page<Movie> moviesPage = movieRepository.searchMovies(genreId, keyword, pageRequest);
+        return mapToMovieResponsePage(moviesPage);
+    }
+
+    private Page<MovieResponse> mapToMovieResponsePage(Page<Movie> moviesPage) {
+        return moviesPage.map(movie -> {
+            MovieResponse movieResponse = MovieResponse.builder()
+                    .id(movie.getId())
+                    .name(movie.getName())
+                    .description(movie.getDescription())
+                    .image(movie.getImage())
+                    .slug(movie.getSlug())
+                    .releaseDate(movie.getReleaseDate())
+                    .duration(movie.getDuration())
+                    .idGenre(movie.getGenre().getId())
+                    .idMovieType(movie.getMovieType().getId())
+                    .idCountry(movie.getCountry().getId())
+                    .episode(movie.getEpisode())
+                    .hot(movie.getHot())
+                    .isFee(movie.getIsFee())
+                    .season(movie.getSeason())
+                    .limitedAge(movie.getLimitedAge())
+                    .movieTypeName(movie.getMovieType().getName())
+                    .countryName(movie.getCountry().getName())
+                    .genreName(movie.getGenre().getName())
+                    .numberViews(movie.getNumberView())
+                    .build();
+            return movieResponse;
+        });
     }
 
     @Override

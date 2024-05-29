@@ -18,6 +18,10 @@ import { TopViewsComponent } from './components/top-views/top-views.component';
 import { MovieDetailsComponent } from './components/movie-details/movie-details.component';
 import { WatchingComponent } from './components/watching/watching.component';
 import { MovieRelatedComponent } from './components/movie-related/movie-related.component';
+import { CountryComponent } from './components/country/country.component';
+import { ProfileComponent } from './components/profile/profile.component';
+import { LoginLayoutComponent } from './layouts/login-layout/login-layout.component';
+import { MainLayoutComponent } from './layouts/main-layout/main-layout.component';
 
 @NgModule({
   declarations: [
@@ -32,6 +36,10 @@ import { MovieRelatedComponent } from './components/movie-related/movie-related.
     MovieDetailsComponent,
     WatchingComponent,
     MovieRelatedComponent,
+    CountryComponent,
+    ProfileComponent,
+    LoginLayoutComponent,
+    MainLayoutComponent,
   ],
   imports: [
     BrowserModule,

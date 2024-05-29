@@ -2,6 +2,8 @@ package com.project.MovieWebsite.controllers;
 
 import com.project.MovieWebsite.dtos.GenreDTO;
 import com.project.MovieWebsite.models.Genre;
+import com.project.MovieWebsite.models.Movie;
+import com.project.MovieWebsite.response.MovieResponse;
 import com.project.MovieWebsite.services.GenreService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;

@@ -1,13 +1,3 @@
-<style>
-   .dropdown-menu {
-  display: none;
-}
-
-.show .dropdown-menu {
-  display: block;
-}
-</style>
-
 <header id="header">
   <div class="container">
      <div class="row" id="headwrap">
@@ -21,8 +11,8 @@
                  <form id="search-form-pc" name="halimForm" role="search" action="" method="GET">
                     <div class="form-group">
                        <div class="input-group col-xs-12">
-                          <input id="search" type="text" name="s" class="form-control" placeholder="Tìm kiếm..." autocomplete="off" required>
-                          <i class="fa-solid fa-magnifying-glass"></i>
+                          <input id="search" type="text" name="s" class="form-control" placeholder="Tìm kiếm..." autocomplete="off"  required>
+                          <button type="submit"><i class="fa-solid fa-magnifying-glass"></i></button>
                        </div>
                     </div>
                  </form>
@@ -31,7 +21,13 @@
            </div>
         </div>
         <div class="col-md-4 hidden-xs">
+           <!-- <div id="get-bookmark" class="box-shadow"><i class="fa-solid fa-right-to-bracket"></i><span> Đăng nhập</span></div>
+           <div id="get-bookmark" class="box-shadow"><i class="fa-solid fa-user-plus"></i><span> Đăng kí</span></div> -->
+           
            <div id="get-bookmark" class="box-shadow"><i class="fa-regular fa-bookmark"></i><span> Bookmarks</span><span class="count">0</span></div>
+           <a routerLink="/profile"><div id="get-bookmark" class="box-shadow"> <i class="fa-regular fa-user"></i><span> Hello, Tú</span></div></a>
+
+
            <div id="bookmark-list" class="hidden bookmark-list-on-pc">
               <ul style="margin: 0;"></ul>
            </div>
@@ -64,7 +60,7 @@
         <div class="collapse navbar-collapse" id="halim">
            <div class="menu-menu_1-container">
               <ul id="menu-menu_1" class="nav navbar-nav navbar-left">
-                 <li class="current-menu-item active"><a title="Trang Chủ" href="index.php">Trang Chủ</a></li>
+                 <li class="current-menu-item active"><a title="Trang Chủ" routerLink="/">Trang Chủ</a></li>
                  <li class="mega"><a title="Phim Mới" href="danhmuc.php">Phim Mới</a></li>
                  <li class="mega dropdown" [class.show]="showYearMenu" (mouseenter)="showMenu('year')" (mouseleave)="hideMenu('year')">
                     <a title="Năm" href="#" data-toggle="dropdown" class="dropdown-toggle" aria-haspopup="true">Năm <span class="caret"></span></a>
@@ -77,13 +73,13 @@
                  <li class="mega dropdown" [class.show]="showGenreMenu" (mouseenter)="showMenu('genre')" (mouseleave)="hideMenu('genre')">
                   <a title="Thể Loại" href="#" data-toggle="dropdown" class="dropdown-toggle" aria-haspopup="true">Thể Loại <span class="caret"></span></a>
                   <ul role="menu" class="dropdown-menu">
-                     <li *ngFor="let genre of genres"><a title="{{ genre.name }}" href="danhmuc.php">{{ genre.name }}</a></li>
+                     <li *ngFor="let genre of genres"><a title="{{ genre.name }}" routerLink="/genre/{{ genre.id }}">{{ genre.name }}</a></li>
                   </ul>
                 </li>
                  <li class="mega dropdown" [class.show]="showCountryMenu" (mouseenter)="showMenu('country')" (mouseleave)="hideMenu('country')">
                     <a title="Quốc Gia" href="#" data-toggle="dropdown" class="dropdown-toggle" aria-haspopup="true">Quốc Gia <span class="caret"></span></a>
                     <ul role="menu" class=" dropdown-menu">
-                     <li *ngFor="let country of countries"><a title="{{ country.name }}" href="danhmuc.php">{{ country.name }}</a></li>
+                     <li *ngFor="let country of countries"><a title="{{ country.name }}" routerLink="/country/{{ country.id }}">{{ country.name }}</a></li>
                     </ul>
                  </li>
                  <li><a title="Phim Lẻ" href="danhmuc.php">Phim Lẻ</a></li>

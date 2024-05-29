@@ -1,0 +1,230 @@
+<div class="container">
+    <div class="row fullwith-slider"></div>
+</div>
+<div class="container">
+    <div class="row container" id="wrapper">
+        <div class="halim-panel-filter">
+            <div class="panel-heading">
+                <div class="row">
+                    <div class="col-xs-6">
+                        <div class="yoast_breadcrumb hidden-xs"><span><span><a href="">Trang chủ</a> » <span><a
+                                            href="">Thông tin cá nhân</a></span></span></span></div>
+                    </div>
+                </div>
+            </div>
+            <div id="ajax-filter" class="panel-collapse collapse" aria-expanded="true" role="menu">
+                <div class="ajax"></div>
+            </div>
+        </div>
+        <main id="main-contents" class="col-xs-12 col-sm-12 col-md-8">
+
+            <div class="container bootstrap snippet" *ngIf="!showUpdateForm && !changePasswordForm">
+                <div class="row">
+                    <div class="col-sm-3">
+
+                        <div class="text-center">
+                            <img src="http://ssl.gstatic.com/accounts/ui/avatar_2x.png"
+                                class="avatar img-circle img-thumbnail" alt="avatar">
+                            <div class="action-user">
+                                <button type="button" class="btn btn-warning" (click)="toggleUpdateForm()"><i class="fa-regular fa-pen-to-square"></i>Cập
+                                    nhật</button>
+                                <button type="button" class="btn btn-primary" (click)="togglechangePassword()"><i class="fa-solid fa-key"></i> Đổi mật khẩu</button>
+                            </div>
+                        </div><br>
+
+                    </div>
+                    <div class="col-sm-9">
+                        <div class="tab-content">
+                            <div class="film-poster col-md-12">
+                                <ul class="list-info-group">
+                                    <li class="list-info-group-item"><span>Họ và tên</span> : <span class="info-user"
+                                            >Đỗ Thanh Tú</span></li>
+                                    <li class="list-info-group-item"><span>Số điện thoại</span> : <span class="info-user"
+                                            >0763794399</span></li>
+                                    <li class="list-info-group-item"><span>Email</span> : <span class="info-user">tudtde170525fpt.edu.vn</span></li>
+                                    <li class="list-info-group-item"><span>Ngày sinh</span> : <span class="info-user">24-08-2003</span></li>
+                                    <li class="list-info-group-item"><span>Thành viên VIP</span> : <span class="imdb">VIP1</span>
+                                    </li>
+                                    <li class="list-info-group-item last-item"
+                                        style="-overflow: hidden;-display: -webkit-box;-webkit-line-clamp: 1;-webkit-box-flex: 1;-webkit-box-orient: vertical;">
+                                        <span>Ngày tạo</span> : <span class="info-user">29-05-2024</span></li>
+                                </ul>
+                                <div class="movie-trailer hidden"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="container bootstrap snippet">
+                <form class="form-update-profile" action="##" method="post" *ngIf="showUpdateForm">
+                    <div class="row">
+                        <div class="col-sm-3">
+                            <div class="text-center">
+                                <img src="http://ssl.gstatic.com/accounts/ui/avatar_2x.png"
+                                    class="avatar img-circle img-thumbnail" alt="avatar">
+                                <h6 class="">Upload a different photo...</h6>
+                                <input type="file" class="text-center center-block file-upload">
+                            </div><br>
+                        </div>
+                        <div class="col-sm-9">
+
+                            <div class="tab-content">
+                                <div class="tab-pane active">
+                                    <div class="form-group">
+
+                                        <div class="col-xs-6">
+                                            <label for="first_name">
+                                                <h5>First name</h5>
+                                            </label>
+                                            <input type="text" class="form-control" name="first_name" id="first_name"
+                                                placeholder="first name" title="enter your first name if any.">
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+
+                                        <div class="col-xs-6">
+                                            <label for="last_name">
+                                                <h5>Last name</h5>
+                                            </label>
+                                            <input type="text" class="form-control" name="last_name" id="last_name"
+                                                placeholder="last name" title="enter your last name if any.">
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group">
+
+                                        <div class="col-xs-6">
+                                            <label for="phone">
+                                                <h5>Phone</h5>
+                                            </label>
+                                            <input type="text" class="form-control" name="phone" id="phone"
+                                                placeholder="enter phone" title="enter your phone number if any.">
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group">
+                                        <div class="col-xs-6">
+                                            <label for="mobile">
+                                                <h5>Mobile</h5>
+                                            </label>
+                                            <input type="text" class="form-control" name="mobile" id="mobile"
+                                                placeholder="enter mobile number"
+                                                title="enter your mobile number if any.">
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+
+                                        <div class="col-xs-6">
+                                            <label for="email">
+                                                <h5>Email</h5>
+                                            </label>
+                                            <input type="email" class="form-control" name="email" id="email"
+                                                placeholder="you@email.com" title="enter your email.">
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+
+                                        <div class="col-xs-6">
+                                            <label for="email">
+                                                <h5>Location</h5>
+                                            </label>
+                                            <input type="email" class="form-control" id="location"
+                                                placeholder="somewhere" title="enter a location">
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+
+                                        <div class="col-xs-6">
+                                            <label for="password">
+                                                <h5>Password</h5>
+                                            </label>
+                                            <input type="password" class="form-control" name="password" id="password"
+                                                placeholder="password" title="enter your password.">
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+
+                                        <div class="col-xs-6">
+                                            <label for="password2">
+                                                <h5>Verify</h5>
+                                            </label>
+                                            <input type="password" class="form-control" name="password2" id="password2"
+                                                placeholder="password2" title="enter your password2.">
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <div class="col-xs-12">
+                                            <br>
+                                            <button type="button" class="btn btn-warning">Cập nhật thông tin cá
+                                                nhân</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+
+            <div class="container bootstrap snippet">
+                <form class="form-update-profile" action="##" method="post" *ngIf="changePasswordForm">
+                    <div class="row">
+                        <div class="col-sm-3">
+                            <div class="text-center">
+
+                            </div><br>
+                        </div>
+                        <div class="col-sm-9">
+
+                            <div class="tab-content">
+                                <div class="tab-pane active">
+                                    <div class="form-group">
+
+                                        <div class="col-xs-6">
+                                            <label for="first_name">
+                                                <h5>Mật khẩu cũ</h5>
+                                            </label>
+                                            <input type="text" class="form-control" name="first_name" id="first_name"
+                                                placeholder="first name" title="enter your first name if any.">
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+
+                                        <div class="col-xs-6">
+                                            <label for="first_name">
+                                                <h5>Mật khẩu mới</h5>
+                                            </label>
+                                            <input type="text" class="form-control" name="first_name" id="first_name"
+                                                placeholder="first name" title="enter your first name if any.">
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+
+                                        <div class="col-xs-6">
+                                            <label for="last_name">
+                                                <h5>Xác nhận mật khẩu</h5>
+                                            </label>
+                                            <input type="text" class="form-control" name="last_name" id="last_name"
+                                                placeholder="last name" title="enter your last name if any.">
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group">
+                                        <div class="col-xs-12">
+                                            <br>
+                                            <button type="button" class="btn btn-primary"><i class="fa-solid fa-key"></i>Đổi mật khẩu</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+
+
+
+        </main>
+    </div>
+</div>

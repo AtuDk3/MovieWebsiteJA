@@ -1,4 +1,4 @@
-import { Component, OnInit, HostListener } from '@angular/core';
+import { Component, OnInit} from '@angular/core';
 import { GenreService } from '../../service/genre.service';
 import { CountryService } from '../../service/country.service';
 import { Genre } from '../../models/genre';
@@ -44,7 +44,7 @@ export class HeaderComponent implements OnInit {
         console.log(error);
       }
     });
-  }
+  } 
 
   showMenu(menu: string) {
     this.hideAllMenus();
@@ -72,4 +72,6 @@ export class HeaderComponent implements OnInit {
     this.showCountryMenu = false;
     this.showYearMenu = false;
   }
+
+  
 }

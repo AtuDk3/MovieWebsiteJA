@@ -26,14 +26,25 @@ public class EpisodeServiceImpl implements EpisodeService {
                 .orElseThrow(() -> new DataNotFoundException("Cannot find movie type with id: "+episodeDTO.getMovieId()));
         Episode newEpisode= Episode.builder()
                 .movie(existingMovie)
+                .episode(episodeDTO.getEpisode())
                 .movieUrl(episodeDTO.getMovieUrl())
                 .build();
         return episodeRepository.save(newEpisode);
     }
 
     @Override
-    public Episode getEpisode(int id) {
-        return episodeRepository.findById(id).orElseThrow(() -> new RuntimeException("Movie not found"));
+    public Episode getEpisode(int Id) {
+        return episodeRepository.findById(Id).orElseThrow(() -> new RuntimeException("Episode not found"));
+    }
+
+    @Override
+    public List<Episode> getEpisodeByMovieId(int movieId) {
+        List<Episode> episodes = episodeRepository.findByMovieId(movieId);
+        if (!episodes.isEmpty()) {
+            return episodes;
+        } else {
+            throw new RuntimeException("Episodes not found for movieId: " + movieId);
+        }
     }
 
     @Override
@@ -49,6 +60,7 @@ public class EpisodeServiceImpl implements EpisodeService {
                     .orElseThrow(() -> new DataNotFoundException("Cannot find movie type with id: "+episodeDTO.getMovieId()));
 
             existingEpisode.setMovie(existingMovie);
+            existingEpisode.setEpisode(episodeDTO.getEpisode());
             existingEpisode.setMovieUrl(episodeDTO.getMovieUrl());
 
             return episodeRepository.save(existingEpisode);

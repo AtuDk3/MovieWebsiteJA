@@ -14,9 +14,10 @@ export interface Movie {
     is_fee: number,
     season: number,
     limited_age: number,
-    number_view: number,
+    number_views: number,
     movie_type_name: string,
     genre_name: string,
     country_name: string,
     url: string
+    release_date_formated: string
 }

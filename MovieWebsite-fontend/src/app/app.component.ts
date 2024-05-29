@@ -9,7 +9,6 @@ import { Router } from '@angular/router';
 
 export class AppComponent {
   constructor(private router: Router) {}
-
   isLoginRoute(): boolean {
     return this.router.url === '/login';
   }
@@ -17,4 +16,5 @@ export class AppComponent {
   isRegisterRoute(): boolean {
     return this.router.url === '/register';
   }
+
 }

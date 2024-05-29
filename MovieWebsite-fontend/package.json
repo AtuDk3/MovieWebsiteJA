@@ -25,6 +25,8 @@
     "class-validator": "^0.14.1",
     "jquery": "^3.7.1",
     "ngx-owl-carousel-o": "^17.0.0",
+    "normalize.css": "^8.0.1",
+    "owl.carousel": "^2.3.4",
     "rxjs": "~7.8.0",
     "tslib": "^2.3.0",
     "zone.js": "~0.14.3"

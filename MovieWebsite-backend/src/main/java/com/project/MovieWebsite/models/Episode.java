@@ -21,6 +21,9 @@ public class Episode extends BaseEntity{
     @JoinColumn(name="movie_id")
     private Movie movie;
 
+    @JoinColumn(name="episode")
+    private int episode;
+
     @Column(name="movie_url", nullable= false)
     private String movieUrl;
 

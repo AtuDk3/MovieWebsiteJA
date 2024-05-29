@@ -1,9 +1,10 @@
 package com.project.MovieWebsite.response;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.project.MovieWebsite.models.Movie;
 import lombok.*;
 
-import java.time.LocalDateTime;
+import java.util.Date;
 
 @Getter
 @Setter
@@ -12,6 +13,8 @@ import java.time.LocalDateTime;
 @Builder
 
 public class MovieResponse extends BaseResponse {
+    private  int id;
+
     private String name;
 
     private String description;
@@ -21,7 +24,7 @@ public class MovieResponse extends BaseResponse {
     private String slug;
 
     @JsonProperty("release_date")
-    private LocalDateTime releaseDate;
+    private Date releaseDate;
 
     private String duration;
 
@@ -54,4 +57,32 @@ public class MovieResponse extends BaseResponse {
 
     @JsonProperty("country_name")
     private String countryName;
+
+    @JsonProperty("number_views")
+    private int numberViews;
+
+    public  static MovieResponse fromMovie(Movie movie){
+        MovieResponse movieResponse = MovieResponse.builder()
+                .id(movie.getId())
+                .name(movie.getName())
+                .description(movie.getDescription())
+                .image(movie.getImage())
+                .slug(movie.getSlug())
+                .releaseDate(movie.getReleaseDate())
+                .duration(movie.getDuration())
+                .idGenre(movie.getGenre().getId())
+                .idMovieType(movie.getMovieType().getId())
+                .idCountry(movie.getCountry().getId())
+                .episode(movie.getEpisode())
+                .hot(movie.getHot())
+                .isFee(movie.getIsFee())
+                .season(movie.getSeason())
+                .limitedAge(movie.getLimitedAge())
+                .movieTypeName(movie.getMovieType().getName())
+                .countryName(movie.getCountry().getName())
+                .genreName(movie.getGenre().getName())
+                .numberViews(movie.getNumberView())
+                .build();
+        return movieResponse;
+    }
 }
