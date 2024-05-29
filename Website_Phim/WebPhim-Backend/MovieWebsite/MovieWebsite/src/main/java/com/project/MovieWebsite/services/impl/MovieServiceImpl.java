@@ -1,3 +1,4 @@
+
 package com.project.MovieWebsite.services.impl;
 
 import com.project.MovieWebsite.dtos.MovieDTO;
@@ -17,7 +18,6 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 
 import java.time.DateTimeException;
 import java.util.Optional;
@@ -43,6 +43,7 @@ public class MovieServiceImpl implements MovieService {
         Genre existingGenre= genreRepository.findById(movieDTO.getIdGenre())
                 .orElseThrow(() -> new DataNotFoundException("Cannot find country with id: "+movieDTO.getIdGenre()));
 
+        movieDTO.init();
         Movie newMovie= Movie.builder()
                 .name(movieDTO.getName())
                 .description(movieDTO.getDescription())
@@ -68,33 +69,37 @@ public class MovieServiceImpl implements MovieService {
     }
 
     @Override
-    public Page<MovieResponse> getAllMovies(PageRequest pageRequest) {
-
-        return movieRepository.findAll(pageRequest).map(movie ->{
-                MovieResponse movieResponse= MovieResponse.builder()
-                .name(movie.getName())
-                .description(movie.getDescription())
-                .image(movie.getImage())
-                .slug(movie.getSlug())
-                .releaseDate(movie.getReleaseDate())
-                .duration(movie.getDuration())
-                .idGenre(movie.getGenre().getId())
-                .idMovieType(movie.getMovieType().getId())
-                .idCountry(movie.getCountry().getId())
-                .episode(movie.getEpisode())
-                .hot(movie.getHot())
-                .isFee(movie.getIsFee())
-                .season(movie.getSeason())
-                .limitedAge(movie.getLimitedAge())
-                .releaseDate(movie.getReleaseDate())
-                .movieTypeName(movie.getMovieType().getName())
-                .build();
-                return movieResponse;
-        });
+    public Page<MovieResponse> getAllMovies(String keyword, int genreId, PageRequest pageRequest) {
+        Page<Movie> moviesPage;
+        moviesPage = movieRepository.searchMovies(genreId, keyword, pageRequest);
+//        return moviesPage.map(
+//                movie -> {
+//                    MovieResponse movieResponse = MovieResponse.builder()
+//                            .name(movie.getName())
+//                            .description(movie.getDescription())
+//                            .image(movie.getImage())
+//                            .slug(movie.getSlug())
+//                            .releaseDate(movie.getReleaseDate())
+//                            .duration(movie.getDuration())
+//                            .idGenre(movie.getGenre().getId())
+//                            .idMovieType(movie.getMovieType().getId())
+//                            .idCountry(movie.getCountry().getId())
+//                            .episode(movie.getEpisode())
+//                            .hot(movie.getHot())
+//                            .isFee(movie.getIsFee())
+//                            .season(movie.getSeason())
+//                            .limitedAge(movie.getLimitedAge())
+//                            .movieTypeName(movie.getMovieType().getName())
+//                            .countryName(movie.getCountry().getName())
+//                            .genreName(movie.getGenre().getName())
+//                            .build();
+//                    return movieResponse;
+//                }
+//        );
+        return moviesPage.map(MovieResponse::fromMovie);
     }
 
     @Override
-    @Transactional
     public Movie updateMovies(int id, MovieDTO movieDTO) throws Exception{
         Movie existingMovie= getMovieById(id);
         if(existingMovie != null){

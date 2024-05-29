@@ -1,0 +1,34 @@
+<h2>Profile Form</h2>
+
+<div class="form-group" *ngIf="userResponse">
+    <label for="fullName">Full Name</label>
+    <input  type="text" name="fullName" [(ngModel)]="fullName" class="form-control" required>
+</div>
+
+<div class="form-group" *ngIf="userResponse">
+    <label for="email">Email</label>
+    <input type="text" class="form-control"  [(ngModel)]="email"  name="email" required>
+</div>
+
+<div class="form-group" *ngIf="userResponse">
+    <label for="phone">Phone</label>
+    <input type="text" class="form-control" [(ngModel)]="phoneNumber"  name="phone" required>
+</div>
+
+
+
+
+<div class="form-group">
+    <label for="image">Image</label>
+    <input type="file" name="image" class="form-control" id="imageUpload" (change)="onFileSelected($event)">
+  
+    <div *ngIf="imageUrl">
+      <img [src]="imageUrl" alt="Image" height="100px" width="100px"/>
+    </div>
+    <div *ngIf="!imageUrl">
+      <p>Loading image...</p>
+    </div>
+  </div>
+
+<button id="btn" type="submit" (click)="update()" class="btn btn-primary">Update Profile</button>
+<button *ngIf="userResponse" id="btn" type="submit" routerLink="/change-password" class="btn btn-primary">Change Password</button>

@@ -3,7 +3,11 @@ import { GenreService } from '../../service/genre.service';
 import { CountryService } from '../../service/country.service';
 import { Genre } from '../../models/genre';
 import { Country } from '../../models/country';
-
+import { UserService } from '../../service/user.service';
+import { UserResponse } from '../../responses/user/user.response';
+import { NgbPopoverConfig } from '@ng-bootstrap/ng-bootstrap';
+import { TokenService } from '../../service/token.service';
+import { environment } from '../../environments/environments';
 @Component({
   selector: 'app-header',
   templateUrl: './header.component.html',
@@ -15,13 +19,21 @@ export class HeaderComponent implements OnInit {
   showGenreMenu: boolean = false;
   showCountryMenu: boolean = false;
   showYearMenu: boolean = false;
+  userResponse?:UserResponse | null
+  isPopoverOpen= false;
 
-  constructor(private genreService: GenreService, private countryService: CountryService) {
+  constructor(private genreService: GenreService, private countryService: CountryService,
+    private userService: UserService,
+    private popoverConfig: NgbPopoverConfig,
+    private tokenService: TokenService
+  ) {
+    
   }
 
   ngOnInit() {
     this.getGenres();
     this.getCountries();
+    this.userResponse= this.userService.getUserResponseFromLocalStorage();
   }
   
   getGenres() {
@@ -72,6 +84,23 @@ export class HeaderComponent implements OnInit {
     this.showCountryMenu = false;
     this.showYearMenu = false;
   }
+
+  togglePopover(event: Event): void{
+    event.preventDefault();
+    this.isPopoverOpen= !this.isPopoverOpen;
+  }
+
+  handleItemClick(index: number): void{
+    //alert(`Clicked on "${index}"`);
+    if(index==1){
+      this.userService.removeUserFromLocalStorage();
+      this.tokenService.removeToken();
+      this.userResponse= this.userService.getUserResponseFromLocalStorage();
+    }
+    this.isPopoverOpen= false;
+  }
+
+
 
   
 }

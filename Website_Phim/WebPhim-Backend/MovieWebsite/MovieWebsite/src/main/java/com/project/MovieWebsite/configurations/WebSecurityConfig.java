@@ -1,3 +1,4 @@
+
 package com.project.MovieWebsite.configurations;
 
 import com.project.MovieWebsite.filters.JwtTokenFilter;
@@ -5,6 +6,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.config.Customizer;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
@@ -16,7 +18,6 @@ import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 
-import java.lang.reflect.Array;
 import java.util.Arrays;
 import java.util.List;
 
@@ -40,20 +41,37 @@ public class WebSecurityConfig {
                 .addFilterBefore(jwtTokenFilter, UsernamePasswordAuthenticationFilter.class)
                 .authorizeHttpRequests(requests ->{
                     requests.requestMatchers(
-                            String.format("%s/users/register", apiPrefix),
-                            String.format("%s/users/login", apiPrefix)
+                                    String.format("%s/users/register", apiPrefix),
+                                    String.format("%s/users/login", apiPrefix)
                             )
-
-                    .permitAll()
-                     .requestMatchers(GET, String.format("%s/genres", apiPrefix)).permitAll()
-                     .requestMatchers(GET, String.format("%s/movies", apiPrefix)).permitAll()
-                     .requestMatchers(PUT, String.format("%s/orders/**", apiPrefix)).hasRole("ADMIN")
-                     .requestMatchers(POST, String.format("%s/movies", apiPrefix)).hasRole("ADMIN")
-                     .requestMatchers(GET, String.format("%s/users/images/**", apiPrefix)).permitAll()
-                     .requestMatchers(GET, String.format("%s/movies/images/**", apiPrefix)).permitAll()
-                     .requestMatchers(POST, String.format("%s/users/upload_avatar/**", apiPrefix)).hasRole("USER")
-                     .requestMatchers(POST, String.format("%s/movies/upload_movie/**", apiPrefix)).hasRole("ADMIN")
-                            .anyRequest().authenticated();
+                            .permitAll()
+                            .requestMatchers(HttpMethod.GET, String.format("%s/roles", apiPrefix)).permitAll()
+                            .requestMatchers(HttpMethod.GET, String.format("%s/genres", apiPrefix)).permitAll()
+                            .requestMatchers(GET, String.format("%s/movies/**", apiPrefix)).permitAll()
+                            .requestMatchers(GET, String.format("%s/users/images/**", apiPrefix)).permitAll()
+                            .requestMatchers(GET, String.format("%s/countries", apiPrefix)).permitAll()
+                            .requestMatchers(HttpMethod.GET, String.format("%s/movie_types", apiPrefix)).permitAll()
+                            .requestMatchers(HttpMethod.GET, String.format("%s/episodes", apiPrefix)).permitAll()
+                            .requestMatchers(PUT, String.format("%s/genres/**", apiPrefix)).hasRole("ADMIN")
+                            .requestMatchers(POST, String.format("%s/genres/**", apiPrefix)).hasRole("ADMIN")
+                            .requestMatchers(DELETE, String.format("%s/genres/**", apiPrefix)).hasRole("ADMIN")
+                            .requestMatchers(PUT, String.format("%s/movies/**", apiPrefix)).hasRole("ADMIN")
+                            .requestMatchers(POST, String.format("%s/movies/**", apiPrefix)).hasRole("ADMIN")
+                            .requestMatchers(DELETE, String.format("%s/movies/**", apiPrefix)).hasRole("ADMIN")
+                            .requestMatchers(PUT, String.format("%s/episodes/**", apiPrefix)).hasRole("ADMIN")
+                            .requestMatchers(POST, String.format("%s/episodes/**", apiPrefix)).hasRole("ADMIN")
+                            .requestMatchers(DELETE, String.format("%s/episodes/**", apiPrefix)).hasRole("ADMIN")
+                            .requestMatchers(PUT, String.format("%s/movie_types/**", apiPrefix)).hasRole("ADMIN")
+                            .requestMatchers(POST, String.format("%s/movie_types/**", apiPrefix)).hasRole("ADMIN")
+                            .requestMatchers(DELETE, String.format("%s/movie_types/**", apiPrefix)).hasRole("ADMIN")
+                            .requestMatchers(PUT, String.format("%s/countries/**", apiPrefix)).hasRole("ADMIN")
+                            .requestMatchers(POST, String.format("%s/countries/**", apiPrefix)).hasRole("ADMIN")
+                            .requestMatchers(DELETE, String.format("%s/countries/**", apiPrefix)).hasRole("ADMIN")
+                            .requestMatchers(POST, String.format("%s/users/upload_avatar/**", apiPrefix)).hasAnyRole("ADMIN", "USER")
+                            .requestMatchers(POST, String.format("%s/users/changePassword", apiPrefix)).hasAnyRole("USER")
+                            .requestMatchers(POST, String.format("%s/users/checkCurrentPassword", apiPrefix)).hasAnyRole( "USER")
+                            .anyRequest()
+                            .authenticated();
                 })
                 .csrf(AbstractHttpConfigurer::disable);
         http.cors(new Customizer<CorsConfigurer<HttpSecurity>>() {

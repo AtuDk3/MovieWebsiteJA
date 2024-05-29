@@ -1,5 +1,6 @@
 package com.project.MovieWebsite.services;
 
+import com.project.MovieWebsite.dtos.UpdateUserDTO;
 import com.project.MovieWebsite.dtos.UserDTO;
 import com.project.MovieWebsite.exceptions.DataNotFoundException;
 import com.project.MovieWebsite.models.User;
@@ -13,7 +14,7 @@ public interface UserService {
 
     List<User> getAllUser();
 
-    User updateUser(int userId, UserDTO userDTO) throws DataNotFoundException;
+    User updateUser(int userId, UpdateUserDTO userDTO) throws DataNotFoundException;
 
     void deleteUser(int userId);
 
@@ -21,5 +22,8 @@ public interface UserService {
 
     String login(String phoneNumber, String password) throws Exception;
 
+    User getUserDetailsFromToken(String token) throws Exception;
+
+    boolean checkCurrentPassword(int userId, String passwordCheck) throws Exception;
     //public boolean verifyEmail(String token);
 }

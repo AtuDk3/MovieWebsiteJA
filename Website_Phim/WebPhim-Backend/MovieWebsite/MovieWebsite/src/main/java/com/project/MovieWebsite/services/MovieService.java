@@ -15,7 +15,7 @@ public interface MovieService {
 
     Movie getMovieById(int id);
 
-    Page<MovieResponse> getAllMovies(PageRequest pageRequest);
+    Page<MovieResponse> getAllMovies(String keyword, int genreId, PageRequest pageRequest);
 
     Movie updateMovies(int id, MovieDTO movieDTO) throws Exception;
 

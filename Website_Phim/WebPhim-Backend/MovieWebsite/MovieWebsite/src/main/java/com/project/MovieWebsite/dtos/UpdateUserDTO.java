@@ -5,7 +5,9 @@ import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
 import lombok.*;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.io.File;
 import java.util.Date;
 
 @Data
@@ -14,22 +16,16 @@ import java.util.Date;
 @AllArgsConstructor
 @NoArgsConstructor
 
-public class UserDTO {
-    @NotBlank(message = "Full name can not empty!")
+public class UpdateUserDTO {
+
     @JsonProperty("full_name")
-    @Size(min = 5, message = "Full Name must have more than 3 character!")
     private String fullName;
 
-    @NotBlank(message = "Phone number can not empty!")
     @JsonProperty("phone_number")
     private String phoneNumber;
 
-    @NotBlank(message = "Password can not empty!")
     @JsonProperty("password")
     private String password;
-
-    @JsonProperty("retype_password")
-    private String retypePassword;
 
     @JsonProperty("email")
     private String email;
@@ -43,16 +39,7 @@ public class UserDTO {
     @JsonProperty("google_account_id")
     private String googleAccountId= "0";
 
-    @NotNull(message = "Vip ID is required!")
-    @JsonProperty("vip_id")
-    private int vipId = 5;
-
-    @NotNull(message = "Role ID is required!")
-    @JsonProperty("role_id")
-    private int roleId = 2;
-
     @JsonProperty("img_avatar")
-    private String imgAvatar = "user_default.jpg";
-
+    private String imgAvatar;
 
 }

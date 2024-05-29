@@ -1,15 +1,17 @@
 package com.project.MovieWebsite.controllers;
 
+import com.project.MovieWebsite.components.LocalizationUtil;
+import com.project.MovieWebsite.constants.MessageKeys;
+import com.project.MovieWebsite.dtos.UpdateUserDTO;
 import com.project.MovieWebsite.dtos.UserDTO;
 import com.project.MovieWebsite.dtos.UserLoginDTO;
 import com.project.MovieWebsite.models.User;
 import com.project.MovieWebsite.repositories.UserRepository;
-import com.project.MovieWebsite.services.ClientService;
+import com.project.MovieWebsite.responses.LoginResponse;
+import com.project.MovieWebsite.responses.UserResponse;
 import com.project.MovieWebsite.services.UserService;
-import com.project.MovieWebsite.services.impl.EmailService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.UrlResource;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -29,6 +31,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.UUID;
+import java.util.stream.Collectors;
 
 @RestController
 @RequiredArgsConstructor
@@ -37,51 +40,69 @@ public class UserController {
 
     private final UserService userService;
     private final UserRepository userRepository;
-    private final ClientService clientService;
+    private final LocalizationUtil localizationUtil;
+
 
     @PostMapping("/register")
-    public  ResponseEntity<?> createUser(@Valid @RequestBody UserDTO userDTO,
-                                         BindingResult result){
-        try{
-            if (result.hasErrors()){
-                List<String> errorsMessage = result.getFieldErrors().stream().map(FieldError::getDefaultMessage).toList();
-                return ResponseEntity.badRequest().body(errorsMessage);
+    public ResponseEntity<?> createUser(@Valid @RequestBody UserDTO userDTO, BindingResult result) {
+        try {
+            if (result.hasErrors()) {
+                // Nếu có lỗi trong dữ liệu đầu vào, trả về danh sách các lỗi
+                List<String> errors = result.getFieldErrors()
+                        .stream()
+                        .map(FieldError::getDefaultMessage)
+                        .collect(Collectors.toList());
+                return ResponseEntity.badRequest().body(errors);
             }
-            if(!userDTO.getPassword().equals(userDTO.getRetypePassword())){
+
+            // Kiểm tra xem mật khẩu và mật khẩu nhập lại có khớp không
+            if (!userDTO.getPassword().equals(userDTO.getRetypePassword())) {
                 return ResponseEntity.badRequest().body("Password does not match");
             }
-            String otpEmail= clientService.create(userDTO);
-            //userService.createUser(userDTO);
-            return ResponseEntity.ok("Register successfully");
-        }catch (Exception e){
-            return ResponseEntity.badRequest().body(e.getMessage());
+
+            // Gọi userService để tạo người dùng
+            userService.createUser(userDTO);
+
+            // Trả về thông báo thành công
+            Map<String, String> response = new HashMap<>();
+            response.put("message", "User created successfully");
+            return ResponseEntity.ok(response);
+        } catch (Exception e) {
+            // Nếu có lỗi, trả về thông báo lỗi
+            return ResponseEntity.badRequest().body("Failed to create user: " + e.getMessage());
         }
     }
 
-//    @Autowired
-//    private EmailService emailService;
-//
-//    @PostMapping("/register")
-//    public ResponseEntity<?> registerUser(@RequestBody UserDTO userDTO) {
-//        try{
-//            User user = userService.createUser(userDTO);
-//            emailService.sendVerificationEmail(user);
-//            return ResponseEntity.ok("User registered successfully. Please check your email for verification.");
-//        }catch (Exception e){
-//            return ResponseEntity.badRequest().body(e.getMessage());
+//    @PostMapping("/login")
+//    public ResponseEntity<Object> login(@Valid @RequestBody UserLoginDTO userLoginDTO) {
+//        try {
+//            String token = userService.login(userLoginDTO.getPhoneNumber(), userLoginDTO.getPassword());
+//            Map<String, String> response = new HashMap<>();
+//            response.put("message", "Login successful with token: " + token);
+//            return ResponseEntity.ok(response);
+//        } catch (Exception e) {
+//            Map<String, String> errorResponse = new HashMap<>();
+//            errorResponse.put("error", "Invalid credentials. Please check your phone number and password.");
+//            return ResponseEntity.badRequest().body(errorResponse);
 //        }
-//
 //    }
 
-//    @GetMapping("/verify-email")
-//    public ResponseEntity<?> verifyEmail(@RequestParam("token") String token) {
-//        boolean isVerified = userService.verifyEmail(token);
-//        if (isVerified) {
-//            return ResponseEntity.ok("Email verified successfully.");
-//        } else {
-//            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Invalid or expired token.");
-//        }
-//    }
+    @PostMapping("/login")
+    public ResponseEntity<LoginResponse> login(@Valid @RequestBody UserLoginDTO userLoginDTO) {
+        try {
+            String token = userService.login(userLoginDTO.getPhoneNumber(), userLoginDTO.getPassword());
+            return ResponseEntity.ok(
+                    LoginResponse.builder()
+                            .message(localizationUtil.getLocalizedMessage(MessageKeys.LOGIN_SUCCESSFULLY))
+                            .token(token)
+                            .build());
+        } catch (Exception e) {
+            return ResponseEntity.badRequest().body(
+                    LoginResponse.builder()
+                            .message(localizationUtil.getLocalizedMessage(MessageKeys.LOGIN_FAILED, e.getMessage()))
+                            .build());
+        }
+    }
 
     @PostMapping(value = "upload_avatar/{id}", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
     public ResponseEntity<?> uploadAvatar (
@@ -101,26 +122,28 @@ public class UserController {
                 String filename = storeFile(file);
                 existingUser.setImgAvatar(filename);
                 userRepository.save(existingUser);
+                return ResponseEntity.ok(filename);
             }
-            return ResponseEntity.ok("Upload Success Avatar");
+            return ResponseEntity.ok("Upload Error");
         } catch (Exception e) {
             return ResponseEntity.badRequest().body(e.getMessage());
         }
     }
 
     @GetMapping("/images/{imageName}")
-    public ResponseEntity<?> viewImage(@PathVariable String imageName){
+    public ResponseEntity<?> viewImage(@PathVariable String imageName
+    ){
         try{
             Path imagePath= Paths.get("uploads/img_avatar/"+imageName);
-                UrlResource resource= new UrlResource(imagePath.toUri());
+            UrlResource resource= new UrlResource(imagePath.toUri());
 
-                if(resource.exists()){
-                    return ResponseEntity.ok()
-                            .contentType(MediaType.IMAGE_JPEG)
-                            .body(resource);
-                }else{
-                    return ResponseEntity.notFound().build();
-                }
+            if(resource.exists()){
+                return ResponseEntity.ok()
+                        .contentType(MediaType.IMAGE_JPEG)
+                        .body(resource);
+            }else{
+                return ResponseEntity.notFound().build();
+            }
 
         }catch (Exception e){
             return ResponseEntity.notFound().build();
@@ -141,31 +164,68 @@ public class UserController {
         return uniqueFilename;
     }
 
-//    @PostMapping("/login")
-//    public ResponseEntity <String> login(
-//            @Valid @RequestBody UserLoginDTO userLoginDTO
-//            ){
-//
-//        try{
-//            String token= userService.login(userLoginDTO.getPhoneNumber(), userLoginDTO.getPassword());
-//            return ResponseEntity.ok("ok");
-//        }catch (Exception e){
-//            return ResponseEntity.badRequest().body(e.getMessage());
-//        }
-//
-//    }
-
-    @PostMapping("/login")
-    public ResponseEntity<Object> login(@Valid @RequestBody UserLoginDTO userLoginDTO) {
-        try {
-            String token = userService.login(userLoginDTO.getPhoneNumber(), userLoginDTO.getPassword());
-            Map<String, String> response = new HashMap<>();
-            response.put("message", "Login successful with token: " + token);
-            return ResponseEntity.ok(response);
-        } catch (Exception e) {
-            Map<String, String> errorResponse = new HashMap<>();
-            errorResponse.put("error", "Invalid credentials. Please check your phone number and password.");
-            return ResponseEntity.badRequest().body(errorResponse);
+    @PostMapping("/details")
+    public ResponseEntity<UserResponse> getUserDetails(@RequestHeader("Authorization") String authorizationHeader){
+        try{
+            String extractedToken= authorizationHeader.substring(7);
+            User user= userService.getUserDetailsFromToken(extractedToken);
+            return ResponseEntity.ok(UserResponse.fromUser(user));
+        }catch (Exception e){
+            return ResponseEntity.badRequest().build();
         }
     }
+
+    @PutMapping("/details/{userId}")
+    public ResponseEntity<UserResponse> updateUserDetails(
+            @PathVariable int userId,
+            @RequestBody UpdateUserDTO userUpdateDTO,
+            @RequestHeader("Authorization") String authorizationHeader
+            ){
+        try{
+            String extractedToken= authorizationHeader.substring(7);
+            User user= userService.getUserDetailsFromToken(extractedToken);
+            if(user.getId()!= userId){
+                return ResponseEntity.status(HttpStatus.FORBIDDEN).build();
+            }
+            User updateUser= userService.updateUser(userId, userUpdateDTO);
+
+            return ResponseEntity.ok(UserResponse.fromUser(updateUser));
+
+        }catch (Exception e){
+            return ResponseEntity.badRequest().build();
+        }
+    }
+
+    @PostMapping("/checkCurrentPassword")
+    public ResponseEntity<?> checkCurrentPassword(@RequestBody UpdateUserDTO updateUserDTO, @RequestHeader("Authorization") String authorizationHeader) {
+            try {
+                String extractedToken = authorizationHeader.substring(7);
+                User user = userService.getUserDetailsFromToken(extractedToken);
+                boolean isPasswordValid = userService.checkCurrentPassword(user.getId(), updateUserDTO.getPassword());
+                if (isPasswordValid) {
+                    return ResponseEntity.ok().build();
+                } else {
+                    return ResponseEntity.status(400).body("Incorrect current password.");
+                }
+            }catch (Exception e){
+                return ResponseEntity.status(400).body(e.getMessage());
+            }
+    }
+
+    @PostMapping("/changePassword")
+    public ResponseEntity<?> changePassword(@RequestBody UpdateUserDTO updateUserDTO, @RequestHeader("Authorization") String authorizationHeader) {
+
+        try {
+            String extractedToken = authorizationHeader.substring(7);
+            User user = userService.getUserDetailsFromToken(extractedToken);
+            userService.updatePassword(user.getPhoneNumber(), updateUserDTO.getPassword());
+            return ResponseEntity.ok().build();
+        }catch (Exception e){
+            return ResponseEntity.status(400).body(e.getMessage());
+        }
+    }
+
+
+
+
 }

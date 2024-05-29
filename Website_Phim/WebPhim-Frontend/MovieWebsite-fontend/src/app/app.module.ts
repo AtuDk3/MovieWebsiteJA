@@ -1,6 +1,5 @@
 import { NgModule, OnInit  } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
-
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { HomeComponent } from './components/home/home.component';
@@ -18,6 +17,9 @@ import { TopViewsComponent } from './components/top-views/top-views.component';
 import { MovieDetailsComponent } from './components/movie-details/movie-details.component';
 import { WatchingComponent } from './components/watching/watching.component';
 import { MovieRelatedComponent } from './components/movie-related/movie-related.component';
+import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
+import { ProfileComponent } from './components/profile/profile.component';
+import { ChangePasswordComponent } from './components/change-password/change-password.component';
 
 @NgModule({
   declarations: [
@@ -32,6 +34,8 @@ import { MovieRelatedComponent } from './components/movie-related/movie-related.
     MovieDetailsComponent,
     WatchingComponent,
     MovieRelatedComponent,
+    ProfileComponent,
+    ChangePasswordComponent,
   ],
   imports: [
     BrowserModule,
@@ -39,7 +43,8 @@ import { MovieRelatedComponent } from './components/movie-related/movie-related.
     IonicModule.forRoot(),
     CarouselModule,
     FormsModule,
-    HttpClientModule
+    HttpClientModule,
+    NgbModule
   ],
   providers: [
     {
@@ -49,7 +54,7 @@ import { MovieRelatedComponent } from './components/movie-related/movie-related.
     }
   ],
   bootstrap: [
-     AppComponent
+     AppComponent     
   ]
 })
 export class AppModule { 

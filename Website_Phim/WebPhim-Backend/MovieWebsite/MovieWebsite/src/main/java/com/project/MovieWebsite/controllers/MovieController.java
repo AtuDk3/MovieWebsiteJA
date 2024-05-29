@@ -1,9 +1,7 @@
 package com.project.MovieWebsite.controllers;
 
 import com.project.MovieWebsite.dtos.MovieDTO;
-import com.project.MovieWebsite.dtos.MovieTypeDTO;
 import com.project.MovieWebsite.models.Movie;
-import com.project.MovieWebsite.models.User;
 import com.project.MovieWebsite.repositories.MovieRepository;
 import com.project.MovieWebsite.responses.MovieListResponse;
 import com.project.MovieWebsite.responses.MovieResponse;
@@ -39,27 +37,9 @@ public class MovieController {
     private final MovieService movieService;
     private final MovieRepository movieRepository;
 
-
-        @GetMapping("")
-    public ResponseEntity<MovieListResponse> getMovies(
-            @RequestParam("page") int page,
-            @RequestParam("limit") int limit
-    ){
-        PageRequest pageRequest = PageRequest.of(page, limit, Sort.by("releaseDate").descending());
-        Page<MovieResponse> moviePage = movieService.getAllMovies(pageRequest);
-        int totalPages = moviePage.getTotalPages();
-        List<MovieResponse> movies = moviePage.getContent();
-        return ResponseEntity.ok(MovieListResponse.builder()
-                .movies(movies)
-                .totalPages(totalPages)
-                .build());
-    }
-
-
-
     @PostMapping("")
-    public ResponseEntity<?> createMovie(@Valid @RequestBody MovieDTO movieDTO, BindingResult result) {
-        if (result.hasErrors()){
+    public ResponseEntity<?> createMovieType(@Valid @RequestBody MovieDTO movieDTO, BindingResult result) {
+        if (result.hasErrors()) {
             List<String> errorsMessage = result.getFieldErrors().stream().map(FieldError::getDefaultMessage).toList();
             return ResponseEntity.badRequest().body(errorsMessage);
         }
@@ -69,11 +49,36 @@ public class MovieController {
         }catch (Exception e){
             return ResponseEntity.badRequest().body(e.getMessage());
         }
-
-
     }
 
-    @PostMapping(value = "upload_movie/{id}", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
+    @GetMapping("")
+    public ResponseEntity<MovieListResponse> getMovies(
+            @RequestParam(defaultValue = "") String keyword,
+            @RequestParam(defaultValue = "0", name = "genre_id") int genreId,
+            @RequestParam(defaultValue = "0") int page,
+            @RequestParam(defaultValue = "10") int limit
+    ){
+        PageRequest pageRequest = PageRequest.of(page, limit, Sort.by("id").descending());
+        Page<MovieResponse> moviePage = movieService.getAllMovies(keyword, genreId, pageRequest);
+        int totalPages = moviePage.getTotalPages();
+        List<MovieResponse> movies = moviePage.getContent();
+        return ResponseEntity.ok(MovieListResponse.builder()
+                .movies(movies).totalPages(totalPages).build());
+    }
+
+    @GetMapping("/{id}")
+    public ResponseEntity<?> getMovieById(
+            @PathVariable("id") int movieId
+    ){
+        try {
+            Movie existingMovie = movieService.getMovieById(movieId);
+            return ResponseEntity.ok(MovieResponse.fromMovie(existingMovie));
+        } catch (Exception e){
+            return ResponseEntity.badRequest().body(e.getMessage());
+        }
+    }
+
+    @PostMapping(value= "upload_movie/{id}", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
     public ResponseEntity<?> uploadAvatar (
             @PathVariable("id") int movieId,
             @Valid @ModelAttribute("file") MultipartFile file){

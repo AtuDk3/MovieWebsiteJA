@@ -1,16 +1,13 @@
 package com.project.MovieWebsite.models;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.persistence.*;
 import lombok.*;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
-import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Date;
-import java.util.List;
+import java.util.*;
 
 @Entity
 @Table(name = "tab_user")
@@ -35,11 +32,11 @@ public class User extends BaseEntity implements UserDetails {
     @Column(name = "password", nullable = false)
     private String password;
 
+    @Column(name = "img_avatar")
+    private String imgAvatar = "user_default.jpg";
+
     @Column(name = "email", nullable = false)
     private String email;
-
-    @Column(name = "img_avatar")
-    private String imgAvatar;
 
     @Column(name = "date_of_birth")
     private Date dob;
@@ -93,5 +90,4 @@ public class User extends BaseEntity implements UserDetails {
     public boolean isEnabled() {
         return true;
     }
-
 }

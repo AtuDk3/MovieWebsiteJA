@@ -25,11 +25,13 @@ export class HomeComponent implements OnInit {
 
   getMovies(keyword: string, page: number, limit: number) {
     this.movieService.getMovies(page, limit).subscribe({
+      
       next: (response: any) => {
         response.movies.forEach((movie: Movie) => {
           movie.url = `${environment.apiBaseUrl}/movies/images/${movie.image}`;
         });
         this.movies = response.movies;
+        debugger
         this.totalPages = response.totalPages;
         this.visiblePages = this.generateVisiblePageArray(this.currentPage, this.totalPages);
       },
@@ -40,7 +42,7 @@ export class HomeComponent implements OnInit {
   }
 
   searchMovies(){
-    this.currentPage = 1;
+    this.currentPage = 0;
     this.itemsPerPage = 10;
 
     this.getMovies(this.keyword, this.currentPage, this.itemsPerPage);
