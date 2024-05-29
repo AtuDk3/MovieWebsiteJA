@@ -1,4 +1,4 @@
-package com.project.MovieWebsite.response;
+package com.project.MovieWebsite.responses;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.project.MovieWebsite.models.Episode;

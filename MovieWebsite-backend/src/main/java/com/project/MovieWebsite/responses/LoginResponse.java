@@ -1,4 +1,4 @@
-package com.project.MovieWebsite.response;
+package com.project.MovieWebsite.responses;
 
 import lombok.Builder;
 import lombok.Data;

@@ -2,10 +2,9 @@ package com.project.MovieWebsite.services;
 
 
 import com.project.MovieWebsite.dtos.MovieDTO;
-import com.project.MovieWebsite.dtos.MovieTypeDTO;
 import com.project.MovieWebsite.exceptions.DataNotFoundException;
 import com.project.MovieWebsite.models.Movie;
-import com.project.MovieWebsite.response.MovieResponse;
+import com.project.MovieWebsite.responses.MovieResponse;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 

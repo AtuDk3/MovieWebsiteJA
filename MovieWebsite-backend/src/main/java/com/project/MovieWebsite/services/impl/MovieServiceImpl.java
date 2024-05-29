@@ -1,7 +1,6 @@
 package com.project.MovieWebsite.services.impl;
 
 import com.project.MovieWebsite.dtos.MovieDTO;
-import com.project.MovieWebsite.dtos.MovieTypeDTO;
 import com.project.MovieWebsite.exceptions.DataNotFoundException;
 import com.project.MovieWebsite.models.Country;
 import com.project.MovieWebsite.models.Genre;
@@ -11,14 +10,13 @@ import com.project.MovieWebsite.repositories.CountryRepository;
 import com.project.MovieWebsite.repositories.GenreRepository;
 import com.project.MovieWebsite.repositories.MovieRepository;
 import com.project.MovieWebsite.repositories.MovieTypeRepository;
-import com.project.MovieWebsite.response.MovieResponse;
+import com.project.MovieWebsite.responses.MovieResponse;
 import com.project.MovieWebsite.services.MovieService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 
-import java.time.DateTimeException;
 import java.util.List;
 import java.util.Optional;
 

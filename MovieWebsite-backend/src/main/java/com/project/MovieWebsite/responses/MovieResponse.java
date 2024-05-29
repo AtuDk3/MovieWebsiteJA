@@ -1,4 +1,4 @@
-package com.project.MovieWebsite.response;
+package com.project.MovieWebsite.responses;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.project.MovieWebsite.models.Movie;
@@ -12,7 +12,7 @@ import java.util.Date;
 @NoArgsConstructor
 @Builder
 
-public class MovieResponse extends BaseResponse {
+public class MovieResponse {
     private  int id;
 
     private String name;

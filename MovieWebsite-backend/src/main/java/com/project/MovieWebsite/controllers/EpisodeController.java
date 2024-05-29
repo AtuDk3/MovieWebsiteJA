@@ -1,18 +1,9 @@
 package com.project.MovieWebsite.controllers;
 
 import com.project.MovieWebsite.models.Episode;
-import com.project.MovieWebsite.models.Genre;
-import com.project.MovieWebsite.models.Movie;
 import com.project.MovieWebsite.repositories.EpisodeRepository;
-import com.project.MovieWebsite.response.EpisodeListResponse;
-import com.project.MovieWebsite.response.EpisodeResponse;
-import com.project.MovieWebsite.response.MovieListResponse;
-import com.project.MovieWebsite.response.MovieResponse;
 import com.project.MovieWebsite.services.EpisodeService;
 import lombok.RequiredArgsConstructor;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Sort;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 

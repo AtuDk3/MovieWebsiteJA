@@ -22,8 +22,8 @@
                 <div class="row">
                     <div class="col-sm-3">
 
-                        <div class="text-center">
-                            <img src="http://ssl.gstatic.com/accounts/ui/avatar_2x.png"
+                        <div class="text-center" *ngIf="imageUrl">
+                            <img *ngIf="userResponse" [src]="imageUrl" height="100px" width="100px"
                                 class="avatar img-circle img-thumbnail" alt="avatar">
                             <div class="action-user">
                                 <button type="button" class="btn btn-warning" (click)="toggleUpdateForm()"><i class="fa-regular fa-pen-to-square"></i>Cập
@@ -38,11 +38,11 @@
                             <div class="film-poster col-md-12">
                                 <ul class="list-info-group">
                                     <li class="list-info-group-item"><span>Họ và tên</span> : <span class="info-user"
-                                            >Đỗ Thanh Tú</span></li>
+                                            >{{userResponse.full_name}}</span></li>
                                     <li class="list-info-group-item"><span>Số điện thoại</span> : <span class="info-user"
-                                            >0763794399</span></li>
-                                    <li class="list-info-group-item"><span>Email</span> : <span class="info-user">tudtde170525fpt.edu.vn</span></li>
-                                    <li class="list-info-group-item"><span>Ngày sinh</span> : <span class="info-user">24-08-2003</span></li>
+                                            >{{userResponse.phone_number}}</span></li>
+                                    <li class="list-info-group-item"><span>Email</span> : <span class="info-user">{{userResponse.email}}</span></li>
+                                    <li class="list-info-group-item"><span>Ngày sinh</span> : <span class="info-user">{{userResponse.date_of_birth}}</span></li>
                                     <li class="list-info-group-item"><span>Thành viên VIP</span> : <span class="imdb">VIP1</span>
                                     </li>
                                     <li class="list-info-group-item last-item"
@@ -168,7 +168,7 @@
             </div>
 
             <div class="container bootstrap snippet">
-                <form class="form-update-profile" action="##" method="post" *ngIf="changePasswordForm">
+                <form class="form-update-profile" *ngIf="changePassForm" #changePasswordForm="ngForm">
                     <div class="row">
                         <div class="col-sm-3">
                             <div class="text-center">
@@ -185,18 +185,19 @@
                                             <label for="first_name">
                                                 <h5>Mật khẩu cũ</h5>
                                             </label>
-                                            <input type="text" class="form-control" name="first_name" id="first_name"
-                                                placeholder="first name" title="enter your first name if any.">
+                                            <input type="password" class="form-control" [(ngModel)]="currentPassword"
+                                            name="currentPassword" placeholder="Current Password" required>
                                         </div>
                                     </div>
+                                    <p class="text-danger" *ngIf="currentPasswordError">{{ currentPasswordError }}</p>
                                     <div class="form-group">
 
                                         <div class="col-xs-6">
                                             <label for="first_name">
                                                 <h5>Mật khẩu mới</h5>
                                             </label>
-                                            <input type="text" class="form-control" name="first_name" id="first_name"
-                                                placeholder="first name" title="enter your first name if any.">
+                                            <input type="password" class="form-control"[(ngModel)]="newPassword"
+                                            name="newPassword" placeholder="New Password" required>
                                         </div>
                                     </div>
                                     <div class="form-group">
@@ -205,15 +206,21 @@
                                             <label for="last_name">
                                                 <h5>Xác nhận mật khẩu</h5>
                                             </label>
-                                            <input type="text" class="form-control" name="last_name" id="last_name"
-                                                placeholder="last name" title="enter your last name if any.">
+                                            <input type="password" class="form-control" [(ngModel)]="confirmPassword"
+                                            name="retypePassword" (input)="checkPasswordMatch()"
+                                            placeholder="Confirm New Password" required>
                                         </div>
                                     </div>
+                                    
+                                    <p class="text-danger" *ngIf="changePasswordForm.controls['retypePassword']?.hasError('passwordMisMatch') && changePasswordForm.form.touched">
+                                        Password and confirmation password do not match!
+                                      </p>
+                                      <p class="text-danger" *ngIf="passwordStrength">{{ passwordStrength }}</p>
 
                                     <div class="form-group">
                                         <div class="col-xs-12">
                                             <br>
-                                            <button type="button" class="btn btn-primary"><i class="fa-solid fa-key"></i>Đổi mật khẩu</button>
+                                            <button type="button" class="btn btn-primary" (click)="changePassword()"><i class="fa-solid fa-key"></i>Đổi mật khẩu</button>
                                         </div>
                                     </div>
                                 </div>

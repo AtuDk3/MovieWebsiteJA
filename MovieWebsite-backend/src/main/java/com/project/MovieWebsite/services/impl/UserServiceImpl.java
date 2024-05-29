@@ -1,6 +1,9 @@
 package com.project.MovieWebsite.services.impl;
 
 import com.project.MovieWebsite.components.JwtTokenUtil;
+import com.project.MovieWebsite.components.LocalizationUtil;
+import com.project.MovieWebsite.constants.MessageKeys;
+import com.project.MovieWebsite.dtos.UpdateUserDTO;
 import com.project.MovieWebsite.dtos.UserDTO;
 import com.project.MovieWebsite.exceptions.DataNotFoundException;
 import com.project.MovieWebsite.models.Role;
@@ -16,8 +19,11 @@ import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+
 import java.util.List;
 import java.util.Optional;
+import java.util.UUID;
 
 @Service
 @RequiredArgsConstructor
@@ -30,37 +36,67 @@ public class UserServiceImpl implements UserService {
     private final JwtTokenUtil jwtTokenUtil;
     private final AuthenticationManager authenticationManager;
 
+    private final LocalizationUtil localizationUtil;
     @Override
     public User createUser(UserDTO userDTO) throws DataNotFoundException{
         String phoneNumber = userDTO.getPhoneNumber();
         if(userRepository.existsByPhoneNumber(phoneNumber)){
             throw new DataNotFoundException("Phone number is exists!");
-       }
+        }
         Role existingRole= roleRepository.findById(userDTO.getRoleId())
                 .orElseThrow(() -> new DataNotFoundException("Cannot find role with id: "+userDTO.getRoleId()));
         UserVIP existingUserVip= userVIPRepository.findById(userDTO.getVipId())
                 .orElseThrow(() -> new DataNotFoundException("Cannot find user vip with id: "+userDTO.getVipId()));
 
-        User newUser = User.builder().fullName(userDTO.getFullName()).
+        User newUser = User.builder().
+                fullName(userDTO.getFullName()).
                 phoneNumber(userDTO.getPhoneNumber()).
                 password(userDTO.getPassword()).
+                imgAvatar(userDTO.getImgAvatar()).
                 dob(userDTO.getDob()).
                 facebookAccountId(userDTO.getFacebookAccountId()).
                 googleAccountId(userDTO.getGoogleAccountId()).
                 userVip(existingUserVip).
                 role(existingRole).
                 email(userDTO.getEmail()).
-                build();
+                //isActive(userDTO).
+                        build();
         if(userDTO.getGoogleAccountId().equals("0")  && userDTO.getFacebookAccountId().equals("0") ){
             String password= userDTO.getPassword();
             String encodedPassword = passwordEncoder.encode(password);
             newUser.setPassword(encodedPassword);
         }
         return userRepository.save(newUser);
+
     }
 
+// public boolean verifyEmail(String token) {
+//        Token verificationToken = tokenRepository.findByToken(token);
+//        if (verificationToken != null) {
+//            User user = verificationToken.getUser();
+//            user.setIsActive(1);
+//            userRepository.save(user);
+//            tokenRepository.delete(verificationToken); // Optional: delete token after verification
+//            return true;
+//        }
+//        return false;
+//    }
+
+//    public User registerUser(UserDTO userDTO) {
+////        User user = new User();
+////        user.setEmail(userDto.getEmail());
+////        // Set other properties and save user
+////        userRepository.save(user);
+//
+//        String token = UUID.randomUUID().toString();
+//        Token verificationToken = new Token(user);
+//        verificationTokenRepository.save(verificationToken);
+//
+//        return user;
+//    }
+
     @Override
-    public User getUserById(int userId) {
+    public User getUserById(int userId) throws DataNotFoundException{
         return userRepository.findById(userId).orElseThrow(() -> new RuntimeException("User not found!"));
     }
 
@@ -69,29 +105,54 @@ public class UserServiceImpl implements UserService {
         return userRepository.findAll();
     }
 
+    @Transactional
     @Override
-    public User updateUser(int userId, UserDTO userDTO) throws DataNotFoundException{
-        Role existingRole= roleRepository.findById(userDTO.getRoleId())
-                .orElseThrow(() -> new DataNotFoundException("Cannot find movie type with id: "+userDTO.getRoleId()));
-        UserVIP existingUserVip= userVIPRepository.findById(userDTO.getVipId())
-                .orElseThrow(() -> new DataNotFoundException("Cannot find movie type with id: "+userDTO.getVipId()));
+    public User updateUser(int userId, UpdateUserDTO userUpdateDTO) throws DataNotFoundException{
 
-        User existsUser = getUserById(userId);
-        existsUser.setFullName(userDTO.getFullName());
-        existsUser.setPhoneNumber(userDTO.getPhoneNumber());
-        existsUser.setPassword(userDTO.getPassword());
-        existsUser.setDob(userDTO.getDob());
-        existsUser.setFacebookAccountId(userDTO.getFacebookAccountId());
-        existsUser.setGoogleAccountId(userDTO.getGoogleAccountId());
-        existsUser.setUserVip(existingUserVip);
-        existsUser.setRole(existingRole);
-        //existsUser.setIsActive(userDTO.getIsActive());
-        return existsUser;
+        User existingUser= userRepository.findById(userId)
+                .orElseThrow(() -> new DataNotFoundException("User not found"));
+
+        String newPhoneNumber= userUpdateDTO.getPhoneNumber();
+        if(!existingUser.getPhoneNumber().equals(newPhoneNumber) &&
+                userRepository.existsByPhoneNumber(newPhoneNumber)){
+            throw new DataNotFoundException("Phone number already exists");
+        }
+
+        if (userUpdateDTO.getFullName() != null) {
+            existingUser.setFullName(userUpdateDTO.getFullName());
+        }
+        if (userUpdateDTO.getPhoneNumber() != null) {
+            existingUser.setPhoneNumber(userUpdateDTO.getPhoneNumber());
+        }
+        if (userUpdateDTO.getDob() != null) {
+            existingUser.setDob(userUpdateDTO.getDob());
+        }
+        if (!userUpdateDTO.getFacebookAccountId().equals("0")) {
+            existingUser.setFacebookAccountId(userUpdateDTO.getFacebookAccountId());
+        }
+        if (!userUpdateDTO.getGoogleAccountId().equals("0")) {
+            existingUser.setGoogleAccountId(userUpdateDTO.getGoogleAccountId());
+        }
+
+        if(userUpdateDTO.getPassword() !=null && !userUpdateDTO.getPassword().isEmpty()){
+            String newPassword= userUpdateDTO.getPassword();
+            String encodedPassword= passwordEncoder.encode(newPassword);
+            existingUser.setPassword(encodedPassword);
+        }
+
+        return existingUser;
     }
 
     @Override
     public void deleteUser(int userId) {
         userRepository.deleteById(userId);
+    }
+
+    public void updatePassword(String phoneNumber, String newPassword) {
+        Optional<User> optionalUser= userRepository.findByPhoneNumber(phoneNumber);
+        User existingUser= optionalUser.get();
+        existingUser.setPassword(passwordEncoder.encode(newPassword));
+        userRepository.save(existingUser);
     }
 
     @Override
@@ -108,11 +169,40 @@ public class UserServiceImpl implements UserService {
             }
         }
 
+        if (optionalUser.get().getIsActive()==0){
+            throw new DataNotFoundException(localizationUtil.getLocalizedMessage(MessageKeys.USER_IS_LOCKED));
+        }
+
         UsernamePasswordAuthenticationToken authenticationToken= new UsernamePasswordAuthenticationToken(
                 phoneNumber, password,
                 existingUser.getAuthorities()
         );
         authenticationManager.authenticate(authenticationToken);
         return jwtTokenUtil.generateToken(existingUser);
+    }
+
+    @Override
+    public User getUserDetailsFromToken(String token) throws Exception {
+        if(jwtTokenUtil.isTokenExpired(token)){
+            throw new Exception("Token is expired");
+        }
+        String phoneNumber= jwtTokenUtil.extractPhoneNumber(token);
+        Optional<User> user= userRepository.findByPhoneNumber(phoneNumber);
+
+        if(user.isPresent()){
+            return user.get();
+        }else{
+            throw new Exception("User not found");
+        }
+    }
+
+    @Override
+    public boolean checkCurrentPassword(int userId, String passwordCheck) throws Exception{
+        User existingUser= userRepository.findById(userId)
+                .orElseThrow(() -> new DataNotFoundException("User not found"));
+        if(!passwordEncoder.matches(passwordCheck, existingUser.getPassword())){
+            throw new BadCredentialsException("Wrong current password");
+        }
+        return true;
     }
 }

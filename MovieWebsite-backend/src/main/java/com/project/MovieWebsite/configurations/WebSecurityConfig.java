@@ -50,6 +50,7 @@ public class WebSecurityConfig {
                     .requestMatchers(HttpMethod.GET, String.format("%s/countries/**", apiPrefix)).permitAll()
                     .requestMatchers(HttpMethod.GET, String.format("%s/movie_types/**", apiPrefix)).permitAll()
                     .requestMatchers(HttpMethod.GET, String.format("%s/episodes/**", apiPrefix)).permitAll()
+                     .requestMatchers(GET, String.format("%s/users/images/**", apiPrefix)).hasAnyRole("ADMIN", "USER")
                     .requestMatchers(PUT, String.format("%s/genres/**", apiPrefix)).hasRole("ADMIN")
                     .requestMatchers(POST, String.format("%s/genres/**", apiPrefix)).hasRole("ADMIN")
                     .requestMatchers(DELETE, String.format("%s/genres/**", apiPrefix)).hasRole("ADMIN")
@@ -66,7 +67,9 @@ public class WebSecurityConfig {
                     .requestMatchers(POST, String.format("%s/countries/**", apiPrefix)).hasRole("ADMIN")
                     .requestMatchers(DELETE, String.format("%s/countries/**", apiPrefix)).hasRole("ADMIN")
                     .requestMatchers(POST, String.format("%s/users/upload_avatar/**", apiPrefix)).hasAnyRole("ADMIN", "USER")
-                    .anyRequest()
+                            .requestMatchers(POST, String.format("%s/users/changePassword", apiPrefix)).hasAnyRole("USER")
+                            .requestMatchers(POST, String.format("%s/users/checkCurrentPassword", apiPrefix)).hasAnyRole( "USER", "ADMIN")
+                            .anyRequest()
                     .authenticated();
                 })
                 .csrf(AbstractHttpConfigurer::disable);

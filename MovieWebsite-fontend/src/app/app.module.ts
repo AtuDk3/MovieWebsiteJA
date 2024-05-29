@@ -22,6 +22,7 @@ import { CountryComponent } from './components/country/country.component';
 import { ProfileComponent } from './components/profile/profile.component';
 import { LoginLayoutComponent } from './layouts/login-layout/login-layout.component';
 import { MainLayoutComponent } from './layouts/main-layout/main-layout.component';
+import { ChangePasswordComponent } from './components/change-password/change-password.component';
 
 @NgModule({
   declarations: [
@@ -40,6 +41,7 @@ import { MainLayoutComponent } from './layouts/main-layout/main-layout.component
     ProfileComponent,
     LoginLayoutComponent,
     MainLayoutComponent,
+    ChangePasswordComponent,
   ],
   imports: [
     BrowserModule,

@@ -52,7 +52,7 @@ public class UserDTO {
     private int roleId = 2;
 
     @JsonProperty("img_avatar")
-    private String imgAvatar = "user_default.jpg";
+    private String imgAvatar = "user_default.webp";
 
 
 }
