@@ -2,8 +2,35 @@
 
 body{
     font-family: 'Poppins', sans-serif;
-    background: #1f1b24;
 }
+
+body, p, .btn, .form-control {
+    font-size: 1.8rem !important;
+}
+
+h2 {
+    font-size: 4rem !important;
+}
+
+small {
+    font-size: 1.5rem !important;
+    font-weight: 500;
+}
+
+.fs-2 {
+    font-size: 4rem !important;
+}
+
+/* Tăng kích thước ảnh */
+img {
+    width: calc(100% * 1.5);
+}
+
+/* Tăng kích thước các thành phần khác */
+.input-group, .form-check-label {
+    font-size: 2rem !important;
+}
+
 /*------------ Login container ------------*/
 .box-area{
     width: 930px;

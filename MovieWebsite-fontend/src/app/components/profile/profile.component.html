@@ -1,7 +1,7 @@
 <div class="container">
     <div class="row fullwith-slider"></div>
 </div>
-<div class="container">
+<div class="container" *ngIf="userResponse"> 
     <div class="row container" id="wrapper">
         <div class="halim-panel-filter">
             <div class="panel-heading">
@@ -20,10 +20,10 @@
 
             <div class="container bootstrap snippet" *ngIf="!showUpdateForm && !changePasswordForm">
                 <div class="row">
-                    <div class="col-sm-3">
+                    <div class="col-sm-4">
 
                         <div class="text-center" *ngIf="imageUrl">
-                            <img *ngIf="userResponse" [src]="imageUrl" height="100px" width="100px"
+                            <img *ngIf="userResponse" [src]="imageUrl"
                                 class="avatar img-circle img-thumbnail" alt="avatar">
                             <div class="action-user">
                                 <button type="button" class="btn btn-warning" (click)="toggleUpdateForm()"><i class="fa-regular fa-pen-to-square"></i>Cập
@@ -33,7 +33,7 @@
                         </div><br>
 
                     </div>
-                    <div class="col-sm-9">
+                    <div class="col-sm-8">
                         <div class="tab-content">
                             <div class="film-poster col-md-12">
                                 <ul class="list-info-group">
@@ -59,7 +59,7 @@
             <div class="container bootstrap snippet">
                 <form class="form-update-profile" action="##" method="post" *ngIf="showUpdateForm">
                     <div class="row">
-                        <div class="col-sm-3">
+                        <div class="col-sm-4">
                             <div class="text-center">
                                 <img src="http://ssl.gstatic.com/accounts/ui/avatar_2x.png"
                                     class="avatar img-circle img-thumbnail" alt="avatar">
@@ -67,7 +67,7 @@
                                 <input type="file" class="text-center center-block file-upload">
                             </div><br>
                         </div>
-                        <div class="col-sm-9">
+                        <div class="col-sm-8">
 
                             <div class="tab-content">
                                 <div class="tab-pane active">
@@ -170,29 +170,32 @@
             <div class="container bootstrap snippet">
                 <form class="form-update-profile" *ngIf="changePassForm" #changePasswordForm="ngForm">
                     <div class="row">
-                        <div class="col-sm-3">
+                        <div class="col-sm-4">
                             <div class="text-center">
-
+                                <img src="http://ssl.gstatic.com/accounts/ui/avatar_2x.png"
+                                    class="avatar img-circle img-thumbnail" alt="avatar">
+                                <h5 class="">Tài khoản: {{userResponse.full_name}}</h5>
                             </div><br>
                         </div>
-                        <div class="col-sm-9">
+                        <div class="col-sm-8">
 
                             <div class="tab-content">
                                 <div class="tab-pane active">
                                     <div class="form-group">
 
-                                        <div class="col-xs-6">
+                                        <div class="col-xs-12">
                                             <label for="first_name">
                                                 <h5>Mật khẩu cũ</h5>
                                             </label>
                                             <input type="password" class="form-control" [(ngModel)]="currentPassword"
                                             name="currentPassword" placeholder="Current Password" required>
+                                            <p class="text-danger" *ngIf="currentPasswordError">{{ currentPasswordError }}</p>
                                         </div>
                                     </div>
-                                    <p class="text-danger" *ngIf="currentPasswordError">{{ currentPasswordError }}</p>
+                                    
                                     <div class="form-group">
 
-                                        <div class="col-xs-6">
+                                        <div class="col-xs-12">
                                             <label for="first_name">
                                                 <h5>Mật khẩu mới</h5>
                                             </label>
@@ -202,21 +205,21 @@
                                     </div>
                                     <div class="form-group">
 
-                                        <div class="col-xs-6">
+                                        <div class="col-xs-12">
                                             <label for="last_name">
                                                 <h5>Xác nhận mật khẩu</h5>
                                             </label>
                                             <input type="password" class="form-control" [(ngModel)]="confirmPassword"
                                             name="retypePassword" (input)="checkPasswordMatch()"
                                             placeholder="Confirm New Password" required>
+
+                                            <p class="text-danger" *ngIf="changePasswordForm.controls['retypePassword']?.hasError('passwordMisMatch') && changePasswordForm.form.touched">
+                                                Password and confirmation password do not match!
+                                              </p>
+                                              <p class="text-danger" *ngIf="passwordStrength">{{ passwordStrength }}</p>
                                         </div>
                                     </div>
-                                    
-                                    <p class="text-danger" *ngIf="changePasswordForm.controls['retypePassword']?.hasError('passwordMisMatch') && changePasswordForm.form.touched">
-                                        Password and confirmation password do not match!
-                                      </p>
-                                      <p class="text-danger" *ngIf="passwordStrength">{{ passwordStrength }}</p>
-
+                                                                       
                                     <div class="form-group">
                                         <div class="col-xs-12">
                                             <br>

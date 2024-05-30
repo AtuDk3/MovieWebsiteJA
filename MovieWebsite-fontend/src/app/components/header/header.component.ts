@@ -18,6 +18,7 @@ export class HeaderComponent implements OnInit {
   showGenreMenu: boolean = false;
   showCountryMenu: boolean = false;
   showYearMenu: boolean = false;
+  showProfileMenu: boolean = false;
   userResponse?:UserResponse | null
   isPopoverOpen= false;
 
@@ -64,6 +65,8 @@ export class HeaderComponent implements OnInit {
       this.showCountryMenu = true;
     } else if (menu === 'year') {
       this.showYearMenu = true;
+    } else if (menu === 'profile') {
+      this.showProfileMenu = true;
     }
   }
 
@@ -74,13 +77,16 @@ export class HeaderComponent implements OnInit {
       this.showCountryMenu = false;
     } else if (menu === 'year') {
       this.showYearMenu = false;
-    }
+    } else if (menu === 'profile') {
+      this.showProfileMenu = false;
+    } 
   }
 
   private hideAllMenus() {
     this.showGenreMenu = false;
     this.showCountryMenu = false;
     this.showYearMenu = false;
+    this.showProfileMenu = false;
   }
 
   // togglePopover(event: Event): void{

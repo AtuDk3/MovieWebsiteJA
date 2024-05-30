@@ -44,3 +44,22 @@ button i {
 .list-info-group-item {
     font-size: 15px;
 }
+
+.avatar {
+    width: 200px;
+    height: 200px;
+    border-radius: 50%;
+    margin-bottom: 10px;
+}
+
+.text-center {
+    margin-top: 20px;
+    border-radius: 10px;
+    border: 1px dashed #7aa6ce;
+    padding: 20px;
+    padding-bottom: 40px;
+}
+
+.text-danger {
+    margin-top: 10px;
+}
