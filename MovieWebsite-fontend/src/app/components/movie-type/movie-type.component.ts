@@ -5,18 +5,18 @@ import { Movie } from '../../models/movie';
 import { ActivatedRoute } from '@angular/router';
 
 @Component({
-  selector: 'app-genre',
-  templateUrl: './genre.component.html',
-  styleUrls: ['./genre.component.scss']
+  selector: 'app-movie-type',
+  templateUrl: './movie-type.component.html',
+  styleUrl: './movie-type.component.scss'
 })
-export class GenreComponent implements OnInit {
+export class MovieTypeComponent implements OnInit {
   movies: Movie[] = [];
   currentPage: number = 0; 
   itemsPerPage: number = 6;
   totalPages: number = 0;
   visiblePages: number[] = []; 
-  genre_id: number = 0;
-  genreName: string = '';
+  movie_type_id: number = 0;
+  movieTypeName: string = '';
 
   constructor(
     private movieService: MovieService,
@@ -25,26 +25,27 @@ export class GenreComponent implements OnInit {
 
   ngOnInit() {
     this.route.params.subscribe(params => {
-      this.genre_id = +params['genre_id'];
-      this.getMoviesByGenreId(this.genre_id, this.currentPage, this.itemsPerPage);
+      this.movie_type_id = +params['movie_type_id'];
+      this.getMoviesByMovieTypeId(this.movie_type_id, this.currentPage, this.itemsPerPage);
     });
   }
 
-  getMoviesByGenreId(genre_id: number, page: number, limit: number) {
-    this.movieService.getMoviesByGenreId(genre_id, page, limit).subscribe({
+  getMoviesByMovieTypeId(movie_type_id: number, page: number, limit: number) {
+    this.movieService.getMoviesByMovieTypeId(movie_type_id, page, limit).subscribe({
       next: (response: any) => {
         response.movies.forEach((movie: Movie) => {
           movie.url = `${environment.apiBaseUrl}/movies/images/${movie.image}`;
-          this.genreName = response.genre_name;
+          this.movieTypeName = response.movie_type_name;
         });
 
         this.movies = response.movies;
-        this.genreName = response.movies.length > 0 ? response.movies[0].genre_name : '';
+        this.movieTypeName = response.movies.length > 0 ? response.movies[0].movie_type_name : '';
+        console.log(response)
         this.totalPages = response.totalPages;
         this.visiblePages = this.generateVisiblePageArray(this.currentPage, this.totalPages);
       },
       error: (error: any) => {
-        console.error('Error fetching movies by genre:', error);
+        console.error('Error fetching movies by movie type:', error);
       }
     });
   }
@@ -67,7 +68,7 @@ export class GenreComponent implements OnInit {
     event.preventDefault();
     if (page >= 0 && page <= this.totalPages - 1) { // Đảm bảo không vượt quá giới hạn trang
       this.currentPage = page;
-      this.getMoviesByGenreId(this.genre_id, this.currentPage, this.itemsPerPage);
+      this.getMoviesByMovieTypeId(this.movie_type_id, this.currentPage, this.itemsPerPage);
     }
   }
 }

@@ -32,6 +32,9 @@ import { AdminLayoutComponent } from './layouts/admin-layout/admin-layout.compon
 import { SeriesMovieComponent } from './components/series-movie/series-movie.component';
 import { SingleMovieComponent } from './components/single-movie/single-movie.component';
 import { TheatersMovieComponent } from './components/theaters-movie/theaters-movie.component';
+import { MovieTypeComponent } from './components/movie-type/movie-type.component';
+import { ForgotPasswordComponent } from './components/forgot-password/forgot-password.component';
+import { ResetPasswordComponent } from './components/reset-password/reset-password.component';
 
 @NgModule({
   declarations: [
@@ -60,6 +63,9 @@ import { TheatersMovieComponent } from './components/theaters-movie/theaters-mov
     SeriesMovieComponent,
     SingleMovieComponent,
     TheatersMovieComponent,
+    MovieTypeComponent,
+    ForgotPasswordComponent,
+    ResetPasswordComponent,
   ],
   imports: [
     BrowserModule,

@@ -6,7 +6,8 @@ import { Country } from '../../models/country';
 import { UserService } from '../../services/user.service';
 import { UserResponse } from '../../responses/user/user.response';
 import { TokenService } from '../../services/token.service';
-import { environment } from '../../environments/environment';
+import { Router } from '@angular/router';
+
 @Component({
   selector: 'app-header',
   templateUrl: './header.component.html',
@@ -21,10 +22,12 @@ export class HeaderComponent implements OnInit {
   showProfileMenu: boolean = false;
   userResponse?:UserResponse | null
   isPopoverOpen= false;
+  search: string = '';
 
   constructor(private genreService: GenreService, private countryService: CountryService,
     private userService: UserService,
     private tokenService: TokenService
+    , private  router: Router
   ) {
     
   }
@@ -87,6 +90,11 @@ export class HeaderComponent implements OnInit {
     this.showCountryMenu = false;
     this.showYearMenu = false;
     this.showProfileMenu = false;
+  }
+
+  searchMovie(){   
+    this.router.navigate([''], { queryParams: {search: this.search } });
+    this.search='';
   }
 
   // togglePopover(event: Event): void{

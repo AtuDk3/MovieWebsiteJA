@@ -13,6 +13,9 @@ import { LoginLayoutComponent } from './layouts/login-layout/login-layout.compon
 import { AdminDashboardComponent } from './components/admin/admin-dashboard/admin-dashboard.component';
 import { AdminLayoutComponent } from './layouts/admin-layout/admin-layout.component';
 import { TheatersMovieComponent } from './components/theaters-movie/theaters-movie.component';
+import { MovieTypeComponent } from './components/movie-type/movie-type.component';
+import { ForgotPasswordComponent } from './components/forgot-password/forgot-password.component';
+import { ResetPasswordComponent } from './components/reset-password/reset-password.component';
 
 // const routes: Routes = [
 //   { path: '', component: HomeComponent},
@@ -34,7 +37,7 @@ const routes: Routes = [
       { path: 'profile', component: ProfileComponent},
       { path: 'genre/:genre_id', component: GenreComponent },
       { path: 'country/:country_id', component: CountryComponent },
-      { path: 'movie_type/:movie_type_id', component: TheatersMovieComponent },
+      { path: 'movie_type/:movie_type_id', component: MovieTypeComponent },
       { path: 'detail/:id', component: MovieDetailsComponent},
       { path: 'watching/:id', component: WatchingComponent},
     ]
@@ -44,7 +47,9 @@ const routes: Routes = [
     component: LoginLayoutComponent,
     children: [
       { path: 'login', component: LoginComponent},
-      { path: 'register', component: RegisterComponent}
+      { path: 'register', component: RegisterComponent},
+      { path: 'forgot-password', component: ForgotPasswordComponent},
+      { path: 'reset-password', component: ResetPasswordComponent}
     ]
   },
   {

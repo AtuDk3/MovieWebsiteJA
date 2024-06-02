@@ -13,8 +13,8 @@
                  <form id="search-form-pc" name="halimForm" role="search" action="" method="GET">
                     <div class="form-group">
                        <div class="input-group col-xs-12">
-                          <input id="search" type="text" name="s" class="form-control" placeholder="Tìm kiếm..." autocomplete="off"  required>
-                          <button type="submit"><i class="fa-solid fa-magnifying-glass"></i></button>
+                          <input id="search" type="text" name="search" class="form-control" [(ngModel)]="search" placeholder="Tìm kiếm..." autocomplete="off"  required>
+                          <button (click)="searchMovie()"><i class="fa-solid fa-magnifying-glass"></i></button>
                        </div>
                     </div>
                  </form>
@@ -99,9 +99,9 @@
                      <li *ngFor="let country of countries"><a title="{{ country.name }}" routerLink="/country/{{ country.id }}">{{ country.name }}</a></li>
                     </ul>
                  </li>
-                 <li><a title="Phim Lẻ" href="danhmuc.php">Phim Lẻ</a></li>
-                 <li><a title="Phim Bộ" href="danhmuc.php">Phim Bộ</a></li>
-                 <li><a title="Phim Chiếu Rạp" href="danhmuc.php">Phim Chiếu Rạp</a></li>
+                 <li><a title="Phim Lẻ" routerLink="/movie_type/2">Phim Lẻ</a></li>
+                 <li><a title="Phim Bộ" routerLink="/movie_type/1">Phim Bộ</a></li>
+                 <li><a title="Phim Chiếu Rạp" routerLink="/movie_type/3">Phim Chiếu Rạp</a></li>
               </ul>
            </div>
            <ul class="nav navbar-nav navbar-left" style="background:#000;">

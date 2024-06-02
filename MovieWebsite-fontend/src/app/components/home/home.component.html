@@ -13,7 +13,7 @@
                   <div class="col-xs-12 carausel-sliderWidget">
                      <section id="halim-advanced-widget-4">
                         <div class="section-heading">
-                           <a href="danhmuc.php" title="Phim Chiếu Rạp">
+                           <a routerLink="/movie_type/3" title="Phim Chiếu Rạp">
                            <span class="h-text">Phim Chiếu Rạp</span>
                            </a>
                            <ul class="heading-nav pull-right hidden-xs">
@@ -47,128 +47,22 @@
                            <span class="h-text">Phim Bộ</span>
                            </a>
                         </div>
-                        <div id="halim-advanced-widget-2-ajax-box" class="halim_box">
-                           <article class="col-md-3 col-sm-3 col-xs-6 thumb grid-item post-37606">
+                        <div id="halim-advanced-widget-4-ajax-box" class="halim_box">
+                           <article class="col-md-2 col-sm-4 col-xs-6 thumb grid-item post-38424" *ngFor="let movie of movies">
                               <div class="halim-item">
-                                 <a class="halim-thumb" href="chitiet.php">
-                                    <figure><img class="lazy img-responsive" src="https://image.bongngocdn.com/upload/poster-loki-marvel-2021.jpg" alt="BẠN CÙNG PHÒNG CỦA TÔI LÀ GUMIHO" title="BẠN CÙNG PHÒNG CỦA TÔI LÀ GUMIHO"></figure>
-                                    <span class="status">TẬP 15</span><span class="episode"><i class="fa fa-play" aria-hidden="true"></i>Vietsub</span> 
+                                 <a class="halim-thumb" routerLink="/detail/{{ movie.id }}" title="{{ movie.name }}">
+                                    <figure><img class="lazy img-responsive" [src]="movie.url" alt="{{ movie.name }}"></figure>
+                                    <span class="status">HD</span><span class="episode"><i class="fa fa-play" aria-hidden="true"></i>Vietsub</span> 
                                     <div class="icon_overlay"></div>
                                     <div class="halim-post-title-box">
                                        <div class="halim-post-title ">
-                                          <p class="entry-title">BẠN CÙNG PHÒNG CỦA TÔI LÀ GUMIHO</p>
-                                          <p class="original_title">My Roommate Is a Gumiho</p>
+                                          <p class="entry-title">{{ movie.name }}</p>
+                                          <p class="original_title">{{ movie.genre_name }}</p>
                                        </div>
                                     </div>
                                  </a>
                               </div>
-                           </article>
-                            <article class="col-md-3 col-sm-3 col-xs-6 thumb grid-item post-37606">
-                              <div class="halim-item">
-                                 <a class="halim-thumb" href="chitiet.php">
-                                    <figure><img class="lazy img-responsive" src="https://image.bongngocdn.com/upload/poster-loki-marvel-2021.jpg" alt="BẠN CÙNG PHÒNG CỦA TÔI LÀ GUMIHO" title="BẠN CÙNG PHÒNG CỦA TÔI LÀ GUMIHO"></figure>
-                                    <span class="status">TẬP 15</span><span class="episode"><i class="fa fa-play" aria-hidden="true"></i>Vietsub</span> 
-                                    <div class="icon_overlay"></div>
-                                    <div class="halim-post-title-box">
-                                       <div class="halim-post-title ">
-                                          <p class="entry-title">BẠN CÙNG PHÒNG CỦA TÔI LÀ GUMIHO</p>
-                                          <p class="original_title">My Roommate Is a Gumiho</p>
-                                       </div>
-                                    </div>
-                                 </a>
-                              </div>
-                           </article>
-                            <article class="col-md-3 col-sm-3 col-xs-6 thumb grid-item post-37606">
-                              <div class="halim-item">
-                                 <a class="halim-thumb" href="chitiet.php">
-                                    <figure><img class="lazy img-responsive" src="https://image.bongngocdn.com/upload/poster-loki-marvel-2021.jpg" alt="BẠN CÙNG PHÒNG CỦA TÔI LÀ GUMIHO" title="BẠN CÙNG PHÒNG CỦA TÔI LÀ GUMIHO"></figure>
-                                    <span class="status">TẬP 15</span><span class="episode"><i class="fa fa-play" aria-hidden="true"></i>Vietsub</span> 
-                                    <div class="icon_overlay"></div>
-                                    <div class="halim-post-title-box">
-                                       <div class="halim-post-title ">
-                                          <p class="entry-title">BẠN CÙNG PHÒNG CỦA TÔI LÀ GUMIHO</p>
-                                          <p class="original_title">My Roommate Is a Gumiho</p>
-                                       </div>
-                                    </div>
-                                 </a>
-                              </div>
-                           </article>
-                            <article class="col-md-3 col-sm-3 col-xs-6 thumb grid-item post-37606">
-                              <div class="halim-item">
-                                 <a class="halim-thumb" href="chitiet.php">
-                                    <figure><img class="lazy img-responsive" src="https://image.bongngocdn.com/upload/poster-loki-marvel-2021.jpg" alt="BẠN CÙNG PHÒNG CỦA TÔI LÀ GUMIHO" title="BẠN CÙNG PHÒNG CỦA TÔI LÀ GUMIHO"></figure>
-                                    <span class="status">TẬP 15</span><span class="episode"><i class="fa fa-play" aria-hidden="true"></i>Vietsub</span> 
-                                    <div class="icon_overlay"></div>
-                                    <div class="halim-post-title-box">
-                                       <div class="halim-post-title ">
-                                          <p class="entry-title">BẠN CÙNG PHÒNG CỦA TÔI LÀ GUMIHO</p>
-                                          <p class="original_title">My Roommate Is a Gumiho</p>
-                                       </div>
-                                    </div>
-                                 </a>
-                              </div>
-                           </article>
-                            <article class="col-md-3 col-sm-3 col-xs-6 thumb grid-item post-37606">
-                              <div class="halim-item">
-                                 <a class="halim-thumb" href="chitiet.php">
-                                    <figure><img class="lazy img-responsive" src="https://image.bongngocdn.com/upload/poster-loki-marvel-2021.jpg" alt="BẠN CÙNG PHÒNG CỦA TÔI LÀ GUMIHO" title="BẠN CÙNG PHÒNG CỦA TÔI LÀ GUMIHO"></figure>
-                                    <span class="status">TẬP 15</span><span class="episode"><i class="fa fa-play" aria-hidden="true"></i>Vietsub</span> 
-                                    <div class="icon_overlay"></div>
-                                    <div class="halim-post-title-box">
-                                       <div class="halim-post-title ">
-                                          <p class="entry-title">BẠN CÙNG PHÒNG CỦA TÔI LÀ GUMIHO</p>
-                                          <p class="original_title">My Roommate Is a Gumiho</p>
-                                       </div>
-                                    </div>
-                                 </a>
-                              </div>
-                           </article>
-                            <article class="col-md-3 col-sm-3 col-xs-6 thumb grid-item post-37606">
-                              <div class="halim-item">
-                                 <a class="halim-thumb" href="chitiet.php">
-                                    <figure><img class="lazy img-responsive" src="https://image.bongngocdn.com/upload/poster-loki-marvel-2021.jpg" alt="BẠN CÙNG PHÒNG CỦA TÔI LÀ GUMIHO" title="BẠN CÙNG PHÒNG CỦA TÔI LÀ GUMIHO"></figure>
-                                    <span class="status">TẬP 15</span><span class="episode"><i class="fa fa-play" aria-hidden="true"></i>Vietsub</span> 
-                                    <div class="icon_overlay"></div>
-                                    <div class="halim-post-title-box">
-                                       <div class="halim-post-title ">
-                                          <p class="entry-title">BẠN CÙNG PHÒNG CỦA TÔI LÀ GUMIHO</p>
-                                          <p class="original_title">My Roommate Is a Gumiho</p>
-                                       </div>
-                                    </div>
-                                 </a>
-                              </div>
-                           </article>
-                            <article class="col-md-3 col-sm-3 col-xs-6 thumb grid-item post-37606">
-                              <div class="halim-item">
-                                 <a class="halim-thumb" href="chitiet.php">
-                                    <figure><img class="lazy img-responsive" src="https://image.bongngocdn.com/upload/poster-loki-marvel-2021.jpg" alt="BẠN CÙNG PHÒNG CỦA TÔI LÀ GUMIHO" title="BẠN CÙNG PHÒNG CỦA TÔI LÀ GUMIHO"></figure>
-                                    <span class="status">TẬP 15</span><span class="episode"><i class="fa fa-play" aria-hidden="true"></i>Vietsub</span> 
-                                    <div class="icon_overlay"></div>
-                                    <div class="halim-post-title-box">
-                                       <div class="halim-post-title ">
-                                          <p class="entry-title">BẠN CÙNG PHÒNG CỦA TÔI LÀ GUMIHO</p>
-                                          <p class="original_title">My Roommate Is a Gumiho</p>
-                                       </div>
-                                    </div>
-                                 </a>
-                              </div>
-                           </article>
-                            <article class="col-md-3 col-sm-3 col-xs-6 thumb grid-item post-37606">
-                              <div class="halim-item">
-                                 <a class="halim-thumb" href="chitiet.php">
-                                    <figure><img class="lazy img-responsive" src="https://image.bongngocdn.com/upload/poster-loki-marvel-2021.jpg" alt="BẠN CÙNG PHÒNG CỦA TÔI LÀ GUMIHO" title="BẠN CÙNG PHÒNG CỦA TÔI LÀ GUMIHO"></figure>
-                                    <span class="status">TẬP 15</span><span class="episode"><i class="fa fa-play" aria-hidden="true"></i>Vietsub</span> 
-                                    <div class="icon_overlay"></div>
-                                    <div class="halim-post-title-box">
-                                       <div class="halim-post-title ">
-                                          <p class="entry-title">BẠN CÙNG PHÒNG CỦA TÔI LÀ GUMIHO</p>
-                                          <p class="original_title">My Roommate Is a Gumiho</p>
-                                       </div>
-                                    </div>
-                                 </a>
-                              </div>
-                           </article>
-                           
+                           </article>                       
                         </div>
                      </section>
                      <div class="clearfix"></div>
@@ -178,129 +72,22 @@
                            <span class="h-text">Phim Lẻ</span>
                            </a>
                         </div>
-                        <div id="halim-advanced-widget-2-ajax-box" class="halim_box">
-                           <article class="col-md-3 col-sm-3 col-xs-6 thumb grid-item post-37606">
+                        <div id="halim-advanced-widget-4-ajax-box" class="halim_box">
+                           <article class="col-md-2 col-sm-4 col-xs-6 thumb grid-item post-38424" *ngFor="let movie of movies">
                               <div class="halim-item">
-                                 <a class="halim-thumb" href="chitiet.php">
-                                    <figure><img class="lazy img-responsive" src="https://upload.wikimedia.org/wikipedia/vi/e/e8/Avengers-Infinity_War-Official-Poster.jpg" alt="BẠN CÙNG PHÒNG CỦA TÔI LÀ GUMIHO" title="BẠN CÙNG PHÒNG CỦA TÔI LÀ GUMIHO"></figure>
-                                    <span class="status">TẬP 15</span><span class="episode"><i class="fa fa-play" aria-hidden="true"></i>Vietsub</span> 
+                                 <a class="halim-thumb" routerLink="/detail/{{ movie.id }}" title="{{ movie.name }}">
+                                    <figure><img class="lazy img-responsive" [src]="movie.url" alt="{{ movie.name }}"></figure>
+                                    <span class="status">HD</span><span class="episode"><i class="fa fa-play" aria-hidden="true"></i>Vietsub</span> 
                                     <div class="icon_overlay"></div>
                                     <div class="halim-post-title-box">
                                        <div class="halim-post-title ">
-                                          <p class="entry-title">BẠN CÙNG PHÒNG CỦA TÔI LÀ GUMIHO</p>
-                                          <p class="original_title">My Roommate Is a Gumiho</p>
+                                          <p class="entry-title">{{ movie.name }}</p>
+                                          <p class="original_title">{{ movie.genre_name }}</p>
                                        </div>
                                     </div>
                                  </a>
                               </div>
-                           </article>
-                            <article class="col-md-3 col-sm-3 col-xs-6 thumb grid-item post-37606">
-                              <div class="halim-item">
-                                 <a class="halim-thumb" href="chitiet.php">
-                                    <figure><img class="lazy img-responsive" src="https://upload.wikimedia.org/wikipedia/vi/e/e8/Avengers-Infinity_War-Official-Poster.jpg" alt="BẠN CÙNG PHÒNG CỦA TÔI LÀ GUMIHO" title="BẠN CÙNG PHÒNG CỦA TÔI LÀ GUMIHO"></figure>
-                                    <span class="status">TẬP 15</span><span class="episode"><i class="fa fa-play" aria-hidden="true"></i>Vietsub</span> 
-                                    <div class="icon_overlay"></div>
-                                    <div class="halim-post-title-box">
-                                       <div class="halim-post-title ">
-                                          <p class="entry-title">BẠN CÙNG PHÒNG CỦA TÔI LÀ GUMIHO</p>
-                                          <p class="original_title">My Roommate Is a Gumiho</p>
-                                       </div>
-                                    </div>
-                                 </a>
-                              </div>
-                           </article>
-                            <article class="col-md-3 col-sm-3 col-xs-6 thumb grid-item post-37606">
-                              <div class="halim-item">
-                                 <a class="halim-thumb" href="chitiet.php">
-                                    <figure><img class="lazy img-responsive" src="https://upload.wikimedia.org/wikipedia/vi/e/e8/Avengers-Infinity_War-Official-Poster.jpg" alt="BẠN CÙNG PHÒNG CỦA TÔI LÀ GUMIHO" title="BẠN CÙNG PHÒNG CỦA TÔI LÀ GUMIHO"></figure>
-                                    <span class="status">TẬP 15</span><span class="episode"><i class="fa fa-play" aria-hidden="true"></i>Vietsub</span> 
-                                    <div class="icon_overlay"></div>
-                                    <div class="halim-post-title-box">
-                                       <div class="halim-post-title ">
-                                          <p class="entry-title">BẠN CÙNG PHÒNG CỦA TÔI LÀ GUMIHO</p>
-                                          <p class="original_title">My Roommate Is a Gumiho</p>
-                                       </div>
-                                    </div>
-                                 </a>
-                              </div>
-                           </article>
-                            <article class="col-md-3 col-sm-3 col-xs-6 thumb grid-item post-37606">
-                              <div class="halim-item">
-                                 <a class="halim-thumb" href="chitiet.php">
-                                    <figure><img class="lazy img-responsive" src="https://upload.wikimedia.org/wikipedia/vi/e/e8/Avengers-Infinity_War-Official-Poster.jpg" alt="BẠN CÙNG PHÒNG CỦA TÔI LÀ GUMIHO" title="BẠN CÙNG PHÒNG CỦA TÔI LÀ GUMIHO"></figure>
-                                    <span class="status">TẬP 15</span><span class="episode"><i class="fa fa-play" aria-hidden="true"></i>Vietsub</span> 
-                                    <div class="icon_overlay"></div>
-                                    <div class="halim-post-title-box">
-                                       <div class="halim-post-title ">
-                                          <p class="entry-title">BẠN CÙNG PHÒNG CỦA TÔI LÀ GUMIHO</p>
-                                          <p class="original_title">My Roommate Is a Gumiho</p>
-                                       </div>
-                                    </div>
-                                 </a>
-                              </div>
-                           </article>
-                            <article class="col-md-3 col-sm-3 col-xs-6 thumb grid-item post-37606">
-                              <div class="halim-item">
-                                 <a class="halim-thumb" href="chitiet.php">
-                                    <figure><img class="lazy img-responsive" src="https://upload.wikimedia.org/wikipedia/vi/e/e8/Avengers-Infinity_War-Official-Poster.jpg" alt="BẠN CÙNG PHÒNG CỦA TÔI LÀ GUMIHO" title="BẠN CÙNG PHÒNG CỦA TÔI LÀ GUMIHO"></figure>
-                                    <span class="status">TẬP 15</span><span class="episode"><i class="fa fa-play" aria-hidden="true"></i>Vietsub</span> 
-                                    <div class="icon_overlay"></div>
-                                    <div class="halim-post-title-box">
-                                       <div class="halim-post-title ">
-                                          <p class="entry-title">BẠN CÙNG PHÒNG CỦA TÔI LÀ GUMIHO</p>
-                                          <p class="original_title">My Roommate Is a Gumiho</p>
-                                       </div>
-                                    </div>
-                                 </a>
-                              </div>
-                           </article>
-                            <article class="col-md-3 col-sm-3 col-xs-6 thumb grid-item post-37606">
-                              <div class="halim-item">
-                                 <a class="halim-thumb" href="chitiet.php">
-                                    <figure><img class="lazy img-responsive" src="https://upload.wikimedia.org/wikipedia/vi/e/e8/Avengers-Infinity_War-Official-Poster.jpg" alt="BẠN CÙNG PHÒNG CỦA TÔI LÀ GUMIHO" title="BẠN CÙNG PHÒNG CỦA TÔI LÀ GUMIHO"></figure>
-                                    <span class="status">TẬP 15</span><span class="episode"><i class="fa fa-play" aria-hidden="true"></i>Vietsub</span> 
-                                    <div class="icon_overlay"></div>
-                                    <div class="halim-post-title-box">
-                                       <div class="halim-post-title ">
-                                          <p class="entry-title">BẠN CÙNG PHÒNG CỦA TÔI LÀ GUMIHO</p>
-                                          <p class="original_title">My Roommate Is a Gumiho</p>
-                                       </div>
-                                    </div>
-                                 </a>
-                              </div>
-                           </article>
-                            <article class="col-md-3 col-sm-3 col-xs-6 thumb grid-item post-37606">
-                              <div class="halim-item">
-                                 <a class="halim-thumb" href="chitiet.php">
-                                    <figure><img class="lazy img-responsive" src="https://upload.wikimedia.org/wikipedia/vi/e/e8/Avengers-Infinity_War-Official-Poster.jpg" alt="BẠN CÙNG PHÒNG CỦA TÔI LÀ GUMIHO" title="BẠN CÙNG PHÒNG CỦA TÔI LÀ GUMIHO"></figure>
-                                    <span class="status">TẬP 15</span><span class="episode"><i class="fa fa-play" aria-hidden="true"></i>Vietsub</span> 
-                                    <div class="icon_overlay"></div>
-                                    <div class="halim-post-title-box">
-                                       <div class="halim-post-title ">
-                                          <p class="entry-title">BẠN CÙNG PHÒNG CỦA TÔI LÀ GUMIHO</p>
-                                          <p class="original_title">My Roommate Is a Gumiho</p>
-                                       </div>
-                                    </div>
-                                 </a>
-                              </div>
-                           </article>
-                            <article class="col-md-3 col-sm-3 col-xs-6 thumb grid-item post-37606">
-                              <div class="halim-item">
-                                 <a class="halim-thumb" href="chitiet.php">
-                                    <figure><img class="lazy img-responsive" src="https://upload.wikimedia.org/wikipedia/vi/e/e8/Avengers-Infinity_War-Official-Poster.jpg" alt="BẠN CÙNG PHÒNG CỦA TÔI LÀ GUMIHO" title="BẠN CÙNG PHÒNG CỦA TÔI LÀ GUMIHO"></figure>
-                                    <span class="status">TẬP 15</span><span class="episode"><i class="fa fa-play" aria-hidden="true"></i>Vietsub</span> 
-                                    <div class="icon_overlay"></div>
-                                    <div class="halim-post-title-box">
-                                       <div class="halim-post-title ">
-                                          <p class="entry-title">BẠN CÙNG PHÒNG CỦA TÔI LÀ GUMIHO</p>
-                                          <p class="original_title">My Roommate Is a Gumiho</p>
-                                       </div>
-                                    </div>
-                                 </a>
-                              </div>
-                           </article>
-                           
-                           
+                           </article>                       
                         </div>
                      </section>
                      <div class="clearfix"></div>
@@ -310,131 +97,22 @@
                            <span class="h-text">Phim Chiếu Rạp</span>
                            </a>
                         </div>
-                        <div id="halim-advanced-widget-2-ajax-box" class="halim_box">
-                           <article class="col-md-3 col-sm-3 col-xs-6 thumb grid-item post-37606">
+                        <div id="halim-advanced-widget-4-ajax-box" class="halim_box">
+                           <article class="col-md-2 col-sm-4 col-xs-6 thumb grid-item post-38424" *ngFor="let movie of movies">
                               <div class="halim-item">
-                                 <a class="halim-thumb" href="chitiet.php">
-                                    <figure><img class="lazy img-responsive" src="https://fptninhbinh.vn/wp-content/uploads/2021/06/bo-gia.jpg" alt="BẠN CÙNG PHÒNG CỦA TÔI LÀ GUMIHO" title="BẠN CÙNG PHÒNG CỦA TÔI LÀ GUMIHO"></figure>
-                                    <span class="status">TẬP 15</span><span class="episode"><i class="fa fa-play" aria-hidden="true"></i>Vietsub</span> 
+                                 <a class="halim-thumb" routerLink="/detail/{{ movie.id }}" title="{{ movie.name }}">
+                                    <figure><img class="lazy img-responsive" [src]="movie.url" alt="{{ movie.name }}"></figure>
+                                    <span class="status">HD</span><span class="episode"><i class="fa fa-play" aria-hidden="true"></i>Vietsub</span> 
                                     <div class="icon_overlay"></div>
                                     <div class="halim-post-title-box">
                                        <div class="halim-post-title ">
-                                          <p class="entry-title">BẠN CÙNG PHÒNG CỦA TÔI LÀ GUMIHO</p>
-                                          <p class="original_title">My Roommate Is a Gumiho</p>
+                                          <p class="entry-title">{{ movie.name }}</p>
+                                          <p class="original_title">{{ movie.genre_name }}</p>
                                        </div>
                                     </div>
                                  </a>
                               </div>
-                           </article>
-                            <article class="col-md-3 col-sm-3 col-xs-6 thumb grid-item post-37606">
-                              <div class="halim-item">
-                                 <a class="halim-thumb" href="chitiet.php">
-                                    <figure><img class="lazy img-responsive" src="https://fptninhbinh.vn/wp-content/uploads/2021/06/bo-gia.jpg" alt="BẠN CÙNG PHÒNG CỦA TÔI LÀ GUMIHO" title="BẠN CÙNG PHÒNG CỦA TÔI LÀ GUMIHO"></figure>
-                                    <span class="status">TẬP 15</span><span class="episode"><i class="fa fa-play" aria-hidden="true"></i>Vietsub</span> 
-                                    <div class="icon_overlay"></div>
-                                    <div class="halim-post-title-box">
-                                       <div class="halim-post-title ">
-                                          <p class="entry-title">BẠN CÙNG PHÒNG CỦA TÔI LÀ GUMIHO</p>
-                                          <p class="original_title">My Roommate Is a Gumiho</p>
-                                       </div>
-                                    </div>
-                                 </a>
-                              </div>
-                           </article>
-                            <article class="col-md-3 col-sm-3 col-xs-6 thumb grid-item post-37606">
-                              <div class="halim-item">
-                                 <a class="halim-thumb" href="chitiet.php">
-                                    <figure><img class="lazy img-responsive" src="https://fptninhbinh.vn/wp-content/uploads/2021/06/bo-gia.jpg" alt="BẠN CÙNG PHÒNG CỦA TÔI LÀ GUMIHO" title="BẠN CÙNG PHÒNG CỦA TÔI LÀ GUMIHO"></figure>
-                                    <span class="status">TẬP 15</span><span class="episode"><i class="fa fa-play" aria-hidden="true"></i>Vietsub</span> 
-                                    <div class="icon_overlay"></div>
-                                    <div class="halim-post-title-box">
-                                       <div class="halim-post-title ">
-                                          <p class="entry-title">BẠN CÙNG PHÒNG CỦA TÔI LÀ GUMIHO</p>
-                                          <p class="original_title">My Roommate Is a Gumiho</p>
-                                       </div>
-                                    </div>
-                                 </a>
-                              </div>
-                           </article>
-                            <article class="col-md-3 col-sm-3 col-xs-6 thumb grid-item post-37606">
-                              <div class="halim-item">
-                                 <a class="halim-thumb" href="chitiet.php">
-                                    <figure><img class="lazy img-responsive" src="https://fptninhbinh.vn/wp-content/uploads/2021/06/bo-gia.jpg" alt="BẠN CÙNG PHÒNG CỦA TÔI LÀ GUMIHO" title="BẠN CÙNG PHÒNG CỦA TÔI LÀ GUMIHO"></figure>
-                                    <span class="status">TẬP 15</span><span class="episode"><i class="fa fa-play" aria-hidden="true"></i>Vietsub</span> 
-                                    <div class="icon_overlay"></div>
-                                    <div class="halim-post-title-box">
-                                       <div class="halim-post-title ">
-                                          <p class="entry-title">BẠN CÙNG PHÒNG CỦA TÔI LÀ GUMIHO</p>
-                                          <p class="original_title">My Roommate Is a Gumiho</p>
-                                       </div>
-                                    </div>
-                                 </a>
-                              </div>
-                           </article>
-                            <article class="col-md-3 col-sm-3 col-xs-6 thumb grid-item post-37606">
-                              <div class="halim-item">
-                                 <a class="halim-thumb" href="chitiet.php">
-                                    <figure><img class="lazy img-responsive" src="https://fptninhbinh.vn/wp-content/uploads/2021/06/bo-gia.jpg" alt="BẠN CÙNG PHÒNG CỦA TÔI LÀ GUMIHO" title="BẠN CÙNG PHÒNG CỦA TÔI LÀ GUMIHO"></figure>
-                                    <span class="status">TẬP 15</span><span class="episode"><i class="fa fa-play" aria-hidden="true"></i>Vietsub</span> 
-                                    <div class="icon_overlay"></div>
-                                    <div class="halim-post-title-box">
-                                       <div class="halim-post-title ">
-                                          <p class="entry-title">BẠN CÙNG PHÒNG CỦA TÔI LÀ GUMIHO</p>
-                                          <p class="original_title">My Roommate Is a Gumiho</p>
-                                       </div>
-                                    </div>
-                                 </a>
-                              </div>
-                           </article>
-                            <article class="col-md-3 col-sm-3 col-xs-6 thumb grid-item post-37606">
-                              <div class="halim-item">
-                                 <a class="halim-thumb" href="chitiet.php">
-                                    <figure><img class="lazy img-responsive" src="https://fptninhbinh.vn/wp-content/uploads/2021/06/bo-gia.jpg" alt="BẠN CÙNG PHÒNG CỦA TÔI LÀ GUMIHO" title="BẠN CÙNG PHÒNG CỦA TÔI LÀ GUMIHO"></figure>
-                                    <span class="status">TẬP 15</span><span class="episode"><i class="fa fa-play" aria-hidden="true"></i>Vietsub</span> 
-                                    <div class="icon_overlay"></div>
-                                    <div class="halim-post-title-box">
-                                       <div class="halim-post-title ">
-                                          <p class="entry-title">BẠN CÙNG PHÒNG CỦA TÔI LÀ GUMIHO</p>
-                                          <p class="original_title">My Roommate Is a Gumiho</p>
-                                       </div>
-                                    </div>
-                                 </a>
-                              </div>
-                           </article>
-                            <article class="col-md-3 col-sm-3 col-xs-6 thumb grid-item post-37606">
-                              <div class="halim-item">
-                                 <a class="halim-thumb" href="chitiet.php">
-                                    <figure><img class="lazy img-responsive" src="https://fptninhbinh.vn/wp-content/uploads/2021/06/bo-gia.jpg" alt="BẠN CÙNG PHÒNG CỦA TÔI LÀ GUMIHO" title="BẠN CÙNG PHÒNG CỦA TÔI LÀ GUMIHO"></figure>
-                                    <span class="status">TẬP 15</span><span class="episode"><i class="fa fa-play" aria-hidden="true"></i>Vietsub</span> 
-                                    <div class="icon_overlay"></div>
-                                    <div class="halim-post-title-box">
-                                       <div class="halim-post-title ">
-                                          <p class="entry-title">BẠN CÙNG PHÒNG CỦA TÔI LÀ GUMIHO</p>
-                                          <p class="original_title">My Roommate Is a Gumiho</p>
-                                       </div>
-                                    </div>
-                                 </a>
-                              </div>
-                           </article>
-                            <article class="col-md-3 col-sm-3 col-xs-6 thumb grid-item post-37606">
-                              <div class="halim-item">
-                                 <a class="halim-thumb" href="chitiet.php">
-                                    <figure><img class="lazy img-responsive" src="https://fptninhbinh.vn/wp-content/uploads/2021/06/bo-gia.jpg" alt="BẠN CÙNG PHÒNG CỦA TÔI LÀ GUMIHO" title="BẠN CÙNG PHÒNG CỦA TÔI LÀ GUMIHO"></figure>
-                                    <span class="status">TẬP 15</span><span class="episode"><i class="fa fa-play" aria-hidden="true"></i>Vietsub</span> 
-                                    <div class="icon_overlay"></div>
-                                    <div class="halim-post-title-box">
-                                       <div class="halim-post-title ">
-                                          <p class="entry-title">BẠN CÙNG PHÒNG CỦA TÔI LÀ GUMIHO</p>
-                                          <p class="original_title">My Roommate Is a Gumiho</p>
-                                       </div>
-                                    </div>
-                                 </a>
-                              </div>
-                           </article>
-      
-                           
-                           
-                           
+                           </article>                       
                         </div>
                      </section>
                      <div class="clearfix"></div>
