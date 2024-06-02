@@ -14,7 +14,7 @@ export class MovieService {
   
   constructor(private http: HttpClient) { }
 
-  getMovies(keyword: string, genre_id: number, page: number, limit: number): Observable<Movie[]> {
+    getAllMovies(keyword: string, genre_id: number, page: number, limit: number): Observable<Movie[]> {
     let params = new HttpParams()
       .set('page', page.toString())
       .set('limit', limit.toString());
@@ -30,7 +30,7 @@ export class MovieService {
   }
 
   getDetailMovie(movieId: number){
-    return this.http.get(`${environment.apiBaseUrl}/movies/${movieId}`);
+    return this.http.get(this.apiGetMovies+`/${movieId}`);
   }
 
   getMoviesByGenreId(genre_id: number, page: number, limit: number): Observable<Movie[]> {
@@ -47,6 +47,18 @@ export class MovieService {
       .set('page', page.toString())
       .set('limit', limit.toString())
       .set('country_id', country_id.toString());
+
+      console.log('Request URL:', this.apiGetMovies);
+  console.log('Request Params:', params.toString());
+
+    return this.http.get<Movie[]>(this.apiGetMovies, { params });
+}
+
+  getMoviesByMovieTypeId(movie_type_id: number, page: number, limit: number): Observable<Movie[]> {
+    const params = new HttpParams()
+      .set('page', page.toString())
+      .set('limit', limit.toString())
+      .set('movie_type_id', movie_type_id.toString());
 
     return this.http.get<Movie[]>(this.apiGetMovies, { params });
   }

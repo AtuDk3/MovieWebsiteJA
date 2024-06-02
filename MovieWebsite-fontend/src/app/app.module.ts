@@ -25,6 +25,13 @@ import { MainLayoutComponent } from './layouts/main-layout/main-layout.component
 import { ChangePasswordComponent } from './components/change-password/change-password.component';
 import { RatingComponent } from './components/rating/rating.component';
 import { CommentComponent } from './components/comment/comment.component';
+import { AdminSidebarComponent } from './components/admin/admin-sidebar/admin-sidebar.component';
+import { AdminHeaderComponent } from './components/admin/admin-header/admin-header.component';
+import { AdminDashboardComponent } from './components/admin/admin-dashboard/admin-dashboard.component';
+import { AdminLayoutComponent } from './layouts/admin-layout/admin-layout.component';
+import { SeriesMovieComponent } from './components/series-movie/series-movie.component';
+import { SingleMovieComponent } from './components/single-movie/single-movie.component';
+import { TheatersMovieComponent } from './components/theaters-movie/theaters-movie.component';
 
 @NgModule({
   declarations: [
@@ -46,6 +53,13 @@ import { CommentComponent } from './components/comment/comment.component';
     ChangePasswordComponent,
     RatingComponent,
     CommentComponent,
+    AdminSidebarComponent,
+    AdminHeaderComponent,
+    AdminDashboardComponent,
+    AdminLayoutComponent,
+    SeriesMovieComponent,
+    SingleMovieComponent,
+    TheatersMovieComponent,
   ],
   imports: [
     BrowserModule,

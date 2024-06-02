@@ -8,11 +8,11 @@ public interface CountryService {
 
     Country createCountry(CountryDTO countryDTO);
 
-    Country getCountry(int id);
+    Country getCountryById(int countryId);
 
     List<Country> getAllCountry();
 
-    Country updateCountry(int id, CountryDTO countryDTO);
+    Country updateCountry(int countryId, CountryDTO countryDTO);
 
-    void deleteCountry(int id);
+    void deleteCountry(int countryId);
 }

@@ -67,9 +67,9 @@ public class WebSecurityConfig {
                     .requestMatchers(POST, String.format("%s/countries/**", apiPrefix)).hasRole("ADMIN")
                     .requestMatchers(DELETE, String.format("%s/countries/**", apiPrefix)).hasRole("ADMIN")
                     .requestMatchers(POST, String.format("%s/users/upload_avatar/**", apiPrefix)).hasAnyRole("ADMIN", "USER")
-                            .requestMatchers(POST, String.format("%s/users/changePassword", apiPrefix)).hasAnyRole("USER")
-                            .requestMatchers(POST, String.format("%s/users/checkCurrentPassword", apiPrefix)).hasAnyRole( "USER", "ADMIN")
-                            .anyRequest()
+                    .requestMatchers(POST, String.format("%s/users/changePassword", apiPrefix)).hasAnyRole("USER")
+                    .requestMatchers(POST, String.format("%s/users/checkCurrentPassword", apiPrefix)).hasAnyRole( "USER", "ADMIN")
+                    .anyRequest()
                     .authenticated();
                 })
                 .csrf(AbstractHttpConfigurer::disable);

@@ -1,11 +1,11 @@
 import { Component, OnInit} from '@angular/core';
-import { GenreService } from '../../service/genre.service';
-import { CountryService } from '../../service/country.service';
+import { GenreService } from '../../services/genre.service';
+import { CountryService } from '../../services/country.service';
 import { Genre } from '../../models/genre';
 import { Country } from '../../models/country';
-import { UserService } from '../../service/user.service';
+import { UserService } from '../../services/user.service';
 import { UserResponse } from '../../responses/user/user.response';
-import { TokenService } from '../../service/token.service';
+import { TokenService } from '../../services/token.service';
 import { environment } from '../../environments/environment';
 @Component({
   selector: 'app-header',

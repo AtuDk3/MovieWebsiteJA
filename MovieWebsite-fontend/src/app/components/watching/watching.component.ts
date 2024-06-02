@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { EpisodeService } from '../../service/episode.service';
+import { EpisodeService } from '../../services/episode.service';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Episode } from '../../models/episode';
 import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';

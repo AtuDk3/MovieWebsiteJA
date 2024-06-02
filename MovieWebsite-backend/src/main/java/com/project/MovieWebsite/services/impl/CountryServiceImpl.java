@@ -22,8 +22,8 @@ public class CountryServiceImpl implements CountryService {
     }
 
     @Override
-    public Country getCountry(int id) {
-        return countryRepository.findById(id).orElseThrow(() -> new RuntimeException("Country not found"));
+    public Country getCountryById(int countryId) {
+        return countryRepository.findById(countryId).orElseThrow(() -> new RuntimeException("Country not found"));
     }
 
     @Override
@@ -32,8 +32,8 @@ public class CountryServiceImpl implements CountryService {
     }
 
     @Override
-    public Country updateCountry(int id, CountryDTO countryDTO) {
-        Country existingMovieType= getCountry(id);
+    public Country updateCountry(int countryId, CountryDTO countryDTO) {
+        Country existingMovieType= getCountryById(countryId);
         existingMovieType.setName(countryDTO.getName());
         //existingMovieType.setIsActive(movieTypeDTO.getIsActive());
         countryRepository.save(existingMovieType);

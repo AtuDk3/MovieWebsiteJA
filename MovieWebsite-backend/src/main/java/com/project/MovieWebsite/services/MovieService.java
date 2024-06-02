@@ -16,11 +16,13 @@ public interface MovieService {
 
     Movie getMovieById(int id);
 
-    Page<MovieResponse> getAllMovies(String keyword, int genreId, PageRequest pageRequest);
+    Page<MovieResponse> getAllMovies(String keyword, int genreId, int countryId, PageRequest pageRequest);
 
     List<Movie> getMoviesByGenreId(int genreId) throws Exception;
 
     List<Movie> getMoviesByCountryId(int countryId) throws Exception;
+
+    List<Movie> getMovieByMovieTypeId(int movieTypeId) throws Exception;
 
     Movie updateMovies(int id, MovieDTO movieDTO) throws Exception;
 

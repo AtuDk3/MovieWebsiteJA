@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { environment } from '../../environments/environment';
-import { MovieService } from '../../service/movie.service';
+import { MovieService } from '../../services/movie.service';
 import { Movie } from '../../models/movie';
 import { Router } from '@angular/router';
 
@@ -22,12 +22,12 @@ export class HomeComponent implements OnInit {
   constructor(private movieService: MovieService, private  router: Router) {}
 
   ngOnInit() {
-    this.getMovies(this.keyword, this.genre_id, this.currentPage, this.itemsPerPage);
+    this.getAllMovies(this.keyword, this.genre_id, this.currentPage, this.itemsPerPage);
   }
 
-  getMovies(keyword: string, genre_id: number, page: number, limit: number) {
+  getAllMovies(keyword: string, genre_id: number, page: number, limit: number) {
     debugger
-    this.movieService.getMovies(keyword, genre_id, page, limit).subscribe({
+    this.movieService.getAllMovies(keyword, genre_id, page, limit).subscribe({
       next: (response: any) => {
         response.movies.forEach((movie: Movie) => {
           movie.url = `${environment.apiBaseUrl}/movies/images/${movie.image}`;
@@ -44,34 +44,51 @@ export class HomeComponent implements OnInit {
     });
   }
 
-  getMoviesByGenreId(genre_id: number, page: number, limit: number) {
-    this.movieService.getMoviesByGenreId(genre_id, page, limit).subscribe({
-      next: (response: any) => {
-        response.movies.forEach((movie: Movie) => {
-          movie.url = `${environment.apiBaseUrl}/movies/images/${movie.image}`;
-        });
-        this.movies = response.movies;
-        this.totalPages = response.totalPages;
-        this.visiblePages = this.generateVisiblePageArray(this.currentPage, this.totalPages);
-        console.log(this.movies);
-      },
-      error: (error: any) => {
-        console.error('Error fetching movies by genre:', error);
-      }
-    });
-  }
+  // getMoviesByGenreId(genre_id: number, page: number, limit: number) {
+  //   this.movieService.getMoviesByGenreId(genre_id, page, limit).subscribe({
+  //     next: (response: any) => {
+  //       response.movies.forEach((movie: Movie) => {
+  //         movie.url = `${environment.apiBaseUrl}/movies/images/${movie.image}`;
+  //       });
+  //       this.movies = response.movies;
+  //       this.totalPages = response.totalPages;
+  //       this.visiblePages = this.generateVisiblePageArray(this.currentPage, this.totalPages);
+  //       console.log(this.movies);
+  //     },
+  //     error: (error: any) => {
+  //       console.error('Error fetching movies by genre:', error);
+  //     }
+  //   });
+  // }
+
+  // getMoviesByCountryId(country_id: number, page: number, limit: number) {
+  //   this.movieService.getMoviesByCountryId(country_id, page, limit).subscribe({
+  //     next: (response: any) => {
+  //       response.movies.forEach((movie: Movie) => {
+  //         movie.url = `${environment.apiBaseUrl}/movies/images/${movie.image}`;
+  //       });
+  //       this.movies = response.movies;
+  //       this.totalPages = response.totalPages;
+  //       this.visiblePages = this.generateVisiblePageArray(this.currentPage, this.totalPages);
+  //       console.log(this.movies);
+  //     },
+  //     error: (error: any) => {
+  //       console.error('Error fetching movies by country:', error);
+  //     }
+  //   });
+  // }
 
   searchMovies(){
     this.currentPage = 1;
     this.itemsPerPage = 10;
 
-    this.getMovies(this.keyword, this.genre_id, this.currentPage, this.itemsPerPage);
-    console.log(this.getMovies(this.keyword, this.genre_id, this.currentPage, this.itemsPerPage));
+    this.getAllMovies(this.keyword, this.genre_id, this.currentPage, this.itemsPerPage);
+    console.log(this.getAllMovies(this.keyword, this.genre_id, this.currentPage, this.itemsPerPage));
   }
 
   onPageChange(page: number) {
     this.currentPage = page;
-    this.getMovies(this.keyword, this.genre_id, this.currentPage, this.itemsPerPage);
+    this.getAllMovies(this.keyword, this.genre_id, this.currentPage, this.itemsPerPage);
   }
 
   generateVisiblePageArray(currentPage: number, totalPages: number): number[] {

@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { environment } from '../../environments/environment';
-import { MovieService } from '../../service/movie.service';
+import { MovieService } from '../../services/movie.service';
 import { Movie } from '../../models/movie';
 import { ActivatedRoute } from '@angular/router';
 
@@ -15,7 +15,6 @@ export class GenreComponent implements OnInit {
   itemsPerPage: number = 6;
   totalPages: number = 0;
   visiblePages: number[] = []; 
-  keyword: string = '';
   genre_id: number = 0;
   genreName: string = '';
 
@@ -32,15 +31,20 @@ export class GenreComponent implements OnInit {
   }
 
   getMoviesByGenreId(genre_id: number, page: number, limit: number) {
+    debugger
     this.movieService.getMoviesByGenreId(genre_id, page, limit).subscribe({
       next: (response: any) => {
+        debugger
         response.movies.forEach((movie: Movie) => {
+          debugger
           movie.url = `${environment.apiBaseUrl}/movies/images/${movie.image}`;
           this.genreName = response.genre_name;
         });
 
         this.movies = response.movies;
         this.genreName = response.movies.length > 0 ? response.movies[0].genre_name : '';
+        console.log(response)
+        debugger
         this.totalPages = response.totalPages;
         this.visiblePages = this.generateVisiblePageArray(this.currentPage, this.totalPages);
       },

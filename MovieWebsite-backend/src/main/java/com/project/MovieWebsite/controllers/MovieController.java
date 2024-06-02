@@ -56,11 +56,12 @@ public class MovieController {
     public ResponseEntity<MovieListResponse> getMovies(
             @RequestParam(defaultValue = "") String keyword,
             @RequestParam(defaultValue = "0", name = "genre_id") int genreId,
+            @RequestParam(defaultValue = "0", name = "country_id") int countryId,
             @RequestParam(defaultValue = "0") int page,
             @RequestParam(defaultValue = "10") int limit
     ){
         PageRequest pageRequest = PageRequest.of(page, limit, Sort.by("id").descending());
-        Page<MovieResponse> moviePage = movieService.getAllMovies(keyword, genreId, pageRequest);
+        Page<MovieResponse> moviePage = movieService.getAllMovies(keyword, genreId, countryId, pageRequest);
         int totalPages = moviePage.getTotalPages();
         List<MovieResponse> movies = moviePage.getContent();
         return ResponseEntity.ok(MovieListResponse.builder()
@@ -97,6 +98,19 @@ public class MovieController {
         try {
             List<Movie> moviesByCountry = movieService.getMoviesByCountryId(countryId);
             List<MovieResponse> movieResponses = moviesByCountry.stream()
+                    .map(MovieResponse::fromMovie)
+                    .collect(Collectors.toList());
+            return ResponseEntity.ok(movieResponses);
+        } catch (Exception e) {
+            return ResponseEntity.badRequest().body(e.getMessage());
+        }
+    }
+
+    @GetMapping("/movie_types/{movieTypeId}")
+    public ResponseEntity<?> getMovieByMovieTypeId(@PathVariable("movieTypeId") int movieTypeId) {
+        try {
+            List<Movie> moviesByMovieType = movieService.getMovieByMovieTypeId(movieTypeId);
+            List<MovieResponse> movieResponses = moviesByMovieType.stream()
                     .map(MovieResponse::fromMovie)
                     .collect(Collectors.toList());
             return ResponseEntity.ok(movieResponses);
