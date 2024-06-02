@@ -9,7 +9,10 @@ import com.project.MovieWebsite.models.User;
 import com.project.MovieWebsite.repositories.UserRepository;
 import com.project.MovieWebsite.responses.LoginResponse;
 import com.project.MovieWebsite.responses.UserResponse;
+import com.project.MovieWebsite.services.ClientService;
 import com.project.MovieWebsite.services.UserService;
+import com.project.MovieWebsite.services.impl.*;
+import com.project.MovieWebsite.utils.DataUtils;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.core.io.UrlResource;
@@ -41,8 +44,7 @@ public class UserController {
     private final UserService userService;
     private final UserRepository userRepository;
     private final LocalizationUtil localizationUtil;
-
-
+    private final ClientService clientService;
     @PostMapping("/register")
     public ResponseEntity<?> createUser(@Valid @RequestBody UserDTO userDTO, BindingResult result) {
         try {
@@ -223,6 +225,32 @@ public class UserController {
         }catch (Exception e){
             return ResponseEntity.status(400).body(e.getMessage());
         }
+    }
+
+    @PostMapping("/forgot-password")
+    public ResponseEntity<?> forgotPassword(@RequestBody Map<String, String> request) {
+        String email = request.get("email");
+        User user = userRepository.findByEmail(email);
+        if (user == null) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Email not found");
+        }
+        String check_otp= clientService.forgot_password(user);
+        Map<String, String> response = new HashMap<>();
+        response.put("check_otp", check_otp);
+        return ResponseEntity.ok(response);
+    }
+
+    @PostMapping("/reset-password")
+    public ResponseEntity<?> resetPassword(@RequestBody Map<String, String> request) {
+        String newPassword = request.get("newPassword");
+        String email = request.get("email");
+        User user = userRepository.findByEmail(email);
+        if (user == null) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Invalid token");
+        }
+        user= userService.updatePassword(user.getPhoneNumber(), newPassword) ; // Consider encrypting the password
+        userRepository.save(user);
+        return ResponseEntity.ok().build();
     }
 
 

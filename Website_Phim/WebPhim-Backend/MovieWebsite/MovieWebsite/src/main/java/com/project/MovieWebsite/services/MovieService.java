@@ -1,13 +1,15 @@
+
 package com.project.MovieWebsite.services;
 
 
 import com.project.MovieWebsite.dtos.MovieDTO;
-import com.project.MovieWebsite.dtos.MovieTypeDTO;
 import com.project.MovieWebsite.exceptions.DataNotFoundException;
 import com.project.MovieWebsite.models.Movie;
 import com.project.MovieWebsite.responses.MovieResponse;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
+
+import java.util.List;
 
 public interface MovieService {
 
@@ -15,7 +17,14 @@ public interface MovieService {
 
     Movie getMovieById(int id);
 
-    Page<MovieResponse> getAllMovies(String keyword, int genreId, PageRequest pageRequest);
+    Page<MovieResponse> getAllMoviesByGenreId(String keyword, int genreId, PageRequest pageRequest);
+
+    Page<MovieResponse> getAllMoviesByCountryId(String keyword, int countryId, PageRequest pageRequest);
+
+
+    List<Movie> getMoviesByGenreId(int genreId) throws Exception;
+
+    List<Movie> getMoviesByCountryId(int countryId) throws Exception;
 
     Movie updateMovies(int id, MovieDTO movieDTO) throws Exception;
 

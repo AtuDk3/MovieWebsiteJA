@@ -42,13 +42,19 @@ public class WebSecurityConfig {
                 .authorizeHttpRequests(requests ->{
                     requests.requestMatchers(
                                     String.format("%s/users/register", apiPrefix),
-                                    String.format("%s/users/login", apiPrefix)
+                                    String.format("%s/users/login", apiPrefix),
+                                    String.format("%s/users/forgot-password", apiPrefix),
+                                    String.format("%s/users/reset-password", apiPrefix),
+                                    String.format("%s/users/check-otp", apiPrefix),
+                                    String.format("%s/episodes/**", apiPrefix)
                             )
                             .permitAll()
                             .requestMatchers(HttpMethod.GET, String.format("%s/roles", apiPrefix)).permitAll()
                             .requestMatchers(HttpMethod.GET, String.format("%s/genres", apiPrefix)).permitAll()
                             .requestMatchers(GET, String.format("%s/movies/**", apiPrefix)).permitAll()
                             .requestMatchers(GET, String.format("%s/users/images/**", apiPrefix)).permitAll()
+                            .requestMatchers(POST, String.format("%s/users/details", apiPrefix)).hasAnyRole("ADMIN", "USER")
+                            .requestMatchers(PUT, String.format("%s/users/details/**", apiPrefix)).hasRole("USER")
                             .requestMatchers(GET, String.format("%s/countries", apiPrefix)).permitAll()
                             .requestMatchers(HttpMethod.GET, String.format("%s/movie_types", apiPrefix)).permitAll()
                             .requestMatchers(HttpMethod.GET, String.format("%s/episodes", apiPrefix)).permitAll()
@@ -70,6 +76,7 @@ public class WebSecurityConfig {
                             .requestMatchers(POST, String.format("%s/users/upload_avatar/**", apiPrefix)).hasAnyRole("ADMIN", "USER")
                             .requestMatchers(POST, String.format("%s/users/changePassword", apiPrefix)).hasAnyRole("USER")
                             .requestMatchers(POST, String.format("%s/users/checkCurrentPassword", apiPrefix)).hasAnyRole( "USER")
+
                             .anyRequest()
                             .authenticated();
                 })

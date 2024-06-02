@@ -7,7 +7,7 @@ app:
 
 spring:
   datasource:
-     url: jdbc:mysql://localhost:3306/moviewebsite?useSSL=false&serverTimezone=UTC
+     url: jdbc:mysql://localhost:3306/movie_website?useSSL=false&serverTimezone=UTC
      username: root
      password:
      driver-class-name: com.mysql.cj.jdbc.Driver
@@ -35,7 +35,7 @@ spring:
 #    host: smtp.gmail.com
 #    port: 587
 #    username: webphimm@gmail.com
-#    password: fkoa keto oifk wonw
+#    password: ampg tgio aebn vqls
 #    properties:
 #      mail:
 #        smtp:

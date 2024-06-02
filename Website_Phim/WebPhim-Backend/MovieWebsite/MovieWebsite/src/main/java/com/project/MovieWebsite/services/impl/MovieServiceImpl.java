@@ -1,8 +1,6 @@
-
 package com.project.MovieWebsite.services.impl;
 
 import com.project.MovieWebsite.dtos.MovieDTO;
-import com.project.MovieWebsite.dtos.MovieTypeDTO;
 import com.project.MovieWebsite.exceptions.DataNotFoundException;
 import com.project.MovieWebsite.models.Country;
 import com.project.MovieWebsite.models.Genre;
@@ -19,7 +17,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 
-import java.time.DateTimeException;
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -69,34 +67,54 @@ public class MovieServiceImpl implements MovieService {
     }
 
     @Override
-    public Page<MovieResponse> getAllMovies(String keyword, int genreId, PageRequest pageRequest) {
-        Page<Movie> moviesPage;
-        moviesPage = movieRepository.searchMovies(genreId, keyword, pageRequest);
-//        return moviesPage.map(
-//                movie -> {
-//                    MovieResponse movieResponse = MovieResponse.builder()
-//                            .name(movie.getName())
-//                            .description(movie.getDescription())
-//                            .image(movie.getImage())
-//                            .slug(movie.getSlug())
-//                            .releaseDate(movie.getReleaseDate())
-//                            .duration(movie.getDuration())
-//                            .idGenre(movie.getGenre().getId())
-//                            .idMovieType(movie.getMovieType().getId())
-//                            .idCountry(movie.getCountry().getId())
-//                            .episode(movie.getEpisode())
-//                            .hot(movie.getHot())
-//                            .isFee(movie.getIsFee())
-//                            .season(movie.getSeason())
-//                            .limitedAge(movie.getLimitedAge())
-//                            .movieTypeName(movie.getMovieType().getName())
-//                            .countryName(movie.getCountry().getName())
-//                            .genreName(movie.getGenre().getName())
-//                            .build();
-//                    return movieResponse;
-//                }
-//        );
-        return moviesPage.map(MovieResponse::fromMovie);
+    public List<Movie> getMoviesByGenreId(int genreId) throws Exception {
+        return movieRepository.findByGenreId(genreId)
+                .orElseThrow(() -> new Exception("No movies found for this genre"));
+    }
+
+    @Override
+    public List<Movie> getMoviesByCountryId(int countryId) throws Exception {
+        return movieRepository.findByCountryId(countryId)
+                .orElseThrow(() -> new Exception("No movies found for this country"));
+    }
+
+    @Override
+    public Page<MovieResponse> getAllMoviesByGenreId(String keyword, int genreId, PageRequest pageRequest) {
+        Page<Movie> moviesPage = movieRepository.searchMoviesByGenreId(genreId, keyword, pageRequest);
+        return mapToMovieResponsePage(moviesPage);
+    }
+
+    @Override
+    public Page<MovieResponse> getAllMoviesByCountryId(String keyword, int countryId, PageRequest pageRequest) {
+        Page<Movie> moviesPage = movieRepository.searchMoviesByCountryId(countryId, keyword, pageRequest);
+        return mapToMovieResponsePage(moviesPage);
+    }
+
+    private Page<MovieResponse> mapToMovieResponsePage(Page<Movie> moviesPage) {
+        return moviesPage.map(movie -> {
+            MovieResponse movieResponse = MovieResponse.builder()
+                    .id(movie.getId())
+                    .name(movie.getName())
+                    .description(movie.getDescription())
+                    .image(movie.getImage())
+                    .slug(movie.getSlug())
+                    .releaseDate(movie.getReleaseDate())
+                    .duration(movie.getDuration())
+                    .idGenre(movie.getGenre().getId())
+                    .idMovieType(movie.getMovieType().getId())
+                    .idCountry(movie.getCountry().getId())
+                    .episode(movie.getEpisode())
+                    .hot(movie.getHot())
+                    .isFee(movie.getIsFee())
+                    .season(movie.getSeason())
+                    .limitedAge(movie.getLimitedAge())
+                    .movieTypeName(movie.getMovieType().getName())
+                    .countryName(movie.getCountry().getName())
+                    .genreName(movie.getGenre().getName())
+                    .numberViews(movie.getNumberView())
+                    .build();
+            return movieResponse;
+        });
     }
 
     @Override

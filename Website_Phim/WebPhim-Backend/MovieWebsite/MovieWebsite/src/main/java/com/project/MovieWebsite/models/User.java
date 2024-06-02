@@ -58,6 +58,7 @@ public class User extends BaseEntity implements UserDetails {
     @Column(name = "is_active")
     private int isActive;
 
+
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
         List<SimpleGrantedAuthority> authorities= new ArrayList<>();

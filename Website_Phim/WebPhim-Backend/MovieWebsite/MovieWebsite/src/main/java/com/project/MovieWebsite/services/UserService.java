@@ -18,7 +18,7 @@ public interface UserService {
 
     void deleteUser(int userId);
 
-    void updatePassword(String phoneNumber, String newPassword);
+    User updatePassword(String phoneNumber, String newPassword);
 
     String login(String phoneNumber, String password) throws Exception;
 

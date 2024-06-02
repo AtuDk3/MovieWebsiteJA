@@ -6,14 +6,18 @@ import com.project.MovieWebsite.models.User;
 
 import lombok.*;
 
+import java.time.LocalDateTime;
+import java.time.ZoneId;
 import java.util.Date;
+
+import static net.minidev.asm.ConvertDate.convertToDate;
 
 @Getter
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-public class UserResponse extends BaseResponse{
+public class UserResponse{
 
     @JsonProperty("id")
     private int id;
@@ -42,7 +46,7 @@ public class UserResponse extends BaseResponse{
     @JsonProperty("vip_id")
     private int vipId;
 
-    @JsonProperty("role_id")
+    @JsonProperty("role")
     private Role role;
 
     @JsonProperty("img_avatar")
@@ -50,6 +54,12 @@ public class UserResponse extends BaseResponse{
 
     @JsonProperty("is_active")
     private int isActive;
+
+    @JsonProperty("created_at")
+    private Date createdAt;
+
+    @JsonProperty("updated_at")
+    private Date updatedAt;
 
     public static UserResponse fromUser(User user) {
         UserResponse userResponse = UserResponse.builder().
@@ -61,12 +71,18 @@ public class UserResponse extends BaseResponse{
                 dob(user.getDob()).
                 googleAccountId(user.getGoogleAccountId()).
                 facebookAccountId(user.getFacebookAccountId()).
+                createdAt(convertToDate(user.getCreateAt())).
+                updatedAt(convertToDate(user.getUpdateAt())).
                 vipId(user.getUserVip().getId()).
                 role(user.getRole()).
                 email(user.getEmail()).
                 isActive(user.getIsActive()).
                 build();
         return userResponse;
+    }
+
+    private static Date convertToDate(LocalDateTime dateTime) {
+        return dateTime != null ? Date.from(dateTime.atZone(ZoneId.systemDefault()).toInstant()) : null;
     }
 
 }

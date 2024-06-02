@@ -2,6 +2,10 @@ package com.project.MovieWebsite.repositories;
 
 import com.project.MovieWebsite.models.Episode;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Query;
+
+import java.util.List;
 
 public interface EpisodeRepository extends JpaRepository<Episode, Integer> {
+    List<Episode> findByMovieId(int movieId);
 }

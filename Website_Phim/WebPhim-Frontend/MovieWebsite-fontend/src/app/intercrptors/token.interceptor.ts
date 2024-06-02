@@ -6,13 +6,13 @@ import { TokenService } from '../service/token.service';
 @Injectable({
     providedIn: 'root'
   })
-  
+
   export class TokenInterceptor implements HttpInterceptor {
     constructor(private tokenService: TokenService){}
     
     intercept(req: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
-        debugger
         const token = this.tokenService.getToken();
+        debugger
         if (token) {
             req = req.clone({
                 setHeaders: {

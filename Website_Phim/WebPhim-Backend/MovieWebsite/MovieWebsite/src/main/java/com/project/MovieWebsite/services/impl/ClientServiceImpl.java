@@ -2,6 +2,7 @@ package com.project.MovieWebsite.services.impl;
 
 import com.project.MovieWebsite.dtos.DataMailDTO;
 import com.project.MovieWebsite.dtos.UserDTO;
+import com.project.MovieWebsite.models.User;
 import com.project.MovieWebsite.services.ClientService;
 import com.project.MovieWebsite.services.MailService;
 import com.project.MovieWebsite.utils.Const;
@@ -36,6 +37,25 @@ public class ClientServiceImpl implements ClientService {
             dataMail.setProps(props);
             mailService.sendHtmlMail(dataMail, Const.TEMPLATE_FILE_NAME.CLIENT_REGISTER);
             return password;
+        } catch (MessagingException exp){
+            exp.printStackTrace();
+        }
+        return null;
+    }
+
+    @Override
+    public String forgot_password(User user) {
+        try {
+            DataMailDTO dataMail = new DataMailDTO();
+            dataMail.setTo(user.getEmail());
+            dataMail.setSubject(Const.SEND_MAIL_FORGOT_PASSWORD.FORGOT_PASSWORD);
+            Map<String, Object> props = new HashMap<>();
+            String otp= DataUtils.generateTempPwd(6);
+            props.put("name", user.getFullName());
+            props.put("otp", otp);
+            dataMail.setProps(props);
+            mailService.sendHtmlMail(dataMail, Const.TEMPLATE_FILE_NAME_FORGOT_PASSWORD.FORGOT_PASSWORD);
+            return otp;
         } catch (MessagingException exp){
             exp.printStackTrace();
         }

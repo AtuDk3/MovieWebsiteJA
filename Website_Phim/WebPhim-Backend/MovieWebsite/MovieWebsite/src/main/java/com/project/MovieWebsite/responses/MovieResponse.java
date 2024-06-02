@@ -4,9 +4,8 @@ package com.project.MovieWebsite.responses;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.project.MovieWebsite.models.Movie;
 import lombok.*;
-import org.springframework.web.servlet.ModelAndView;
 
-import java.time.LocalDateTime;
+import java.util.Date;
 
 @Getter
 @Setter
@@ -14,7 +13,8 @@ import java.time.LocalDateTime;
 @NoArgsConstructor
 @Builder
 
-public class MovieResponse extends BaseResponse {
+public class MovieResponse {
+    private  int id;
 
     private String name;
 
@@ -25,7 +25,7 @@ public class MovieResponse extends BaseResponse {
     private String slug;
 
     @JsonProperty("release_date")
-    private LocalDateTime releaseDate;
+    private Date releaseDate;
 
     private String duration;
 
@@ -59,8 +59,12 @@ public class MovieResponse extends BaseResponse {
     @JsonProperty("country_name")
     private String countryName;
 
-    public static MovieResponse fromMovie(Movie movie){
+    @JsonProperty("number_views")
+    private int numberViews;
+
+    public  static MovieResponse fromMovie(Movie movie){
         MovieResponse movieResponse = MovieResponse.builder()
+                .id(movie.getId())
                 .name(movie.getName())
                 .description(movie.getDescription())
                 .image(movie.getImage())
@@ -78,6 +82,7 @@ public class MovieResponse extends BaseResponse {
                 .movieTypeName(movie.getMovieType().getName())
                 .countryName(movie.getCountry().getName())
                 .genreName(movie.getGenre().getName())
+                .numberViews(movie.getNumberView())
                 .build();
         return movieResponse;
     }

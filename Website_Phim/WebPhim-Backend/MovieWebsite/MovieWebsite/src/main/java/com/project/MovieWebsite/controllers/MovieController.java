@@ -1,3 +1,4 @@
+
 package com.project.MovieWebsite.controllers;
 
 import com.project.MovieWebsite.dtos.MovieDTO;
@@ -28,6 +29,7 @@ import java.nio.file.Paths;
 import java.nio.file.StandardCopyOption;
 import java.util.List;
 import java.util.UUID;
+import java.util.stream.Collectors;
 
 @RestController
 @RequiredArgsConstructor
@@ -38,7 +40,7 @@ public class MovieController {
     private final MovieRepository movieRepository;
 
     @PostMapping("")
-    public ResponseEntity<?> createMovieType(@Valid @RequestBody MovieDTO movieDTO, BindingResult result) {
+    public ResponseEntity<?> createMovie(@Valid @RequestBody MovieDTO movieDTO, BindingResult result) {
         if (result.hasErrors()) {
             List<String> errorsMessage = result.getFieldErrors().stream().map(FieldError::getDefaultMessage).toList();
             return ResponseEntity.badRequest().body(errorsMessage);
@@ -51,15 +53,30 @@ public class MovieController {
         }
     }
 
-    @GetMapping("")
-    public ResponseEntity<MovieListResponse> getMovies(
+    @GetMapping("/genres")
+    public ResponseEntity<MovieListResponse> getMovieByGenreId(
             @RequestParam(defaultValue = "") String keyword,
             @RequestParam(defaultValue = "0", name = "genre_id") int genreId,
             @RequestParam(defaultValue = "0") int page,
             @RequestParam(defaultValue = "10") int limit
     ){
         PageRequest pageRequest = PageRequest.of(page, limit, Sort.by("id").descending());
-        Page<MovieResponse> moviePage = movieService.getAllMovies(keyword, genreId, pageRequest);
+        Page<MovieResponse> moviePage = movieService.getAllMoviesByGenreId(keyword, genreId, pageRequest);
+        int totalPages = moviePage.getTotalPages();
+        List<MovieResponse> movies = moviePage.getContent();
+        return ResponseEntity.ok(MovieListResponse.builder()
+                .movies(movies).totalPages(totalPages).build());
+    }
+
+    @GetMapping("/countries")
+    public ResponseEntity<MovieListResponse> getMovieByCountryId(
+            @RequestParam(defaultValue = "") String keyword,
+            @RequestParam(defaultValue = "0", name = "country_id") int countryId,
+            @RequestParam(defaultValue = "0") int page,
+            @RequestParam(defaultValue = "10") int limit
+    ){
+        PageRequest pageRequest = PageRequest.of(page, limit, Sort.by("id").descending());
+        Page<MovieResponse> moviePage = movieService.getAllMoviesByCountryId(keyword, countryId, pageRequest);
         int totalPages = moviePage.getTotalPages();
         List<MovieResponse> movies = moviePage.getContent();
         return ResponseEntity.ok(MovieListResponse.builder()
@@ -77,6 +94,32 @@ public class MovieController {
             return ResponseEntity.badRequest().body(e.getMessage());
         }
     }
+
+//    @GetMapping("/genres/{genreId}")
+//    public ResponseEntity<?> getMovieByGenreId(@PathVariable("genreId") int genreId) {
+//        try {
+//            List<Movie> moviesByGenre = movieService.getMoviesByGenreId(genreId);
+//            List<MovieResponse> movieResponses = moviesByGenre.stream()
+//                    .map(MovieResponse::fromMovie)
+//                    .collect(Collectors.toList());
+//            return ResponseEntity.ok(movieResponses);
+//        } catch (Exception e) {
+//            return ResponseEntity.badRequest().body(e.getMessage());
+//        }
+//    }
+//
+//    @GetMapping("/countries/{countryId}")
+//    public ResponseEntity<?> getMovieByCountryId(@PathVariable("countryId") int countryId) {
+//        try {
+//            List<Movie> moviesByCountry = movieService.getMoviesByCountryId(countryId);
+//            List<MovieResponse> movieResponses = moviesByCountry.stream()
+//                    .map(MovieResponse::fromMovie)
+//                    .collect(Collectors.toList());
+//            return ResponseEntity.ok(movieResponses);
+//        } catch (Exception e) {
+//            return ResponseEntity.badRequest().body(e.getMessage());
+//        }
+//    }
 
     @PostMapping(value= "upload_movie/{id}", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
     public ResponseEntity<?> uploadAvatar (

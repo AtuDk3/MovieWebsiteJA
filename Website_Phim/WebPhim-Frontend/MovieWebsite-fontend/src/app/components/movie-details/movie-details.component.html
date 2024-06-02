@@ -7,7 +7,7 @@
          <div class="panel-heading">
             <div class="row">
                <div class="col-xs-6">
-                  <div class="yoast_breadcrumb hidden-xs"><span><span><a href="danhmuc.php">Phim hay</a> » <span><a
+                  <div class="yoast_breadcrumb hidden-xs"><span><span><a href="">Phim hay</a> » <span><a
                                  href="danhmuc.php">{{ movie.country_name }}</a> » <span class="breadcrumb_last"
                                  aria-current="page">{{ movie.name }}</span></span></span></span></div>
                </div>
@@ -35,7 +35,7 @@
                         <img class="movie-thumb" [src]="movie.url" alt="{{ movie.name }}">
                         <div class="bwa-content">
                            <div class="loader"></div>
-                           <a href="" class="bwac-btn">
+                           <a href="/watching/{{ movie.id }}" class="bwac-btn">
                               <i class="fa fa-play"></i>
                            </a>
                         </div>
@@ -44,8 +44,7 @@
                         <h1 class="movie-title title-1"
                            style="display:block;line-height:35px;margin-bottom: -14px;color: #ffed4d;text-transform: uppercase;font-size: 18px;">
                            {{ movie.name }}</h1>
-                        <h2 class="movie-title title-2" style="font-size: 12px;">{{ movie.genre_name }} ({{
-                           movie.release_date }})</h2>
+                        <h2 class="movie-title title-2" style="font-size: 12px;">{{ movie.genre_name }} ({{ movie.release_date_formated}})</h2>
                         <ul class="list-info-group">
                            <li class="list-info-group-item"><span>Trạng Thái</span> : <span
                                  class="quality">HD</span><span class="episode">Vietsub</span></li>
@@ -61,11 +60,11 @@
                               <a href="link-to-category3" rel="category">Phiêu Lưu</a>,
                               <a href="link-to-category4" rel="category">Viễn Tưởng</a>
                            </li>
-                           <li class="list-info-group-item"><span>Quốc gia</span> : <a href="" rel="tag">{{
+                           <li class="list-info-group-item"><span>Quốc gia</span> : <a routerLink="/country/{{movie.id_country}}" rel="tag">{{
                                  movie.country_name }}</a></li>
                            <li class="list-info-group-item"><span>Số lượt xem</span> : <a class="director"
                                  rel="nofollow" href="https://phimhay.co/dao-dien/cate-shortland"
-                                 title="Cate Shortland">{{ movie.number_view }}</a></li>
+                                 title="Cate Shortland">{{ movie.number_views }}</a></li>
                            <li class="list-info-group-item last-item"
                               style="-overflow: hidden;-display: -webkit-box;-webkit-line-clamp: 1;-webkit-box-flex: 1;-webkit-box-orient: vertical;">
                               <span>Độ tuổi giới hạn</span> : {{ movie.limited_age }}</li>
@@ -84,7 +83,7 @@
                   <div class="video-item halim-entry-box">
                      <article id="post-38424" class="item-content">
                         Phim <a href="https://phimhay.co/goa-phu-den-38424/">{{ movie.name }}</a> - {{
-                        movie.release_date }} - {{ movie.country_name }}:
+                        movie.release_date_formated }} - {{ movie.country_name }}:
                         <p>{{ movie.name }} &#8211; {{ movie.description }}</p>
                         <h5>Từ Khoá Tìm Kiếm:</h5>
                         <ul>
