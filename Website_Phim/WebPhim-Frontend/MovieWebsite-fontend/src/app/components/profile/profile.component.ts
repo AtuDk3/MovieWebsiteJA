@@ -1,8 +1,9 @@
+
 import { Component, ViewChild } from '@angular/core';
 import { NgForm } from '@angular/forms';
-import { UserService } from '../../service/user.service';
+import { UserService } from '../../services/user.service';
 import { UserResponse } from '../../responses/user/user.response';
-import { TokenService } from '../../service/token.service';
+import { TokenService } from '../../services/token.service';
 import { Router } from '@angular/router';
 import { DomSanitizer, SafeUrl } from '@angular/platform-browser';
 import { UpdateUserDTO } from '../../dtos/user/updateuser.dto';

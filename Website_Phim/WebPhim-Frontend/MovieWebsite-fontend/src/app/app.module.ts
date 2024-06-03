@@ -23,9 +23,18 @@ import { ProfileComponent } from './components/profile/profile.component';
 import { LoginLayoutComponent } from './layouts/login-layout/login-layout.component';
 import { MainLayoutComponent } from './layouts/main-layout/main-layout.component';
 import { ChangePasswordComponent } from './components/change-password/change-password.component';
+import { RatingComponent } from './components/rating/rating.component';
+import { CommentComponent } from './components/comment/comment.component';
+import { AdminSidebarComponent } from './components/admin/admin-sidebar/admin-sidebar.component';
+import { AdminHeaderComponent } from './components/admin/admin-header/admin-header.component';
+import { AdminDashboardComponent } from './components/admin/admin-dashboard/admin-dashboard.component';
+import { AdminLayoutComponent } from './layouts/admin-layout/admin-layout.component';
+import { SeriesMovieComponent } from './components/series-movie/series-movie.component';
+import { SingleMovieComponent } from './components/single-movie/single-movie.component';
+import { TheatersMovieComponent } from './components/theaters-movie/theaters-movie.component';
+import { MovieTypeComponent } from './components/movie-type/movie-type.component';
 import { ForgotPasswordComponent } from './components/forgot-password/forgot-password.component';
 import { ResetPasswordComponent } from './components/reset-password/reset-password.component';
-import { AdminComponent } from './components/admin/admin.component';
 
 @NgModule({
   declarations: [
@@ -45,9 +54,18 @@ import { AdminComponent } from './components/admin/admin.component';
     LoginLayoutComponent,
     MainLayoutComponent,
     ChangePasswordComponent,
+    RatingComponent,
+    CommentComponent,
+    AdminSidebarComponent,
+    AdminHeaderComponent,
+    AdminDashboardComponent,
+    AdminLayoutComponent,
+    SeriesMovieComponent,
+    SingleMovieComponent,
+    TheatersMovieComponent,
+    MovieTypeComponent,
     ForgotPasswordComponent,
     ResetPasswordComponent,
-    AdminComponent,
   ],
   imports: [
     BrowserModule,

@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { environment } from '../../environments/environment';
-import { MovieService } from '../../service/movie.service';
-import { GenreService } from '../../service/genre.service';
+import { MovieService } from '../../services/movie.service';
+import { GenreService } from '../../services/genre.service';
 import { Movie } from '../../models/movie';
 import { ActivatedRoute, Router } from '@angular/router';
 
@@ -13,7 +13,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 export class MovieDetailsComponent implements OnInit {
   movie?: Movie;
   movieId: number = 0; 
-  
+
   constructor(
     private movieService: MovieService, 
     private genreService: GenreService,

@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { EpisodeService } from '../../service/episode.service';
+import { EpisodeService } from '../../services/episode.service';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Episode } from '../../models/episode';
 import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
@@ -31,7 +31,6 @@ export class WatchingComponent implements OnInit {
     if (!isNaN(this.movieId) && this.movieId > 0) {
       this.episodeService.getWatchingMovie(this.movieId).subscribe({
         next: (response: any) => {
-          debugger
           if (Array.isArray(response) && response.length > 0) {
             this.episodes = response;
             this.selectEpisode(this.episodes[0]);  // Select the first episode by default

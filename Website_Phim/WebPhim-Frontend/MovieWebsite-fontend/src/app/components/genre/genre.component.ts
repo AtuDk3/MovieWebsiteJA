@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { environment } from '../../environments/environment';
-import { MovieService } from '../../service/movie.service';
+import { MovieService } from '../../services/movie.service';
 import { Movie } from '../../models/movie';
 import { ActivatedRoute } from '@angular/router';
 
@@ -15,7 +15,6 @@ export class GenreComponent implements OnInit {
   itemsPerPage: number = 6;
   totalPages: number = 0;
   visiblePages: number[] = []; 
-  keyword: string = '';
   genre_id: number = 0;
   genreName: string = '';
 

@@ -1,9 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { environment } from '../../environments/environment';
-import { MovieService } from '../../service/movie.service';
+import { MovieService } from '../../services/movie.service';
 import { Movie } from '../../models/movie';
-import { Router, ActivatedRoute } from '@angular/router';
-import { consumerPollProducersForChange } from '@angular/core/primitives/signals';
+import { ActivatedRoute } from '@angular/router';
 
 @Component({
   selector: 'app-country',
@@ -49,20 +48,26 @@ export class CountryComponent implements OnInit {
       }
     });
   }
+  
+generateVisiblePageArray(currentPage: number, totalPages: number): number[] {
+  const maxVisiblePages = 5;
+  const halfVisiblePages = Math.floor(maxVisiblePages / 2);
 
-  generateVisiblePageArray(currentPage: number, totalPages: number): number[] {
-    const maxVisiblePages = 5;
-    const halfVisiblePages = Math.floor(maxVisiblePages / 2);
+  let startPage = Math.max(currentPage - halfVisiblePages, 0); // Bắt đầu từ 0
+  let endPage = Math.min(startPage + maxVisiblePages - 1, totalPages - 1); // Dựa vào totalPages
 
-    let startPage = Math.max(currentPage - halfVisiblePages, 0); // Bắt đầu từ 0
-    let endPage = Math.min(startPage + maxVisiblePages - 1, totalPages - 1); // Dựa vào totalPages
-
-    if (endPage - startPage + 1 < maxVisiblePages) {
-      startPage = Math.max(endPage - maxVisiblePages + 1, 0); // Bắt đầu từ 0
-    }
-
-    return new Array(endPage - startPage + 1).fill(0).map((_, index) => startPage + index);
+  if (endPage - startPage + 1 < maxVisiblePages) {
+    startPage = Math.max(endPage - maxVisiblePages + 1, 0); // Bắt đầu từ 0
   }
+
+  const visiblePages = [];
+  for (let i = startPage; i <= endPage; i++) {
+      visiblePages.push(i);
+  }
+
+  return visiblePages;
+}
+
 
   goToPage(page: number, event: Event) {
     event.preventDefault();

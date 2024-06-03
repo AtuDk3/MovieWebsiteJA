@@ -1,7 +1,7 @@
 import { Injectable, inject } from "@angular/core";
-import { TokenService } from "../service/token.service";
+import { TokenService } from "../services/token.service";
 import { ActivatedRouteSnapshot, CanActivateFn, Router, RouterStateSnapshot } from "@angular/router";
-import { UserService } from "../service/user.service";
+import { UserService } from "../services/user.service";
 import { UserResponse } from "../responses/user/user.response";
 
 @Injectable({

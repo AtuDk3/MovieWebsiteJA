@@ -1,3 +1,5 @@
+<link rel="stylesheet" href="../../../assets/css/style.css">
+<body>
 <div class="container">
    <div class="row fullwith-slider"></div>
 </div>
@@ -60,7 +62,7 @@
                               <a href="link-to-category3" rel="category">Phiêu Lưu</a>,
                               <a href="link-to-category4" rel="category">Viễn Tưởng</a>
                            </li>
-                           <li class="list-info-group-item"><span>Quốc gia</span> : <a routerLink="/country/{{movie.id_country}}" rel="tag">{{
+                           <li class="list-info-group-item"><span>Quốc gia</span> : <a href="" rel="tag">{{
                                  movie.country_name }}</a></li>
                            <li class="list-info-group-item"><span>Số lượt xem</span> : <a class="director"
                                  rel="nofollow" href="https://phimhay.co/dao-dien/cate-shortland"
@@ -92,6 +94,14 @@
                      </article>
                   </div>
                </div>
+               <div class="section-bar clearfix">
+                  <h2 class="section-title"><span style="color:#ffed4d">Đánh giá phim</span></h2>
+               </div>
+               <div class="entry-content htmlwrap clearfix">
+                  <div class="video-item halim-entry-box">
+                     <app-comment></app-comment>
+            </div>
+         </div>
             </div>
          </section>
          <app-movie-related></app-movie-related>
@@ -99,3 +109,4 @@
       <app-top-views></app-top-views>
    </div>
 </div>
+</body>

@@ -1,7 +1,7 @@
 import { Component, ViewChild } from '@angular/core';
 import { NgForm } from '@angular/forms';
-import { UserService } from '../../service/user.service';
-import { TokenService } from '../../service/token.service';
+import { UserService } from '../../services/user.service';
+import { TokenService } from '../../services/token.service';
 import { Router } from '@angular/router';
 @Component({
   selector: 'app-change-password',

@@ -15,7 +15,7 @@ export class EpisodeService {
   constructor(private http: HttpClient) { }
 
   getWatchingMovie(movieId: number){
-    return this.http.get(`${this.apiGetMovies}/movies/${movieId}`);
+    return this.http.get(`${environment.apiBaseUrl}/episodes/movies/${movieId}`);
   }
 
 }

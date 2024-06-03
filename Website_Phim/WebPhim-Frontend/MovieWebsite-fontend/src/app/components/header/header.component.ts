@@ -1,12 +1,13 @@
 import { Component, OnInit} from '@angular/core';
-import { GenreService } from '../../service/genre.service';
-import { CountryService } from '../../service/country.service';
+import { GenreService } from '../../services/genre.service';
+import { CountryService } from '../../services/country.service';
 import { Genre } from '../../models/genre';
 import { Country } from '../../models/country';
-import { UserService } from '../../service/user.service';
+import { UserService } from '../../services/user.service';
 import { UserResponse } from '../../responses/user/user.response';
-import { TokenService } from '../../service/token.service';
+import { TokenService } from '../../services/token.service';
 import { Router } from '@angular/router';
+
 @Component({
   selector: 'app-header',
   templateUrl: './header.component.html',
@@ -18,14 +19,15 @@ export class HeaderComponent implements OnInit {
   showGenreMenu: boolean = false;
   showCountryMenu: boolean = false;
   showYearMenu: boolean = false;
-  userResponse?:UserResponse | null;
+  showProfileMenu: boolean = false;
+  userResponse?:UserResponse | null
   isPopoverOpen= false;
   search: string = '';
 
   constructor(private genreService: GenreService, private countryService: CountryService,
     private userService: UserService,
-    private tokenService: TokenService,
-    private router: Router
+    private tokenService: TokenService
+    , private  router: Router
   ) {
     
   }
@@ -68,6 +70,8 @@ export class HeaderComponent implements OnInit {
       this.showCountryMenu = true;
     } else if (menu === 'year') {
       this.showYearMenu = true;
+    } else if (menu === 'profile') {
+      this.showProfileMenu = true;
     }
   }
 
@@ -78,13 +82,16 @@ export class HeaderComponent implements OnInit {
       this.showCountryMenu = false;
     } else if (menu === 'year') {
       this.showYearMenu = false;
-    }
+    } else if (menu === 'profile') {
+      this.showProfileMenu = false;
+    } 
   }
 
   private hideAllMenus() {
     this.showGenreMenu = false;
     this.showCountryMenu = false;
     this.showYearMenu = false;
+    this.showProfileMenu = false;
   }
 
   searchMovie(){   
@@ -92,6 +99,26 @@ export class HeaderComponent implements OnInit {
     this.search='';
   }
 
+  logout(){
+    this.userService.removeUserFromLocalStorage();
+    this.tokenService.removeToken();
+    this.userResponse= this.userService.getUserResponseFromLocalStorage();
+  }
+
+  // togglePopover(event: Event): void{
+  //   event.preventDefault();
+  //   this.isPopoverOpen= !this.isPopoverOpen;
+  // }
+
+  // handleItemClick(index: number): void{
+  //   //alert(`Clicked on "${index}"`);
+  //   if(index==1){
+  //     this.userService.removeUserFromLocalStorage();
+  //     this.tokenService.removeToken();
+  //     this.userResponse= this.userService.getUserResponseFromLocalStorage();
+  //   }
+  //   this.isPopoverOpen= false;
+  // }
 
 
 

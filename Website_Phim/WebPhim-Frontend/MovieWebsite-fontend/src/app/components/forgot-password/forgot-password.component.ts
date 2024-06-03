@@ -1,6 +1,7 @@
+
 import { Component } from '@angular/core';
 import { Router } from '@angular/router';
-import { UserService } from '../../service/user.service';
+import { UserService } from '../../services/user.service';
 
 @Component({
   selector: 'app-forgot-password',
@@ -20,6 +21,7 @@ export class ForgotPasswordComponent {
   constructor(private userService: UserService, private router: Router) { }
 
   onSubmit() {
+    debugger
     this.userService.forgotPassword(this.email).subscribe({
       next: response => {
         this.check_otp = response['check_otp'];

@@ -1,11 +1,12 @@
+
 import { Component, ViewChild } from '@angular/core';
 import { NgForm } from '@angular/forms';
 import { Router } from '@angular/router';
-import { UserService } from '../../service/user.service';
+import { UserService } from '../../services/user.service';
 import {LoginResponse} from '../../responses/user/login.response';
-import {TokenService} from '../../service/token.service';
+import { TokenService } from '../../services/token.service';
 import { UserResponse } from '../../responses/user/user.response';
-import { environment } from '../../environments/environment';
+
 
 
 @Component({
@@ -48,16 +49,7 @@ export class LoginComponent {
             debugger
             this.userService.getUserDetails(token).subscribe({
               next: (response: any) =>{
-                debugger
-                // this.userResponse= {
-                //   id: response.id,
-                //   full_name: response.full_name,
-                //   is_active: response.is_active,
-                //   date_of_birth: new Date (response.date_of_birth),
-                //   facebook_account_id: response.facebook_account_id,
-                //   google_account_id: response.google_account_id,
-                //   role: response.role
-                // }
+                debugger               
                 this.userResponse={
                   ... response                                
                } 
@@ -86,8 +78,7 @@ export class LoginComponent {
               error: (error: any) => {               
                 alert(error.error.message);
               }
-            })
-                  
+            })                 
       },
       complete: () => {
         debugger
