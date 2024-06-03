@@ -58,8 +58,8 @@ const routes: Routes = [
     path: 'admin',
     component: AdminLayoutComponent,
     children: [
-      { path: '', component: AdminDashboardComponent},
-      { path: 'admin', component: AdminDashboardComponent, canActivate:[AdminGuardFn]},
+      //{ path: '', component: AdminDashboardComponent},
+      { path: '', component: AdminDashboardComponent, canActivate:[AdminGuardFn]},
     ]
   }
 ];

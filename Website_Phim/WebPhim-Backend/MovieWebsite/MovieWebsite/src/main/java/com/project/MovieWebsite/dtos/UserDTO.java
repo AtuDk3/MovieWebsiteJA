@@ -15,6 +15,7 @@ import java.util.Date;
 @NoArgsConstructor
 
 public class UserDTO {
+
     @NotBlank(message = "Full name can not empty!")
     @JsonProperty("full_name")
     @Size(min = 5, message = "Full Name must have more than 3 character!")

@@ -1,4 +1,5 @@
 import { Role } from "../../models/role";
+import { UserVip } from "../../models/user_vip";
 
 export interface UserResponse{
     id: number;
@@ -15,4 +16,5 @@ export interface UserResponse{
     created_at: Date;
     created_at_formatted: string;
     date_of_birth_formatted: string;
+    user_vip: UserVip;
 }

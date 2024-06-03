@@ -92,7 +92,7 @@ public class UserServiceImpl implements UserService {
         String newPhoneNumber= userUpdateDTO.getPhoneNumber();
         if(!existingUser.getPhoneNumber().equals(newPhoneNumber) &&
         userRepository.existsByPhoneNumber(newPhoneNumber)){
-            throw new DataNotFoundException("Phone number already exists");
+            throw new DataNotFoundException("phone number already exists");
         }
 
         if (userUpdateDTO.getFullName() != null) {
@@ -108,10 +108,10 @@ public class UserServiceImpl implements UserService {
             existingUser.setGoogleAccountId(userUpdateDTO.getGoogleAccountId());
         }
 
-        if(userUpdateDTO.getPassword() !=null && !userUpdateDTO.getPassword().isEmpty()){
-            String newPassword= userUpdateDTO.getPassword();
-            String encodedPassword= passwordEncoder.encode(newPassword);
-            existingUser.setPassword(encodedPassword);
+        if (userUpdateDTO.getVipId()!=existingUser.getUserVip().getId()) {
+            UserVIP existingUserVip= userVIPRepository.findById(userUpdateDTO.getVipId())
+                    .orElseThrow(() -> new DataNotFoundException("Cannot find user vip with id: "+userUpdateDTO.getVipId()));
+            existingUser.setUserVip(existingUserVip);
         }
 
         return existingUser;

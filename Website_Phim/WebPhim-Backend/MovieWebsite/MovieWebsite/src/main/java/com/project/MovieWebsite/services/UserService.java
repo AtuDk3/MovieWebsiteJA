@@ -8,6 +8,7 @@ import com.project.MovieWebsite.models.User;
 import java.util.List;
 
 public interface UserService {
+
     User createUser(UserDTO userDTO) throws DataNotFoundException;
 
     User getUserById(int userId) throws DataNotFoundException;

@@ -83,6 +83,21 @@ public class MovieController {
                 .movies(movies).totalPages(totalPages).build());
     }
 
+    @GetMapping("/movie_types")
+    public ResponseEntity<MovieListResponse> getMovieByMovieTypeId(
+            @RequestParam(defaultValue = "") String keyword,
+            @RequestParam(defaultValue = "0", name = "movie_type_id") int movieTypeId,
+            @RequestParam(defaultValue = "0") int page,
+            @RequestParam(defaultValue = "10") int limit
+    ){
+        PageRequest pageRequest = PageRequest.of(page, limit, Sort.by("id").descending());
+        Page<MovieResponse> moviePage = movieService.getAllMoviesByMovieTypeId(keyword, movieTypeId, pageRequest);
+        int totalPages = moviePage.getTotalPages();
+        List<MovieResponse> movies = moviePage.getContent();
+        return ResponseEntity.ok(MovieListResponse.builder()
+                .movies(movies).totalPages(totalPages).build());
+    }
+
     @GetMapping("/{id}")
     public ResponseEntity<?> getMovieById(
             @PathVariable("id") int movieId

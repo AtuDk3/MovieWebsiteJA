@@ -7,6 +7,7 @@ import { UserService } from '../../services/user.service';
 import { UserResponse } from '../../responses/user/user.response';
 import { TokenService } from '../../services/token.service';
 import { Router } from '@angular/router';
+import { VipPeriodResponse } from '../../responses/user/vip_period.response';
 
 @Component({
   selector: 'app-header',
@@ -21,6 +22,7 @@ export class HeaderComponent implements OnInit {
   showYearMenu: boolean = false;
   showProfileMenu: boolean = false;
   userResponse?:UserResponse | null
+  vipPeriodResponse?:VipPeriodResponse | null
   isPopoverOpen= false;
   search: string = '';
 
@@ -36,6 +38,14 @@ export class HeaderComponent implements OnInit {
     this.getGenres();
     this.getCountries();
     if(!this.tokenService.isTokenExpired()){
+      this.userResponse= this.userService.getUserResponseFromLocalStorage();
+      if(this.userResponse?.user_vip.name.includes('vip')){
+        this.getVipPeriod();
+      }     
+    }else{
+      this.userService.removeUserFromLocalStorage();
+      this.userService.removeVipPeriodFromLocalStorage();
+      this.tokenService.removeToken();
       this.userResponse= this.userService.getUserResponseFromLocalStorage();
     }
   }
@@ -105,20 +115,38 @@ export class HeaderComponent implements OnInit {
     this.userResponse= this.userService.getUserResponseFromLocalStorage();
   }
 
-  // togglePopover(event: Event): void{
-  //   event.preventDefault();
-  //   this.isPopoverOpen= !this.isPopoverOpen;
-  // }
+  getVipPeriod(){
+    this.userService.getVipPeriod(this.tokenService.getToken()!).subscribe({
+      next: (response: any) =>{
+        debugger               
+        this.vipPeriodResponse={
+          ... response                                
+       } 
+        if (this.vipPeriodResponse) {                  
+          const day =  ('0' + (new Date(this.vipPeriodResponse.registration_date).getDate())).slice(-2);
+          const month = ('0' + (new Date(this.vipPeriodResponse.registration_date).getMonth() +1 )).slice(-2); 
+          const year = new Date(this.vipPeriodResponse.registration_date).getFullYear();
+          const formattedDate = `${day}/${month}/${year}`;
+          this.vipPeriodResponse.registration_date_formatted = formattedDate;
 
-  // handleItemClick(index: number): void{
-  //   //alert(`Clicked on "${index}"`);
-  //   if(index==1){
-  //     this.userService.removeUserFromLocalStorage();
-  //     this.tokenService.removeToken();
-  //     this.userResponse= this.userService.getUserResponseFromLocalStorage();
-  //   }
-  //   this.isPopoverOpen= false;
-  // }
+          const day1 =  ('0' + (new Date(this.vipPeriodResponse.expiration_date).getDate())).slice(-2);
+          const month1 = ('0' + (new Date(this.vipPeriodResponse.expiration_date).getMonth() +1 )).slice(-2); 
+          const year1 = new Date(this.vipPeriodResponse.expiration_date).getFullYear();
+          const formattedDate1 = `${day1}/${month1}/${year1}`;
+          this.vipPeriodResponse.expiration_date_formatted = formattedDate1;
+          this.userService.saveVipPeriodResponseToLocalStorage(this.vipPeriodResponse); 
+      }             
+
+      },
+      complete: () => {
+      },
+      error: (error: any) => {               
+        console.log(error.error.message);
+      }
+    })        
+  }
+
+  
 
 
 

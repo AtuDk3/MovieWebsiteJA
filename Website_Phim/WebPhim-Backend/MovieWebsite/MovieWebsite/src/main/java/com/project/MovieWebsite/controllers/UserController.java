@@ -5,14 +5,17 @@ import com.project.MovieWebsite.constants.MessageKeys;
 import com.project.MovieWebsite.dtos.UpdateUserDTO;
 import com.project.MovieWebsite.dtos.UserDTO;
 import com.project.MovieWebsite.dtos.UserLoginDTO;
+import com.project.MovieWebsite.dtos.VipPeriodDTO;
 import com.project.MovieWebsite.models.User;
+import com.project.MovieWebsite.models.VipPeriod;
 import com.project.MovieWebsite.repositories.UserRepository;
+import com.project.MovieWebsite.repositories.VipPeriodRepository;
 import com.project.MovieWebsite.responses.LoginResponse;
 import com.project.MovieWebsite.responses.UserResponse;
+import com.project.MovieWebsite.responses.VipPeriodResponse;
 import com.project.MovieWebsite.services.ClientService;
 import com.project.MovieWebsite.services.UserService;
-import com.project.MovieWebsite.services.impl.*;
-import com.project.MovieWebsite.utils.DataUtils;
+import com.project.MovieWebsite.services.VipPeriodService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.core.io.UrlResource;
@@ -45,6 +48,9 @@ public class UserController {
     private final UserRepository userRepository;
     private final LocalizationUtil localizationUtil;
     private final ClientService clientService;
+    private final VipPeriodService vipPeriodService;
+    private final VipPeriodRepository vipPeriodRepository;
+
     @PostMapping("/register")
     public ResponseEntity<?> createUser(@Valid @RequestBody UserDTO userDTO, BindingResult result) {
         try {
@@ -193,7 +199,8 @@ public class UserController {
 
             return ResponseEntity.ok(UserResponse.fromUser(updateUser));
 
-        }catch (Exception e){
+        }
+        catch (Exception e){
             return ResponseEntity.badRequest().build();
         }
     }
@@ -251,6 +258,33 @@ public class UserController {
         user= userService.updatePassword(user.getPhoneNumber(), newPassword) ; // Consider encrypting the password
         userRepository.save(user);
         return ResponseEntity.ok().build();
+    }
+
+    @PostMapping("/vip_period")
+    public ResponseEntity<?> createVipPeriod(@Valid @RequestBody VipPeriodDTO vipPeriodDTO, BindingResult result) {
+
+        if (result.hasErrors()) {
+            List<String> errorsMessage = result.getFieldErrors().stream().map(FieldError::getDefaultMessage).toList();
+            return ResponseEntity.badRequest().body(errorsMessage);
+        }
+        try{
+            vipPeriodService.createVipPeriod(vipPeriodDTO);
+            return ResponseEntity.ok().build();
+        }catch (Exception e){
+            return ResponseEntity.badRequest().body(e.getMessage());
+        }
+    }
+
+    @GetMapping("/vip_period")
+    public ResponseEntity<VipPeriodResponse> getVipPeriod(@RequestHeader("Authorization") String authorizationHeader){
+        try{
+            String extractedToken= authorizationHeader.substring(7);
+            User user= userService.getUserDetailsFromToken(extractedToken);
+            VipPeriod vipPeriod= vipPeriodRepository.findByUserId(user.getId());
+            return ResponseEntity.ok(VipPeriodResponse.fromVipPeriod(vipPeriod));
+        }catch (Exception e){
+            return ResponseEntity.badRequest().build();
+        }
     }
 
 

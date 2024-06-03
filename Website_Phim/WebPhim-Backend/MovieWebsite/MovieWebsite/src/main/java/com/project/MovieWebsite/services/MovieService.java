@@ -21,11 +21,8 @@ public interface MovieService {
 
     Page<MovieResponse> getAllMoviesByCountryId(String keyword, int countryId, PageRequest pageRequest);
 
-
-    List<Movie> getMoviesByGenreId(int genreId) throws Exception;
-
-    List<Movie> getMoviesByCountryId(int countryId) throws Exception;
-
+    Page<MovieResponse> getAllMoviesByMovieTypeId(String keyword, int movieTypeId, PageRequest pageRequest);
+    
     Movie updateMovies(int id, MovieDTO movieDTO) throws Exception;
 
     void deleteMovies(int id);

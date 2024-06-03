@@ -66,17 +66,6 @@ public class MovieServiceImpl implements MovieService {
         return movieRepository.findById(id).orElseThrow(() -> new RuntimeException("Movie not found"));
     }
 
-    @Override
-    public List<Movie> getMoviesByGenreId(int genreId) throws Exception {
-        return movieRepository.findByGenreId(genreId)
-                .orElseThrow(() -> new Exception("No movies found for this genre"));
-    }
-
-    @Override
-    public List<Movie> getMoviesByCountryId(int countryId) throws Exception {
-        return movieRepository.findByCountryId(countryId)
-                .orElseThrow(() -> new Exception("No movies found for this country"));
-    }
 
     @Override
     public Page<MovieResponse> getAllMoviesByGenreId(String keyword, int genreId, PageRequest pageRequest) {
@@ -87,6 +76,12 @@ public class MovieServiceImpl implements MovieService {
     @Override
     public Page<MovieResponse> getAllMoviesByCountryId(String keyword, int countryId, PageRequest pageRequest) {
         Page<Movie> moviesPage = movieRepository.searchMoviesByCountryId(countryId, keyword, pageRequest);
+        return mapToMovieResponsePage(moviesPage);
+    }
+
+    @Override
+    public Page<MovieResponse> getAllMoviesByMovieTypeId(String keyword, int movieTypeId, PageRequest pageRequest) {
+        Page<Movie> moviesPage = movieRepository.searchMoviesByMovieTypeId(movieTypeId, keyword, pageRequest);
         return mapToMovieResponsePage(moviesPage);
     }
 

@@ -42,4 +42,7 @@ public class UpdateUserDTO {
     @JsonProperty("img_avatar")
     private String imgAvatar;
 
+    @JsonProperty("vip_id")
+    private int vipId;
+
 }

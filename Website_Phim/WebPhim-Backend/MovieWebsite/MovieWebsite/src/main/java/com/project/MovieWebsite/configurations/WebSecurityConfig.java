@@ -76,7 +76,8 @@ public class WebSecurityConfig {
                             .requestMatchers(POST, String.format("%s/users/upload_avatar/**", apiPrefix)).hasAnyRole("ADMIN", "USER")
                             .requestMatchers(POST, String.format("%s/users/changePassword", apiPrefix)).hasAnyRole("USER")
                             .requestMatchers(POST, String.format("%s/users/checkCurrentPassword", apiPrefix)).hasAnyRole( "USER")
-
+                            .requestMatchers(POST, String.format("%s/users/vip_periods", apiPrefix)).hasAnyRole( "USER", "ADMIN")
+                            .requestMatchers(GET, String.format("%s/users/vip_periods", apiPrefix)).hasAnyRole( "USER", "ADMIN")
                             .anyRequest()
                             .authenticated();
                 })

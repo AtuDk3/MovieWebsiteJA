@@ -8,6 +8,7 @@ import { Router } from '@angular/router';
 import { DomSanitizer, SafeUrl } from '@angular/platform-browser';
 import { UpdateUserDTO } from '../../dtos/user/updateuser.dto';
 import { ActivatedRoute } from '@angular/router';
+import { VipPeriodResponse } from '../../responses/user/vip_period.response';
 
 @Component({
   selector: 'app-profile',
@@ -16,6 +17,7 @@ import { ActivatedRoute } from '@angular/router';
 })
 export class ProfileComponent {
   userResponse: UserResponse | null = null;
+  vipPeriodResponse: VipPeriodResponse | null = null;
   selectedFile: File | null = null;
   imageUrl: SafeUrl | string | null = null;
   fullName: string | null = null;
@@ -30,7 +32,7 @@ export class ProfileComponent {
   confirmPassword: string;
   currentPasswordError: string;
   passwordStrength: string;
-
+  Error = '';
 
   constructor(
     private userService: UserService,
@@ -57,6 +59,7 @@ export class ProfileComponent {
       }
     });
     this.userResponse = this.userService.getUserResponseFromLocalStorage();
+    this.vipPeriodResponse= this.userService.getVipPeriodResponseFromLocalStorage();
     if (this.userResponse?.id === this.userId) {
       this.fullName = this.userResponse.full_name;
       this.email = this.userResponse.email;
@@ -105,7 +108,7 @@ export class ProfileComponent {
   }
 
   update() {
-    
+    this.Error = '';
     const updateUserDTO: UpdateUserDTO = {
       full_name: this.fullName!,
       phone_number: this.phoneNumber!,
@@ -139,7 +142,9 @@ export class ProfileComponent {
           
         },
         error: (error: any) => {
-          console.error('Error updating user details', error);
+          console.error('Error updating user details', error);                     
+              this.Error = 'Phone or Email already exists.';                                     
+                     
         },
         complete: () => {
           console.log('Update user details request completed.');
@@ -160,7 +165,7 @@ export class ProfileComponent {
     this.userService.checkCurrentPassword(this.currentPassword)
       .subscribe({
         next: () => {
-          
+          this.currentPasswordError='';
           // Nếu mật khẩu hiện tại đúng, kiểm tra độ mạnh của mật khẩu mới
           if (this.isStrongPassword(this.newPassword)) {
             // Gửi yêu cầu cập nhật mật khẩu mới nếu mật khẩu mới đủ mạnh
