@@ -52,16 +52,61 @@ public class MovieController {
         }
     }
 
-    @GetMapping("")
-    public ResponseEntity<MovieListResponse> getMovies(
+//    @GetMapping("")
+//    public ResponseEntity<MovieListResponse> getMovies(
+//            @RequestParam(defaultValue = "") String keyword,
+//            @RequestParam(defaultValue = "0", name = "genre_id") int genreId,
+//            @RequestParam(defaultValue = "0", name = "country_id") int countryId,
+//            @RequestParam(defaultValue = "0") int page,
+//            @RequestParam(defaultValue = "10") int limit
+//    ){
+//        PageRequest pageRequest = PageRequest.of(page, limit, Sort.by("id").descending());
+//        Page<MovieResponse> moviePage = movieService.getAllMovies(keyword, genreId, countryId, pageRequest);
+//        int totalPages = moviePage.getTotalPages();
+//        List<MovieResponse> movies = moviePage.getContent();
+//        return ResponseEntity.ok(MovieListResponse.builder()
+//                .movies(movies).totalPages(totalPages).build());
+//    }
+
+    @GetMapping("/genres")
+    public ResponseEntity<MovieListResponse> getMovieByGenreId(
             @RequestParam(defaultValue = "") String keyword,
             @RequestParam(defaultValue = "0", name = "genre_id") int genreId,
+            @RequestParam(defaultValue = "0") int page,
+            @RequestParam(defaultValue = "10") int limit
+    ){
+        PageRequest pageRequest = PageRequest.of(page, limit, Sort.by("id").descending());
+        Page<MovieResponse> moviePage = movieService.getAllMoviesByGenreId(keyword, genreId, pageRequest);
+        int totalPages = moviePage.getTotalPages();
+        List<MovieResponse> movies = moviePage.getContent();
+        return ResponseEntity.ok(MovieListResponse.builder()
+                .movies(movies).totalPages(totalPages).build());
+    }
+
+    @GetMapping("/countries")
+    public ResponseEntity<MovieListResponse> getMovieByCountryId(
+            @RequestParam(defaultValue = "") String keyword,
             @RequestParam(defaultValue = "0", name = "country_id") int countryId,
             @RequestParam(defaultValue = "0") int page,
             @RequestParam(defaultValue = "10") int limit
     ){
         PageRequest pageRequest = PageRequest.of(page, limit, Sort.by("id").descending());
-        Page<MovieResponse> moviePage = movieService.getAllMovies(keyword, genreId, countryId, pageRequest);
+        Page<MovieResponse> moviePage = movieService.getAllMoviesByCountryId(keyword, countryId, pageRequest);
+        int totalPages = moviePage.getTotalPages();
+        List<MovieResponse> movies = moviePage.getContent();
+        return ResponseEntity.ok(MovieListResponse.builder()
+                .movies(movies).totalPages(totalPages).build());
+    }
+
+    @GetMapping("/movie_types")
+    public ResponseEntity<MovieListResponse> getMovieByMovieTypeId(
+            @RequestParam(defaultValue = "") String keyword,
+            @RequestParam(defaultValue = "0", name = "movie_type_id") int movieTypeId,
+            @RequestParam(defaultValue = "0") int page,
+            @RequestParam(defaultValue = "10") int limit
+    ){
+        PageRequest pageRequest = PageRequest.of(page, limit, Sort.by("id").descending());
+        Page<MovieResponse> moviePage = movieService.getAllMoviesByMovieTypeId(keyword, movieTypeId, pageRequest);
         int totalPages = moviePage.getTotalPages();
         List<MovieResponse> movies = moviePage.getContent();
         return ResponseEntity.ok(MovieListResponse.builder()
@@ -71,49 +116,10 @@ public class MovieController {
     @GetMapping("/{id}")
     public ResponseEntity<?> getMovieById(
             @PathVariable("id") int movieId
-    ){
+    ) {
         try {
             Movie existingMovie = movieService.getMovieById(movieId);
             return ResponseEntity.ok(MovieResponse.fromMovie(existingMovie));
-        } catch (Exception e){
-            return ResponseEntity.badRequest().body(e.getMessage());
-        }
-    }
-
-    @GetMapping("/genres/{genreId}")
-    public ResponseEntity<?> getMovieByGenreId(@PathVariable("genreId") int genreId) {
-        try {
-            List<Movie> moviesByGenre = movieService.getMoviesByGenreId(genreId);
-            List<MovieResponse> movieResponses = moviesByGenre.stream()
-                    .map(MovieResponse::fromMovie)
-                    .collect(Collectors.toList());
-            return ResponseEntity.ok(movieResponses);
-        } catch (Exception e) {
-            return ResponseEntity.badRequest().body(e.getMessage());
-        }
-    }
-
-    @GetMapping("/countries/{countryId}")
-    public ResponseEntity<?> getMovieByCountryId(@PathVariable("countryId") int countryId) {
-        try {
-            List<Movie> moviesByCountry = movieService.getMoviesByCountryId(countryId);
-            List<MovieResponse> movieResponses = moviesByCountry.stream()
-                    .map(MovieResponse::fromMovie)
-                    .collect(Collectors.toList());
-            return ResponseEntity.ok(movieResponses);
-        } catch (Exception e) {
-            return ResponseEntity.badRequest().body(e.getMessage());
-        }
-    }
-
-    @GetMapping("/movie_types/{movieTypeId}")
-    public ResponseEntity<?> getMovieByMovieTypeId(@PathVariable("movieTypeId") int movieTypeId) {
-        try {
-            List<Movie> moviesByMovieType = movieService.getMovieByMovieTypeId(movieTypeId);
-            List<MovieResponse> movieResponses = moviesByMovieType.stream()
-                    .map(MovieResponse::fromMovie)
-                    .collect(Collectors.toList());
-            return ResponseEntity.ok(movieResponses);
         } catch (Exception e) {
             return ResponseEntity.badRequest().body(e.getMessage());
         }

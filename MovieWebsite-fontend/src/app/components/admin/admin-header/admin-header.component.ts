@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, HostListener  } from '@angular/core';
 
 @Component({
   selector: 'app-admin-header',
@@ -6,5 +6,15 @@ import { Component } from '@angular/core';
   styleUrl: './admin-header.component.scss'
 })
 export class AdminHeaderComponent {
+  sidebarActive: boolean = false;
 
+  @HostListener('mouseenter')
+  onMouseEnter() {
+    this.sidebarActive = true;
+  }
+
+  @HostListener('mouseleave')
+  onMouseLeave() {
+    this.sidebarActive = false;
+  }
 }

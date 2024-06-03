@@ -12,4 +12,7 @@ export interface UserResponse{
     role: Role;
     phone_number: string;
     img_avatar: string;
+    created_at: Date;
+    created_at_formatted: string;
+    date_of_birth_formatted: string;
 }

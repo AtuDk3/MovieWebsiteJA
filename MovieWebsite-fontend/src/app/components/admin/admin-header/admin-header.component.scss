@@ -1,3 +1,11 @@
+nav {
+	margin-left: 200px;
+}
+
+.form-group input {
+	border: 1px solid red;
+}
+
 #content {
 	position: relative;
 	width: calc(100% - 260px);
@@ -127,3 +135,17 @@ nav .profile .profile-link a:hover {
 	background: var(--grey);
 }
 /* NAVBAR */
+
+p {
+	font-size: 1.5rem !important;
+	font-weight: 600;
+}
+
+img {
+    margin-left: 20px;
+    margin-bottom: 10px;
+}
+
+input[type="text"], i {
+    font-size: 1.5rem !important;
+}

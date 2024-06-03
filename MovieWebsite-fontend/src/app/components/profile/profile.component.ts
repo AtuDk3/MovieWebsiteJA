@@ -1,3 +1,4 @@
+
 import { Component, ViewChild } from '@angular/core';
 import { NgForm } from '@angular/forms';
 import { UserService } from '../../services/user.service';
@@ -37,16 +38,8 @@ export class ProfileComponent {
     private sanitizer: DomSanitizer,
     private router: Router,
     private route: ActivatedRoute
-  ) {
-    this.userResponse = this.userService.getUserResponseFromLocalStorage();
-    if (this.userResponse) {
-      this.fullName = this.userResponse.full_name;
-      this.email = this.userResponse.email;
-      this.phoneNumber = this.userResponse.phone_number;
-      this.password = this.userResponse.password;
-    }
-
-    if (!this.tokenService.getToken()) {
+  ) {   
+    if (this.tokenService.getToken()===null) {
       this.router.navigate(['']);
     }
     this.currentPassword='';
@@ -56,18 +49,23 @@ export class ProfileComponent {
     this.passwordStrength='';
   }
 
-  ngOnInit() {
-    if (!this.tokenService.getToken()) {
-      this.router.navigate(['']);
-    }
-    
+  ngOnInit() {     
     this.route.paramMap.subscribe(params => {
       const idParam = params.get('id');
       if (idParam !== null) {
         this.userId = Number(idParam);
       }
     });
-    this.loadImage(`${this.userResponse?.img_avatar}`);
+    this.userResponse = this.userService.getUserResponseFromLocalStorage();
+    if (this.userResponse?.id === this.userId) {
+      this.fullName = this.userResponse.full_name;
+      this.email = this.userResponse.email;
+      this.phoneNumber = this.userResponse.phone_number;
+      this.loadImage(`${this.userResponse?.img_avatar}`);     
+    }else{
+      this.router.navigate(['']);
+    }
+    
   }
 
   loadImage(imageName: string) {
@@ -112,20 +110,33 @@ export class ProfileComponent {
       full_name: this.fullName!,
       phone_number: this.phoneNumber!,
       password: this.password!,
-      email: this.email!,
-    
+      email: this.email!,   
     };
     this.userService.updateUserDetails(this.userId, updateUserDTO, this.tokenService.getToken()!)
       .subscribe({
-        next: (response) => {
-          debugger
+        next: (response: any) => {
           this.userResponse = {
             ...response,
             date_of_birth: new Date(response.date_of_birth),
-          }
-          this.userService.removeUserFromLocalStorage();
-          this.userService.saveUserResponseToLocalStorage(this.userResponse!);
-          window.location.reload(); 
+            created_at: new Date(response.created_at)
+          };
+          if (this.userResponse) {
+            const day = ('0' + new Date(this.userResponse.created_at).getDate()).slice(-2);
+            const month = ('0' + (new Date(this.userResponse.created_at).getMonth() + 1)).slice(-2);
+            const year = new Date(this.userResponse.created_at).getFullYear();
+            const formattedDate = `${day}/${month}/${year}`;
+            this.userResponse.created_at_formatted = formattedDate;
+
+            const day_of_birth = ('0' + new Date(this.userResponse.date_of_birth).getDate()).slice(-2);
+            const month_of_birth = ('0' + (new Date(this.userResponse.date_of_birth).getMonth() + 1)).slice(-2);
+            const year_of_birth = new Date(this.userResponse.date_of_birth).getFullYear();
+            const formatted_of_birth = `${day_of_birth}/${month_of_birth}/${year_of_birth}`;
+            this.userResponse.date_of_birth_formatted = formatted_of_birth;
+            this.userService.removeUserFromLocalStorage();
+            this.userService.saveUserResponseToLocalStorage(this.userResponse);
+            window.location.reload(); 
+          }         
+          
         },
         error: (error: any) => {
           console.error('Error updating user details', error);
@@ -203,5 +214,10 @@ export class ProfileComponent {
 
   togglechangePassword() {
     this.changePassForm = !this.changePasswordForm;
+  }
+
+  toggleInforUser() {
+    this.changePassForm = false;
+    this.showUpdateForm= false;
   }
 }

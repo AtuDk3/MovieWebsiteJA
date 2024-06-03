@@ -12,6 +12,7 @@ import { TokenService } from '../services/token.service';
     
     intercept(req: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
         const token = this.tokenService.getToken();
+        debugger
         if (token) {
             req = req.clone({
                 setHeaders: {

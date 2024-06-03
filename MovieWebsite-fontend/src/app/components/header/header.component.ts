@@ -35,7 +35,9 @@ export class HeaderComponent implements OnInit {
   ngOnInit() {
     this.getGenres();
     this.getCountries();
-    this.userResponse= this.userService.getUserResponseFromLocalStorage();
+    if(!this.tokenService.isTokenExpired()){
+      this.userResponse= this.userService.getUserResponseFromLocalStorage();
+    }
   }
   
   getGenres() {
@@ -95,6 +97,15 @@ export class HeaderComponent implements OnInit {
   searchMovie(){   
     this.router.navigate([''], { queryParams: {search: this.search } });
     this.search='';
+  }
+
+  logout(){
+    this.userService.removeUserFromLocalStorage();
+    this.tokenService.removeToken();
+    this.userResponse= this.userService.getUserResponseFromLocalStorage();
+    this.router.navigateByUrl('', { replaceUrl: true }).then(() => {
+      window.location.reload();
+    });
   }
 
   // togglePopover(event: Event): void{

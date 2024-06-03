@@ -84,9 +84,27 @@ public class MovieServiceImpl implements MovieService {
                 .orElseThrow(() -> new Exception("No movies found for this movie type"));
     }
 
+//    @Override
+//    public Page<MovieResponse> getAllMovies(String keyword, int genreId, int countryId, PageRequest pageRequest) {
+//        Page<Movie> moviesPage = movieRepository.searchMovies(genreId, countryId, keyword, pageRequest);
+//        return mapToMovieResponsePage(moviesPage);
+//    }
+
     @Override
-    public Page<MovieResponse> getAllMovies(String keyword, int genreId, int countryId, PageRequest pageRequest) {
-        Page<Movie> moviesPage = movieRepository.searchMovies(genreId, countryId, keyword, pageRequest);
+    public Page<MovieResponse> getAllMoviesByGenreId(String keyword, int genreId, PageRequest pageRequest) {
+        Page<Movie> moviesPage = movieRepository.searchMoviesByGenreId(genreId, keyword, pageRequest);
+        return mapToMovieResponsePage(moviesPage);
+    }
+
+    @Override
+    public Page<MovieResponse> getAllMoviesByCountryId(String keyword, int countryId, PageRequest pageRequest) {
+        Page<Movie> moviesPage = movieRepository.searchMoviesByCountryId(countryId, keyword, pageRequest);
+        return mapToMovieResponsePage(moviesPage);
+    }
+
+    @Override
+    public Page<MovieResponse> getAllMoviesByMovieTypeId(String keyword, int movieTypeId, PageRequest pageRequest) {
+        Page<Movie> moviesPage = movieRepository.searchMoviesByMovieTypeId(movieTypeId, keyword, pageRequest);
         return mapToMovieResponsePage(moviesPage);
     }
 

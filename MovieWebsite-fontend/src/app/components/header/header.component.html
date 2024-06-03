@@ -24,18 +24,18 @@
         </div>
         <div class="col-md-4 hidden-xs" *ngIf="userResponse">       
            <div id="get-bookmark" class="box-shadow"><i class="fa-regular fa-bookmark"></i><span> Bookmarks</span><span class="count">0</span></div>
-           <a routerLink="/profile">
+
             <div id="get-bookmark" class="box-shadow"> 
                 <li style="list-style-type: none;" class="mega dropdown" [class.show]="showProfileMenu" (mouseenter)="showMenu('profile')" (mouseleave)="hideMenu('profile')">
                     <a style="color: white;" title="Tài khoản" href="#" data-toggle="dropdown" class="dropdown-toggle" aria-haspopup="true"><i class="fa-regular fa-user"></i> Hello, {{ userResponse.full_name }} <span class="caret"></span></a>
                     <ul role="menu" class="dropdown-menu">
-                        <li><a title="Thông tin tài khoản" routerLink="/profile"> Thông tin tài khoản</a></li>
-                        <li><a title="Đăng xuất" href=""><i class="fa-solid fa-arrow-right-from-bracket"></i> Đăng xuất</a></li>
+                        <li><a title="Thông tin tài khoản" routerLink="/profile/{{ userResponse.id }}"> Thông tin tài khoản</a></li>
+                        <li><a title="Đăng xuất" (click)="logout()"><i class="fa-solid fa-arrow-right-from-bracket"></i> Đăng xuất</a></li>
                         <li><a title="Cài đặt" href=""><i class="fa-solid fa-gear"></i> Cài đặt</a></li>
                     </ul>
                 </li>
             </div>
-        </a>
+
 
            <div id="bookmark-list" class="hidden bookmark-list-on-pc">
               <ul style="margin: 0;"></ul>

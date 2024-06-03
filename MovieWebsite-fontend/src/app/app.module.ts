@@ -29,12 +29,26 @@ import { AdminSidebarComponent } from './components/admin/admin-sidebar/admin-si
 import { AdminHeaderComponent } from './components/admin/admin-header/admin-header.component';
 import { AdminDashboardComponent } from './components/admin/admin-dashboard/admin-dashboard.component';
 import { AdminLayoutComponent } from './layouts/admin-layout/admin-layout.component';
-import { SeriesMovieComponent } from './components/series-movie/series-movie.component';
-import { SingleMovieComponent } from './components/single-movie/single-movie.component';
-import { TheatersMovieComponent } from './components/theaters-movie/theaters-movie.component';
 import { MovieTypeComponent } from './components/movie-type/movie-type.component';
 import { ForgotPasswordComponent } from './components/forgot-password/forgot-password.component';
 import { ResetPasswordComponent } from './components/reset-password/reset-password.component';
+import { ListMovieComponent } from './components/admin/movie/list-movie/list-movie.component';
+import { UpdateMovieComponent } from './components/admin/movie/update-movie/update-movie.component';
+import { AddMovieComponent } from './components/admin/movie/add-movie/add-movie.component';
+import { ListCountryComponent } from './components/admin/country/list-country/list-country.component';
+import { UpdateCountryComponent } from './components/admin/country/update-country/update-country.component';
+import { AddCountryComponent } from './components/admin/country/add-country/add-country.component';
+import { ListGenreComponent } from './components/admin/genre/list-genre/list-genre.component';
+import { UpdateGenreComponent } from './components/admin/genre/update-genre/update-genre.component';
+import { AddGenreComponent } from './components/admin/genre/add-genre/add-genre.component';
+import { ListMovieTypeComponent } from './components/admin/movie-type/list-movie-type/list-movie-type.component';
+import { UpdateMovieTypeComponent } from './components/admin/movie-type/update-movie-type/update-movie-type.component';
+import { AddMovieTypeComponent } from './components/admin/movie-type/add-movie-type/add-movie-type.component';
+import { ListEpisodeComponent } from './components/admin/episode/list-episode/list-episode.component';
+import { UpdateEpisodeComponent } from './components/admin/episode/update-episode/update-episode.component';
+import { AddEpisodeComponent } from './components/admin/episode/add-episode/add-episode.component';
+import { ListAccountComponent } from './components/admin/account/list-account/list-account.component';
+import { ListOrderComponent } from './components/admin/order/list-order/list-order.component';
 
 @NgModule({
   declarations: [
@@ -60,12 +74,26 @@ import { ResetPasswordComponent } from './components/reset-password/reset-passwo
     AdminHeaderComponent,
     AdminDashboardComponent,
     AdminLayoutComponent,
-    SeriesMovieComponent,
-    SingleMovieComponent,
-    TheatersMovieComponent,
     MovieTypeComponent,
     ForgotPasswordComponent,
     ResetPasswordComponent,
+    ListMovieComponent,
+    UpdateMovieComponent,
+    AddMovieComponent,
+    ListCountryComponent,
+    UpdateCountryComponent,
+    AddCountryComponent,
+    ListGenreComponent,
+    UpdateGenreComponent,
+    AddGenreComponent,
+    ListMovieTypeComponent,
+    UpdateMovieTypeComponent,
+    AddMovieTypeComponent,
+    ListEpisodeComponent,
+    UpdateEpisodeComponent,
+    AddEpisodeComponent,
+    ListAccountComponent,
+    ListOrderComponent,
   ],
   imports: [
     BrowserModule,

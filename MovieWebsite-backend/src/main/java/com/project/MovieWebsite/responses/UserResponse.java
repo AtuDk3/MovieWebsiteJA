@@ -42,7 +42,7 @@ public class UserResponse extends BaseResponse {
     @JsonProperty("vip_id")
     private int vipId;
 
-    @JsonProperty("role_id")
+    @JsonProperty("role")
     private Role role;
 
     @JsonProperty("img_avatar")
