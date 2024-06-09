@@ -3,7 +3,8 @@ import { environment } from '../../environments/environment';
 import { MovieService } from '../../services/movie.service';
 import { Movie } from '../../models/movie';
 import { ActivatedRoute, Router } from '@angular/router';
-
+import { FavouriteResponse } from '../../responses/user/favourite.response';
+import { NavigationExtras } from '@angular/router';
 @Component({
   selector: 'app-home',
   templateUrl: './home.component.html',
@@ -12,10 +13,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 export class HomeComponent implements OnInit {
   movies: Movie[] = [];
   currentPage: number = 0;
-  itemsPerPage: number = 18;
-  pages: number[] = [];
-  totalPages: number = 0;
-  visiblePages: number[] = []; 
+  itemsPerPage: number = 18;  
   keyword: string = '';
   genre_id: number = 0;
   movie_type_id: number = 0;

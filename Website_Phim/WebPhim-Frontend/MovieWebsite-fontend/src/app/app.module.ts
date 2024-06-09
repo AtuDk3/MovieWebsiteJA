@@ -1,4 +1,4 @@
-import { NgModule, OnInit  } from '@angular/core';
+import { NgModule, OnInit, APP_INITIALIZER   } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 
 import { AppRoutingModule } from './app-routing.module';
@@ -49,6 +49,15 @@ import { UpdateEpisodeComponent } from './components/admin/episode/update-episod
 import { AddEpisodeComponent } from './components/admin/episode/add-episode/add-episode.component';
 import { ListAccountComponent } from './components/admin/account/list-account/list-account.component';
 import { ListOrderComponent } from './components/admin/order/list-order/list-order.component';
+import { AuthenticateAccountComponent } from './components/authenticate-account/authenticate-account.component';
+import { BookmarkComponent } from './components/bookmark/bookmark.component';
+import { AuthService } from './services/auth.service';
+
+export function initializeAuthService(authService: AuthService) {
+  return (): Promise<void> => {
+    return authService.initialize(); 
+  };
+}
 
 @NgModule({
   declarations: [
@@ -94,6 +103,8 @@ import { ListOrderComponent } from './components/admin/order/list-order/list-ord
     AddEpisodeComponent,
     ListAccountComponent,
     ListOrderComponent,
+    AuthenticateAccountComponent,
+    BookmarkComponent,
   ],
   imports: [
     BrowserModule,
@@ -104,8 +115,15 @@ import { ListOrderComponent } from './components/admin/order/list-order/list-ord
     HttpClientModule
   ],
   providers: [
+    AuthService,
     {
-      provide: HTTP_INTERCEPTORS,
+      provide: APP_INITIALIZER,
+      useFactory: initializeAuthService,
+      deps: [AuthService],
+      multi: true
+    },
+    {
+      provide: HTTP_INTERCEPTORS,   
       useClass: TokenInterceptor,
       multi: true
     }

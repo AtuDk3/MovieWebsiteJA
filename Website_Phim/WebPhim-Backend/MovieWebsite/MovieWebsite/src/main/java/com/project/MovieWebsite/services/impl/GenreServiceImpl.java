@@ -37,7 +37,7 @@ public class GenreServiceImpl implements GenreService {
         existsGenre.setName(genre.getName());
         existsGenre.setDescription(genre.getDescription());
         existsGenre.setSlug(genre.getSlug());
-        //existsGenre.setIsActive(genre.getIsActive());
+        existsGenre.setIsActive(genre.getIsActive());
         genreRepository.save(existsGenre);
         return existsGenre;
     }

@@ -41,6 +41,17 @@ public interface MovieRepository extends JpaRepository<Movie, Integer> {
             @Param("keyword") String keyword, Pageable pageable
     );
 
+    @Query("SELECT m FROM Movie m WHERE "
+            + "(m.genre.id = :genreId "
+            + "or :movieName is null or :movieName = '' or m.name like %:movieName%)"
+            +"AND m.id != :movieId ")
+    Page<Movie> searchMoviesRelated(
+            @Param("movieId") int movieId,
+            @Param("genreId") int genreId,
+            @Param("movieName") String movieName,
+            Pageable pageable
+    );
+
     Optional<List<Movie>> findByGenreId(int genreId);
 
     Optional<List<Movie>> findByCountryId(int countryId);

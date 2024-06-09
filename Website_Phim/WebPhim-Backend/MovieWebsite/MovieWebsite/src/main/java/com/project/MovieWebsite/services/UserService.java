@@ -3,13 +3,16 @@ package com.project.MovieWebsite.services;
 import com.project.MovieWebsite.dtos.UpdateUserDTO;
 import com.project.MovieWebsite.dtos.UserDTO;
 import com.project.MovieWebsite.exceptions.DataNotFoundException;
+import com.project.MovieWebsite.exceptions.MailErrorExeption;
 import com.project.MovieWebsite.models.User;
 
 import java.util.List;
 
 public interface UserService {
 
-    User createUser(UserDTO userDTO) throws DataNotFoundException;
+    User createUser(UserDTO userDTO) ;
+
+    void checkAccount(UserDTO userDTO) throws DataNotFoundException, MailErrorExeption;
 
     User getUserById(int userId) throws DataNotFoundException;
 
@@ -26,5 +29,5 @@ public interface UserService {
     User getUserDetailsFromToken(String token) throws Exception;
 
     boolean checkCurrentPassword(int userId, String passwordCheck) throws Exception;
-    //public boolean verifyEmail(String token);
+
 }

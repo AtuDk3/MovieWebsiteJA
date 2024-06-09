@@ -1,15 +1,21 @@
 import { Component, OnInit, AfterViewInit } from '@angular/core';
-import 'owl.carousel';
+import { MovieService } from '../../services/movie.service';
+import { FavouriteResponse } from '../../responses/user/favourite.response';
 
 @Component({
   selector: 'app-movie-related',
   templateUrl: './movie-related.component.html',
-  styleUrl: './movie-related.component.scss'
+  styleUrls: ['./movie-related.component.scss']
 })
 export class MovieRelatedComponent implements OnInit, AfterViewInit {
-  constructor() { }
+
+  movies: FavouriteResponse[] = [];
+  constructor(private movieService: MovieService) {}
 
   ngOnInit(): void {
+    this.movieService.currentData.subscribe((data) => {
+      this.movies = data.movies;
+    });
   }
 
   ngAfterViewInit(): void {
@@ -34,5 +40,4 @@ export class MovieRelatedComponent implements OnInit, AfterViewInit {
       }
     });
   }
-
 }

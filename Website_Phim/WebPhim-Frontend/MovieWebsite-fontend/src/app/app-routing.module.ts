@@ -33,6 +33,8 @@ import { AddEpisodeComponent } from './components/admin/episode/add-episode/add-
 import { ListAccountComponent } from './components/admin/account/list-account/list-account.component';
 import { ListOrderComponent } from './components/admin/order/list-order/list-order.component';
 import { AddCountryComponent } from './components/admin/country/add-country/add-country.component';
+import { AuthenticateAccountComponent } from './components/authenticate-account/authenticate-account.component';
+import { BookmarkComponent } from './components/bookmark/bookmark.component';
 
 const routes: Routes = [
   {
@@ -46,6 +48,7 @@ const routes: Routes = [
       { path: 'movie_type/:movie_type_id', component: MovieTypeComponent },
       { path: 'detail/:id', component: MovieDetailsComponent},
       { path: 'watching/:id', component: WatchingComponent},
+      { path: 'bookmark', component: BookmarkComponent},
     ]
   },
   {
@@ -56,7 +59,7 @@ const routes: Routes = [
       { path: 'register', component: RegisterComponent},
       { path: 'forgot-password', component: ForgotPasswordComponent},
       { path: 'reset-password', component: ResetPasswordComponent},
-      
+      { path: 'authenticate-account', component: AuthenticateAccountComponent},
     ]
   },
   {
@@ -64,7 +67,7 @@ const routes: Routes = [
     component: AdminLayoutComponent,
     children: [
       //{ path: '', component: AdminDashboardComponent, canActivate:[AdminGuardFn]},
-      { path: '', component: AdminDashboardComponent},
+      { path: '', component: AdminDashboardComponent, canActivate:[AdminGuardFn]},
       // Movie
       { path: 'movie/list-movie', component: ListMovieComponent},
       { path: 'movie/update-movie', component: UpdateMovieComponent},

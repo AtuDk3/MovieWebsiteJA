@@ -61,5 +61,24 @@ public class ClientServiceImpl implements ClientService {
         }
         return null;
     }
+
+    @Override
+    public String authenticate_account(String name, String email) {
+        try {
+            DataMailDTO dataMail = new DataMailDTO();
+            dataMail.setTo(email);
+            dataMail.setSubject(Const.SEND_MAIL_FORGOT_PASSWORD.FORGOT_PASSWORD);
+            Map<String, Object> props = new HashMap<>();
+            String otp= DataUtils.generateTempPwd(6);
+            props.put("name", name);
+            props.put("otp", otp);
+            dataMail.setProps(props);
+            mailService.sendHtmlMail(dataMail, Const.TEMPLATE_FILE_NAME_FORGOT_PASSWORD.FORGOT_PASSWORD);
+            return otp;
+        } catch (MessagingException exp){
+            exp.printStackTrace();
+        }
+        return null;
+    }
 }
 

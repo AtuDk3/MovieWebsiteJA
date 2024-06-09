@@ -3,7 +3,6 @@ package com.project.MovieWebsite.services.impl;
 import com.project.MovieWebsite.dtos.VipPeriodDTO;
 import com.project.MovieWebsite.exceptions.DataNotFoundException;
 import com.project.MovieWebsite.models.User;
-import com.project.MovieWebsite.models.UserVIP;
 import com.project.MovieWebsite.models.VipPeriod;
 import com.project.MovieWebsite.repositories.UserRepository;
 import com.project.MovieWebsite.repositories.UserVIPRepository;
@@ -35,7 +34,7 @@ public class VipPeriodServiceImpl implements VipPeriodService {
             VipPeriod newVipPeriod = VipPeriod.builder()
                     .user(existingUser)
                     .registrationDate(LocalDateTime.now())
-                    .expirationDate(LocalDateTime.now().plusDays(existingUser.getUserVip().getNumberMonth() * 30))
+                    .expirationDate(LocalDateTime.now().plusDays(existingUser.getUserVip().getNumberMonth() * 30L))
                     .build();
             return vipPeriodRepository.save(newVipPeriod);
         }
@@ -57,12 +56,18 @@ public class VipPeriodServiceImpl implements VipPeriodService {
 
         if (now.isBefore(existingVipPeriod.getExpirationDate())) {
             long remainingDays = java.time.Duration.between(now, existingVipPeriod.getExpirationDate()).toDays();
-            existingVipPeriod.setExpirationDate(now.plusDays(remainingDays + existingUser.getUserVip().getNumberMonth() * 30));
+            existingVipPeriod.setExpirationDate(now.plusDays(remainingDays + existingUser.getUserVip().getNumberMonth() * 30L));
         } else {
-            existingVipPeriod.setExpirationDate(now.plusDays(existingUser.getUserVip().getNumberMonth() * 30));
+            existingVipPeriod.setExpirationDate(now.plusDays(existingUser.getUserVip().getNumberMonth() * 30L));
         }
 
         return vipPeriodRepository.save(existingVipPeriod);
 
+    }
+
+    @Override
+    public void deleteVipPeriod(int userId) {
+        VipPeriod vipPeriod= vipPeriodRepository.findByUserId(userId);
+        vipPeriodRepository.deleteById(vipPeriod.getId());
     }
 }

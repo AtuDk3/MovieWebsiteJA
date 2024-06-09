@@ -112,9 +112,9 @@ export class ProfileComponent {
     this.Error = '';
     const updateUserDTO: UpdateUserDTO = {
       full_name: this.fullName!,
-      phone_number: this.phoneNumber!,
-      password: this.password!,
-      email: this.email!,   
+      // phone_number: this.phoneNumber!,
+      // email: this.email!, 
+      vip_name: ''  
     };
     this.userService.updateUserDetails(this.userId, updateUserDTO, this.tokenService.getToken()!)
       .subscribe({
@@ -170,6 +170,7 @@ export class ProfileComponent {
           // Nếu mật khẩu hiện tại đúng, kiểm tra độ mạnh của mật khẩu mới
           if (this.isStrongPassword(this.newPassword)) {
             // Gửi yêu cầu cập nhật mật khẩu mới nếu mật khẩu mới đủ mạnh
+            if(this.newPassword === this.confirmPassword){
             this.userService.changePassword(this.newPassword)
               .subscribe({
                 next: response => {
@@ -177,13 +178,18 @@ export class ProfileComponent {
                   // Xử lý response từ server                 
                   // Reset form
                   this.resetForm();
-                  this.router.navigate(['']);
+                  this.toggleInforUser();
+                  this.router.navigate([`profile/${this.userResponse?.id}`]);
                 },
                 error: err => {
                   // Xử lý lỗi nếu có
                   console.error(err);
                 }
               });
+            }else{
+              this.passwordStrength ='';
+              this.changePasswordForm.form.controls['retypePassword'].setErrors({ 'passwordMisMatch': true });
+            }
           } else {
             this.passwordStrength = "Password must be at least 8 characters long and contain at least one uppercase letter, one lowercase letter, one number, and one special character.";
           }

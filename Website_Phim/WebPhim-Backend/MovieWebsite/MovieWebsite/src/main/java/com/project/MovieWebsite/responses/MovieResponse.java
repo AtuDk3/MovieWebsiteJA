@@ -14,6 +14,7 @@ import java.util.Date;
 @Builder
 
 public class MovieResponse {
+
     private  int id;
 
     private String name;

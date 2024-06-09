@@ -6,6 +6,8 @@ import com.project.MovieWebsite.dtos.UpdateUserDTO;
 import com.project.MovieWebsite.dtos.UserDTO;
 import com.project.MovieWebsite.dtos.UserLoginDTO;
 import com.project.MovieWebsite.dtos.VipPeriodDTO;
+import com.project.MovieWebsite.exceptions.DataNotFoundException;
+import com.project.MovieWebsite.exceptions.MailErrorExeption;
 import com.project.MovieWebsite.models.User;
 import com.project.MovieWebsite.models.VipPeriod;
 import com.project.MovieWebsite.repositories.UserRepository;
@@ -33,10 +35,7 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.nio.file.StandardCopyOption;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.UUID;
+import java.util.*;
 import java.util.stream.Collectors;
 
 @RestController
@@ -62,21 +61,35 @@ public class UserController {
                         .collect(Collectors.toList());
                 return ResponseEntity.badRequest().body(errors);
             }
-
-            // Kiểm tra xem mật khẩu và mật khẩu nhập lại có khớp không
-            if (!userDTO.getPassword().equals(userDTO.getRetypePassword())) {
-                return ResponseEntity.badRequest().body("Password does not match");
-            }
-
             // Gọi userService để tạo người dùng
             userService.createUser(userDTO);
-
             // Trả về thông báo thành công
             Map<String, String> response = new HashMap<>();
             response.put("message", "User created successfully");
             return ResponseEntity.ok(response);
         } catch (Exception e) {
             // Nếu có lỗi, trả về thông báo lỗi
+            return ResponseEntity.badRequest().body("Failed to create user: " + e.getMessage());
+        }
+    }
+
+    @PostMapping("/check-register")
+    public ResponseEntity<?> checkRegister(@Valid @RequestBody UserDTO userDTO, BindingResult result) {
+        try {
+            if (result.hasErrors()) {
+                List<String> errors = result.getFieldErrors()
+                        .stream()
+                        .map(FieldError::getDefaultMessage)
+                        .collect(Collectors.toList());
+                return ResponseEntity.badRequest().body(errors);
+            }
+            userService.checkAccount(userDTO);
+            return ResponseEntity.ok().build();
+        } catch (DataNotFoundException e) {
+            return ResponseEntity.badRequest().body(Collections.singletonMap("phoneError", e.getMessage()));
+        } catch (MailErrorExeption e) {
+            return ResponseEntity.badRequest().body(Collections.singletonMap("emailError", e.getMessage()));
+        } catch (Exception e) {
             return ResponseEntity.badRequest().body("Failed to create user: " + e.getMessage());
         }
     }
@@ -198,7 +211,6 @@ public class UserController {
             User updateUser= userService.updateUser(userId, userUpdateDTO);
 
             return ResponseEntity.ok(UserResponse.fromUser(updateUser));
-
         }
         catch (Exception e){
             return ResponseEntity.badRequest().build();
@@ -206,11 +218,11 @@ public class UserController {
     }
 
     @PostMapping("/checkCurrentPassword")
-    public ResponseEntity<?> checkCurrentPassword(@RequestBody UpdateUserDTO updateUserDTO, @RequestHeader("Authorization") String authorizationHeader) {
+    public ResponseEntity<?> checkCurrentPassword(@RequestBody Map<String, String> request, @RequestHeader("Authorization") String authorizationHeader) {
             try {
                 String extractedToken = authorizationHeader.substring(7);
                 User user = userService.getUserDetailsFromToken(extractedToken);
-                boolean isPasswordValid = userService.checkCurrentPassword(user.getId(), updateUserDTO.getPassword());
+                boolean isPasswordValid = userService.checkCurrentPassword(user.getId(), request.get("password"));
                 if (isPasswordValid) {
                     return ResponseEntity.ok().build();
                 } else {
@@ -222,12 +234,12 @@ public class UserController {
     }
 
     @PostMapping("/changePassword")
-    public ResponseEntity<?> changePassword(@RequestBody UpdateUserDTO updateUserDTO, @RequestHeader("Authorization") String authorizationHeader) {
+    public ResponseEntity<?> changePassword(@RequestBody Map<String, String> request, @RequestHeader("Authorization") String authorizationHeader) {
 
         try {
             String extractedToken = authorizationHeader.substring(7);
             User user = userService.getUserDetailsFromToken(extractedToken);
-            userService.updatePassword(user.getPhoneNumber(), updateUserDTO.getPassword());
+            userService.updatePassword(user.getPhoneNumber(), request.get("password"));
             return ResponseEntity.ok().build();
         }catch (Exception e){
             return ResponseEntity.status(400).body(e.getMessage());
@@ -242,6 +254,16 @@ public class UserController {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Email not found");
         }
         String check_otp= clientService.forgot_password(user);
+        Map<String, String> response = new HashMap<>();
+        response.put("check_otp", check_otp);
+        return ResponseEntity.ok(response);
+    }
+
+    @PostMapping("/authenticate-account")
+    public ResponseEntity<?> authenticateAccount(@RequestBody Map<String, String> request) {
+        String email = request.get("email");
+        String name= request.get("name");
+        String check_otp= clientService.authenticate_account(name, email);
         Map<String, String> response = new HashMap<>();
         response.put("check_otp", check_otp);
         return ResponseEntity.ok(response);
@@ -283,6 +305,26 @@ public class UserController {
             VipPeriod vipPeriod= vipPeriodRepository.findByUserId(user.getId());
             return ResponseEntity.ok(VipPeriodResponse.fromVipPeriod(vipPeriod));
         }catch (Exception e){
+            return ResponseEntity.badRequest().build();
+        }
+    }
+
+    @DeleteMapping("/vip_period/{userId}")
+    public ResponseEntity<?> deleteVipPeriod(@PathVariable int userId,
+                                             @RequestHeader("Authorization") String authorizationHeader){
+        try{
+            String extractedToken= authorizationHeader.substring(7);
+            User user= userService.getUserDetailsFromToken(extractedToken);
+            if(user.getId()!= userId){
+                return ResponseEntity.status(HttpStatus.FORBIDDEN).build();
+            }
+
+            vipPeriodService.deleteVipPeriod(userId);
+
+            return ResponseEntity.ok().build();
+
+        }
+        catch (Exception e){
             return ResponseEntity.badRequest().build();
         }
     }

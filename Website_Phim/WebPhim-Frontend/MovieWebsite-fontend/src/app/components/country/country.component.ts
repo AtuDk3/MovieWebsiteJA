@@ -50,7 +50,7 @@ export class CountryComponent implements OnInit {
   }
   
 generateVisiblePageArray(currentPage: number, totalPages: number): number[] {
-  const maxVisiblePages = 5;
+  const maxVisiblePages = 10;
   const halfVisiblePages = Math.floor(maxVisiblePages / 2);
 
   let startPage = Math.max(currentPage - halfVisiblePages, 0); // Bắt đầu từ 0

@@ -6,6 +6,7 @@ import com.project.MovieWebsite.constants.MessageKeys;
 import com.project.MovieWebsite.dtos.UpdateUserDTO;
 import com.project.MovieWebsite.dtos.UserDTO;
 import com.project.MovieWebsite.exceptions.DataNotFoundException;
+import com.project.MovieWebsite.exceptions.MailErrorExeption;
 import com.project.MovieWebsite.models.Role;
 import com.project.MovieWebsite.models.User;
 import com.project.MovieWebsite.models.UserVIP;
@@ -37,16 +38,13 @@ public class UserServiceImpl implements UserService {
     private final AuthenticationManager authenticationManager;
     private final TokenRepository tokenRepository;
     private final LocalizationUtil localizationUtil;
+
     @Override
-    public User createUser(UserDTO userDTO) throws DataNotFoundException{
-        String phoneNumber = userDTO.getPhoneNumber();
-        if(userRepository.existsByPhoneNumber(phoneNumber)){
-            throw new DataNotFoundException("Phone number is exists!");
-       }
-        Role existingRole= roleRepository.findById(userDTO.getRoleId())
-                .orElseThrow(() -> new DataNotFoundException("Cannot find role with id: "+userDTO.getRoleId()));
-        UserVIP existingUserVip= userVIPRepository.findById(userDTO.getVipId())
-                .orElseThrow(() -> new DataNotFoundException("Cannot find user vip with id: "+userDTO.getVipId()));
+    public User createUser(UserDTO userDTO){
+
+        Role existingRole= roleRepository.findByName(userDTO.getRoleName());
+
+        UserVIP existingUserVip= userVIPRepository.findByName(userDTO.getVipName());
 
         User newUser = User.builder().
                 fullName(userDTO.getFullName()).
@@ -70,6 +68,18 @@ public class UserServiceImpl implements UserService {
 
     }
 
+    @Override
+    public void checkAccount(UserDTO userDTO) throws DataNotFoundException, MailErrorExeption {
+
+        if(userRepository.existsByPhoneNumber(userDTO.getPhoneNumber())){
+            throw new DataNotFoundException("Phone number is exists!");
+        }
+
+        if(userRepository.existsByEmail(userDTO.getEmail())){
+            throw new MailErrorExeption("Email is exists!");
+        }
+
+    }
 
 
     @Override
@@ -89,18 +99,16 @@ public class UserServiceImpl implements UserService {
         User existingUser= userRepository.findById(userId)
                 .orElseThrow(() -> new DataNotFoundException("User not found"));
 
-        String newPhoneNumber= userUpdateDTO.getPhoneNumber();
-        if(!existingUser.getPhoneNumber().equals(newPhoneNumber) &&
-        userRepository.existsByPhoneNumber(newPhoneNumber)){
-            throw new DataNotFoundException("phone number already exists");
-        }
+//        String newPhoneNumber= userUpdateDTO.getPhoneNumber();
+//        if(!existingUser.getPhoneNumber().equals(newPhoneNumber) &&
+//        userRepository.existsByPhoneNumber(newPhoneNumber)){
+//            throw new DataNotFoundException("phone number already exists");
+//        }
 
-        if (userUpdateDTO.getFullName() != null) {
+        if (!existingUser.getFullName().equals(userUpdateDTO.getFullName()) && !userUpdateDTO.getFullName().isEmpty()) {
             existingUser.setFullName(userUpdateDTO.getFullName());
         }
-        if (userUpdateDTO.getDob() != null) {
-            existingUser.setDob(userUpdateDTO.getDob());
-        }
+
         if (!userUpdateDTO.getFacebookAccountId().equals("0")) {
             existingUser.setFacebookAccountId(userUpdateDTO.getFacebookAccountId());
         }
@@ -108,12 +116,10 @@ public class UserServiceImpl implements UserService {
             existingUser.setGoogleAccountId(userUpdateDTO.getGoogleAccountId());
         }
 
-        if (userUpdateDTO.getVipId()!=existingUser.getUserVip().getId()) {
-            UserVIP existingUserVip= userVIPRepository.findById(userUpdateDTO.getVipId())
-                    .orElseThrow(() -> new DataNotFoundException("Cannot find user vip with id: "+userUpdateDTO.getVipId()));
-            existingUser.setUserVip(existingUserVip);
+        if(!userUpdateDTO.getVipName().isEmpty()){
+            UserVIP userVIP= userVIPRepository.findByName(userUpdateDTO.getVipName());
+            existingUser.setUserVip(userVIP);
         }
-
         return existingUser;
     }
 

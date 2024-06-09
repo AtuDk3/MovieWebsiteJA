@@ -29,9 +29,6 @@ public class UserDTO {
     @JsonProperty("password")
     private String password;
 
-    @JsonProperty("retype_password")
-    private String retypePassword;
-
     @JsonProperty("email")
     private String email;
 
@@ -44,13 +41,11 @@ public class UserDTO {
     @JsonProperty("google_account_id")
     private String googleAccountId= "0";
 
-    @NotNull(message = "Vip ID is required!")
     @JsonProperty("vip_id")
-    private int vipId = 5;
+    private String vipName = "Normal User";
 
-    @NotNull(message = "Role ID is required!")
     @JsonProperty("role_id")
-    private int roleId = 2;
+    private String roleName = "User";
 
     @JsonProperty("img_avatar")
     private String imgAvatar = "user_default.webp";

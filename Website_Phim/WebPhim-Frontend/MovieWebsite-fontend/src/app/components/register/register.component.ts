@@ -3,6 +3,8 @@ import { NgForm } from '@angular/forms';
 import { Router } from '@angular/router';
 import { UserService } from '../../services/user.service';
 import { RegisterDTO } from '../../dtos/user/register.dto';
+import { NavigationExtras } from '@angular/router';
+
 @Component({
   selector: 'app-register',
   templateUrl: './register.component.html',
@@ -18,6 +20,9 @@ export class RegisterComponent {
   password: string;
   retypePassword: string;
   isAccept: boolean;
+  emailError: string | null = null;
+  phoneError: string | null = null;
+  passwordStrengthError: string | null = null;
 
   constructor(private router: Router, private userService: UserService) {
     this.fullName = '';
@@ -50,6 +55,15 @@ export class RegisterComponent {
     }
   }
 
+  checkPasswordStrength() {
+    const strongPasswordPattern = new RegExp("^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#\$%\^&\*])(?=.{8,})");
+    if (!strongPasswordPattern.test(this.password)) {
+      this.passwordStrengthError = "Password must be at least 8 characters long, include an uppercase letter, a lowercase letter, a number, and a special character.";
+    } else {
+      this.passwordStrengthError = null;
+    }
+  }
+
   checkAge(){
     if (this.dob) {
       const today = new Date();
@@ -58,7 +72,6 @@ export class RegisterComponent {
       const monthDiff = today.getMonth() - dob.getMonth();
       const dayDiff = today.getDate() - dob.getDate();
 
-      // Adjust age if the birthdate hasn't occurred yet this year
       if (monthDiff < 0 || (monthDiff === 0 && dayDiff < 0)) {
         age--;
       }
@@ -72,31 +85,38 @@ export class RegisterComponent {
   }
 
   register(){
-
     const registerDTO:RegisterDTO = {
         "full_name": this.fullName,
         "phone_number": this.phoneNumber,
         "password": this.password,
-        "retype_password": this.retypePassword,
         "date_of_birth": this.dob,
         "email": this.email
     }
-    this.userService.register(registerDTO).subscribe(
+    this.userService.checkRegister(registerDTO).subscribe(
       {
         next: (response: any) => {
-          if(response && response.message) {
-          this.router.navigate(['/login']);
-        } else {
-  
-        }
+          const navigationExtras: NavigationExtras = {
+            state: {
+              registerData: registerDTO
+            }
+          };
+        
+          this.router.navigate(['/authenticate-account'], navigationExtras);
       },
       complete: () => {
-
       },
-      error: (error: any) => {
-        this.registerForm.form.controls['phoneNumber'].setErrors({'existPhoneNumber': true});
-      }}
-    )
+      error: (err) => {
+        this.emailError = null;
+        this.phoneError = null;
+
+        if (err.error.emailError) {
+          this.emailError = err.error.emailError;
+        }
+        if (err.error.phoneError) {
+          this.phoneError = err.error.phoneError;
+        }
+      }
+    })
   }
 
 }

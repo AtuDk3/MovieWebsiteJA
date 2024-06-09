@@ -10,6 +10,7 @@ import lombok.*;
 @NoArgsConstructor
 
 public class GenreDTO {
+
     @NotEmpty(message = "Name can not empty!")
     private String name;
 
@@ -17,4 +18,7 @@ public class GenreDTO {
 
     @NotEmpty(message = "Description can not empty!")
     private String description;
+
+    @NotEmpty(message = "Description can not empty!")
+    private int isActive;
 }

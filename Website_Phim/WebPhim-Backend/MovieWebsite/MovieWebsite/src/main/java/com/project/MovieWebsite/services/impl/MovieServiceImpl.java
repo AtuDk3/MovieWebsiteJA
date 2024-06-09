@@ -6,10 +6,7 @@ import com.project.MovieWebsite.models.Country;
 import com.project.MovieWebsite.models.Genre;
 import com.project.MovieWebsite.models.Movie;
 import com.project.MovieWebsite.models.MovieType;
-import com.project.MovieWebsite.repositories.CountryRepository;
-import com.project.MovieWebsite.repositories.GenreRepository;
-import com.project.MovieWebsite.repositories.MovieRepository;
-import com.project.MovieWebsite.repositories.MovieTypeRepository;
+import com.project.MovieWebsite.repositories.*;
 import com.project.MovieWebsite.responses.MovieResponse;
 import com.project.MovieWebsite.services.MovieService;
 import lombok.RequiredArgsConstructor;
@@ -17,7 +14,6 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 
-import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -85,6 +81,12 @@ public class MovieServiceImpl implements MovieService {
         return mapToMovieResponsePage(moviesPage);
     }
 
+    @Override
+    public Page<MovieResponse> getAllMoviesRelated(int movieId, int genreId, String movieName, PageRequest pageRequest) {
+        Page<Movie> moviesPage = movieRepository.searchMoviesRelated(movieId,genreId, movieName, pageRequest);
+        return mapToMovieResponsePage(moviesPage);
+    }
+
     private Page<MovieResponse> mapToMovieResponsePage(Page<Movie> moviesPage) {
         return moviesPage.map(movie -> {
             MovieResponse movieResponse = MovieResponse.builder()
@@ -143,6 +145,8 @@ public class MovieServiceImpl implements MovieService {
         }
         return null;
     }
+
+
 
     @Override
     public void deleteMovies(int id) {

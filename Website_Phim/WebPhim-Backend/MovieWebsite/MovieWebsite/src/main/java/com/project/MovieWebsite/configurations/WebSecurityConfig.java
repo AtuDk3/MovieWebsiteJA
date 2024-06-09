@@ -45,16 +45,22 @@ public class WebSecurityConfig {
                                     String.format("%s/users/login", apiPrefix),
                                     String.format("%s/users/forgot-password", apiPrefix),
                                     String.format("%s/users/reset-password", apiPrefix),
+                                    String.format("%s/users/authenticate-account", apiPrefix),
                                     String.format("%s/users/check-otp", apiPrefix),
+                                    String.format("%s/users/check-register", apiPrefix),
                                     String.format("%s/episodes/**", apiPrefix)
+
+
                             )
                             .permitAll()
                             .requestMatchers(HttpMethod.GET, String.format("%s/roles", apiPrefix)).permitAll()
+                            .requestMatchers(POST, String.format("%s/movie_views/**", apiPrefix)).permitAll()
                             .requestMatchers(HttpMethod.GET, String.format("%s/genres", apiPrefix)).permitAll()
+                            .requestMatchers(POST, String.format("%s/movie_views", apiPrefix)).permitAll()
                             .requestMatchers(GET, String.format("%s/movies/**", apiPrefix)).permitAll()
                             .requestMatchers(GET, String.format("%s/users/images/**", apiPrefix)).permitAll()
                             .requestMatchers(POST, String.format("%s/users/details", apiPrefix)).hasAnyRole("ADMIN", "USER")
-                            .requestMatchers(PUT, String.format("%s/users/details/**", apiPrefix)).hasRole("USER")
+                            .requestMatchers(PUT, String.format("%s/users/details/**", apiPrefix)).hasAnyRole("USER", "ADMIN")
                             .requestMatchers(GET, String.format("%s/countries", apiPrefix)).permitAll()
                             .requestMatchers(HttpMethod.GET, String.format("%s/movie_types", apiPrefix)).permitAll()
                             .requestMatchers(HttpMethod.GET, String.format("%s/episodes", apiPrefix)).permitAll()
@@ -74,10 +80,14 @@ public class WebSecurityConfig {
                             .requestMatchers(POST, String.format("%s/countries/**", apiPrefix)).hasRole("ADMIN")
                             .requestMatchers(DELETE, String.format("%s/countries/**", apiPrefix)).hasRole("ADMIN")
                             .requestMatchers(POST, String.format("%s/users/upload_avatar/**", apiPrefix)).hasAnyRole("ADMIN", "USER")
-                            .requestMatchers(POST, String.format("%s/users/changePassword", apiPrefix)).hasAnyRole("USER")
-                            .requestMatchers(POST, String.format("%s/users/checkCurrentPassword", apiPrefix)).hasAnyRole( "USER")
+                            .requestMatchers(POST, String.format("%s/users/changePassword", apiPrefix)).hasAnyRole("USER", "ADMIN")
+                            .requestMatchers(POST, String.format("%s/users/checkCurrentPassword", apiPrefix)).hasAnyRole( "USER", "ADMIN")
                             .requestMatchers(POST, String.format("%s/users/vip_periods", apiPrefix)).hasAnyRole( "USER", "ADMIN")
                             .requestMatchers(GET, String.format("%s/users/vip_periods", apiPrefix)).hasAnyRole( "USER", "ADMIN")
+                            .requestMatchers(DELETE, String.format("%s/users/vip_periods", apiPrefix)).hasAnyRole( "USER", "ADMIN")
+                            .requestMatchers(POST, String.format("%s/favourites", apiPrefix)).hasAnyRole( "USER", "ADMIN")
+                            .requestMatchers(GET, String.format("%s/favourites/**", apiPrefix)).hasAnyRole( "USER", "ADMIN")
+                            .requestMatchers(POST, String.format("%s/favourites/**", apiPrefix)).hasAnyRole( "USER", "ADMIN")
                             .anyRequest()
                             .authenticated();
                 })

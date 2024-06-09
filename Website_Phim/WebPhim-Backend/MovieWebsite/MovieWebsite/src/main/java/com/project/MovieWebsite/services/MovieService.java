@@ -22,7 +22,9 @@ public interface MovieService {
     Page<MovieResponse> getAllMoviesByCountryId(String keyword, int countryId, PageRequest pageRequest);
 
     Page<MovieResponse> getAllMoviesByMovieTypeId(String keyword, int movieTypeId, PageRequest pageRequest);
-    
+
+    Page<MovieResponse> getAllMoviesRelated(int movieId, int genreId, String movieName, PageRequest pageRequest);
+
     Movie updateMovies(int id, MovieDTO movieDTO) throws Exception;
 
     void deleteMovies(int id);
