@@ -1,4 +1,5 @@
 <link rel="stylesheet" href="../../../assets/css/style.css">
+
 <body>
 <div class="container">
    <div class="row fullwith-slider"></div>
@@ -99,9 +100,24 @@
                </div>
                <div class="entry-content htmlwrap clearfix">
                   <div class="video-item halim-entry-box">
-                     <app-comment></app-comment>
+                  
+                     <app-rating></app-rating>
             </div>
          </div>
+         <div class="section-bar clearfix">
+            <h2 class="section-title"><span style="color:#ffed4d">Bình luận phim</span></h2>
+         </div>
+         <div class="entry-content htmlwrap clearfix">
+            <div class="video-item halim-entry-box">
+               <div class="fb-comments" 
+     [attr.data-href]="'http://localhost:4200/movie/' + movie.id" 
+     data-numposts="5" 
+     data-width="100%">
+</div>
+               <app-comment></app-comment>
+      
+      </div>
+   </div>
             </div>
          </section>
          <app-movie-related></app-movie-related>

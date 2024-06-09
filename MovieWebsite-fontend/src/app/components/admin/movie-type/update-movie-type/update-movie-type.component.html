@@ -4,22 +4,22 @@
 <section id="content">
     <!-- MAIN -->
     <main>
-        <div class="container-form-add-product">
+        <div *ngIf="movieType" class="container-form-add-product">
             <h2 class="text-center">Update Movie Type</h2>
-            <form action="" enctype="multipart/form-data">
+            <form (ngSubmit)="updateMovieType()">
                 <div class="row g-1">
                     <div class="col">
                     <label for="name">Movie Type Name</label>
-                    <input value="Phim hay" type="text" name="name" class="form-control" required>
+                    <input value="Phim hay" type="text" name="name" [(ngModel)]="movieType.name" class="form-control" required>
                     </div>           
                 </div>
 
                 <div class="row g-1">
                     <div class="col">
                         <label>Active :</label>
-                        <select name="isActive">
-                            <option value="1" selected>Yes</option>
-                            <option value="1" selected>No</option>
+                        <select [(ngModel)]="movieType.isActive" name="isActive" class="form-select">
+                            <option [value]="1">Active</option>
+                            <option [value]="0">Inactive</option>
                         </select>
                     </div>
                 </div> 

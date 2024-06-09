@@ -4,16 +4,21 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import com.project.MovieWebsite.models.Role;
 import com.project.MovieWebsite.models.User;
 
+import com.project.MovieWebsite.models.UserVIP;
 import lombok.*;
 
+import java.time.LocalDateTime;
+import java.time.ZoneId;
 import java.util.Date;
+
+import static net.minidev.asm.ConvertDate.convertToDate;
 
 @Getter
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-public class UserResponse extends BaseResponse {
+public class UserResponse{
 
     @JsonProperty("id")
     private int id;
@@ -39,8 +44,8 @@ public class UserResponse extends BaseResponse {
     @JsonProperty("google_account_id")
     private String googleAccountId;
 
-    @JsonProperty("vip_id")
-    private int vipId;
+    @JsonProperty("user_vip")
+    private UserVIP userVip;
 
     @JsonProperty("role")
     private Role role;
@@ -51,22 +56,34 @@ public class UserResponse extends BaseResponse {
     @JsonProperty("is_active")
     private int isActive;
 
+    @JsonProperty("created_at")
+    private Date createdAt;
+
+    @JsonProperty("updated_at")
+    private Date updatedAt;
+
+
     public static UserResponse fromUser(User user) {
         UserResponse userResponse = UserResponse.builder().
                 id(user.getId()).
                 fullName(user.getFullName()).
                 phoneNumber(user.getPhoneNumber()).
-                //password(user.getPassword()).
-                        imgAvatar(user.getImgAvatar()).
+                imgAvatar(user.getImgAvatar()).
                 dob(user.getDob()).
                 googleAccountId(user.getGoogleAccountId()).
                 facebookAccountId(user.getFacebookAccountId()).
-                vipId(user.getUserVip().getId()).
+                createdAt(convertToDate(user.getCreateAt())).
+                updatedAt(convertToDate(user.getUpdateAt())).
+                userVip(user.getUserVip()).
                 role(user.getRole()).
                 email(user.getEmail()).
                 isActive(user.getIsActive()).
                 build();
         return userResponse;
+    }
+
+    private static Date convertToDate(LocalDateTime dateTime) {
+        return dateTime != null ? Date.from(dateTime.atZone(ZoneId.systemDefault()).toInstant()) : null;
     }
 
 }

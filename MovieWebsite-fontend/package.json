@@ -28,9 +28,12 @@
     "jquery": "^3.7.1",
     "jwt-decode": "^4.0.0",
     "ngx-owl-carousel-o": "^17.0.0",
+    "ngx-toastr": "^19.0.0",
     "normalize.css": "^8.0.1",
     "owl.carousel": "^2.3.4",
     "rxjs": "~7.8.0",
+    "sweetalert2": "^11.11.0",
+    "toastr": "^2.1.4",
     "tslib": "^2.3.0",
     "zone.js": "~0.14.3"
   },

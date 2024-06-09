@@ -1,8 +1,13 @@
 package com.project.MovieWebsite.dtos;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Size;
 import lombok.*;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.io.File;
 import java.util.Date;
 
 @Data
@@ -36,5 +41,8 @@ public class UpdateUserDTO {
 
     @JsonProperty("img_avatar")
     private String imgAvatar;
+
+    @JsonProperty("vip_id")
+    private int vipId;
 
 }

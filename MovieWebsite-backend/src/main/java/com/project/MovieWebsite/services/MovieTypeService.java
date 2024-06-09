@@ -11,7 +11,7 @@ public interface MovieTypeService {
 
     MovieType createMovieType(MovieTypeDTO movieTypeDTO);
 
-    MovieType getMovieType(int id);
+    MovieType getMovieTypeById(int id);
 
     List<MovieType> getAllMovieType();
 

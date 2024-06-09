@@ -10,61 +10,78 @@ import { ActivatedRoute, Router } from '@angular/router';
   styleUrls: ['./home.component.scss']
 })
 export class HomeComponent implements OnInit {
-  movies: Movie[] = [];
+  theatersMovie: Movie[] = [];
+  singleMovie: Movie[] = [];
+  seriesMovie: Movie[] = [];
   currentPage: number = 0;
   itemsPerPage: number = 18;
   pages: number[] = [];
   totalPages: number = 0;
   visiblePages: number[] = []; 
   keyword: string = '';
-  genre_id: number = 0;
-  movie_type_id: number = 0;
 
   constructor(private movieService: MovieService, private  router: Router, private route: ActivatedRoute) {
     this.route.queryParams.subscribe(params => {
       this.keyword = params['search'] || '';
-      this.getAllMovies(this.keyword, this.genre_id, this.currentPage, this.itemsPerPage);
-      //this.getAllMoviesByMovieType(this.movie_type_id, this.itemsPerPage);
     });
   }
 
   ngOnInit() {
-    this.getAllMovies(this.keyword, this.genre_id, this.currentPage, this.itemsPerPage);
-    //this.getAllMoviesByMovieType(this.movie_type_id, this.itemsPerPage);
+    this.loadMovies();
   }
 
-  getAllMovies(keyword: string, genre_id: number, page: number, limit: number) {
-    debugger
-    this.movieService.getAllMovies(keyword, genre_id, page, limit).subscribe({
+  loadMovies() {
+    this.getTheatersMovie();
+    this.getSingleMovie();
+    this.getSeriesMovie();
+  }
+
+  getTheatersMovie() {
+    this.getMoviesByMovieTypeId(3, 0, 18).subscribe({
       next: (response: any) => {
-        response.movies.forEach((movie: Movie) => {
-          movie.url = `${environment.apiBaseUrl}/movies/images/${movie.image}`;
-        });
-        debugger
-        this.movies = response.movies;
-        console.log(this.movies);
+        this.theatersMovie = response.movies.map((movie: Movie) => ({
+          ...movie,
+          url: `${environment.apiBaseUrl}/movies/images/${movie.image}`
+        }));
+        console.log('Movies Chieu Rap:', response);
       },
       error: (error: any) => {
-        console.log(error);
+        console.error('Error fetching movies Chieu Rap:', error);
       }
     });
   }
 
-  getAllMoviesByMovieType(movie_type_id:number, limit: number) {
-    this.movieService.getAllMoviesByMovieType(movie_type_id, limit).subscribe({
+  getSingleMovie() {
+    this.getMoviesByMovieTypeId(2, 0, 18).subscribe({
       next: (response: any) => {
-        response.movies.forEach((movie: Movie) => {
-          movie.url = `${environment.apiBaseUrl}/movies/images/${movie.image}`;
-        });
-
-        this.movies = response.movies;
-        console.log(response)
+        this.singleMovie = response.movies.map((movie: Movie) => ({
+          ...movie,
+          url: `${environment.apiBaseUrl}/movies/images/${movie.image}`
+        }));
+        console.log('Movies Le:', response);
       },
       error: (error: any) => {
-        console.error('Error fetching movies by movie type:', error);
+        console.error('Error fetching movies Le:', error);
       }
     });
   }
 
+  getSeriesMovie() {
+    this.getMoviesByMovieTypeId(1, 0, 18).subscribe({
+      next: (response: any) => {
+        this.seriesMovie = response.movies.map((movie: Movie) => ({
+          ...movie,
+          url: `${environment.apiBaseUrl}/movies/images/${movie.image}`
+        }));
+        console.log('Movies Bo:', response);
+      },
+      error: (error: any) => {
+        console.error('Error fetching movies Bo:', error);
+      }
+    });
+  }
 
+  getMoviesByMovieTypeId(movie_type_id: number, page: number, limit: number) {
+    return this.movieService.getMoviesByMovieTypeId(movie_type_id, page, limit);
+  }
 }

@@ -6,6 +6,7 @@ import { LoginDTO } from '../dtos/user/login.dto';
 import { environment } from '../environments/environment';
 import { UserResponse } from '../responses/user/user.response';
 import { UpdateUserDTO } from '../dtos/user/updateuser.dto';
+import { VipPeriodResponse } from '../responses/user/vip_period.response';
 @Injectable({
   providedIn: 'root'
 })
@@ -19,6 +20,8 @@ export class UserService {
   private apiForgotPassword = `${environment.apiBaseUrl}/users/forgot-password`;
   private apiResetPassword = `${environment.apiBaseUrl}/users/reset-password`;
   private apiCheckOTP = `${environment.apiBaseUrl}/users/check-otp`;
+  private apiVipPeriod = `${environment.apiBaseUrl}/users/vip_period`;
+
   private apiConfig = {
     headers: this.createHeader(),
   }
@@ -98,6 +101,44 @@ export class UserService {
     }
   }
 
+  saveVipPeriodResponseToLocalStorage(vipPeriodResponse?: VipPeriodResponse) {
+    try {
+      if (vipPeriodResponse == null || !vipPeriodResponse) {
+        return;
+      }
+      const vipPeriodResponseJSON = JSON.stringify(vipPeriodResponse);
+      localStorage.setItem('vip_period', vipPeriodResponseJSON);
+
+      console.log('Vip Period response saved to local storage');
+    } catch (error) {
+      console.error('Error saving Vip Period response to local storage:', error);
+    }
+  }
+
+  getVipPeriodResponseFromLocalStorage(): VipPeriodResponse | null {
+    try {
+      const vipPeriodResponseJSON = localStorage.getItem('vip_period');
+      if (vipPeriodResponseJSON == null || vipPeriodResponseJSON == undefined) {
+        return null;
+      }
+      const vipPeriodResponse = JSON.parse(vipPeriodResponseJSON!);
+      console.log('Vip Period response retrieved from local storage');
+      return vipPeriodResponse;
+    } catch (error) {
+      console.log('Error retrieved Vip Period response from local storage:', error);
+      return null;
+    }
+  }
+
+  removeVipPeriodFromLocalStorage(): void {
+    try {
+      localStorage.removeItem('vip_period');
+      console.log('Vip Period data removed from local storage')
+    } catch (error) {
+      console.log(`Error removing Vip Period data from local storage:`, error);
+    }
+  }
+
   getImage(imageName: string): Observable<Blob> {
     const headers = new HttpHeaders({
       'Authorization': 'Bearer ' + localStorage.getItem('access_token') // Lấy token từ local storage
@@ -155,6 +196,15 @@ export class UserService {
 
   removeEmail(): void {
     localStorage.removeItem('email');
+  }
+
+  getVipPeriod(token: string): Observable<any>{
+    return this.http.get(this.apiVipPeriod, {
+      headers: new HttpHeaders({
+        'Content-Type': 'application/json',
+        Authorization: `Bearer ${token}`
+      })
+    })
   }
 
 }

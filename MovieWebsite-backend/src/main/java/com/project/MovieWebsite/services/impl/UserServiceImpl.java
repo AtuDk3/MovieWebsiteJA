@@ -23,7 +23,6 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.Optional;
-import java.util.UUID;
 
 @Service
 @RequiredArgsConstructor
@@ -35,7 +34,6 @@ public class UserServiceImpl implements UserService {
     private final PasswordEncoder passwordEncoder;
     private final JwtTokenUtil jwtTokenUtil;
     private final AuthenticationManager authenticationManager;
-
     private final LocalizationUtil localizationUtil;
     @Override
     public User createUser(UserDTO userDTO) throws DataNotFoundException{
@@ -59,8 +57,8 @@ public class UserServiceImpl implements UserService {
                 userVip(existingUserVip).
                 role(existingRole).
                 email(userDTO.getEmail()).
-                //isActive(userDTO).
-                        build();
+                isActive(userDTO.getIsActive()).
+                build();
         if(userDTO.getGoogleAccountId().equals("0")  && userDTO.getFacebookAccountId().equals("0") ){
             String password= userDTO.getPassword();
             String encodedPassword = passwordEncoder.encode(password);
@@ -70,30 +68,7 @@ public class UserServiceImpl implements UserService {
 
     }
 
-// public boolean verifyEmail(String token) {
-//        Token verificationToken = tokenRepository.findByToken(token);
-//        if (verificationToken != null) {
-//            User user = verificationToken.getUser();
-//            user.setIsActive(1);
-//            userRepository.save(user);
-//            tokenRepository.delete(verificationToken); // Optional: delete token after verification
-//            return true;
-//        }
-//        return false;
-//    }
 
-//    public User registerUser(UserDTO userDTO) {
-////        User user = new User();
-////        user.setEmail(userDto.getEmail());
-////        // Set other properties and save user
-////        userRepository.save(user);
-//
-//        String token = UUID.randomUUID().toString();
-//        Token verificationToken = new Token(user);
-//        verificationTokenRepository.save(verificationToken);
-//
-//        return user;
-//    }
 
     @Override
     public User getUserById(int userId) throws DataNotFoundException{
@@ -115,14 +90,11 @@ public class UserServiceImpl implements UserService {
         String newPhoneNumber= userUpdateDTO.getPhoneNumber();
         if(!existingUser.getPhoneNumber().equals(newPhoneNumber) &&
                 userRepository.existsByPhoneNumber(newPhoneNumber)){
-            throw new DataNotFoundException("Phone number already exists");
+            throw new DataNotFoundException("phone number already exists");
         }
 
         if (userUpdateDTO.getFullName() != null) {
             existingUser.setFullName(userUpdateDTO.getFullName());
-        }
-        if (userUpdateDTO.getPhoneNumber() != null) {
-            existingUser.setPhoneNumber(userUpdateDTO.getPhoneNumber());
         }
         if (userUpdateDTO.getDob() != null) {
             existingUser.setDob(userUpdateDTO.getDob());
@@ -134,10 +106,10 @@ public class UserServiceImpl implements UserService {
             existingUser.setGoogleAccountId(userUpdateDTO.getGoogleAccountId());
         }
 
-        if(userUpdateDTO.getPassword() !=null && !userUpdateDTO.getPassword().isEmpty()){
-            String newPassword= userUpdateDTO.getPassword();
-            String encodedPassword= passwordEncoder.encode(newPassword);
-            existingUser.setPassword(encodedPassword);
+        if (userUpdateDTO.getVipId()!=existingUser.getUserVip().getId()) {
+            UserVIP existingUserVip= userVIPRepository.findById(userUpdateDTO.getVipId())
+                    .orElseThrow(() -> new DataNotFoundException("Cannot find user vip with id: "+userUpdateDTO.getVipId()));
+            existingUser.setUserVip(existingUserVip);
         }
 
         return existingUser;
@@ -148,11 +120,12 @@ public class UserServiceImpl implements UserService {
         userRepository.deleteById(userId);
     }
 
-    public void updatePassword(String phoneNumber, String newPassword) {
+    public User updatePassword(String phoneNumber, String newPassword) {
         Optional<User> optionalUser= userRepository.findByPhoneNumber(phoneNumber);
         User existingUser= optionalUser.get();
         existingUser.setPassword(passwordEncoder.encode(newPassword));
         userRepository.save(existingUser);
+        return existingUser;
     }
 
     @Override

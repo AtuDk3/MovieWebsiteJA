@@ -61,6 +61,9 @@ public class MovieResponse {
     @JsonProperty("number_views")
     private int numberViews;
 
+    @JsonProperty("is_active")
+    private int isActive;
+
     public  static MovieResponse fromMovie(Movie movie){
         MovieResponse movieResponse = MovieResponse.builder()
                 .id(movie.getId())
@@ -82,6 +85,7 @@ public class MovieResponse {
                 .countryName(movie.getCountry().getName())
                 .genreName(movie.getGenre().getName())
                 .numberViews(movie.getNumberView())
+                .isActive(movie.getIsActive())
                 .build();
         return movieResponse;
     }

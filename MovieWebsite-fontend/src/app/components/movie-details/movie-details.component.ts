@@ -1,9 +1,12 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Renderer2, Inject } from '@angular/core';
+import { DOCUMENT } from '@angular/common';
 import { environment } from '../../environments/environment';
 import { MovieService } from '../../services/movie.service';
 import { GenreService } from '../../services/genre.service';
 import { Movie } from '../../models/movie';
-import { ActivatedRoute, Router } from '@angular/router';
+import { ActivatedRoute, NavigationEnd, Router } from '@angular/router';
+
+declare var FB: any;
 
 @Component({
   selector: 'app-movie-details',
@@ -18,9 +21,20 @@ export class MovieDetailsComponent implements OnInit {
     private movieService: MovieService, 
     private genreService: GenreService,
     private router: Router,
-    private activatedRoute: ActivatedRoute) {}
+    private activatedRoute: ActivatedRoute,
+    private renderer: Renderer2,
+    @Inject(DOCUMENT) private document: Document) {}
 
   ngOnInit() {
+    this.router.events.subscribe((event) => {
+      if (event instanceof NavigationEnd) {
+
+        if (typeof FB !== 'undefined') {
+          FB.XFBML.parse();
+        }
+      }
+    });
+
     const idParam = this.activatedRoute.snapshot.paramMap.get('id');
 
     if(idParam !== null){

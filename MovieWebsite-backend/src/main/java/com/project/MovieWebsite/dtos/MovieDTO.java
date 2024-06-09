@@ -58,6 +58,9 @@ public class MovieDTO {
     @JsonProperty("limited_age")
     private int limitedAge;
 
+    @JsonProperty("is_active")
+    private int isActive=1;
+
     private String generateSlug(String name) {
         String normalized = Normalizer.normalize(name, Normalizer.Form.NFD);
         Pattern pattern = Pattern.compile("\\p{InCombiningDiacriticalMarks}+");

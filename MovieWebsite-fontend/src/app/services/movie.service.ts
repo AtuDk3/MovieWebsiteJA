@@ -14,23 +14,41 @@ export class MovieService {
   private apiGetMoviesByGenre = `${environment.apiBaseUrl}/movies/genres`;
   private apiGetMoviesByCountry = `${environment.apiBaseUrl}/movies/countries`;
   private apiGetMoviesByMovieType = `${environment.apiBaseUrl}/movies/movie_types`;
-  private apiGetAllMoviesByMovieType = `${environment.apiBaseUrl}/movies/movie_types`;
+  private apiGetHotMovies = `${environment.apiBaseUrl}/movies/movie-hot`;
+  private apiGetImageMovie = `${environment.apiBaseUrl}/movies/upload_movie`;
   
   constructor(private http: HttpClient) { }
 
-    getAllMovies(keyword: string, genre_id: number, page: number, limit: number): Observable<Movie[]> {
+  getMovies(page: number, limit: number): Observable<Movie[]> {
     let params = new HttpParams()
       .set('page', page.toString())
       .set('limit', limit.toString());
       
-    if (keyword) {
-      params = params.set('keyword', keyword);
-    }
-    
-    if (genre_id) {
-      params = params.set('genre_id', genre_id.toString());
-    }
-    return this.http.get<Movie[]>(this.apiGetMoviesByGenre, {params});
+    return this.http.get<Movie[]>(this.apiGetMovies, {params});
+  }
+
+  getMovieById(movieId: number): Observable<Movie> {
+    const url = `${this.apiGetMovies}/${movieId}`;
+    return this.http.get<Movie>(url);
+  }
+
+  createMovie(movie: Movie): Observable<Movie> {
+    return this.http.post<Movie>(this.apiGetMovies, movie);
+  }
+
+  updateMovie(movie: Movie): Observable<Movie> {
+    const url = `${this.apiGetMovies}/${movie.id}`;
+    return this.http.put<Movie>(url, movie);
+  }
+
+  updateImageMovie(movieId: number, formData: FormData): Observable<Movie> {
+    const url = `${this.apiGetImageMovie}/${movieId}`;
+    return this.http.put<Movie>(url, formData);
+}
+
+  deleteMovie(movieId: number): Observable<any> {
+    const url = `${this.apiGetMovies}/${movieId}`;
+    return this.http.delete<any>(url);
   }
 
   getDetailMovie(movieId: number){
@@ -64,12 +82,27 @@ export class MovieService {
     return this.http.get<Movie[]>(this.apiGetMoviesByMovieType, { params });
   }
 
-  getAllMoviesByMovieType(movie_type_id:number, limit: number): Observable<Movie[]> {
+  getHotMovies(page: number, limit: number): Observable<Movie[]> {
     const params = new HttpParams()
-      .set('movie_type_id', movie_type_id.toString())
+      .set('page', page.toString())
       .set('limit', limit.toString());
 
-    return this.http.get<Movie[]>(this.apiGetMoviesByMovieType, { params });
+    return this.http.get<Movie[]>(this.apiGetHotMovies, { params });
+  }
+
+  getMoviesByNumberViews(): Observable<Movie[]> {
+    return this.http.get<Movie[]>(this.apiGetMovies);
+  }
+
+  getImage(imageName: string): Observable<Blob> {
+    return this.http.get(`${this.apiGetImageMovie}/${imageName}`, { responseType: 'blob' });
+  }
+
+  uploadImageMovie(movieId: number, file: File): Observable<any> {
+    const formData = new FormData();
+    formData.append('file', file);
+
+    return this.http.post(`${this.apiGetMovies}/upload_movie/${movieId}`, formData);
   }
 
 }

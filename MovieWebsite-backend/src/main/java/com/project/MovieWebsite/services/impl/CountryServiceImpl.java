@@ -17,7 +17,7 @@ public class CountryServiceImpl implements CountryService {
     private final CountryRepository countryRepository;
     @Override
     public Country createCountry(CountryDTO countryDTO) {
-        Country newCountry = Country.builder().name(countryDTO.getName()).build();
+        Country newCountry = Country.builder().name(countryDTO.getName()).isActive(countryDTO.getIsActive()).build();
         return countryRepository.save(newCountry);
     }
 
@@ -33,11 +33,11 @@ public class CountryServiceImpl implements CountryService {
 
     @Override
     public Country updateCountry(int countryId, CountryDTO countryDTO) {
-        Country existingMovieType= getCountryById(countryId);
-        existingMovieType.setName(countryDTO.getName());
-        //existingMovieType.setIsActive(movieTypeDTO.getIsActive());
-        countryRepository.save(existingMovieType);
-        return existingMovieType;
+        Country existingCountry= getCountryById(countryId);
+        existingCountry.setName(countryDTO.getName());
+        existingCountry.setIsActive(countryDTO.getIsActive());
+        countryRepository.save(existingCountry);
+        return existingCountry;
     }
 
     @Override

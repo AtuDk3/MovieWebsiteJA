@@ -12,7 +12,7 @@ import { ActivatedRoute } from '@angular/router';
 export class MovieTypeComponent implements OnInit {
   movies: Movie[] = [];
   currentPage: number = 0; 
-  itemsPerPage: number = 6;
+  itemsPerPage: number = 18;
   totalPages: number = 0;
   visiblePages: number[] = []; 
   movie_type_id: number = 0;

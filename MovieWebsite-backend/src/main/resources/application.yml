@@ -1,6 +1,10 @@
+app:
+  base:
+    url: http://localhost:4200
+
 spring:
   datasource:
-    url: jdbc:mysql://localhost:3306/movie_website?useSSL=false&serverTimezone=Asia/Ho_Chi_Minh
+    url: jdbc:mysql://localhost:3306/movie_website
     username: root
     password:
     driver-class-name: com.mysql.cj.jdbc.Driver
@@ -13,14 +17,30 @@ spring:
       hibernate:
         dialect: org.hibernate.dialect.MySQL8Dialect
         format_sql: true
-  #  spring:
-  #    security:
-  #      oauth2:
-  #        client:
-  #          registration:
-  #            google:
-  #              client-id: 766011988725-8f67ha7rav67t61u9tfe9pjeli1an63e.apps.googleusercontent.com
-  #              client-secret: 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
+
+  #  security:
+  #    oauth2:
+  #      client:
+  #        registration:
+  #          google:
+  #            client-id: "376310187656-48ht7enjmq150efgtos8p2kfi9ghs0dh.apps.googleusercontent.com"
+  #            client-secret: "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"
+
+
+
+  #  mail:
+  #    host: smtp.gmail.com
+  #    port: 587
+  #    username: webphimm@gmail.com
+  #    password: ampg tgio aebn vqls
+  #    properties:
+  #      mail:
+  #        smtp:
+  #          auth: true
+  #          starttls:
+  #            enable: true
+  #            required: true
+
   servlet:
     multipart:
       max-file-size: 10MB
@@ -35,14 +55,15 @@ jwt:
 api:
   prefix: api/v1
 
-login:
-  successfully: Đăng nhập thành công.
-  failed: Đăng nhập thất bại.
-
 mailServer:
   host: smtp.gmail.com
   port: 587
-  email: mailsender.tutorials.b2a@gmail.com
-  password: Admin@123
+  email: webphimm@gmail.com
+  password: ampg tgio aebn vqls
   protocol: smtp
   isSSL: false
+
+twilio:
+  account-sid: AC099a28495ff61a4c70769ccec10ca34f
+  auth-token: ba05e35bb44b2b317c9ffd892a04fd51
+  phone-number: +17085728487

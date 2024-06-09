@@ -4,23 +4,29 @@
 <section id="content">
     <!-- MAIN -->
     <main>
-        <div class="container-form-add-product">
+        <div *ngIf="country" class="container-form-add-product">
             <h2 class="text-center">Update Country</h2>
-            <form action="" enctype="multipart/form-data">
+            <form (ngSubmit)="updateCountry()">
                 <div class="row g-1">
                     <div class="col">
                     <label for="name">Country Name</label>
-                    <input value="Phim hay" type="text" name="name" class="form-control" required>
+                    <input value="Phim hay" type="text" name="name" [(ngModel)]="country.name" class="form-control" required>
                     </div>           
                 </div>
 
                 <div class="row g-1">
                     <div class="col">
                         <label>Active :</label>
-                        <select name="isActive">
-                            <option value="1" selected>Yes</option>
-                            <option value="1" selected>No</option>
-                        </select>
+                        <select [(ngModel)]="country.isActive" name="isActive" class="form-select">
+                            <ng-container *ngIf="country.isActive === 1; else inactiveFirst">
+                              <option [value]="1">Active</option>
+                              <option [value]="0">Inactive</option>
+                            </ng-container>
+                            <ng-template #inactiveFirst>
+                              <option [value]="0">Inactive</option>
+                              <option [value]="1">Active</option>
+                            </ng-template>
+                          </select>
                     </div>
                 </div> 
                 

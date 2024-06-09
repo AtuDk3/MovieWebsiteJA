@@ -3,6 +3,7 @@ package com.project.MovieWebsite.services;
 
 import com.project.MovieWebsite.dtos.MovieDTO;
 import com.project.MovieWebsite.exceptions.DataNotFoundException;
+import com.project.MovieWebsite.models.Genre;
 import com.project.MovieWebsite.models.Movie;
 import com.project.MovieWebsite.responses.MovieResponse;
 import org.springframework.data.domain.Page;
@@ -11,6 +12,8 @@ import org.springframework.data.domain.PageRequest;
 import java.util.List;
 
 public interface MovieService {
+
+    Page<MovieResponse> getAllMovies(String keyword, PageRequest pageRequest);
 
     Movie createMovie (MovieDTO movieDTO) throws DataNotFoundException;
 
@@ -23,6 +26,10 @@ public interface MovieService {
     Page<MovieResponse> getAllMoviesByCountryId(String keyword, int countryId, PageRequest pageRequest);
 
     Page<MovieResponse> getAllMoviesByMovieTypeId(String keyword, int movieTypeId, PageRequest pageRequest);
+
+    Page<MovieResponse> getMovieRelated(String keyword, int movieId, PageRequest pageRequest);
+
+    Page<MovieResponse> getHotMovies(PageRequest pageRequest);
 
     List<Movie> getMoviesByGenreId(int genreId) throws Exception;
 

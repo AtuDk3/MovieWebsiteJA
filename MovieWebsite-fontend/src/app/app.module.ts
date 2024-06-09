@@ -49,6 +49,10 @@ import { UpdateEpisodeComponent } from './components/admin/episode/update-episod
 import { AddEpisodeComponent } from './components/admin/episode/add-episode/add-episode.component';
 import { ListAccountComponent } from './components/admin/account/list-account/list-account.component';
 import { ListOrderComponent } from './components/admin/order/list-order/list-order.component';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { ToastrModule } from 'ngx-toastr';
+import { MovieHotComponent } from './components/movie-hot/movie-hot.component';
+import { UpgradeAccountComponent } from './components/upgrade-account/upgrade-account.component';
 
 @NgModule({
   declarations: [
@@ -94,6 +98,8 @@ import { ListOrderComponent } from './components/admin/order/list-order/list-ord
     AddEpisodeComponent,
     ListAccountComponent,
     ListOrderComponent,
+    MovieHotComponent,
+    UpgradeAccountComponent,
   ],
   imports: [
     BrowserModule,
@@ -101,11 +107,13 @@ import { ListOrderComponent } from './components/admin/order/list-order/list-ord
     IonicModule.forRoot(),
     CarouselModule,
     FormsModule,
-    HttpClientModule
+    HttpClientModule,
+    BrowserAnimationsModule, // cần thiết cho Toastr
+    ToastrModule.forRoot() // Cấu hình mặc định của Toastr
   ],
   providers: [
     {
-      provide: HTTP_INTERCEPTORS,
+      provide: HTTP_INTERCEPTORS, 
       useClass: TokenInterceptor,
       multi: true
     }

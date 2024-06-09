@@ -1,7 +1,9 @@
 package com.project.MovieWebsite.controllers;
 
 import com.project.MovieWebsite.dtos.CountryDTO;
+import com.project.MovieWebsite.dtos.GenreDTO;
 import com.project.MovieWebsite.models.Country;
+import com.project.MovieWebsite.models.Genre;
 import com.project.MovieWebsite.services.CountryService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -10,7 +12,9 @@ import org.springframework.validation.BindingResult;
 import org.springframework.validation.FieldError;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.Collections;
 import java.util.List;
+import java.util.Map;
 
 @RestController
 @RequiredArgsConstructor
@@ -26,25 +30,40 @@ public class CountryController {
         return ResponseEntity.ok(countries);
     }
 
-    @PostMapping("")
-    public ResponseEntity<?> createCountry(@Valid @RequestBody CountryDTO countryDTO, BindingResult result) {
-        if (result.hasErrors()){
-            List<String> errorsMessage = result.getFieldErrors().stream().map(FieldError::getDefaultMessage).toList();
-            return ResponseEntity.badRequest().body(errorsMessage);
+    @GetMapping("/{id}")
+    public ResponseEntity<?> getCountryById(@PathVariable int id) {
+        try {
+            Country existingCountry = countryService.getCountryById(id);
+            return ResponseEntity.ok(existingCountry);
         }
-        countryService.createCountry(countryDTO);
-        return ResponseEntity.ok("Create country successfully!");
+        catch (Exception e) {
+            return ResponseEntity.badRequest().body(e.getMessage());
+        }
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<String> updateCountry(@PathVariable int id, @Valid @RequestBody CountryDTO countryDTO) {
+    public ResponseEntity<Map<String, String>> updateCountry(@PathVariable int id, @Valid @RequestBody CountryDTO countryDTO, BindingResult result) {
+        if (result.hasErrors()){
+            List<String> errorsMessage = result.getFieldErrors().stream().map(FieldError::getDefaultMessage).toList();
+            return ResponseEntity.badRequest().body(Collections.singletonMap("errors", String.join(", ", errorsMessage)));
+        }
         countryService.updateCountry(id, countryDTO);
-        return ResponseEntity.ok("Update country successfully!");
+        return ResponseEntity.ok(Collections.singletonMap("message", "Update country successfully!"));
+    }
+
+    @PostMapping("")
+    public ResponseEntity<Map<String, String>> createCountry(@Valid @RequestBody CountryDTO countryDTO, BindingResult result) {
+        if (result.hasErrors()){
+            List<String> errorsMessage = result.getFieldErrors().stream().map(FieldError::getDefaultMessage).toList();
+            return ResponseEntity.badRequest().body(Collections.singletonMap("errors", String.join(", ", errorsMessage)));
+        }
+        countryService.createCountry(countryDTO);
+        return ResponseEntity.ok(Collections.singletonMap("message", "Create country successfully!"));
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<String> deleteCountry(@PathVariable int id) {
+    public ResponseEntity<Map<String, String>> deleteCountryById(@PathVariable int id) {
         countryService.deleteCountry(id);
-        return ResponseEntity.ok("Delete country successfully!");
+        return ResponseEntity.ok(Collections.singletonMap("message", "Delete country successfully!"));
     }
 }

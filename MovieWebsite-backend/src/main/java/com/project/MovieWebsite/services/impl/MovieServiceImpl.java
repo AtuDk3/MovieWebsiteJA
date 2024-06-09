@@ -91,6 +91,12 @@ public class MovieServiceImpl implements MovieService {
 //    }
 
     @Override
+    public Page<MovieResponse> getAllMovies(String keyword, PageRequest pageRequest) {
+        Page<Movie> moviesPage = movieRepository.searchMovies(keyword, pageRequest);
+        return mapToMovieResponsePage(moviesPage);
+    }
+
+    @Override
     public Page<MovieResponse> getAllMoviesByGenreId(String keyword, int genreId, PageRequest pageRequest) {
         Page<Movie> moviesPage = movieRepository.searchMoviesByGenreId(genreId, keyword, pageRequest);
         return mapToMovieResponsePage(moviesPage);
@@ -105,6 +111,18 @@ public class MovieServiceImpl implements MovieService {
     @Override
     public Page<MovieResponse> getAllMoviesByMovieTypeId(String keyword, int movieTypeId, PageRequest pageRequest) {
         Page<Movie> moviesPage = movieRepository.searchMoviesByMovieTypeId(movieTypeId, keyword, pageRequest);
+        return mapToMovieResponsePage(moviesPage);
+    }
+
+    @Override
+    public Page<MovieResponse> getMovieRelated(String keyword, int movieId, PageRequest pageRequest) {
+        Page<Movie> moviesPage = movieRepository.searchMovieRelated(movieId, keyword, pageRequest);
+        return mapToMovieResponsePage(moviesPage);
+    }
+
+    @Override
+    public Page<MovieResponse> getHotMovies(PageRequest pageRequest) {
+        Page<Movie> moviesPage = movieRepository.searchHotMovies(pageRequest);
         return mapToMovieResponsePage(moviesPage);
     }
 
@@ -130,6 +148,7 @@ public class MovieServiceImpl implements MovieService {
                     .countryName(movie.getCountry().getName())
                     .genreName(movie.getGenre().getName())
                     .numberViews(movie.getNumberView())
+                    .isActive(movie.getIsActive())
                     .build();
             return movieResponse;
         });
@@ -150,7 +169,7 @@ public class MovieServiceImpl implements MovieService {
 
             existingMovie.setName(movieDTO.getName());
             existingMovie.setDescription(movieDTO.getDescription());
-            existingMovie.setImage(movieDTO.getImage());
+//            existingMovie.setImage(movieDTO.getImage());
             existingMovie.setSlug(movieDTO.getSlug());
             existingMovie.setReleaseDate(movieDTO.getReleaseDate());
             existingMovie.setDuration(movieDTO.getDuration());
@@ -162,6 +181,7 @@ public class MovieServiceImpl implements MovieService {
             existingMovie.setIsFee(movieDTO.getIsFee());
             existingMovie.setSeason(movieDTO.getSeason());
             existingMovie.setLimitedAge(movieDTO.getLimitedAge());
+            existingMovie.setIsActive(movieDTO.getIsActive());
             return movieRepository.save(existingMovie);
         }
         return null;
@@ -179,4 +199,7 @@ public class MovieServiceImpl implements MovieService {
     public boolean existByName(String name) {
         return movieRepository.existsByName(name);
     }
+
+
+
 }

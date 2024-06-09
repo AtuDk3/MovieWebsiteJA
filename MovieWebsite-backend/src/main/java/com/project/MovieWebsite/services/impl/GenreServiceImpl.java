@@ -17,7 +17,7 @@ public class GenreServiceImpl implements GenreService {
 
     @Override
     public Genre createGenre(GenreDTO genre) {
-        Genre newGenre = Genre.builder().name(genre.getName()).description(genre.getDescription()).slug(genre.getSlug()).build();
+        Genre newGenre = Genre.builder().name(genre.getName()).description(genre.getDescription()).slug(genre.getSlug()).isActive(genre.getIsActive()).build();
         return genreRepository.save(newGenre);
     }
 
@@ -37,7 +37,7 @@ public class GenreServiceImpl implements GenreService {
         existsGenre.setName(genre.getName());
         existsGenre.setDescription(genre.getDescription());
         existsGenre.setSlug(genre.getSlug());
-        //existsGenre.setIsActive(genre.getIsActive());
+        existsGenre.setIsActive(genre.getIsActive());
         genreRepository.save(existsGenre);
         return existsGenre;
     }

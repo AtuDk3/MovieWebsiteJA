@@ -8,6 +8,7 @@ import com.project.MovieWebsite.models.User;
 import java.util.List;
 
 public interface UserService {
+
     User createUser(UserDTO userDTO) throws DataNotFoundException;
 
     User getUserById(int userId) throws DataNotFoundException;
@@ -18,7 +19,7 @@ public interface UserService {
 
     void deleteUser(int userId);
 
-    void updatePassword(String phoneNumber, String newPassword);
+    User updatePassword(String phoneNumber, String newPassword);
 
     String login(String phoneNumber, String password) throws Exception;
 

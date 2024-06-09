@@ -21,7 +21,7 @@ public class MovieTypeServiceImpl implements MovieTypeService {
     }
 
     @Override
-    public MovieType getMovieType(int id) {
+    public MovieType getMovieTypeById(int id) {
         return movieTypeRepository.findById(id).orElseThrow(() -> new RuntimeException("Movie Type not found"));
     }
 
@@ -32,7 +32,7 @@ public class MovieTypeServiceImpl implements MovieTypeService {
 
     @Override
     public MovieType updateMovieType(int id, MovieTypeDTO movieTypeDTO) {
-        MovieType existingMovieType= getMovieType(id);
+        MovieType existingMovieType= getMovieTypeById(id);
         existingMovieType.setName(movieTypeDTO.getName());
         existingMovieType.setIsActive(movieTypeDTO.getIsActive());
         movieTypeRepository.save(existingMovieType);

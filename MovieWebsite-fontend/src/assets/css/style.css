@@ -1,16 +1,26 @@
-/* *html {
-    font-family: sans-serif;
-    -ms-text-size-adjust: 100%;
-    -webkit-text-size-adjust: 100%;
-    overflow-x: hidden;
+i.fa-solid.fa-angles-left, i.fa-angles-right {
+  padding: 10px;
+}
 
-} */
+.ng-tns-c969959638-0.toast-message.ng-star-inserted {
+  font-size: 1.4rem !important;
+}
 
-/* html {
-  background-color: black !important;
-} */
+.ng-tns-c969959638-0.toast-title.ng-star-inserted {
+  font-size: 1.5rem !important;
+}
 
+h2#swal2-title {
+  font-size: 2rem !important;
+}
 
+div#swal2-html-container {
+  font-size: 1.5rem !important;
+}
+
+.swal2-actions {
+  font-size: 1.5rem !important;
+}
 
 body {
     margin: 0;

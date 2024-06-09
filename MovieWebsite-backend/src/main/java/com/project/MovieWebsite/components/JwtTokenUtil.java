@@ -31,6 +31,7 @@ public class JwtTokenUtil {
     public String generateToken(com.project.MovieWebsite.models.User user) throws Exception {
         Map<String, Object> claims = new HashMap<>();
         claims.put("phoneNumber", user.getPhoneNumber());
+        claims.put("id", user.getId());
         try {
             String token = Jwts.builder()
                     .setClaims(claims)
