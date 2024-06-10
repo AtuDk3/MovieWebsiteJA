@@ -7,4 +7,6 @@ public interface ClientService {
     String create(UserDTO userDTO);
 
     String forgot_password(User user);
+
+    String authenticate_account(String name, String email);
 }

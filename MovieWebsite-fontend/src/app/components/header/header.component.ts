@@ -8,7 +8,7 @@ import { UserResponse } from '../../responses/user/user.response';
 import { TokenService } from '../../services/token.service';
 import { Router } from '@angular/router';
 import { VipPeriodResponse } from '../../responses/user/vip_period.response';
-
+import { BookmarkService } from '../../services/bookmark.service';
 @Component({
   selector: 'app-header',
   templateUrl: './header.component.html',
@@ -25,13 +25,13 @@ export class HeaderComponent implements OnInit {
   vipPeriodResponse?:VipPeriodResponse | null
   isPopoverOpen= false;
   search: string = '';
+  bookmarkCount: number = 0;
 
   constructor(private genreService: GenreService, private countryService: CountryService,
     private userService: UserService,
     private tokenService: TokenService
-    , private  router: Router
-  ) {
-    
+    , private  router: Router, private bookmarkService: BookmarkService
+  ) {    
   }
 
   ngOnInit() {
@@ -39,9 +39,12 @@ export class HeaderComponent implements OnInit {
     this.getCountries();
     if(!this.tokenService.isTokenExpired()){
       this.userResponse= this.userService.getUserResponseFromLocalStorage();
-      if(this.userResponse?.user_vip.name.includes('vip')){
+      if(this.userResponse?.user_vip.name.includes('vip') && this.userService.getVipPeriodResponseFromLocalStorage()===null){
         this.getVipPeriod();
-      }     
+      }   
+      this.bookmarkService.currentBookmarkCount.subscribe(count =>{              
+          this.bookmarkCount= count;              
+      });    
     }else{
       this.userService.removeUserFromLocalStorage();
       this.userService.removeVipPeriodFromLocalStorage();
@@ -111,8 +114,11 @@ export class HeaderComponent implements OnInit {
 
   logout(){
     this.userService.removeUserFromLocalStorage();
+    this.userService.removeVipPeriodFromLocalStorage();
     this.tokenService.removeToken();
     this.userResponse= this.userService.getUserResponseFromLocalStorage();
+    this.bookmarkService.resetBookmarkCount();
+    this.router.navigate(['']);
   }
 
   getVipPeriod(){

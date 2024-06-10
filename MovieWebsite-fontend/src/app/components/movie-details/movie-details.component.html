@@ -29,9 +29,15 @@
                      <div id="bookmark" class="bookmark-img-animation primary_ribbon" data-id="38424">
                         <div class="halim-pulse-ring"></div>
                      </div>
-                     <div class="title-wrapper" style="font-weight: bold;">
-                        Bookmark
-                     </div>
+                     <div (click)="addMovieBookmark(movie.id)" id="get-bookmark" class="box-shadow"><i class="fa-regular fa-bookmark"></i><span> Bookmarks</span></div>
+                     <div class="error-message-container">
+                        <p class="font-weight-bold text-danger" style="font-size: 15px;" *ngIf="existError">
+                          {{ existError }}
+                        </p>
+                        <p class="font-weight-bold text-success" style="font-size: 15px;" *ngIf="message">
+                          {{ message }}
+                        </p>
+                      </div>
                   </div>
                   <div class="movie_info col-xs-12">
                      <div class="movie-poster col-md-3">
@@ -85,7 +91,7 @@
                <div class="entry-content htmlwrap clearfix">
                   <div class="video-item halim-entry-box">
                      <article id="post-38424" class="item-content">
-                        Phim <a href="https://phimhay.co/goa-phu-den-38424/">{{ movie.name }}</a> - {{
+                        Phim <a href="">{{ movie.name }}</a> - {{
                         movie.release_date_formated }} - {{ movie.country_name }}:
                         <p>{{ movie.name }} &#8211; {{ movie.description }}</p>
                         <h5>Từ Khoá Tìm Kiếm:</h5>

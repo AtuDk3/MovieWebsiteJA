@@ -3,6 +3,14 @@ import { environment } from '../../environments/environment';
 import { MovieService } from '../../services/movie.service';
 import { Movie } from '../../models/movie';
 import 'owl.carousel';
+import { ActivatedRoute, Router } from '@angular/router';
+import { UserResponse } from '../../responses/user/user.response';
+import { UserService } from '../../services/user.service';
+import { VipPeriodResponse } from '../../responses/user/vip_period.response';
+import { UpdateUserDTO } from '../../dtos/user/updateuser.dto';
+import { TokenService } from '../../services/token.service';
+import { BookmarkService } from '../../services/bookmark.service';
+import { FavouriteResponse } from '../../responses/user/favourite.response';
 
 @Component({
   selector: 'app-movie-related',
@@ -12,17 +20,23 @@ import 'owl.carousel';
 export class MovieRelatedComponent implements OnInit, AfterViewInit, AfterViewChecked {
   movies: Movie[] = [];
   currentPage: number = 0; 
-  itemsPerPage: number = 6;
-  totalPages: number = 0;
-  visiblePages: number[] = []; 
+  itemsPerPage: number = 10;
   carouselInitialized: boolean = false;
+  moviesRelated: FavouriteResponse[] = [];
+  movieId: number = 0;
+
 
   constructor(
     private movieService: MovieService,
+    private activatedRoute: ActivatedRoute,
   ) { }
 
-  ngOnInit(): void {
-    this.getHotMovies(this.currentPage, this.itemsPerPage);
+  ngOnInit() {
+    const idParam = this.activatedRoute.snapshot.paramMap.get('id');
+
+    if (idParam !== null) {
+      this.movieId = +idParam;
+    }
   }
 
   ngAfterViewInit(): void {
@@ -55,43 +69,19 @@ export class MovieRelatedComponent implements OnInit, AfterViewInit, AfterViewCh
     });
   }
 
-  getHotMovies(page: number, limit: number) {
-    this.movieService.getHotMovies(page, limit).subscribe({
+  getMoviesRelated(movie_id: number, page: number, limit: number){   
+    this.movieService.getMoviesRelated(movie_id, page, limit).subscribe({
       next: (response: any) => {
-        response.movies.forEach((movie: Movie) => {
+        response.movies.forEach((movie: FavouriteResponse) => {
           movie.url = `${environment.apiBaseUrl}/movies/images/${movie.image}`;
-        });
+        });                
+        this.moviesRelated = response.movies;
 
-        this.movies = response.movies;
-        console.log('Movies:', this.movies);  // Kiểm tra dữ liệu phim
-        this.totalPages = response.totalPages;
-        this.visiblePages = this.generateVisiblePageArray(this.currentPage, this.totalPages);
       },
       error: (error: any) => {
-        console.error('Error fetching movies by hot movie:', error);
+        console.error('Error fetching movies by related:', error);
       }
     });
   }
-
-  generateVisiblePageArray(currentPage: number, totalPages: number): number[] {
-    const maxVisiblePages = 5;
-    const halfVisiblePages = Math.floor(maxVisiblePages / 2);
-
-    let startPage = Math.max(currentPage - halfVisiblePages, 0);
-    let endPage = Math.min(startPage + maxVisiblePages - 1, totalPages - 1);
-
-    if (endPage - startPage + 1 < maxVisiblePages) {
-      startPage = Math.max(endPage - maxVisiblePages + 1, 0);
-    }
-
-    return new Array(endPage - startPage + 1).fill(0).map((_, index) => startPage + index);
-  }
-
-  goToPage(page: number, event: Event) {
-    event.preventDefault();
-    if (page >= 0 && page <= this.totalPages - 1) {
-      this.currentPage = page;
-      this.getHotMovies(this.currentPage, this.itemsPerPage);
-    }
-  }
+  
 }

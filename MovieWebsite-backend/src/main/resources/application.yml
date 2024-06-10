@@ -67,3 +67,9 @@ twilio:
   account-sid: AC099a28495ff61a4c70769ccec10ca34f
   auth-token: ba05e35bb44b2b317c9ffd892a04fd51
   phone-number: +17085728487
+
+vnpay:
+  tmnCode: BOOQ2DBY
+  hashSecret: VJ767KA1QVFIQJ0KAEENQOA4CXVD1A2J
+  url: https://pay.vnpay.vn/vpcpay.html
+  returnUrl: http://localhost:8080/api/vnpay/return

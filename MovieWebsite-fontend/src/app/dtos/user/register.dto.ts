@@ -15,11 +15,7 @@ import{
      @IsString()
      @IsNotEmpty()
      password: string;
- 
-     @IsString()
-     @IsNotEmpty()
-     retype_password: string;
- 
+  
      @IsDate()
      date_of_birth: Date;
  
@@ -31,7 +27,6 @@ import{
          this.full_name= data.fullName;
          this.phone_number= data.phone_number;
          this.password= data.password;
-         this.retype_password= data.retype_password;
          this.date_of_birth= data.date_of_birth;
          this.email= data.email;
      }

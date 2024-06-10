@@ -1,4 +1,4 @@
-import { NgModule, OnInit  } from '@angular/core';
+import { APP_INITIALIZER, NgModule, OnInit  } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 
 import { AppRoutingModule } from './app-routing.module';
@@ -53,6 +53,18 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { ToastrModule } from 'ngx-toastr';
 import { MovieHotComponent } from './components/movie-hot/movie-hot.component';
 import { UpgradeAccountComponent } from './components/upgrade-account/upgrade-account.component';
+import { AuthenticateAccountComponent } from './components/authenticate-account/authenticate-account.component';
+import { BookmarkComponent } from './components/bookmark/bookmark.component';
+import { PaymentComponent } from './components/payments/payments.component';
+import { AuthService } from './services/auth.service';
+import { RouterModule } from '@angular/router';
+
+
+export function initializeAuthService(authService: AuthService) {
+  return (): Promise<void> => {
+    return authService.initialize(); 
+  };
+}
 
 @NgModule({
   declarations: [
@@ -100,6 +112,9 @@ import { UpgradeAccountComponent } from './components/upgrade-account/upgrade-ac
     ListOrderComponent,
     MovieHotComponent,
     UpgradeAccountComponent,
+    AuthenticateAccountComponent,
+    BookmarkComponent,
+    PaymentComponent
   ],
   imports: [
     BrowserModule,
@@ -107,11 +122,19 @@ import { UpgradeAccountComponent } from './components/upgrade-account/upgrade-ac
     IonicModule.forRoot(),
     CarouselModule,
     FormsModule,
+    RouterModule,
     HttpClientModule,
     BrowserAnimationsModule, // cần thiết cho Toastr
     ToastrModule.forRoot() // Cấu hình mặc định của Toastr
   ],
   providers: [
+    AuthService,
+    {
+      provide: APP_INITIALIZER,
+      useFactory: initializeAuthService,
+      deps: [AuthService],
+      multi: true
+    },
     {
       provide: HTTP_INTERCEPTORS, 
       useClass: TokenInterceptor,

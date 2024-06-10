@@ -18,7 +18,9 @@ export class UserService {
   private apiUserImg = `${environment.apiBaseUrl}/users/images`;
   private apiUser = `${environment.apiBaseUrl}/users`;
   private apiForgotPassword = `${environment.apiBaseUrl}/users/forgot-password`;
+  private apiAuthenticateAccount = `${environment.apiBaseUrl}/users/authenticate-account`;
   private apiResetPassword = `${environment.apiBaseUrl}/users/reset-password`;
+  private apiCheckRegister = `${environment.apiBaseUrl}/users/check-register`;
   private apiCheckOTP = `${environment.apiBaseUrl}/users/check-otp`;
   private apiVipPeriod = `${environment.apiBaseUrl}/users/vip_period`;
 
@@ -37,6 +39,10 @@ export class UserService {
 
   register(registerData: any): Observable<any> {
     return this.http.post(this.apiRegister, registerData, this.apiConfig);
+  }
+
+  checkRegister(registerData: any): Observable<any> {
+    return this.http.post(this.apiCheckRegister, registerData, this.apiConfig);
   }
 
   login(loginDTO: LoginDTO): Observable<any> {
@@ -179,6 +185,10 @@ export class UserService {
     return this.http.post(this.apiForgotPassword, { email }, this.apiConfig);
   }
 
+  authenticate_account(name: string, email: string): Observable<any> {
+    return this.http.post(this.apiAuthenticateAccount, { name, email }, this.apiConfig);
+  }
+
   resetPassword(email: string, newPassword: string): Observable<any> {
     return this.http.post(this.apiResetPassword, { email, newPassword });
   }
@@ -205,6 +215,16 @@ export class UserService {
         Authorization: `Bearer ${token}`
       })
     })
+  }
+
+  deleteVipPeriod(userId: number, token: string): Observable<any> {
+    const url = `${this.apiVipPeriod}/${userId}`;
+    const headers = new HttpHeaders({
+      'Content-Type': 'application/json',
+      'Authorization': `Bearer ${token}`
+    });
+
+    return this.http.delete(url, { headers: headers });
   }
 
 }

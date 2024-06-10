@@ -16,6 +16,7 @@ export class MovieService {
   private apiGetMoviesByMovieType = `${environment.apiBaseUrl}/movies/movie_types`;
   private apiGetHotMovies = `${environment.apiBaseUrl}/movies/movie-hot`;
   private apiGetImageMovie = `${environment.apiBaseUrl}/movies/upload_movie`;
+  private apiGetMoviesRelated = `${environment.apiBaseUrl}/movies/related_movies`;
   
   constructor(private http: HttpClient) { }
 
@@ -88,6 +89,15 @@ export class MovieService {
       .set('limit', limit.toString());
 
     return this.http.get<Movie[]>(this.apiGetHotMovies, { params });
+  }
+
+  getMoviesRelated(movie_id: number, page: number, limit: number): Observable<Movie[]> {
+    const params = new HttpParams()
+      .set('page', page)
+      .set('limit', limit)
+      .set('movie_id', movie_id.toString())
+
+    return this.http.get<Movie[]>(this.apiGetMoviesRelated, { params });
   }
 
   getMoviesByNumberViews(): Observable<Movie[]> {

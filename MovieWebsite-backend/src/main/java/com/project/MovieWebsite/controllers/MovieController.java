@@ -5,6 +5,8 @@ import com.project.MovieWebsite.dtos.MovieDTO;
 import com.project.MovieWebsite.exceptions.DataNotFoundException;
 import com.project.MovieWebsite.models.Movie;
 import com.project.MovieWebsite.repositories.MovieRepository;
+import com.project.MovieWebsite.responses.FavouriteListResponse;
+import com.project.MovieWebsite.responses.FavouriteResponse;
 import com.project.MovieWebsite.responses.MovieListResponse;
 import com.project.MovieWebsite.responses.MovieResponse;
 import com.project.MovieWebsite.services.MovieService;
@@ -141,19 +143,19 @@ public class MovieController {
                 .movies(movies).totalPages(totalPages).build());
     }
 
-    @GetMapping("/movie_related")
-    public ResponseEntity<MovieListResponse> getMovieRelated(
-            @RequestParam(defaultValue = "") String keyword,
+    @GetMapping("/related_movies")
+    public ResponseEntity<FavouriteListResponse> getMovieRelated(
             @RequestParam(defaultValue = "0", name = "movie_id") int movieId,
             @RequestParam(defaultValue = "0") int page,
-            @RequestParam(defaultValue = "10") int limit
+            @RequestParam(defaultValue = "4") int limit
     ){
+        Movie movie= movieService.getMovieById(movieId);
         PageRequest pageRequest = PageRequest.of(page, limit, Sort.by("id").descending());
-        Page<MovieResponse> moviePage = movieService.getMovieRelated(keyword, movieId, pageRequest);
+        Page<MovieResponse> moviePage = movieService.getAllMoviesRelated(movieId, movie.getGenre().getId(),movie.getName().split(" ")[0], pageRequest);
         int totalPages = moviePage.getTotalPages();
         List<MovieResponse> movies = moviePage.getContent();
-        return ResponseEntity.ok(MovieListResponse.builder()
-                .movies(movies).totalPages(totalPages).build());
+        return ResponseEntity.ok(FavouriteListResponse.builder()
+                .movies(FavouriteResponse.fromMovie(movies)).totalPages(totalPages).build());
     }
 
     @GetMapping("/{id}")

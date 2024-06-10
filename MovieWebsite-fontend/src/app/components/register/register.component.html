@@ -11,81 +11,74 @@
             <div class="featured-image mb-3">
                 <img src="assets/images/logo.png" class="img-fluid" style="width: 400px;">
             </div>
-            <p class="text-white fs-2" style="font-family: 'Courier New', Courier, monospace; font-weight: 600;">Be
-                Verified</p>
+            <p class="text-white fs-2" style="font-family: 'Courier New', Courier, monospace; font-weight: 600;">Watch without limits</p>
             <small class="text-white text-wrap text-center"
-                style="width: 17rem;font-family: 'Courier New', Courier, monospace;">Join experienced Designers on this
-                platform.</small>
+                style="width: 17rem;font-family: 'Courier New', Courier, monospace;">Every film a story, every watch an experience</small>
         </div>
         <!-------------------- ------ Right Box ---------------------------->
-            <div class="col-md-6 right-box">
-                <form #registerForm="ngForm">
+        <div class="col-md-6 right-box">
+            <form #registerForm="ngForm">
                 <div class="row align-items-center">
                     <div class="header-text mb-4">
-                        <h2>Hello,Again</h2>
-                        <p>We are happy to have you back.</p>
+                        <h2>Welcome!</h2>
+                        <p>Your movie journey starts here.</p>
                     </div>
                     <div class="input-group mb-3">
                         <input type="text" class="form-control form-control-lg bg-light fs-6" [(ngModel)]="fullName"
-                        name="fullName"
-                        (input)="onFullNameChange()"
-                        (focus)="registerForm.form.markAsTouched()"
-                         placeholder="Full Name" required>
+                            name="fullName" (blur)="onFullNameChange()" placeholder="Full Name" required>
                     </div>
-                    <p class="text-danger" *ngIf="fullName.length <= 5 && registerForm.form.touched">
+                    <p class="text-danger" *ngIf="fullName.length <= 5 && registerForm.controls['fullName']?.touched">
                         Full name at least 5 letters!
-                      </p>
+                    </p>
                     <div class="input-group mb-3">
                         <input type="email" class="form-control form-control-lg bg-light fs-6" [(ngModel)]="email"
-                        name="email"
-                        (input)="onEmailChange()"
-                        (focus)="registerForm.form.markAsTouched()"
-                         placeholder="Email address" required>
+                            name="email" (blur)="onEmailChange()" placeholder="Email address" required>
                     </div>
-                    <p class="text-danger" *ngIf="email.length <= 10 && registerForm.form.touched">
+                    <p class="text-danger" *ngIf="email.length <= 10 && registerForm.controls['email']?.touched">
                         Please enter a valid email address!
-                      </p>
+                    </p>
+                    <p class="text-danger" *ngIf="emailError">
+                        {{ emailError }}
+                    </p>
                     <div class="input-group mb-3">
                         <input type="text" class="form-control form-control-lg bg-light fs-6" [(ngModel)]="phoneNumber"
-                            name="phoneNumber"
-                            (input)="onPhoneNumberChange()"
-                            (focus)="registerForm.form.markAsTouched()"
-                        placeholder="Phone" required>
+                            name="phoneNumber" (blur)="onPhoneNumberChange()" placeholder="Phone" required>
                     </div>
-                    <p class="text-danger" *ngIf="phoneNumber.length > 0 && phoneNumber.length < 10 && registerForm.form.touched">
+                    <p class="text-danger"
+                        *ngIf="phoneNumber.length > 0 && phoneNumber.length < 10 && registerForm.controls['phoneNumber']?.touched">
                         Phone number must be at least 10 digits!
+                    </p>
+                    <p class="text-danger" *ngIf="phoneError">
+                        {{ phoneError }}
                     </p>
                     <div class="input-group mb-3">
                         <input type="date" class="form-control form-control-lg bg-light fs-6" [(ngModel)]="dob"
-                        name="dob"
-                            (input)="registerForm.form.markAsTouched(); checkAge();"
-                            placeholder="Date of birth" required>
+                            name="dob" (blur)="checkAge()" placeholder="Date of birth" required>
                     </div>
-                    <p class="text-danger" *ngIf="registerForm.controls['dob']?.hasError('invalidAge') && registerForm.form.touched">
+                    <p class="text-danger"
+                        *ngIf="registerForm.controls['dob']?.hasError('invalidAge') && registerForm.controls['dob']?.touched">
                         You are not yet 5 years old!
                     </p>
                     <div class="input-group mb-3">
                         <input type="password" class="form-control form-control-lg bg-light fs-6" [(ngModel)]="password"
-                        name="password"
-                            placeholder="Password" required>
+                            name="password" (blur)="checkPasswordStrength()" placeholder="Password" required>
                     </div>
+                    <p class="text-danger" *ngIf="passwordStrengthError">
+                        {{ passwordStrengthError }}
+                    </p>
                     <div class="input-group mb-3">
                         <input type="password" class="form-control form-control-lg bg-light fs-6"
-                            [(ngModel)]="retypePassword"
-                            name="retypePassword"
-                            (input)="registerForm.form.markAsTouched(); checkPasswordMatch();"
-                             placeholder="Confirm Password" required>
+                            [(ngModel)]="retypePassword" name="retypePassword" (blur)="checkPasswordMatch()"
+                            placeholder="Confirm Password" required>
                     </div>
-                    <p class="text-danger" *ngIf="registerForm.controls['retypePassword']?.hasError('passwordMisMatch') && registerForm.form.touched">
+                    <p class="text-danger"
+                        *ngIf="registerForm.controls['retypePassword']?.hasError('passwordMisMatch') && registerForm.controls['retypePassword']?.touched">
                         Password and confirmation password do not match!
                     </p>
 
-                    <p class="text-danger" *ngIf="registerForm.controls['phoneNumber']?.hasError('existPhoneNumber') && registerForm.form.touched">
-                        Phone number is existed!
-                    </p>
-
                     <div class="input-group mb-3">
-                        <input type="checkbox" class="form-check-input" [(ngModel)]="isAccept" id="formCheck" name="isAccept" required>
+                        <input type="checkbox" class="form-check-input" [(ngModel)]="isAccept" id="formCheck"
+                            name="isAccept" required>
                         <label for="formCheck" class="form-check-label text-secondary"
                             style="margin-left: 10px;"><small>I agree to the terms and conditions!</small></label>
                     </div>
@@ -99,7 +92,6 @@
                     </div>
                 </div>
             </form>
-            </div>
-
+        </div>
     </div>
 </div>

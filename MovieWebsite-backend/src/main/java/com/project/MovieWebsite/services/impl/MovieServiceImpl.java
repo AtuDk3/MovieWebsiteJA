@@ -115,8 +115,8 @@ public class MovieServiceImpl implements MovieService {
     }
 
     @Override
-    public Page<MovieResponse> getMovieRelated(String keyword, int movieId, PageRequest pageRequest) {
-        Page<Movie> moviesPage = movieRepository.searchMovieRelated(movieId, keyword, pageRequest);
+    public Page<MovieResponse> getAllMoviesRelated(int movieId, int genreId, String movieName, PageRequest pageRequest) {
+        Page<Movie> moviesPage = movieRepository.searchMoviesRelated(movieId,genreId, movieName, pageRequest);
         return mapToMovieResponsePage(moviesPage);
     }
 

@@ -13,4 +13,6 @@ public interface VipPeriodService {
     VipPeriod createVipPeriod(VipPeriodDTO vipPeriodDTO) throws DataNotFoundException;
 
     VipPeriod updateVipPeriod(VipPeriodDTO vipPeriodDTO) throws DataNotFoundException;
+
+    void deleteVipPeriod(int userId);
 }

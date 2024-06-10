@@ -34,6 +34,9 @@ import { ListAccountComponent } from './components/admin/account/list-account/li
 import { ListOrderComponent } from './components/admin/order/list-order/list-order.component';
 import { AddCountryComponent } from './components/admin/country/add-country/add-country.component';
 import { MovieHotComponent } from './components/movie-hot/movie-hot.component';
+import { BookmarkComponent } from './components/bookmark/bookmark.component';
+import { AuthenticateAccountComponent } from './components/authenticate-account/authenticate-account.component';
+import { PaymentComponent } from './components/payments/payments.component';
 
 const routes: Routes = [
   {
@@ -47,7 +50,9 @@ const routes: Routes = [
       { path: 'movie_type/:movie_type_id', component: MovieTypeComponent },
       { path: 'detail/:id', component: MovieDetailsComponent},
       { path: 'watching/:id', component: WatchingComponent},
-      { path: 'movie-hot', component: MovieHotComponent}
+      { path: 'movie-hot', component: MovieHotComponent},
+      { path: 'bookmark', component: BookmarkComponent},
+      { path: 'payment', component: PaymentComponent},
     ]
   },
   {
@@ -58,14 +63,13 @@ const routes: Routes = [
       { path: 'register', component: RegisterComponent},
       { path: 'forgot-password', component: ForgotPasswordComponent},
       { path: 'reset-password', component: ResetPasswordComponent},
-      
+      { path: 'authenticate-account', component: AuthenticateAccountComponent},
     ]
   },
   {
     path: 'admin',
     component: AdminLayoutComponent,
     children: [
-      //{ path: '', component: AdminDashboardComponent, canActivate:[AdminGuardFn]},
       { path: '', component: AdminDashboardComponent , canActivate:[AdminGuardFn]},
       // Movie
       { path: 'movie/list-movie', component: ListMovieComponent, canActivate:[AdminGuardFn]},

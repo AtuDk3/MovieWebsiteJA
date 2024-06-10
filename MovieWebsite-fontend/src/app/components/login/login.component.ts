@@ -6,6 +6,8 @@ import { UserService } from '../../services/user.service';
 import {LoginResponse} from '../../responses/user/login.response';
 import { TokenService } from '../../services/token.service';
 import { UserResponse } from '../../responses/user/user.response';
+import { BookmarkService } from '../../services/bookmark.service';
+import { AuthService } from '../../services/auth.service';
 
 
 
@@ -22,7 +24,7 @@ export class LoginComponent {
   userResponse ?: UserResponse;
 
   constructor(private router: Router, private userService: UserService, private tokenService: TokenService,
-   
+   private bookmarkService: BookmarkService, private authService: AuthService
    ) {
     this.phoneNumber = '';
     this.password = '';
@@ -43,9 +45,11 @@ export class LoginComponent {
         next: (response: LoginResponse) => {
           debugger
           const { token } = response;
-                
+            
             console.log(token);
             this.tokenService.setToken(token);
+            this.bookmarkService.resetBookmarkCount();
+            this.userService.removeVipPeriodFromLocalStorage();
             debugger
             this.userService.getUserDetails(token).subscribe({
               next: (response: any) =>{
@@ -63,13 +67,15 @@ export class LoginComponent {
                   const month_of_birth = ('0' + (new Date(this.userResponse.date_of_birth).getMonth() +1 )).slice(-2);
                   const year_of_birth = new Date(this.userResponse.date_of_birth).getFullYear();
                   const formatted_of_birth = `${day_of_birth}/${month_of_birth}/${year_of_birth}`;
-                  this.userResponse.date_of_birth_formatted = formatted_of_birth;
+                  this.userResponse.date_of_birth_formatted = formatted_of_birth;    
+                  this.authService.setUserId(this.userResponse.id);
+                  this.authService.isLoggedInSource.next(true);       
               }             
-                  this.userService.saveUserResponseToLocalStorage(this.userResponse); 
+                  this.userService.saveUserResponseToLocalStorage(this.userResponse);               
                  if(this.userResponse?.role.name === 'Admin'){
                    this.router.navigate(['/admin']);
                  }else{
-                  this.router.navigate(['']);
+                   this.router.navigate(['/']);             
                 }
                 
               },

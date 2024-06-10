@@ -27,7 +27,7 @@ public interface MovieService {
 
     Page<MovieResponse> getAllMoviesByMovieTypeId(String keyword, int movieTypeId, PageRequest pageRequest);
 
-    Page<MovieResponse> getMovieRelated(String keyword, int movieId, PageRequest pageRequest);
+    Page<MovieResponse> getAllMoviesRelated(int movieId, int genreId, String movieName, PageRequest pageRequest);
 
     Page<MovieResponse> getHotMovies(PageRequest pageRequest);
 

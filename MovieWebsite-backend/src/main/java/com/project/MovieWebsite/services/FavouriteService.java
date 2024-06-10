@@ -1,7 +1,6 @@
 package com.project.MovieWebsite.services;
 
-import com.project.MovieWebsite.dtos.CommentDTO;
-import com.project.MovieWebsite.dtos.FavoriteDTO;
+import com.project.MovieWebsite.dtos.FavouriteDTO;
 import com.project.MovieWebsite.exceptions.DataNotFoundException;
 import com.project.MovieWebsite.models.Favourite;
 
@@ -9,13 +8,13 @@ import java.util.List;
 
 public interface FavouriteService {
 
-    Favourite createFavourite(FavoriteDTO favoriteDTO) throws DataNotFoundException;
+    Favourite createFavourite(FavouriteDTO favoriteDTO) throws DataNotFoundException;
 
     Favourite getFavourite(int id);
 
-    List<Favourite> getAllFavourites();
+    List<Favourite> getFavouritesByUser(int userId) throws DataNotFoundException;
 
-    Favourite updateFavourite(int id, FavoriteDTO favoriteDTO) throws DataNotFoundException;
+    Favourite updateFavourite(int id, FavouriteDTO favoriteDTO) throws DataNotFoundException;
 
-    void deleteFavourite(int id);
+    void deleteFavourite(int userId, int movieId) throws DataNotFoundException;
 }

@@ -1,4 +1,4 @@
-package com.project.MovieWebsite.filter;
+package com.project.MovieWebsite.filters;
 
 import com.project.MovieWebsite.components.JwtTokenUtil;
 
@@ -87,12 +87,14 @@ public class JwtTokenFilter extends OncePerRequestFilter {
                 Pair.of(String.format("%s/movie_types", apiPrefix), "GET"),
                 Pair.of(String.format("%s/episodes", apiPrefix), "GET"),
                 Pair.of(String.format("%s/users/authenticate-account", apiPrefix), "POST"),
-                Pair.of(String.format("%s/users/check-register", apiPrefix), "POST")
+                Pair.of(String.format("%s/users/check-register", apiPrefix), "POST"),
+                Pair.of(String.format("%s/movie_views", apiPrefix), "POST")
+                //Pair.of(String.format("%s/movie_views", apiPrefix), "POST")
         );
 
         for (Pair<String, String> byPassToken: byPassTokens){
             if(request.getServletPath().contains(byPassToken.getFirst())
-            && request.getMethod().equals(byPassToken.getSecond())){
+                    && request.getMethod().equals(byPassToken.getSecond())){
                 return true;
             }
         }

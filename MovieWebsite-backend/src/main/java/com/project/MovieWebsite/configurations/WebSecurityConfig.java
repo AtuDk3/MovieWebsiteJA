@@ -1,7 +1,6 @@
 
 package com.project.MovieWebsite.configurations;
 
-import com.project.MovieWebsite.filter.JwtTokenFilter;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
@@ -33,7 +32,7 @@ public class WebSecurityConfig {
     @Value("${api.prefix}")
     private String apiPrefix;
 
-    private final JwtTokenFilter jwtTokenFilter;
+    private final com.project.MovieWebsite.filters.JwtTokenFilter jwtTokenFilter;
 
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception{
@@ -45,7 +44,9 @@ public class WebSecurityConfig {
                                     String.format("%s/users/login", apiPrefix),
                                     String.format("%s/users/forgot-password", apiPrefix),
                                     String.format("%s/users/reset-password", apiPrefix),
+                                    String.format("%s/users/authenticate-account", apiPrefix),
                                     String.format("%s/users/check-otp", apiPrefix),
+                                    String.format("%s/users/check-register", apiPrefix),
                                     String.format("%s/episodes/**", apiPrefix)
                             )
                             .permitAll()
@@ -78,6 +79,9 @@ public class WebSecurityConfig {
                             .requestMatchers(POST, String.format("%s/users/checkCurrentPassword", apiPrefix)).hasAnyRole( "USER")
                             .requestMatchers(POST, String.format("%s/users/vip_periods", apiPrefix)).hasAnyRole( "USER", "ADMIN")
                             .requestMatchers(GET, String.format("%s/users/vip_periods", apiPrefix)).hasAnyRole( "USER", "ADMIN")
+                            .requestMatchers(POST, String.format("%s/favourites", apiPrefix)).hasAnyRole( "USER", "ADMIN")
+                            .requestMatchers(GET, String.format("%s/favourites/**", apiPrefix)).hasAnyRole( "USER", "ADMIN")
+                            .requestMatchers(POST, String.format("%s/favourites/**", apiPrefix)).hasAnyRole( "USER", "ADMIN")
                             .anyRequest()
                             .authenticated();
                 })
