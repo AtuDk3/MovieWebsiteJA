@@ -2,6 +2,7 @@
 package com.project.MovieWebsite.controllers;
 
 import com.project.MovieWebsite.dtos.MovieDTO;
+import com.project.MovieWebsite.exceptions.DataNotFoundException;
 import com.project.MovieWebsite.models.Movie;
 import com.project.MovieWebsite.repositories.MovieRepository;
 import com.project.MovieWebsite.responses.FavouriteListResponse;
@@ -29,7 +30,9 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.nio.file.StandardCopyOption;
+import java.util.Collections;
 import java.util.List;
+import java.util.Map;
 import java.util.UUID;
 
 
@@ -41,19 +44,41 @@ public class MovieController {
     private final MovieService movieService;
     private final MovieRepository movieRepository;
 
-    @PostMapping("")
-    public ResponseEntity<?> createMovie(@Valid @RequestBody MovieDTO movieDTO, BindingResult result) {
-        if (result.hasErrors()) {
+    @PutMapping("/{id}")
+    public ResponseEntity<Map<String, String>> updateMovie(@PathVariable int id, @Valid @RequestBody MovieDTO movieDTO, BindingResult result) throws Exception {
+        if (result.hasErrors()){
             List<String> errorsMessage = result.getFieldErrors().stream().map(FieldError::getDefaultMessage).toList();
-            return ResponseEntity.badRequest().body(errorsMessage);
+            return ResponseEntity.badRequest().body(Collections.singletonMap("errors", String.join(", ", errorsMessage)));
         }
-        try{
-            movieService.createMovie(movieDTO);
-            return ResponseEntity.ok("Create movie type successfully!");
-        }catch (Exception e){
-            return ResponseEntity.badRequest().body(e.getMessage());
-        }
+        movieService.updateMovies(id, movieDTO);
+        return ResponseEntity.ok(Collections.singletonMap("message", "Update movie successfully!"));
     }
+
+    @PostMapping("")
+    public ResponseEntity<Map<String, String>> createMovie(@Valid @RequestBody MovieDTO movieDTO, BindingResult result) throws DataNotFoundException {
+        if (result.hasErrors()){
+            List<String> errorsMessage = result.getFieldErrors().stream().map(FieldError::getDefaultMessage).toList();
+            return ResponseEntity.badRequest().body(Collections.singletonMap("errors", String.join(", ", errorsMessage)));
+        }
+        movieService.createMovie(movieDTO);
+        return ResponseEntity.ok(Collections.singletonMap("message", "Create movie successfully!"));
+    }
+
+    // Get List Movie of Admin
+    @GetMapping("")
+    public ResponseEntity<MovieListResponse> getMovies(
+            @RequestParam(defaultValue = "") String keyword,
+            @RequestParam(defaultValue = "0") int page,
+            @RequestParam(defaultValue = "10") int limit
+    ){
+        PageRequest pageRequest = PageRequest.of(page, limit, Sort.by("id").descending());
+        Page<MovieResponse> moviePage = movieService.getAllMovies(keyword, pageRequest);
+        int totalPages = moviePage.getTotalPages();
+        List<MovieResponse> movies = moviePage.getContent();
+        return ResponseEntity.ok(MovieListResponse.builder()
+                .movies(movies).totalPages(totalPages).build());
+    }
+
 
     @GetMapping("/genres")
     public ResponseEntity<MovieListResponse> getMovieByGenreId(
@@ -99,6 +124,20 @@ public class MovieController {
         return ResponseEntity.ok(MovieListResponse.builder()
                 .movies(movies).totalPages(totalPages).build());
     }
+
+    @GetMapping("/movie-hot")
+    public ResponseEntity<MovieListResponse> getMovieByGenreId(
+            @RequestParam(defaultValue = "0") int page,
+            @RequestParam(defaultValue = "10") int limit
+    ){
+        PageRequest pageRequest = PageRequest.of(page, limit, Sort.by("id").descending());
+        Page<MovieResponse> moviePage = movieService.getHotMovies(pageRequest);
+        int totalPages = moviePage.getTotalPages();
+        List<MovieResponse> movies = moviePage.getContent();
+        return ResponseEntity.ok(MovieListResponse.builder()
+                .movies(movies).totalPages(totalPages).build());
+    }
+
 
     @GetMapping("/related_movies")
     public ResponseEntity<FavouriteListResponse> getMovieRelated(

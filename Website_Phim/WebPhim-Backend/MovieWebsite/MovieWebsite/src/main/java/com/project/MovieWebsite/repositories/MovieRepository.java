@@ -19,6 +19,12 @@ public interface MovieRepository extends JpaRepository<Movie, Integer> {
     Page<Movie> findAll(Pageable pageable);
 
     @Query("select m from Movie m where"
+            + "(:keyword is null or :keyword = '' or m.name like %:keyword% or m.description like %:keyword%)")
+    Page<Movie> searchMovies(
+            @Param("keyword") String keyword, Pageable pageable
+    );
+
+    @Query("select m from Movie m where"
             + "(:genreId is null or :genreId = 0 or m.genre.id = :genreId)"
             + "and (:keyword is null or :keyword = '' or m.name like %:keyword% or m.description like %:keyword%)")
     Page<Movie> searchMoviesByGenreId(
@@ -49,6 +55,11 @@ public interface MovieRepository extends JpaRepository<Movie, Integer> {
             @Param("movieId") int movieId,
             @Param("genreId") int genreId,
             @Param("movieName") String movieName,
+            Pageable pageable
+    );
+
+    @Query("select m from Movie m where m.hot = 1 and m.isActive = 1")
+    Page<Movie> searchHotMovies(
             Pageable pageable
     );
 

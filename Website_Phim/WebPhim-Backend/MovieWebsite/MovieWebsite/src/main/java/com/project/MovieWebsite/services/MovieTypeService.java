@@ -1,3 +1,4 @@
+
 package com.project.MovieWebsite.services;
 
 import com.project.MovieWebsite.dtos.MovieTypeDTO;
@@ -11,7 +12,7 @@ public interface MovieTypeService {
 
     MovieType createMovieType(MovieTypeDTO movieTypeDTO);
 
-    MovieType getMovieType(int id);
+    MovieType getMovieTypeById(int id);
 
     List<MovieType> getAllMovieType();
 

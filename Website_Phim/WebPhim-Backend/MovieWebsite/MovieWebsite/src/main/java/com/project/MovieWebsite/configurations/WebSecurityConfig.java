@@ -50,10 +50,11 @@ public class WebSecurityConfig {
                                     String.format("%s/users/check-register", apiPrefix),
                                     String.format("%s/episodes/**", apiPrefix)
 
-
                             )
                             .permitAll()
                             .requestMatchers(HttpMethod.GET, String.format("%s/roles", apiPrefix)).permitAll()
+                            .requestMatchers(GET, String.format("%s/movie_views/**", apiPrefix)).permitAll()
+                            .requestMatchers(DELETE, String.format("%s/movie_views/**", apiPrefix)).hasRole("ADMIN")
                             .requestMatchers(POST, String.format("%s/movie_views/**", apiPrefix)).permitAll()
                             .requestMatchers(HttpMethod.GET, String.format("%s/genres", apiPrefix)).permitAll()
                             .requestMatchers(POST, String.format("%s/movie_views", apiPrefix)).permitAll()

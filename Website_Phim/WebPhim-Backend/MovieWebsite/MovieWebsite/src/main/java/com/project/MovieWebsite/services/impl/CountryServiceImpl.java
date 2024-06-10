@@ -1,3 +1,4 @@
+
 package com.project.MovieWebsite.services.impl;
 
 import com.project.MovieWebsite.dtos.CountryDTO;
@@ -17,13 +18,13 @@ public class CountryServiceImpl implements CountryService {
     private final CountryRepository countryRepository;
     @Override
     public Country createCountry(CountryDTO countryDTO) {
-        Country newCountry = Country.builder().name(countryDTO.getName()).build();
+        Country newCountry = Country.builder().name(countryDTO.getName()).isActive(countryDTO.getIsActive()).build();
         return countryRepository.save(newCountry);
     }
 
     @Override
-    public Country getCountry(int id) {
-        return countryRepository.findById(id).orElseThrow(() -> new RuntimeException("Country not found"));
+    public Country getCountryById(int countryId) {
+        return countryRepository.findById(countryId).orElseThrow(() -> new RuntimeException("Country not found"));
     }
 
     @Override
@@ -32,12 +33,12 @@ public class CountryServiceImpl implements CountryService {
     }
 
     @Override
-    public Country updateCountry(int id, CountryDTO countryDTO) {
-        Country existingMovieType= getCountry(id);
-        existingMovieType.setName(countryDTO.getName());
-        //existingMovieType.setIsActive(movieTypeDTO.getIsActive());
-        countryRepository.save(existingMovieType);
-        return existingMovieType;
+    public Country updateCountry(int countryId, CountryDTO countryDTO) {
+        Country existingCountry= getCountryById(countryId);
+        existingCountry.setName(countryDTO.getName());
+        existingCountry.setIsActive(countryDTO.getIsActive());
+        countryRepository.save(existingCountry);
+        return existingCountry;
     }
 
     @Override

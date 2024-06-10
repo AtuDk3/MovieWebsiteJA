@@ -6,7 +6,10 @@ import com.project.MovieWebsite.models.Country;
 import com.project.MovieWebsite.models.Genre;
 import com.project.MovieWebsite.models.Movie;
 import com.project.MovieWebsite.models.MovieType;
-import com.project.MovieWebsite.repositories.*;
+import com.project.MovieWebsite.repositories.CountryRepository;
+import com.project.MovieWebsite.repositories.GenreRepository;
+import com.project.MovieWebsite.repositories.MovieRepository;
+import com.project.MovieWebsite.repositories.MovieTypeRepository;
 import com.project.MovieWebsite.responses.MovieResponse;
 import com.project.MovieWebsite.services.MovieService;
 import lombok.RequiredArgsConstructor;
@@ -14,6 +17,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -53,6 +57,7 @@ public class MovieServiceImpl implements MovieService {
                 .isFee(movieDTO.getIsFee())
                 .season(movieDTO.getSeason())
                 .limitedAge(movieDTO.getLimitedAge())
+                .isActive(movieDTO.getIsActive())
                 .build();
         return movieRepository.save(newMovie);
     }
@@ -62,6 +67,35 @@ public class MovieServiceImpl implements MovieService {
         return movieRepository.findById(id).orElseThrow(() -> new RuntimeException("Movie not found"));
     }
 
+    @Override
+    public List<Movie> getMoviesByGenreId(int genreId) throws Exception {
+        return movieRepository.findByGenreId(genreId)
+                .orElseThrow(() -> new Exception("No movies found for this genre"));
+    }
+
+    @Override
+    public List<Movie> getMoviesByCountryId(int countryId) throws Exception {
+        return movieRepository.findByCountryId(countryId)
+                .orElseThrow(() -> new Exception("No movies found for this country"));
+    }
+
+    @Override
+    public List<Movie> getMovieByMovieTypeId(int movieTypeId) throws Exception {
+        return movieRepository.findByMovieTypeId(movieTypeId)
+                .orElseThrow(() -> new Exception("No movies found for this movie type"));
+    }
+
+//    @Override
+//    public Page<MovieResponse> getAllMovies(String keyword, int genreId, int countryId, PageRequest pageRequest) {
+//        Page<Movie> moviesPage = movieRepository.searchMovies(genreId, countryId, keyword, pageRequest);
+//        return mapToMovieResponsePage(moviesPage);
+//    }
+
+    @Override
+    public Page<MovieResponse> getAllMovies(String keyword, PageRequest pageRequest) {
+        Page<Movie> moviesPage = movieRepository.searchMovies(keyword, pageRequest);
+        return mapToMovieResponsePage(moviesPage);
+    }
 
     @Override
     public Page<MovieResponse> getAllMoviesByGenreId(String keyword, int genreId, PageRequest pageRequest) {
@@ -87,6 +121,12 @@ public class MovieServiceImpl implements MovieService {
         return mapToMovieResponsePage(moviesPage);
     }
 
+    @Override
+    public Page<MovieResponse> getHotMovies(PageRequest pageRequest) {
+        Page<Movie> moviesPage = movieRepository.searchHotMovies(pageRequest);
+        return mapToMovieResponsePage(moviesPage);
+    }
+
     private Page<MovieResponse> mapToMovieResponsePage(Page<Movie> moviesPage) {
         return moviesPage.map(movie -> {
             MovieResponse movieResponse = MovieResponse.builder()
@@ -109,6 +149,7 @@ public class MovieServiceImpl implements MovieService {
                     .countryName(movie.getCountry().getName())
                     .genreName(movie.getGenre().getName())
                     .numberViews(movie.getNumberView())
+                    .isActive(movie.getIsActive())
                     .build();
             return movieResponse;
         });
@@ -129,7 +170,7 @@ public class MovieServiceImpl implements MovieService {
 
             existingMovie.setName(movieDTO.getName());
             existingMovie.setDescription(movieDTO.getDescription());
-            existingMovie.setImage(movieDTO.getImage());
+//            existingMovie.setImage(movieDTO.getImage());
             existingMovie.setSlug(movieDTO.getSlug());
             existingMovie.setReleaseDate(movieDTO.getReleaseDate());
             existingMovie.setDuration(movieDTO.getDuration());
@@ -141,12 +182,11 @@ public class MovieServiceImpl implements MovieService {
             existingMovie.setIsFee(movieDTO.getIsFee());
             existingMovie.setSeason(movieDTO.getSeason());
             existingMovie.setLimitedAge(movieDTO.getLimitedAge());
+            existingMovie.setIsActive(movieDTO.getIsActive());
             return movieRepository.save(existingMovie);
         }
         return null;
     }
-
-
 
     @Override
     public void deleteMovies(int id) {
@@ -160,4 +200,7 @@ public class MovieServiceImpl implements MovieService {
     public boolean existByName(String name) {
         return movieRepository.existsByName(name);
     }
+
+
+
 }

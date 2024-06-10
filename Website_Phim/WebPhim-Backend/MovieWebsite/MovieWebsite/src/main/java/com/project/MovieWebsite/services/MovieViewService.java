@@ -9,11 +9,15 @@ import java.util.List;
 
 public interface MovieViewService {
 
-    List<Movie> getTopMoviesByDay(LocalDate date);
+    List<Movie> getTopMoviesByDay();
 
-    List<MovieView> getTopMoviesByWeek(LocalDate startOfWeek);
+    List<Movie> getTopMoviesByWeek();
 
-    List<MovieView> getTopMoviesByMonth(LocalDate startOfMonth);
+    List<Movie> getTopMoviesByMonth();
 
     void incrementMovieView(int movieId) throws DataNotFoundException;
+
+    void updateViewsForDay();
+
+    void deleteOldViewsMonth();
 }

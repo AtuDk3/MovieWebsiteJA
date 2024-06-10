@@ -17,6 +17,6 @@ public class MovieTypeDTO {
     private String name;
 
     @JsonProperty("is_active")
-    private int isActive;
+    private int isActive = 1;
 
 }

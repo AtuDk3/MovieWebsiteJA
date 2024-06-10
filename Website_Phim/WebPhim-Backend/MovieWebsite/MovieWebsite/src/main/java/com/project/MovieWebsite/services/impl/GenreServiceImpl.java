@@ -1,3 +1,4 @@
+
 package com.project.MovieWebsite.services.impl;
 
 import com.project.MovieWebsite.dtos.GenreDTO;
@@ -17,7 +18,7 @@ public class GenreServiceImpl implements GenreService {
 
     @Override
     public Genre createGenre(GenreDTO genre) {
-        Genre newGenre = Genre.builder().name(genre.getName()).description(genre.getDescription()).slug(genre.getSlug()).build();
+        Genre newGenre = Genre.builder().name(genre.getName()).description(genre.getDescription()).slug(genre.getSlug()).isActive(genre.getIsActive()).build();
         return genreRepository.save(newGenre);
     }
 
