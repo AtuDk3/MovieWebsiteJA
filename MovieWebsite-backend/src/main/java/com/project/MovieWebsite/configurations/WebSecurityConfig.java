@@ -82,6 +82,8 @@ public class WebSecurityConfig {
                             .requestMatchers(POST, String.format("%s/favourites", apiPrefix)).hasAnyRole( "USER", "ADMIN")
                             .requestMatchers(GET, String.format("%s/favourites/**", apiPrefix)).hasAnyRole( "USER", "ADMIN")
                             .requestMatchers(POST, String.format("%s/favourites/**", apiPrefix)).hasAnyRole( "USER", "ADMIN")
+                            .requestMatchers(GET, String.format("%s/payments/vn_pay/**", apiPrefix)).hasAnyRole( "USER", "ADMIN")
+                            .requestMatchers(GET, String.format("%s/payments/vn_pay_callback/**", apiPrefix)).hasAnyRole( "USER", "ADMIN")
                             .anyRequest()
                             .authenticated();
                 })
