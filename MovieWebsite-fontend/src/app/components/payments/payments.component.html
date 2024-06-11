@@ -1,6 +1,85 @@
-<form (submit)="onSubmit()">
-    <input type="text" [(ngModel)]="amount" name="amount" placeholder="Amount" required>
-    <input type="text" [(ngModel)]="bankCode" name="bankCode" placeholder="bankCode" required>
-    <button type="submit">Pay with VNPay</button>
+<link rel="stylesheet" href="../../../assets/css/style.css">
+
+<body>
+  <div class="container">
+    <div class="row fullwith-slider"></div>
+  </div>
+  <div class="container">
+    <div class="row container" id="wrapper">
+
+      <main id="main-contents" class="col-xs-12 col-sm-12 col-md-8">
+
+        <div class="container bootstrap snippet">
+          <form class="form-update-profile">
+            <div class="halim-panel-filter">
+              <div class="panel-heading">
+                <div class="row">
+                  <div class="col-xs-6">
+                    <div class="yoast_breadcrumb hidden-xs"><span><span><a routerLink="/">Trang chủ</a> »
+                          <span><a>Thông tin cá nhân</a> » <span><a href="">Nâng cấp tài
+                                khoản</a></span></span></span></span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div id="ajax-filter" class="panel-collapse collapse" aria-expanded="true" role="menu">
+                <div class="ajax"></div>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-sm-4">
+                <div class="text-center">
+                  <img src="" alt="Image" height="100px" width="100px" class="avatar img-circle img-thumbnail"
+                    alt="avatar">
+                  <h5 class="">Tài khoản: Thanh Tú</h5>
+                </div><br>
+              </div>
+              <div class="col-sm-8">
+
+                <div class="tab-content">
+                  <div class="tab-pane active">
+                    <div class="form-group">
+
+                      <div class="col-xs-12">
+                        <label for="first_name">
+                          <h5>Thanh Toán VNPAY</h5>
+                        </label>
+                        <form (ngSubmit)="onSubmit()">
+                          <input type="hidden" [(ngModel)]="amount" value="10000" name="amount">
+                          <input type="hidden" [(ngModel)]="orderInfo" value="thanhtoan" name="orderInfo">
+                          <button type="submit" id="btn-pay-method" class="form-control">
+                            <img src="https://asset.brandfetch.io/idV02t6WJs/idyXqfCegn.png" alt="VNPAY Logo" class="logo-vnpay">Thanh toán qua VNPAY
+                          </button>
+                        </form>
+                      </div>
+                    </div>
+
+                    <div class="form-group">
+
+                      <div class="col-xs-12">
+                        <label for="first_name">
+                          <h5>Thanh Toán MOMO</h5>
+                        </label>
+          <form>
+            <input type="hidden" value="20000">
+          <button name="momo" id="btn-pay-method" type="submit" class="form-control"><img
+              src="https://warburgpincus.com/wp-content/uploads/2018/10/MoMo_logo-1.png" alt="Momo Logo"
+              class="logo-momo">Thanh toán qua
+            MOMO</button>
+          </form>
+        </div>
+    </div>
+
+  </div>
+  </div>
+  </div>
+  </div>
   </form>
-  
+  </div>
+
+
+
+  </main>
+  </div>
+  </div>
+</body>

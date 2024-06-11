@@ -1,6 +1,5 @@
 import { APP_INITIALIZER, NgModule, OnInit  } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
-
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { HomeComponent } from './components/home/home.component';
@@ -58,6 +57,7 @@ import { BookmarkComponent } from './components/bookmark/bookmark.component';
 import { PaymentComponent } from './components/payments/payments.component';
 import { AuthService } from './services/auth.service';
 import { RouterModule } from '@angular/router';
+import { ModalModule } from 'ngx-bootstrap/modal';
 
 
 export function initializeAuthService(authService: AuthService) {
@@ -125,7 +125,8 @@ export function initializeAuthService(authService: AuthService) {
     RouterModule,
     HttpClientModule,
     BrowserAnimationsModule, // cần thiết cho Toastr
-    ToastrModule.forRoot() // Cấu hình mặc định của Toastr
+    ToastrModule.forRoot(), // Cấu hình mặc định của Toastr
+    ModalModule.forRoot(),
   ],
   providers: [
     AuthService,

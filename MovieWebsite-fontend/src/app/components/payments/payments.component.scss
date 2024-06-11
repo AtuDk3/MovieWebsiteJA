@@ -1,0 +1,87 @@
+.form-group, .text-center {
+    color: #7aa6ce;
+    cursor: pointer;
+}
+
+.form-group button {
+    background-color: #12171b;
+    height: 60px;
+}
+
+.avatar {
+    margin-top: 20px;
+}
+
+.btn-warning {
+    color: black;
+    // background-color: #ce981d;
+    margin-right: 10px;
+}
+
+.film-poster {
+    margin-top: 20px;
+    margin-left: 20px;
+}
+
+.action-user {
+    margin-top: 10px;
+    display: flex;
+    justify-content: center;
+}
+
+.form-update-profile {
+    display: block;
+}
+
+// button i {
+//     margin: 5px;
+// }
+
+.info-user {
+    color: #7aa6ce;
+    font-weight: 300;
+}
+
+.list-info-group-item {
+    font-size: 15px;
+}
+
+.avatar {
+    border-radius: 50%;
+    object-fit: cover;
+    margin-bottom: 10px;
+}
+
+.text-center {
+    margin-top: 20px;
+    border-radius: 10px;
+    border: 1px dashed #7aa6ce;
+    padding: 20px;
+    padding-bottom: 40px;
+}
+
+.text-danger {
+    margin-top: 10px;
+}
+
+img.avatar.img-circle.img-thumbnail {
+    width: 250px;
+    height: 250px;
+    border: none;
+}
+
+.logo-momo {
+    width: 70px;
+    height: 70px;
+    margin-top: -10px;
+}
+
+#btn-pay-method {
+    color: red;
+}
+
+.logo-vnpay {
+    width: 100px;
+    height: 50px;
+    margin-top: -7px;
+}
