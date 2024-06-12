@@ -13,7 +13,7 @@ export class AddMovieTypeComponent {
   movieType: MovieType = {
     id: 0,
     name: '',
-    isActive: 1
+    is_active: 1
   };
 
   constructor(private movieTypeService: MovieTypeService, 

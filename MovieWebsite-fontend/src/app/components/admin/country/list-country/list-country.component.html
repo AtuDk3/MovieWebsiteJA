@@ -20,7 +20,7 @@
                 <td>{{ i + 1 }}</td>
                 <td>{{ country.id }}</td>
                 <td>{{ country.name }}</td>
-                <td>{{ country.isActive === 1 ? 'Active' : 'Inactive' }}</td>
+                <td>{{ country.is_active === 1 ? 'Active' : 'Inactive' }}</td>
                 <td>
                     <button type="button" class="btn btn-danger" (click)="deleteCountry(country.id)">Delete</button>
                     <button type="button" class="btn btn-warning" (click)="updateCountry(country)">Update</button>

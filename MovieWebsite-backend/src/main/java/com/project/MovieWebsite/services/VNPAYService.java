@@ -1,8 +1,6 @@
 package com.project.MovieWebsite.services;
 
 import com.project.MovieWebsite.configurations.VNPAYConfig;
-import com.project.MovieWebsite.dtos.PaymentDTO;
-import com.project.MovieWebsite.utils.VNPayUtil;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;

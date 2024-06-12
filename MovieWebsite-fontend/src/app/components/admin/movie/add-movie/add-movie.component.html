@@ -24,8 +24,8 @@
                 <div class="row g-1">
                     <div class="col">
                     <label for="image">Movie Image</label>
-                    <input type="file" name="image" [(ngModel)]="movie.image" class="form-control">
-                    <p> <img class="image" src="" height="100px" width="100px"></p>
+                    <input type="file" (change)="onFileSelected($event)" name="image" class="form-control">
+                    <p> <img class="image" [src]="imageUrl" height="100px" width="100px"></p>
                     </div>           
                 </div>
 
@@ -60,19 +60,19 @@
                 <div class="row g-3">
                     <div class="col">
                         <label>Movie Genre :</label>
-                        <select name="genre"> 
+                        <select name="genre" [(ngModel)]="movie.id_genre"> 
                             <option value="{{ genre.id }}" *ngFor="let genre of genres">{{ genre.name }}</option> 
                         </select>
                     </div>
                     <div class="col">
                         <label>Movie Type :</label>
-                        <select name="movieType">
-                            <option value="{{ movieType.id }}" *ngFor="let movieType of movieTypes">{{ movieType.name }}</option>
+                        <select name="movieType"  [(ngModel)]="movie.id_movie_type">
+                            <option  value="{{ movieType.id }}" *ngFor="let movieType of movieTypes">{{ movieType.name }}</option>
                         </select>
                     </div>
                     <div class="col">
                         <label>Movie Country :</label>
-                        <select name="country">
+                        <select name="country" [(ngModel)]="movie.id_country">
                             <option value="{{ country.id }}" *ngFor="let country of countries">{{ country.name }}</option>
                         </select>
                     </div>
@@ -81,16 +81,16 @@
                 <div class="row g-2">
                     <div class="col">
                         <label>Movie Hot :</label>
-                        <select name="genre"> 
-                            <option selected value="1">Yes</option>
+                        <select name="hot" [(ngModel)]="movie.hot"> 
+                            <option value="1">Yes</option>
                             <option value="0">No</option>    
                         </select>
                     </div>
                     <div class="col">
                         <label>Fee :</label>
-                        <select name="movieType">
-                            <option value="1" selected>Yes</option>
-                            <option value="1" selected>No</option>
+                        <select name="fee" [(ngModel)]="movie.is_fee">
+                            <option value="1" >Yes</option>
+                            <option value="0" >No</option>
                         </select>
                     </div>
                     

@@ -33,9 +33,12 @@
                             <input type="password" class="form-control form-control-lg bg-light fs-6" [(ngModel)]="password"
                             name="password"
                                 placeholder="Password" required>
-                        </div>
-                        <p class="text-danger" *ngIf="loginForm.controls['password']?.hasError('wrongPassword') && loginForm.form.touched">
-                            Wrong phone number or password!
+                        </div>     
+                        <p class="text-danger" *ngIf="errorPass">
+                            {{ errorPass }}
+                        </p>
+                        <p class="text-danger" *ngIf="errorActive">
+                            {{ errorActive }}
                         </p>
                         <div class="input-group mb-5 d-flex justify-content-between">
                             <div class="form-check">

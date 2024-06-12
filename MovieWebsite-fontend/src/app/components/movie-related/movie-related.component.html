@@ -7,15 +7,15 @@
      </div>
      <div id="halim_related_movies-2" class="owl-carousel owl-theme related-film">
 
-       <article *ngFor="let movie of movies" class="thumb grid-item post-38498">
+       <article *ngFor="let movie of moviesRelated" class="thumb grid-item post-38498">
         <div class="halim-item">
-          <a class="halim-thumb" [title]="movie.name" href="/detail/{{movie.id}}">
-            <figure><img class="lazy img-responsive" [src]="movie.url" [alt]="movie.name"></figure>
+          <a class="halim-thumb" [title]="movie.movie_name" href="/detail/{{movie.movie_id}}">
+            <figure><img class="lazy img-responsive" [src]="movie.url" [alt]="movie.movie_name"></figure>
             <span class="status">HD</span><span class="episode"><i class="fa fa-play" aria-hidden="true"></i>Vietsub</span>
             <div class="icon_overlay"></div>
             <div class="halim-post-title-box">
               <div class="halim-post-title">
-                <p class="entry-title">{{movie.name}}</p>
+                <p class="entry-title">{{movie.movie_name}}</p>
                 <p class="original_title">{{movie.genre_name}}</p>
               </div>
             </div>

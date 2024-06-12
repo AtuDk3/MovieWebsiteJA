@@ -7,9 +7,12 @@ import com.project.MovieWebsite.models.User;
 import com.project.MovieWebsite.models.UserVIP;
 import lombok.*;
 
+import java.lang.reflect.Array;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 import static net.minidev.asm.ConvertDate.convertToDate;
 
@@ -28,9 +31,6 @@ public class UserResponse{
 
     @JsonProperty("phone_number")
     private String phoneNumber;
-
-    @JsonProperty("password")
-    private String password;
 
     @JsonProperty("email")
     private String email;
@@ -80,6 +80,32 @@ public class UserResponse{
                 isActive(user.getIsActive()).
                 build();
         return userResponse;
+    }
+
+    public static List<UserResponse> fromListUser(List<User> listUser) {
+        List<UserResponse> litsUserResponse = new ArrayList<>();
+        for (User user: listUser){
+            if(user.getRole().getName().equalsIgnoreCase("Admin")){
+                continue;
+            }
+            UserResponse userResponse= UserResponse.builder().
+                    id(user.getId()).
+                    fullName(user.getFullName()).
+                    phoneNumber(user.getPhoneNumber()).
+                    imgAvatar(user.getImgAvatar()).
+                    dob(user.getDob()).
+                    googleAccountId(user.getGoogleAccountId()).
+                    facebookAccountId(user.getFacebookAccountId()).
+                    createdAt(convertToDate(user.getCreateAt())).
+                    updatedAt(convertToDate(user.getUpdateAt())).
+                    userVip(user.getUserVip()).
+                    role(user.getRole()).
+                    email(user.getEmail()).
+                    isActive(user.getIsActive()).
+                    build();
+            litsUserResponse.add(userResponse);
+        }
+        return litsUserResponse;
     }
 
     private static Date convertToDate(LocalDateTime dateTime) {

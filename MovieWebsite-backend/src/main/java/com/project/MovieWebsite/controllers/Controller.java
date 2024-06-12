@@ -14,11 +14,6 @@ public class Controller {
     @Autowired
     private VNPAYService vnPayService;
 
-    @GetMapping("/create_order")
-    public String home() {
-        return "createOrder";
-    }
-
     // Chuyển hướng người dùng đến cổng thanh toán VNPAY
     @PostMapping("/create_order")
     public String submidOrder(@RequestParam("amount") int orderTotal,
@@ -30,8 +25,8 @@ public class Controller {
     }
 
     // Sau khi hoàn tất thanh toán, VNPAY sẽ chuyển hướng trình duyệt về URL này
-    @GetMapping("/vnpay-payment-return")
-    public String paymentCompleted(HttpServletRequest request, Model model) {
+    @GetMapping("/vnpay_payment_return")
+    public String paymentCompleted(HttpServletRequest request) {
         int paymentStatus = vnPayService.orderReturn(request);
 
         String orderInfo = request.getParameter("vnp_OrderInfo");
@@ -39,11 +34,13 @@ public class Controller {
         String transactionId = request.getParameter("vnp_TransactionNo");
         String totalPrice = request.getParameter("vnp_Amount");
 
-        model.addAttribute("orderId", orderInfo);
-        model.addAttribute("totalPrice", totalPrice);
-        model.addAttribute("paymentTime", paymentTime);
-        model.addAttribute("transactionId", transactionId);
+        String frontendUrl = "http://localhost:4200/thanks";  // URL của Angular
+        if (paymentStatus == 1) {
+            frontendUrl += "?status=success&orderId=" + orderInfo + "&totalPrice=" + totalPrice + "&paymentTime=" + paymentTime + "&transactionId=" + transactionId;
+        } else {
+            frontendUrl += "?status=fail";
+        }
 
-        return paymentStatus == 1 ? "ordersuccess" : "orderfail";
+        return "redirect:" + frontendUrl;
     }
 }

@@ -11,7 +11,7 @@ import { CarouselModule } from 'ngx-owl-carousel-o';
 import { GenreComponent } from './components/genre/genre.component';
 import { RegisterComponent } from './components/register/register.component';
 import { FormsModule } from '@angular/forms';
-import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
+import { HTTP_INTERCEPTORS, provideHttpClient, withInterceptorsFromDi } from '@angular/common/http';
 import { TokenInterceptor } from './intercrptors/token.interceptor';
 import { TopViewsComponent } from './components/top-views/top-views.component';
 import { MovieDetailsComponent } from './components/movie-details/movie-details.component';
@@ -60,6 +60,7 @@ import { RouterModule } from '@angular/router';
 import { ModalModule } from 'ngx-bootstrap/modal';
 import { UpgradeComponent } from './components/upgrade/upgrade.component';
 import { ThanksComponent } from './components/thanks/thanks.component';
+import { SearchMovieComponent } from './components/search-movie/search-movie.component';
 
 
 export function initializeAuthService(authService: AuthService) {
@@ -68,88 +69,83 @@ export function initializeAuthService(authService: AuthService) {
   };
 }
 
-@NgModule({
-  declarations: [
-    AppComponent,
-    HomeComponent,
-    HeaderComponent,
-    FooterComponent,
-    LoginComponent,
-    GenreComponent,
-    RegisterComponent,
-    TopViewsComponent,
-    MovieDetailsComponent,
-    WatchingComponent,
-    MovieRelatedComponent,
-    CountryComponent,
-    ProfileComponent,
-    LoginLayoutComponent,
-    MainLayoutComponent,
-    ChangePasswordComponent,
-    RatingComponent,
-    CommentComponent,
-    AdminSidebarComponent,
-    AdminHeaderComponent,
-    AdminDashboardComponent,
-    AdminLayoutComponent,
-    MovieTypeComponent,
-    ForgotPasswordComponent,
-    ResetPasswordComponent,
-    ListMovieComponent,
-    UpdateMovieComponent,
-    AddMovieComponent,
-    ListCountryComponent,
-    UpdateCountryComponent,
-    AddCountryComponent,
-    ListGenreComponent,
-    UpdateGenreComponent,
-    AddGenreComponent,
-    ListMovieTypeComponent,
-    UpdateMovieTypeComponent,
-    AddMovieTypeComponent,
-    ListEpisodeComponent,
-    UpdateEpisodeComponent,
-    AddEpisodeComponent,
-    ListAccountComponent,
-    ListOrderComponent,
-    MovieHotComponent,
-    UpgradeAccountComponent,
-    AuthenticateAccountComponent,
-    BookmarkComponent,
-    PaymentComponent,
-    UpgradeComponent,
-    ThanksComponent
-  ],
-  imports: [
-    BrowserModule,
-    AppRoutingModule,
-    IonicModule.forRoot(),
-    CarouselModule,
-    FormsModule,
-    RouterModule,
-    HttpClientModule,
-    BrowserAnimationsModule, // cần thiết cho Toastr
-    ToastrModule.forRoot(), // Cấu hình mặc định của Toastr
-    ModalModule.forRoot(),
-  ],
-  providers: [
-    AuthService,
-    {
-      provide: APP_INITIALIZER,
-      useFactory: initializeAuthService,
-      deps: [AuthService],
-      multi: true
-    },
-    {
-      provide: HTTP_INTERCEPTORS, 
-      useClass: TokenInterceptor,
-      multi: true
-    }
-  ],
-  bootstrap: [
-     AppComponent
-  ]
-})
+@NgModule({ declarations: [
+        AppComponent,
+        HomeComponent,
+        HeaderComponent,
+        FooterComponent,
+        LoginComponent,
+        GenreComponent,
+        RegisterComponent,
+        TopViewsComponent,
+        MovieDetailsComponent,
+        WatchingComponent,
+        MovieRelatedComponent,
+        CountryComponent,
+        ProfileComponent,
+        LoginLayoutComponent,
+        MainLayoutComponent,
+        ChangePasswordComponent,
+        RatingComponent,
+        CommentComponent,
+        AdminSidebarComponent,
+        AdminHeaderComponent,
+        AdminDashboardComponent,
+        AdminLayoutComponent,
+        MovieTypeComponent,
+        ForgotPasswordComponent,
+        ResetPasswordComponent,
+        ListMovieComponent,
+        UpdateMovieComponent,
+        AddMovieComponent,
+        ListCountryComponent,
+        UpdateCountryComponent,
+        AddCountryComponent,
+        ListGenreComponent,
+        UpdateGenreComponent,
+        AddGenreComponent,
+        ListMovieTypeComponent,
+        UpdateMovieTypeComponent,
+        AddMovieTypeComponent,
+        ListEpisodeComponent,
+        UpdateEpisodeComponent,
+        AddEpisodeComponent,
+        ListAccountComponent,
+        ListOrderComponent,
+        MovieHotComponent,
+        UpgradeAccountComponent,
+        AuthenticateAccountComponent,
+        BookmarkComponent,
+        PaymentComponent,
+        UpgradeComponent,
+        ThanksComponent,
+        SearchMovieComponent
+    ],
+    bootstrap: [
+        AppComponent
+    ], imports: [BrowserModule,
+        AppRoutingModule,
+        IonicModule.forRoot(),
+        CarouselModule,
+        FormsModule,
+        RouterModule,
+        BrowserAnimationsModule, // cần thiết cho Toastr
+        ToastrModule.forRoot(), // Cấu hình mặc định của Toastr
+        ModalModule.forRoot()], providers: [
+        AuthService,
+        {
+            provide: APP_INITIALIZER,
+            useFactory: initializeAuthService,
+            deps: [AuthService],
+            multi: true
+        },
+        {
+            provide: HTTP_INTERCEPTORS,
+            useClass: TokenInterceptor,
+            multi: true
+        },
+        provideHttpClient(withInterceptorsFromDi())
+    ] })
 export class AppModule { 
 
 }

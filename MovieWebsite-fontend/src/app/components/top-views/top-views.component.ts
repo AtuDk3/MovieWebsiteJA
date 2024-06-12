@@ -1,46 +1,87 @@
-import { Component, OnInit } from '@angular/core';
-import { environment } from '../../environments/environment';
-import { MovieService } from '../../services/movie.service';
-import { Movie } from '../../models/movie';
-import { ActivatedRoute, Router } from '@angular/router';
 
+import { Component, OnInit} from '@angular/core';
+import { TopViewService } from '../../services/top_view.service';
+import { TopViewResponse } from '../../responses/user/top_view.response';
+import { environment } from '../../environments/environment';
 @Component({
   selector: 'app-top-views',
   templateUrl: './top-views.component.html',
   styleUrl: './top-views.component.scss'
 })
 export class TopViewsComponent implements OnInit {
-  movies: Movie[] = [];
-  currentPage: number = 0;
-  itemsPerPage: number = 18;
-  pages: number[] = [];
-  totalPages: number = 0;
-  visiblePages: number[] = []; 
 
-  constructor(private movieService: MovieService,
-              private  router: Router,
-              private route: ActivatedRoute) {
-    
-  }
+  topViewResponse: TopViewResponse[] =[]
+  statusDay: string = ''
+  statusWeek: string = ''
+  statusMonth: string = ''
 
-  ngOnInit() {
-    this.getMoviesByNumberViews();
-  }
+  constructor(
+    private topViewService: TopViewService) { }
 
-  getMoviesByNumberViews() {
-    this.movieService.getMoviesByNumberViews().subscribe({
-      next: (response: any) => {
-        response.movies.forEach((movie: Movie) => {
-          movie.url = `${environment.apiBaseUrl}/movies/images/${movie.image}`;
-        });
+    ngOnInit() {
+      this.getTopViewDay();    
+      this.updateViewForDay();   
+    }
 
-        this.movies = response.movies;
-        console.log(response)
-        this.totalPages = response.totalPages;
-      },
-      error: (error: any) => {
-        console.error('Error fetching movies by movie type:', error);
-      }
-    });
-  }
+    getTopViewDay() {
+      this.topViewService.getTopViewByDay().subscribe({
+        next: (response: any) => {
+          response.forEach((movie_view: TopViewResponse) => {
+            movie_view.url = `${environment.apiBaseUrl}/movies/images/${movie_view.image}`;
+          });
+          this.statusDay= 'active'
+          this.statusWeek= ''
+          this.statusMonth= ''
+          this.topViewResponse = response;        
+        },
+        error: (error: any) => {
+          console.log(error);
+        }
+      });
+    }
+
+    updateViewForDay() {
+      this.topViewService.updateViewForDay().subscribe({
+        next: (response: any) => {                      
+        },
+        error: (error: any) => {
+          console.log(error);
+        }
+      });
+    }
+
+    getTopViewWeek() {
+      this.topViewService.getTopViewByWeek().subscribe({
+        next: (response: any) => {
+          response.forEach((movie_view: TopViewResponse) => {
+            movie_view.url = `${environment.apiBaseUrl}/movies/images/${movie_view.image}`;
+          });
+          this.statusWeek= 'active'
+          this.statusDay= ''
+          this.statusMonth= ''
+          this.topViewResponse = response;        
+        },
+        error: (error: any) => {
+          console.log(error);
+        }
+      });
+    }
+
+    getTopViewMonth() {
+      this.topViewService.getTopViewByMonth().subscribe({
+        next: (response: any) => {
+          response.forEach((movie_view: TopViewResponse) => {
+            movie_view.url = `${environment.apiBaseUrl}/movies/images/${movie_view.image}`;
+          });
+          this.statusMonth= 'active'
+          this.statusDay= ''
+          this.statusWeek= ''
+          this.topViewResponse = response;        
+        },
+        error: (error: any) => {
+          console.log(error);
+        }
+      });
+    }
+
 }

@@ -20,7 +20,7 @@
                 <td>{{ i + 1 }}</td>
                 <td>{{ movieType.id }}</td>
                 <td>{{ movieType.name }}</td>
-                <td>{{ movieType.isActive === 1 ? 'Active' : 'Inactive' }}</td>
+                <td>{{ movieType.is_active === 1 ? 'Active' : 'Inactive' }}</td>
                 <td>
                     <button type="button" class="btn btn-danger" (click)="deleteMovieType(movieType.id)">Delete</button>
                     <button type="button" class="btn btn-warning" (click)="updateMovieType(movieType)">Update</button>

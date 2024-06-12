@@ -1,3 +1,4 @@
+
 import { Component, ViewChild } from '@angular/core';
 import { NgForm } from '@angular/forms';
 import { UserService } from '../../services/user.service';
@@ -41,10 +42,11 @@ export class ChangePasswordComponent {
     this.userService.checkCurrentPassword(this.currentPassword)
       .subscribe({
         next: () => {
-          
+          this.currentPasswordError='';
           // Nếu mật khẩu hiện tại đúng, kiểm tra độ mạnh của mật khẩu mới
           if (this.isStrongPassword(this.newPassword)) {
             // Gửi yêu cầu cập nhật mật khẩu mới nếu mật khẩu mới đủ mạnh
+            if(this.newPassword === this.confirmPassword){
             this.userService.changePassword(this.newPassword)
               .subscribe({
                 next: response => {
@@ -59,6 +61,10 @@ export class ChangePasswordComponent {
                   console.error(err);
                 }
               });
+            }else{
+              this.passwordStrength ='';
+              this.changePasswordForm.form.controls['retypePassword'].setErrors({ 'passwordMisMatch': true });
+            }
           } else {
             this.passwordStrength = "Password must be at least 8 characters long and contain at least one uppercase letter, one lowercase letter, one number, and one special character.";
           }

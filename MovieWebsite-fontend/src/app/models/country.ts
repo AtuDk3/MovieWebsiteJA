@@ -1,5 +1,5 @@
 export interface Country {
     id: number,
     name: string
-    isActive: number
+    is_active: number
 }

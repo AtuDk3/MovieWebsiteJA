@@ -1,15 +1,8 @@
 import { Component, OnInit, AfterViewInit, AfterViewChecked } from '@angular/core';
 import { environment } from '../../environments/environment';
 import { MovieService } from '../../services/movie.service';
-import { Movie } from '../../models/movie';
 import 'owl.carousel';
-import { ActivatedRoute, Router } from '@angular/router';
-import { UserResponse } from '../../responses/user/user.response';
-import { UserService } from '../../services/user.service';
-import { VipPeriodResponse } from '../../responses/user/vip_period.response';
-import { UpdateUserDTO } from '../../dtos/user/updateuser.dto';
-import { TokenService } from '../../services/token.service';
-import { BookmarkService } from '../../services/bookmark.service';
+import { ActivatedRoute } from '@angular/router';
 import { FavouriteResponse } from '../../responses/user/favourite.response';
 
 @Component({
@@ -18,7 +11,7 @@ import { FavouriteResponse } from '../../responses/user/favourite.response';
   styleUrls: ['./movie-related.component.scss']
 })
 export class MovieRelatedComponent implements OnInit, AfterViewInit, AfterViewChecked {
-  movies: Movie[] = [];
+  
   currentPage: number = 0; 
   itemsPerPage: number = 10;
   carouselInitialized: boolean = false;
@@ -33,9 +26,10 @@ export class MovieRelatedComponent implements OnInit, AfterViewInit, AfterViewCh
 
   ngOnInit() {
     const idParam = this.activatedRoute.snapshot.paramMap.get('id');
-
+    console.log(idParam)
     if (idParam !== null) {
       this.movieId = +idParam;
+      this.getMoviesRelated(this.movieId, this.currentPage, this.itemsPerPage);
     }
   }
 
@@ -44,7 +38,7 @@ export class MovieRelatedComponent implements OnInit, AfterViewInit, AfterViewCh
   }
 
   ngAfterViewChecked(): void {
-    if (this.movies.length && !this.carouselInitialized) {
+    if (this.moviesRelated.length && !this.carouselInitialized) {
       this.initOwlCarousel();
       this.carouselInitialized = true;
     }

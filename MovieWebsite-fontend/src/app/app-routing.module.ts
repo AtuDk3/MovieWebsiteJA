@@ -40,6 +40,7 @@ import { PaymentComponent } from './components/payments/payments.component';
 import { UpgradeAccountComponent } from './components/upgrade-account/upgrade-account.component';
 import { UpgradeComponent } from './components/upgrade/upgrade.component';
 import { ThanksComponent } from './components/thanks/thanks.component';
+import { SearchMovieComponent } from './components/search-movie/search-movie.component';
 
 const routes: Routes = [
   {
@@ -55,7 +56,7 @@ const routes: Routes = [
       { path: 'watching/:id', component: WatchingComponent},
       { path: 'movie-hot', component: MovieHotComponent},
       { path: 'bookmark', component: BookmarkComponent},
-      
+      { path: 'search_movie', component: SearchMovieComponent},  
     ]
   },
   {

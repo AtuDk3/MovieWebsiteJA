@@ -30,13 +30,7 @@
                         <div class="halim-pulse-ring"></div>
                      </div>
                      <div (click)="addMovieBookmark(movie.id)" id="get-bookmark" class="box-shadow"><i class="fa-regular fa-bookmark"></i><span> Bookmarks</span></div>
-                     <div class="error-message-container">
-                        <p class="font-weight-bold text-danger" style="font-size: 15px;" *ngIf="existError">
-                          {{ existError }}
-                        </p>
-                        <p class="font-weight-bold text-success" style="font-size: 15px;" *ngIf="message">
-                          {{ message }}
-                        </p>
+                     <div class="error-message-container">                     
                       </div>
                   </div>
                   <div class="movie_info col-xs-12">
@@ -44,7 +38,7 @@
                         <img class="movie-thumb" [src]="movie.url" alt="{{ movie.name }}">
                         <div class="bwa-content">
                            <div class="loader"></div>
-                           <a href="/watching/{{ movie.id }}" class="bwac-btn">
+                           <a (click)="checkFee(movie.is_fee, movie.id)" class="bwac-btn">
                               <i class="fa fa-play"></i>
                            </a>
                         </div>
@@ -101,7 +95,7 @@
                      </article>
                   </div>
                </div>
-               <div class="section-bar clearfix">
+               <!-- <div class="section-bar clearfix">
                   <h2 class="section-title"><span style="color:#ffed4d">Đánh giá phim</span></h2>
                </div>
                <div class="entry-content htmlwrap clearfix">
@@ -109,7 +103,7 @@
                   
                      <app-rating></app-rating>
             </div>
-         </div>
+         </div> -->
          <div class="section-bar clearfix">
             <h2 class="section-title"><span style="color:#ffed4d">Bình luận phim</span></h2>
          </div>

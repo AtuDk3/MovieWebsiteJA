@@ -1,9 +1,9 @@
+
 package com.project.MovieWebsite.controllers;
 
 import com.project.MovieWebsite.dtos.CountryDTO;
-import com.project.MovieWebsite.dtos.GenreDTO;
 import com.project.MovieWebsite.models.Country;
-import com.project.MovieWebsite.models.Genre;
+import com.project.MovieWebsite.responses.CountryResponse;
 import com.project.MovieWebsite.services.CountryService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -25,16 +25,16 @@ public class CountryController {
 
 
     @GetMapping("")
-    public ResponseEntity<List<Country>> getAllCountries() {
+    public ResponseEntity<List<CountryResponse>> getAllCountries() {
         List<Country> countries = countryService.getAllCountry();
-        return ResponseEntity.ok(countries);
+        return ResponseEntity.ok(CountryResponse.fromListCountry(countries));
     }
 
     @GetMapping("/{id}")
     public ResponseEntity<?> getCountryById(@PathVariable int id) {
         try {
             Country existingCountry = countryService.getCountryById(id);
-            return ResponseEntity.ok(existingCountry);
+            return ResponseEntity.ok(CountryResponse.fromCountry(existingCountry));
         }
         catch (Exception e) {
             return ResponseEntity.badRequest().body(e.getMessage());

@@ -1,9 +1,11 @@
+
 package com.project.MovieWebsite.controllers;
 
 import com.project.MovieWebsite.dtos.CountryDTO;
 import com.project.MovieWebsite.dtos.MovieTypeDTO;
 import com.project.MovieWebsite.models.Country;
 import com.project.MovieWebsite.models.MovieType;
+import com.project.MovieWebsite.responses.MovieTypeResponse;
 import com.project.MovieWebsite.services.MovieTypeService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -26,16 +28,16 @@ public class MovieTypeController {
 
 
     @GetMapping("")
-    public ResponseEntity<List<MovieType>> getAllMovieTypes() {
+    public ResponseEntity<List<MovieTypeResponse>> getAllMovieTypes() {
         List<MovieType> movieTypes = movieTypeService.getAllMovieType();
-        return ResponseEntity.ok(movieTypes);
+        return ResponseEntity.ok(MovieTypeResponse.fromListMovieType(movieTypes));
     }
 
     @GetMapping("/{id}")
     public ResponseEntity<?> getMovieTypeById(@PathVariable int id) {
         try {
             MovieType existingMovieType = movieTypeService.getMovieTypeById(id);
-            return ResponseEntity.ok(existingMovieType);
+            return ResponseEntity.ok(MovieTypeResponse.fromMovieType(existingMovieType));
         }
         catch (Exception e) {
             return ResponseEntity.badRequest().body(e.getMessage());

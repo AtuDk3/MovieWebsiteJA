@@ -9,7 +9,9 @@ import { VipPeriodResponse } from '../../responses/user/vip_period.response';
 import { UpdateUserDTO } from '../../dtos/user/updateuser.dto';
 import { TokenService } from '../../services/token.service';
 import { BookmarkService } from '../../services/bookmark.service';
-import { FavouriteResponse } from '../../responses/user/favourite.response';
+import { TopViewService } from '../../services/top_view.service';
+import { ToastrService } from 'ngx-toastr';
+import Swal from 'sweetalert2';
 
 @Component({
   selector: 'app-movie-details',
@@ -21,21 +23,17 @@ export class MovieDetailsComponent implements OnInit {
   movieId: number = 0;
   userResponse?: UserResponse | null
   vipPeriodResponse?: VipPeriodResponse | null
-  existError: string | null = null;
-  message: string | null = null;
-  moviesRelated: FavouriteResponse[] = [];
-  currentPage: number = 0; 
-  itemsPerPage: number = 4;
-  totalPages: number = 0;
-  visiblePages: number[] = []; 
-
+  
+ 
   constructor(
     private movieService: MovieService,
     private router: Router,
     private activatedRoute: ActivatedRoute,
     private userService: UserService,
     private tokenService: TokenService,
-    private bookmarkService: BookmarkService) { }
+    private bookmarkService: BookmarkService,
+    private topViewService: TopViewService,
+    private toastr: ToastrService) { }
 
   ngOnInit() {
     const idParam = this.activatedRoute.snapshot.paramMap.get('id');
@@ -135,7 +133,7 @@ export class MovieDetailsComponent implements OnInit {
                     console.log('Update user details movie-detail request completed.');
                   }
                 });
-            } else {
+            } else {              
               this.router.navigate([`/watching/${movieId}`])
             }
           } else {
@@ -148,26 +146,42 @@ export class MovieDetailsComponent implements OnInit {
       } else {
         this.router.navigate(['/login']);
       }
-    } else {
+    } else {     
       this.router.navigate([`/watching/${movieId}`])     
     }
 
   }
+
+  // incremnetViewMovie(movie_id:number){
+  //   this.topViewService.incrementMovieView(movie_id).subscribe(
+  //     {
+  //       next: (response: any) => {
+  //       },
+  //       complete: () => {
+  //       },
+  //       error: (err) => {
+  //         console.log('error increment view');
+  //       }
+  //     });
+  // }
 
   addMovieBookmark(movieId: number) {
     this.userResponse = this.userService.getUserResponseFromLocalStorage();
     if (this.userResponse) {
       this.bookmarkService.addMovieFavourite(this.userResponse?.id, movieId, this.tokenService.getToken()!).subscribe({
         next: response => {
-          this.message= response['message'];
+          this.toastr.success('Đã thêm vào mục phim yêu thích!' ,'Thêm thành công', {
+            timeOut: 3000,
+            positionClass: 'toast-bottom-right'
+          });         
           this.bookmarkService.incrementBookmarkCount();
         },
         error: err => {
           console.log('Error adding bookmark', err);
-          this.message = null;
-          if (err.error.existError) {
-          this.existError = err.error.existError;
-          }
+          this.toastr.error('Đã có trong mục phim yêu thích!', 'Thêm thất bại', {
+            timeOut: 3000,
+            positionClass: 'toast-bottom-right'
+          });                
         }
       });
     }

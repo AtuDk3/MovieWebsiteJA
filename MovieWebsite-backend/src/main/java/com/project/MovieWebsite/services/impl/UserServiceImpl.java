@@ -122,9 +122,21 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public void deleteUser(int userId) {
-        userRepository.deleteById(userId);
+    public void ban_account(int userId) throws DataNotFoundException {
+        User existingUser= userRepository.findById(userId)
+                .orElseThrow(() -> new DataNotFoundException("User not found"));
+        existingUser.setIsActive(0);
+        userRepository.save(existingUser);
     }
+
+    @Override
+    public void unban_account(int userId) throws DataNotFoundException {
+        User existingUser= userRepository.findById(userId)
+                .orElseThrow(() -> new DataNotFoundException("User not found"));
+        existingUser.setIsActive(1);
+        userRepository.save(existingUser);
+    }
+
 
     public User updatePassword(String phoneNumber, String newPassword) {
         Optional<User> optionalUser= userRepository.findByPhoneNumber(phoneNumber);
@@ -149,7 +161,7 @@ public class UserServiceImpl implements UserService {
         }
 
         if (optionalUser.get().getIsActive()==0){
-            throw new DataNotFoundException(localizationUtil.getLocalizedMessage(MessageKeys.USER_IS_LOCKED));
+            throw new DataNotFoundException("Account is locked");
         }
 
         UsernamePasswordAuthenticationToken authenticationToken= new UsernamePasswordAuthenticationToken(

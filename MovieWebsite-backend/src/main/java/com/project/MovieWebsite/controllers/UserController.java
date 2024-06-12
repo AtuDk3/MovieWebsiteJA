@@ -109,7 +109,7 @@ public class UserController {
 //    }
 
     @PostMapping("/login")
-    public ResponseEntity<LoginResponse> login(@Valid @RequestBody UserLoginDTO userLoginDTO) {
+    public ResponseEntity<?> login(@Valid @RequestBody UserLoginDTO userLoginDTO) {
         try {
             String token = userService.login(userLoginDTO.getPhoneNumber(), userLoginDTO.getPassword());
             return ResponseEntity.ok(
@@ -117,11 +117,10 @@ public class UserController {
                             .message(localizationUtil.getLocalizedMessage(MessageKeys.LOGIN_SUCCESSFULLY))
                             .token(token)
                             .build());
+        } catch (DataNotFoundException e) {
+            return ResponseEntity.badRequest().body(Collections.singletonMap("errorActive", e.getMessage()));
         } catch (Exception e) {
-            return ResponseEntity.badRequest().body(
-                    LoginResponse.builder()
-                            .message(localizationUtil.getLocalizedMessage(MessageKeys.LOGIN_FAILED, e.getMessage()))
-                            .build());
+            return ResponseEntity.badRequest().body(Collections.singletonMap("errorPass", e.getMessage()));
         }
     }
 

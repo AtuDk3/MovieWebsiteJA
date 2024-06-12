@@ -24,7 +24,7 @@
                 <td>{{ genre.name }}</td>
                 <td>{{ genre.description }}</td>
                 <td>{{ genre.slug }}</td>
-                <td>{{ genre.isActive === 1 ? 'Active' : 'Inactive' }}</td>
+                <td>{{ genre.is_active === 1 ? 'Active' : 'Inactive' }}</td>
                 <td>
                     <button type="button" class="btn btn-danger" (click)="deleteGenre(genre.id)">Delete</button>
                     <button type="button" class="btn btn-warning" (click)="updateGenre(genre)">Update</button>

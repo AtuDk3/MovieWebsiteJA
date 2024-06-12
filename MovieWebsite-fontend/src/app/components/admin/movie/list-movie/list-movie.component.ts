@@ -26,10 +26,10 @@ export class ListMovieComponent  implements OnInit {
     private  router: Router,
     private toastr: ToastrService,
     private route: ActivatedRoute) {
-   const navigation = this.router.getCurrentNavigation();
-   if (navigation && navigation.extras.state && navigation.extras.state['message']) {
-     this.message = navigation.extras.state['message'];
-   }
+  //  const navigation = this.router.getCurrentNavigation();
+  //  if (navigation && navigation.extras.state && navigation.extras.state['message']) {
+  //    this.message = navigation.extras.state['message'];
+  //  }
  }
 
  ngOnInit() {
@@ -43,8 +43,7 @@ export class ListMovieComponent  implements OnInit {
     next: (response: any) => {
       response.movies.forEach((movie: Movie) => {
         movie.url = `${environment.apiBaseUrl}/movies/images/${movie.image}`;
-        release_date: new Date(response.release_date);
-
+        // release_date: new Date(response.release_date);
         const releaseDate = new Date(movie.release_date);
             const day = releaseDate.getDate();
             const month = releaseDate.getMonth() + 1;

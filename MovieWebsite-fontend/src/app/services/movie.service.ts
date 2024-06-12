@@ -11,6 +11,7 @@ import { environment } from '../environments/environment';
 export class MovieService {
   
   private apiGetMovies = `${environment.apiBaseUrl}/movies`;
+  private apiGetMoviesSearch = `${environment.apiBaseUrl}/movies/search_movies`;
   private apiGetMoviesByGenre = `${environment.apiBaseUrl}/movies/genres`;
   private apiGetMoviesByCountry = `${environment.apiBaseUrl}/movies/countries`;
   private apiGetMoviesByMovieType = `${environment.apiBaseUrl}/movies/movie_types`;
@@ -20,6 +21,17 @@ export class MovieService {
   
   constructor(private http: HttpClient) { }
 
+  private apiConfig = {
+    headers: this.createHeader(),
+  }
+
+  private createHeader(): HttpHeaders {
+    return new HttpHeaders({
+      'Content-Type': 'application/json',
+      //'Accepted-Language': 'en'
+    });
+  }
+
   getMovies(page: number, limit: number): Observable<Movie[]> {
     let params = new HttpParams()
       .set('page', page.toString())
@@ -28,13 +40,22 @@ export class MovieService {
     return this.http.get<Movie[]>(this.apiGetMovies, {params});
   }
 
+  getSearchMovies(keyword: string, page: number, limit: number): Observable<Movie[]> {
+    let params = new HttpParams()
+      .set('keyword', keyword.toString())
+      .set('page', page.toString())
+      .set('limit', limit.toString());
+      
+    return this.http.get<Movie[]>(this.apiGetMoviesSearch, {params});
+  }
+
   getMovieById(movieId: number): Observable<Movie> {
     const url = `${this.apiGetMovies}/${movieId}`;
     return this.http.get<Movie>(url);
   }
 
-  createMovie(movie: Movie): Observable<Movie> {
-    return this.http.post<Movie>(this.apiGetMovies, movie);
+  createMovie(movie: Movie): Observable<any> {
+    return this.http.post(this.apiGetMovies, movie, this.apiConfig);
   }
 
   updateMovie(movie: Movie): Observable<Movie> {
@@ -42,10 +63,6 @@ export class MovieService {
     return this.http.put<Movie>(url, movie);
   }
 
-  updateImageMovie(movieId: number, formData: FormData): Observable<Movie> {
-    const url = `${this.apiGetImageMovie}/${movieId}`;
-    return this.http.put<Movie>(url, formData);
-}
 
   deleteMovie(movieId: number): Observable<any> {
     const url = `${this.apiGetMovies}/${movieId}`;
@@ -111,8 +128,13 @@ export class MovieService {
   uploadImageMovie(movieId: number, file: File): Observable<any> {
     const formData = new FormData();
     formData.append('file', file);
-
     return this.http.post(`${this.apiGetMovies}/upload_movie/${movieId}`, formData);
+  }
+
+  uploadImageFromCreateMovie(file: File): Observable<any> {
+    const formData = new FormData();
+    formData.append('file', file);
+    return this.http.post(`${this.apiGetMovies}/upload_image_movie`, formData);
   }
 
 }

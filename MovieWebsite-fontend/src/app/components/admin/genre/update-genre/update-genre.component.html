@@ -4,42 +4,42 @@
 <section id="content">
     <!-- MAIN -->
     <main>
-        <div *ngIf="genre" class="container-form-add-product">
+        <div *ngIf="genreDTO" class="container-form-add-product">
             <h2 class="text-center">Update Genre</h2>
             <form (ngSubmit)="updateGenre()">
                 <div class="row g-1">
                     <div class="col">
                         <label for="name">Genre Name</label>
-                        <input [(ngModel)]="genre.name" type="text" name="name" class="form-control" required>
+                        <input [(ngModel)]="genreDTO.name" type="text" name="name" class="form-control" required>
                     </div>           
                 </div>
 
                 <div class="row g-1">
                     <div class="col">
                         <label for="description">Description</label>
-                        <textarea [(ngModel)]="genre.description" name="description" class="form-control" required></textarea>
+                        <textarea [(ngModel)]="genreDTO.description" name="description" class="form-control" required></textarea>
                     </div>           
                 </div>    
                 
                 <div class="row g-1">
                     <div class="col">
                         <label for="slug">Slug</label>
-                        <input [(ngModel)]="genre.slug" type="text" name="slug" class="form-control" required>
+                        <input [(ngModel)]="genreDTO.slug" type="text" name="slug" class="form-control" required>
                     </div>           
                 </div>
 
                 <div class="row g-1">
                     <div class="col">
                         <label>Active :</label>
-                        <select [(ngModel)]="genre.isActive" name="isActive" class="form-select">
-                            <ng-container *ngIf="genre.isActive === 1; else inactiveFirst">
+                        <select [(ngModel)]="genreDTO.is_active" name="is_active" class="form-select">
+                            <ng-container *ngIf="genreDTO.is_active === 1; else inactiveFirst">
                               <option [value]="1">Active</option>
                               <option [value]="0">Inactive</option>
                             </ng-container>
                             <ng-template #inactiveFirst>
                               <option [value]="0">Inactive</option>
                               <option [value]="1">Active</option>
-                            </ng-template>
+                            </ng-template>                           
                           </select>
                     </div>
                 </div> 

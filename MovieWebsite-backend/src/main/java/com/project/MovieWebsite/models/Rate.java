@@ -3,6 +3,8 @@ package com.project.MovieWebsite.models;
 import jakarta.persistence.*;
 import lombok.*;
 
+import java.time.LocalDate;
+
 @Entity
 @Table(name="tab_rate")
 @Data
@@ -25,12 +27,11 @@ public class Rate {
     @JoinColumn(name="user_id")
     private User user;
 
-    @Column(name="description", nullable= false)
-    private String description;
-
-    @Column(name="number_stars", nullable= false)
+    @Column(name="number_stars")
     private int numberStars;
 
+    @JoinColumn(name = "rate_date")
+    private LocalDate rateDate;
 
 
 }

@@ -15,7 +15,6 @@ import java.util.Date;
 @NoArgsConstructor
 @Builder
 public class Movie {
-
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
@@ -66,6 +65,12 @@ public class Movie {
 
     @Column(name="number_view", nullable= false)
     private int numberView;
+
+    @Column(name="number_rate")
+    private int numberRate;
+
+    @Column(name="average_star")
+    private float averageStar;
 
     @Column(name="is_active")
     private int isActive;

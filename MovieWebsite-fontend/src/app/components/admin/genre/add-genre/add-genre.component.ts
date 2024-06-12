@@ -15,7 +15,7 @@ export class AddGenreComponent {
     name: '',
     description: '',
     slug: '',
-    isActive: 1
+    is_active: 1
   };
 
   constructor(private genreService: GenreService, 

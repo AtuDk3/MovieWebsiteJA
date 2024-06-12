@@ -3,6 +3,7 @@ import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { Genre } from '../models/genre';
 import { environment } from '../environments/environment';
+import { GenreDTO } from '../dtos/user/genre.dto';
 
 @Injectable({
   providedIn: 'root'
@@ -17,9 +18,9 @@ export class GenreService {
   }
 
   // Phương thức để lấy thông tin về một thể loại phim cụ thể dựa trên ID
-  getGenreById(genreId: number): Observable<Genre> {
+  getGenreById(genreId: number): Observable<any> {
     const url = `${this.apiGetGenres}/${genreId}`;
-    return this.http.get<Genre>(url);
+    return this.http.get(url);
   }
 
   // Phương thức để tạo một thể loại phim mới
@@ -28,7 +29,7 @@ export class GenreService {
   }
 
   // Phương thức để cập nhật thông tin của một thể loại phim đã tồn tại
-  updateGenre(genre: Genre): Observable<Genre> {
+  updateGenre(genre: GenreDTO): Observable<Genre> {
     const url = `${this.apiGetGenres}/${genre.id}`;
     return this.http.put<Genre>(url, genre);
   }
