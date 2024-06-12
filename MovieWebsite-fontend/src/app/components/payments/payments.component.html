@@ -1,85 +1,74 @@
-<link rel="stylesheet" href="../../../assets/css/style.css">
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"
+  integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
 
-<body>
-  <div class="container">
-    <div class="row fullwith-slider"></div>
-  </div>
-  <div class="container">
-    <div class="row container" id="wrapper">
+<style>
+  .logo-momo {
+    width: 50px;
+    height: auto;
+    margin-right: 10px;
+    border-radius: 5px;
+    object-fit: cover;
+  }
 
-      <main id="main-contents" class="col-xs-12 col-sm-12 col-md-8">
+  .logo {
+    width: 150px;
+    height: auto;
+    margin-right: 10px;
+    border-radius: 5px;
+    object-fit: cover;
+  }
 
-        <div class="container bootstrap snippet">
-          <form class="form-update-profile">
-            <div class="halim-panel-filter">
-              <div class="panel-heading">
-                <div class="row">
-                  <div class="col-xs-6">
-                    <div class="yoast_breadcrumb hidden-xs"><span><span><a routerLink="/">Trang chủ</a> »
-                          <span><a>Thông tin cá nhân</a> » <span><a href="">Nâng cấp tài
-                                khoản</a></span></span></span></span>
-                    </div>
-                  </div>
-                </div>
-              </div>
-              <div id="ajax-filter" class="panel-collapse collapse" aria-expanded="true" role="menu">
-                <div class="ajax"></div>
-              </div>
-            </div>
-            <div class="row">
-              <div class="col-sm-4">
-                <div class="text-center">
-                  <img src="" alt="Image" height="100px" width="100px" class="avatar img-circle img-thumbnail"
-                    alt="avatar">
-                  <h5 class="">Tài khoản: Thanh Tú</h5>
-                </div><br>
-              </div>
-              <div class="col-sm-8">
+  #btn-pay-method {
+    background-color: #fff;
+  }
 
-                <div class="tab-content">
-                  <div class="tab-pane active">
-                    <div class="form-group">
+  #btn-pay-method:hover {
+    background-color: #dee2e6;
+    transition: background-color 0.3s;
+  }
+</style>
 
-                      <div class="col-xs-12">
-                        <label for="first_name">
-                          <h5>Thanh Toán VNPAY</h5>
-                        </label>
-                        <form (ngSubmit)="onSubmit()">
-                          <input type="hidden" [(ngModel)]="amount" value="10000" name="amount">
-                          <input type="hidden" [(ngModel)]="orderInfo" value="thanhtoan" name="orderInfo">
-                          <button type="submit" id="btn-pay-method" class="form-control">
-                            <img src="https://asset.brandfetch.io/idV02t6WJs/idyXqfCegn.png" alt="VNPAY Logo" class="logo-vnpay">Thanh toán qua VNPAY
-                          </button>
-                        </form>
-                      </div>
-                    </div>
 
-                    <div class="form-group">
-
-                      <div class="col-xs-12">
-                        <label for="first_name">
-                          <h5>Thanh Toán MOMO</h5>
-                        </label>
-          <form>
-            <input type="hidden" value="20000">
-          <button name="momo" id="btn-pay-method" type="submit" class="form-control"><img
-              src="https://warburgpincus.com/wp-content/uploads/2018/10/MoMo_logo-1.png" alt="Momo Logo"
-              class="logo-momo">Thanh toán qua
-            MOMO</button>
-          </form>
+<div class="card-body">
+  <div class="row d-flex justify-content-center pb-5">
+    <div class="col-md-7 col-xl-5 mb-4 mb-md-0">
+      <div class="py-4 d-flex flex-row">
+        <h4><i class="fa-regular fa-credit-card"></i><b>CineConnect</b> |</h4>
+        <span class="ps-2">Thanh Toán</span>
+      </div>
+      <h4>Phương thức chuyển khoản</h4>
+      <div class="pt-2">
+        <div class="d-flex pb-2">
+          <div class="ms-auto">
+            <p class="text-primary">
+              <a style="text-decoration: none;" href="${pageContext.request.contextPath}/home"><i
+                  class="fas fa-plus-circle text-primary pe-1"></i>Trở về >> Trang chủ</a>
+            </p>
+          </div>
         </div>
+        <p>
+          Đây là ước tính cho phần đơn đặt hàng của bạn (không được bao gồm bởi
+          bảo hiểm) đáo hạn vào ngày hôm nay . sau khi bảo hiểm hoàn tất việc xem xét hoàn lại tiền của họ
+          và/hoặc số dư sẽ tự động được điều chỉnh.
+        </p>
+
+        <form>
+          <div class="d-flex flex-row pb-3">
+            <button id="btn-pay-method" type="submit" class="rounded border d-flex w-100 p-3 align-items-center"><img
+                src="assets/images/logo-momo.webp" alt="Momo Logo"
+                class="logo-momo">Thanh Toán Bằng MOMO</button>
+                
+          </div>
+        </form>
+
+        <form (ngSubmit)="onSubmit()">
+          <div class="d-flex flex-row pb-3">
+            <input type="hidden" name="amount" [value]="amount">
+            <input type="hidden" name="orderInfo" value="vnpay">
+            <button id="btn-pay-method" type="submit" class="rounded border d-flex w-100 p-3 align-items-center"><img
+                src="assets/images/logo-vnpay.jpg" alt="VNPAY Logo"
+                class="logo">Thanh Toán Bằng VNPAY</button>
+          </div>
+        </form>
+      </div>
     </div>
-
-  </div>
-  </div>
-  </div>
-  </div>
-  </form>
-  </div>
-
-
-
-  </main>
-  </div>
-  </div>
-</body>

@@ -1,87 +1,73 @@
-.form-group, .text-center {
-    color: #7aa6ce;
-    cursor: pointer;
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;500&display=swap');
+*{
+    font-family: 'Poppins', sans-serif;
 }
 
-.form-group button {
-    background-color: #12171b;
-    height: 60px;
+
+body, p, .btn, .form-control {
+    font-size: 1.5rem !important;
 }
 
-.avatar {
-    margin-top: 20px;
+h2 {
+    font-size: 4rem !important;
 }
 
-.btn-warning {
-    color: black;
-    // background-color: #ce981d;
-    margin-right: 10px;
+small {
+    font-size: 1.5rem !important;
+    font-weight: 500;
 }
 
-.film-poster {
-    margin-top: 20px;
-    margin-left: 20px;
+.fs-2 {
+    font-size: 4rem !important;
 }
 
-.action-user {
-    margin-top: 10px;
-    display: flex;
-    justify-content: center;
+/* Tăng kích thước ảnh */
+img {
+    width: calc(100% * 1.5);
 }
 
-.form-update-profile {
-    display: block;
+/* Tăng kích thước các thành phần khác */
+.input-group, .form-check-label {
+    font-size: 2rem !important;
 }
 
-// button i {
-//     margin: 5px;
-// }
-
-.info-user {
-    color: #7aa6ce;
-    font-weight: 300;
+/*------------ Login container ------------*/
+.box-area{
+    width: 930px;
 }
-
-.list-info-group-item {
-    font-size: 15px;
+/*------------ Right box ------------*/
+.right-box{
+    padding: 40px 30px 40px 40px;
 }
-
-.avatar {
-    border-radius: 50%;
-    object-fit: cover;
-    margin-bottom: 10px;
+/*------------ Custom Placeholder ------------*/
+::placeholder{
+    font-size: 16px;
 }
-
-.text-center {
-    margin-top: 20px;
-    border-radius: 10px;
-    border: 1px dashed #7aa6ce;
-    padding: 20px;
-    padding-bottom: 40px;
+.rounded-4{
+    border-radius: 20px;
+}
+.rounded-5{
+    border-radius: 30px;
 }
 
 .text-danger {
-    margin-top: 10px;
+    font-size: 14px;
 }
 
-img.avatar.img-circle.img-thumbnail {
-    width: 250px;
-    height: 250px;
-    border: none;
+/*------------ For small screens------------*/
+@media only screen and (max-width: 768px){
+     .box-area{
+        margin: 0 10px;
+     }
+     .left-box{
+        height: 100px;
+        overflow: hidden;
+     }
+     .right-box{
+        padding: 20px;
+     }
 }
 
-.logo-momo {
-    width: 70px;
-    height: 70px;
-    margin-top: -10px;
-}
-
-#btn-pay-method {
-    color: red;
-}
-
-.logo-vnpay {
-    width: 100px;
-    height: 50px;
-    margin-top: -7px;
+button, span {
+    font-size: 1.5rem !important;
 }

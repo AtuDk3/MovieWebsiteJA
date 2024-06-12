@@ -1,40 +1,44 @@
-.container {
-    text-align: left;
+.rating {
+    display: flex;
+    flex-direction: row-reverse; /* Đặt các ngôi sao nằm ngang từ phải sang trái */
+    justify-content: center;
+    align-items: center;
+    margin-bottom: 10px;
   }
   
-.rating:not(:checked) > input {
-    position: absolute;
-    appearance: none;
+  .rating input[type="radio"] {
+    display: none;
   }
   
-  .rating:not(:checked) > label {
-    float: right;
+  .rating label {
     cursor: pointer;
-    font-size: 25px;
-    color: #666;
+    font-size: 2rem;
+    color: gray;
+    padding: 0 5px;
   }
   
-  .rating:not(:checked) > label:before {
-    content: '★';
+  .rating label:hover,
+  .rating label:hover ~ label {
+    color: gold;
   }
   
-  .rating > input:checked + label:hover,
-  .rating > input:checked + label:hover ~ label,
-  .rating > input:checked ~ label:hover,
-  .rating > input:checked ~ label:hover ~ label,
-  .rating > label:hover ~ input:checked ~ label {
-    color: #e58e09;
+  .rating input[type="radio"]:checked ~ label {
+    color: gray;
   }
   
-  .rating:not(:checked) > label:hover,
-  .rating:not(:checked) > label:hover ~ label {
-    color: #ff9e0b;
+  .rating input[type="radio"]:checked + label,
+  .rating input[type="radio"]:checked + label ~ label {
+    color: gold;
   }
   
-  .rating > input:checked ~ label {
-    color: #ffa723;
+  button {
+    margin-top: 10px;
+    padding: 5px 10px;
+    font-size: 1rem;
+    cursor: pointer;
+    margin-right: 10px; /* Thêm khoảng cách giữa các nút */
   }
-  
-  
-  
-  
+
+  button.form-control {
+    background-color: #222d38;
+}

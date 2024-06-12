@@ -58,6 +58,8 @@ import { PaymentComponent } from './components/payments/payments.component';
 import { AuthService } from './services/auth.service';
 import { RouterModule } from '@angular/router';
 import { ModalModule } from 'ngx-bootstrap/modal';
+import { UpgradeComponent } from './components/upgrade/upgrade.component';
+import { ThanksComponent } from './components/thanks/thanks.component';
 
 
 export function initializeAuthService(authService: AuthService) {
@@ -114,7 +116,9 @@ export function initializeAuthService(authService: AuthService) {
     UpgradeAccountComponent,
     AuthenticateAccountComponent,
     BookmarkComponent,
-    PaymentComponent
+    PaymentComponent,
+    UpgradeComponent,
+    ThanksComponent
   ],
   imports: [
     BrowserModule,

@@ -1,5 +1,5 @@
-import { Component } from '@angular/core';
-import { NgForm } from '@angular/forms';
+import { Component, OnInit } from '@angular/core';
+import { ActivatedRoute } from '@angular/router';
 import { VnpayService } from '../../services/vnpay.service';
 
 @Component({
@@ -7,11 +7,20 @@ import { VnpayService } from '../../services/vnpay.service';
   templateUrl: './payments.component.html',
   styleUrls: ['./payments.component.scss']
 })
-export class PaymentComponent {
-  amount: string = '10000'; 
-  orderInfo: string = 'thanhtoan'; 
+export class PaymentComponent implements OnInit {
 
-  constructor(private vnpayService: VnpayService) {}
+  amount: number = 0;
+  orderInfo: string = '';
+
+  constructor(private route: ActivatedRoute,
+    private vnpayService: VnpayService) { }
+
+  ngOnInit(): void {
+    this.route.queryParams.subscribe(params => {
+      this.amount = +params['amount'];
+      this.orderInfo = params['orderInfo'];
+    });
+  }
 
   onSubmit() {
     this.vnpayService.createPayment(this.amount, this.orderInfo).subscribe({

@@ -37,6 +37,9 @@ import { MovieHotComponent } from './components/movie-hot/movie-hot.component';
 import { BookmarkComponent } from './components/bookmark/bookmark.component';
 import { AuthenticateAccountComponent } from './components/authenticate-account/authenticate-account.component';
 import { PaymentComponent } from './components/payments/payments.component';
+import { UpgradeAccountComponent } from './components/upgrade-account/upgrade-account.component';
+import { UpgradeComponent } from './components/upgrade/upgrade.component';
+import { ThanksComponent } from './components/thanks/thanks.component';
 
 const routes: Routes = [
   {
@@ -52,7 +55,7 @@ const routes: Routes = [
       { path: 'watching/:id', component: WatchingComponent},
       { path: 'movie-hot', component: MovieHotComponent},
       { path: 'bookmark', component: BookmarkComponent},
-      { path: 'payment', component: PaymentComponent},
+      
     ]
   },
   {
@@ -64,6 +67,9 @@ const routes: Routes = [
       { path: 'forgot-password', component: ForgotPasswordComponent},
       { path: 'reset-password', component: ResetPasswordComponent},
       { path: 'authenticate-account', component: AuthenticateAccountComponent},
+      { path: 'upgrade-account', component: UpgradeComponent},
+      { path: 'payment', component: PaymentComponent},
+      { path: 'thanks', component: ThanksComponent},
     ]
   },
   {
