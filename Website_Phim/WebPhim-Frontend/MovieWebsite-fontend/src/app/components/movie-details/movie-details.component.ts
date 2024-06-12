@@ -9,7 +9,9 @@ import { VipPeriodResponse } from '../../responses/user/vip_period.response';
 import { UpdateUserDTO } from '../../dtos/user/updateuser.dto';
 import { TokenService } from '../../services/token.service';
 import { BookmarkService } from '../../services/bookmark.service';
-import { FavouriteResponse } from '../../responses/user/favourite.response';
+import { TopViewService } from '../../services/top_view.service';
+import { ToastrService } from 'ngx-toastr';
+import Swal from 'sweetalert2';
 
 @Component({
   selector: 'app-movie-details',
@@ -21,21 +23,17 @@ export class MovieDetailsComponent implements OnInit {
   movieId: number = 0;
   userResponse?: UserResponse | null
   vipPeriodResponse?: VipPeriodResponse | null
-  existError: string | null = null;
-  message: string | null = null;
-  moviesRelated: FavouriteResponse[] = [];
-  currentPage: number = 0; 
-  itemsPerPage: number = 4;
-  totalPages: number = 0;
-  visiblePages: number[] = []; 
-
+  
+ 
   constructor(
     private movieService: MovieService,
     private router: Router,
     private activatedRoute: ActivatedRoute,
     private userService: UserService,
     private tokenService: TokenService,
-    private bookmarkService: BookmarkService) { }
+    private bookmarkService: BookmarkService,
+    private topViewService: TopViewService,
+    private toastr: ToastrService) { }
 
   ngOnInit() {
     const idParam = this.activatedRoute.snapshot.paramMap.get('id');
@@ -68,53 +66,9 @@ export class MovieDetailsComponent implements OnInit {
           console.log(error);
         }
       })
-      this.getMoviesRelated(this.movieId, this.currentPage, this.itemsPerPage);
     }
   }
 
-  getMoviesRelated(movie_id: number, page: number, limit: number){   
-    this.movieService.getMoviesRelated(movie_id, page, limit).subscribe({
-      next: (response: any) => {
-        response.movies.forEach((movie: FavouriteResponse) => {
-          movie.url = `${environment.apiBaseUrl}/movies/images/${movie.image}`;
-        });                
-        this.moviesRelated = response.movies;
-        this.totalPages = response.totalPages;
-        this.visiblePages = this.generateVisiblePageArray(this.currentPage, this.totalPages);
-      },
-      error: (error: any) => {
-        console.error('Error fetching movies by related:', error);
-      }
-    });
-  }
-
-  generateVisiblePageArray(currentPage: number, totalPages: number): number[] {
-    const maxVisiblePages = 10;
-    const halfVisiblePages = Math.floor(maxVisiblePages / 2);
-  
-    let startPage = Math.max(currentPage - halfVisiblePages, 0); // Bắt đầu từ 0
-    let endPage = Math.min(startPage + maxVisiblePages - 1, totalPages - 1); // Dựa vào totalPages
-  
-    if (endPage - startPage + 1 < maxVisiblePages) {
-      startPage = Math.max(endPage - maxVisiblePages + 1, 0); // Bắt đầu từ 0
-    }
-  
-    const visiblePages = [];
-    for (let i = startPage; i <= endPage; i++) {
-        visiblePages.push(i);
-    }
-  
-    return visiblePages;
-  }
-  
-  
-    goToPage(page: number, event: Event) {
-      event.preventDefault();
-      if (page >= 0 && page <= this.totalPages - 1) { // Đảm bảo không vượt quá giới hạn trang
-        this.currentPage = page;
-        this.getMoviesRelated(this.movieId, this.currentPage, this.itemsPerPage);
-      }
-    }
 
   checkFee(isFee: number, movieId: number) {
     if (isFee === 1) {
@@ -179,7 +133,7 @@ export class MovieDetailsComponent implements OnInit {
                     console.log('Update user details movie-detail request completed.');
                   }
                 });
-            } else {
+            } else {              
               this.router.navigate([`/watching/${movieId}`])
             }
           } else {
@@ -192,29 +146,44 @@ export class MovieDetailsComponent implements OnInit {
       } else {
         this.router.navigate(['/login']);
       }
-    } else {
+    } else {     
       this.router.navigate([`/watching/${movieId}`])     
     }
 
   }
+
+  // incremnetViewMovie(movie_id:number){
+  //   this.topViewService.incrementMovieView(movie_id).subscribe(
+  //     {
+  //       next: (response: any) => {
+  //       },
+  //       complete: () => {
+  //       },
+  //       error: (err) => {
+  //         console.log('error increment view');
+  //       }
+  //     });
+  // }
 
   addMovieBookmark(movieId: number) {
     this.userResponse = this.userService.getUserResponseFromLocalStorage();
     if (this.userResponse) {
       this.bookmarkService.addMovieFavourite(this.userResponse?.id, movieId, this.tokenService.getToken()!).subscribe({
         next: response => {
-          this.message= response['message'];
+          this.toastr.success('Đã thêm vào mục phim yêu thích!' ,'Thêm thành công', {
+            timeOut: 3000,
+            positionClass: 'toast-bottom-right'
+          });         
           this.bookmarkService.incrementBookmarkCount();
         },
         error: err => {
           console.log('Error adding bookmark', err);
-          this.message = null;
-          if (err.error.existError) {
-          this.existError = err.error.existError;
-          }
+          this.toastr.error('Đã có trong mục phim yêu thích!', 'Thêm thất bại', {
+            timeOut: 3000,
+            positionClass: 'toast-bottom-right'
+          });                
         }
       });
     }
   }
 }
-

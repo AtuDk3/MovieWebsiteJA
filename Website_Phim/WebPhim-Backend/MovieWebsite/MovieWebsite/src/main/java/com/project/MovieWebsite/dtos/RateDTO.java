@@ -18,8 +18,6 @@ public class RateDTO {
     @JsonProperty("user_id")
     private int userId;
 
-    private String description;
-
     @JsonProperty("number_stars")
     @Min(value = 1, message = "Number star must be >=1")
     @Max(value = 5, message = "Number star must be <=5")

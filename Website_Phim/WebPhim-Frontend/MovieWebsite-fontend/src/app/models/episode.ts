@@ -33,6 +33,8 @@ export interface Episode {
         season: number;
         limitedAge: number;
         numberView: number;
+        numberRate: number;
+        averageStar: number
         isActive: number;
     };
     movieUrl: string;

@@ -8,6 +8,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Map;
 
 
 @RestController
@@ -34,8 +35,9 @@ public class MovieViewController {
     }
 
     @PostMapping("")
-    public ResponseEntity<?> incrementMovieView(@RequestParam(name = "movie_id") int movieId) {
+    public ResponseEntity<?> incrementMovieView(@RequestBody Map<String, Integer> payload) {
         try{
+            int movieId = payload.get("movie_id");
             movieViewService.incrementMovieView(movieId);
             return ResponseEntity.ok().build();
         }catch (Exception e){

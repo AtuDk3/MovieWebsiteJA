@@ -35,15 +35,21 @@ public class FavouriteResponse {
 
     public static List<FavouriteResponse> fromFavourite(List<Favourite> lists){
         List<FavouriteResponse> listFavouriteResponse = new ArrayList<>();
-        for (Favourite favourite: lists){
-            FavouriteResponse favouriteResponse= FavouriteResponse.builder()
-                    .movieId(favourite.getMovie().getId())
-                    .movieName(favourite.getMovie().getName())
-                    .image(favourite.getMovie().getImage())
-                    .genre(favourite.getMovie().getGenre())
-                    .build();
-            listFavouriteResponse.add(favouriteResponse);
-        }
+        for (Favourite favourite: lists) {
+            if (favourite.getMovie().getIsActive() == 0 || favourite.getMovie().getGenre().getIsActive()==0
+                || favourite.getMovie().getMovieType().getIsActive()==0
+                || favourite.getMovie().getCountry().getIsActive()==0) {
+                continue;
+            }
+                FavouriteResponse favouriteResponse = FavouriteResponse.builder()
+                        .movieId(favourite.getMovie().getId())
+                        .movieName(favourite.getMovie().getName())
+                        .image(favourite.getMovie().getImage())
+                        .genre(favourite.getMovie().getGenre())
+                        .build();
+                listFavouriteResponse.add(favouriteResponse);
+            }
+
         return listFavouriteResponse;
     }
 

@@ -46,9 +46,8 @@ button i {
 }
 
 .avatar {
-    width: 200px;
-    height: 200px;
     border-radius: 50%;
+    object-fit: cover;
     margin-bottom: 10px;
 }
 
@@ -62,4 +61,10 @@ button i {
 
 .text-danger {
     margin-top: 10px;
+}
+
+img.avatar.img-circle.img-thumbnail {
+    width: 250px;
+    height: 250px;
+    border: none;
 }

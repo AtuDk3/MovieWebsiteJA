@@ -34,6 +34,7 @@ public class GenreServiceImpl implements GenreService {
 
     @Override
     public Genre updateGenre(int genreId, GenreDTO genre) {
+
         Genre existsGenre = getGenreById(genreId);
         existsGenre.setName(genre.getName());
         existsGenre.setDescription(genre.getDescription());

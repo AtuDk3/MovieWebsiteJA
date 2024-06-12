@@ -92,26 +92,33 @@ public class MovieServiceImpl implements MovieService {
 //    }
 
     @Override
-    public Page<MovieResponse> getAllMovies(String keyword, PageRequest pageRequest) {
+    public Page<MovieResponse> getAllSearchMovies(String keyword, PageRequest pageRequest) {
         Page<Movie> moviesPage = movieRepository.searchMovies(keyword, pageRequest);
+        return mapToMovieResponsePage(moviesPage);
+    }
+
+    //admin list movie
+    @Override
+    public Page<MovieResponse> getAllMovies(String keyword, PageRequest pageRequest) {
+        Page<Movie> moviesPage = movieRepository.getAllMovies(pageRequest);
         return mapToMovieResponsePage(moviesPage);
     }
 
     @Override
     public Page<MovieResponse> getAllMoviesByGenreId(String keyword, int genreId, PageRequest pageRequest) {
-        Page<Movie> moviesPage = movieRepository.searchMoviesByGenreId(genreId, keyword, pageRequest);
+        Page<Movie> moviesPage = movieRepository.searchMoviesByGenreId(genreId,pageRequest);
         return mapToMovieResponsePage(moviesPage);
     }
 
     @Override
     public Page<MovieResponse> getAllMoviesByCountryId(String keyword, int countryId, PageRequest pageRequest) {
-        Page<Movie> moviesPage = movieRepository.searchMoviesByCountryId(countryId, keyword, pageRequest);
+        Page<Movie> moviesPage = movieRepository.searchMoviesByCountryId(countryId,pageRequest);
         return mapToMovieResponsePage(moviesPage);
     }
 
     @Override
     public Page<MovieResponse> getAllMoviesByMovieTypeId(String keyword, int movieTypeId, PageRequest pageRequest) {
-        Page<Movie> moviesPage = movieRepository.searchMoviesByMovieTypeId(movieTypeId, keyword, pageRequest);
+        Page<Movie> moviesPage = movieRepository.searchMoviesByMovieTypeId(movieTypeId,pageRequest);
         return mapToMovieResponsePage(moviesPage);
     }
 

@@ -1,3 +1,4 @@
+
 export interface TopViewResponse {
     image: string
     movie_id: number

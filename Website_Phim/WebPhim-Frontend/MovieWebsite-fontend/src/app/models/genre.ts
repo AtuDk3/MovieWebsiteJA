@@ -3,4 +3,5 @@ export interface Genre {
     name: string,
     description: string,
     slug: string
+    is_active: number
 }

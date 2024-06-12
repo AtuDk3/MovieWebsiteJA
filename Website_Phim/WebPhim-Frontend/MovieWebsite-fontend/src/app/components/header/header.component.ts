@@ -43,7 +43,8 @@ export class HeaderComponent implements OnInit {
         this.getVipPeriod();
       }   
       this.bookmarkService.currentBookmarkCount.subscribe(count =>{              
-          this.bookmarkCount= count;              
+          this.bookmarkCount= count;  
+          console.log(this.bookmarkCount)            
       });    
     }else{
       this.userService.removeUserFromLocalStorage();
@@ -108,7 +109,7 @@ export class HeaderComponent implements OnInit {
   }
 
   searchMovie(){   
-    this.router.navigate([''], { queryParams: {search: this.search } });
+    this.router.navigate(['/search_movie'], { queryParams: {search: this.search } });
     this.search='';
   }
 

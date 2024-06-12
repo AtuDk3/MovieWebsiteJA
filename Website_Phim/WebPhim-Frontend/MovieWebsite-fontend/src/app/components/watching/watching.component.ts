@@ -1,8 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { EpisodeService } from '../../services/episode.service';
-import { ActivatedRoute, Router } from '@angular/router';
+import { ActivatedRoute } from '@angular/router';
 import { Episode } from '../../models/episode';
 import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
+import { TopViewService } from '../../services/top_view.service';
 
 @Component({
   selector: 'app-watching',
@@ -17,9 +18,9 @@ export class WatchingComponent implements OnInit {
 
   constructor(
     private episodeService: EpisodeService,
-    private router: Router,
     private activatedRoute: ActivatedRoute,
-    private sanitizer: DomSanitizer
+    private sanitizer: DomSanitizer,
+    private topViewService: TopViewService
   ) {}
 
   ngOnInit() {
@@ -50,8 +51,17 @@ export class WatchingComponent implements OnInit {
   selectEpisode(episode: Episode) {
     this.selectedEpisode = episode;
     if (this.selectedEpisode && this.selectedEpisode.movieUrl) {
-      this.safeUrl = this.sanitizer.bypassSecurityTrustResourceUrl(this.selectedEpisode.movieUrl);
-      console.log(this.selectedEpisode);
+      this.topViewService.incrementMovieView(episode.movie.id).subscribe(
+        {
+          next: (response: any) => {
+          },
+          complete: () => {
+          },
+          error: (err) => {
+            console.log('error increment view');
+          }
+        });
+      this.safeUrl = this.sanitizer.bypassSecurityTrustResourceUrl(this.selectedEpisode.movieUrl);    
     } else {
       console.log('Dữ liệu episode không hợp lệ hoặc thiếu movieUrl');
     }

@@ -16,16 +16,15 @@
         </thead>
 
         <tbody>
-                <tr>
-                    <td>1</td>
-                    <td>1</td>
-                    <td>Phim Hay</td>                  
-                    <td>Yes</td>
-            <td>
-                <button type="button"  class="btn btn-danger">Delete</button>
-                <a href=""><button type="button" class="btn btn-warning">Update</button></a>
-            </td>
-
+            <tr *ngFor="let movieType of movieTypes; let i = index">
+                <td>{{ i + 1 }}</td>
+                <td>{{ movieType.id }}</td>
+                <td>{{ movieType.name }}</td>
+                <td>{{ movieType.is_active === 1 ? 'Active' : 'Inactive' }}</td>
+                <td>
+                    <button type="button" class="btn btn-danger" (click)="deleteMovieType(movieType.id)">Delete</button>
+                    <button type="button" class="btn btn-warning" (click)="updateMovieType(movieType)">Update</button>
+                </td>
             </tr>
 
         </tbody>

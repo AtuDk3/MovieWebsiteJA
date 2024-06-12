@@ -6,11 +6,11 @@
     <main>
         <div class="container-form-add-product">
             <h2 class="text-center">Add Movie Type</h2>
-            <form action="" enctype="multipart/form-data">
+            <form (submit)="addMovieType()">
                 <div class="row g-1">
                     <div class="col">
                     <label for="name">Movie Type Name</label>
-                    <input type="text" name="name" class="form-control" required>
+                    <input type="text" name="name" [(ngModel)]="movieType.name" class="form-control" required>
                     </div>           
                 </div>       
                 

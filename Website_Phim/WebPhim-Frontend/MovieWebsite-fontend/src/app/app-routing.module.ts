@@ -1,3 +1,4 @@
+
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { HomeComponent } from './components/home/home.component';
@@ -33,8 +34,13 @@ import { AddEpisodeComponent } from './components/admin/episode/add-episode/add-
 import { ListAccountComponent } from './components/admin/account/list-account/list-account.component';
 import { ListOrderComponent } from './components/admin/order/list-order/list-order.component';
 import { AddCountryComponent } from './components/admin/country/add-country/add-country.component';
-import { AuthenticateAccountComponent } from './components/authenticate-account/authenticate-account.component';
+import { MovieHotComponent } from './components/movie-hot/movie-hot.component';
 import { BookmarkComponent } from './components/bookmark/bookmark.component';
+import { AuthenticateAccountComponent } from './components/authenticate-account/authenticate-account.component';
+import { PaymentComponent } from './components/payments/payments.component';
+import { UpgradeAccountComponent } from './components/upgrade-account/upgrade-account.component';
+import { SearchMovieComponent } from './components/search-movie/search-movie.component';
+
 
 const routes: Routes = [
   {
@@ -48,7 +54,9 @@ const routes: Routes = [
       { path: 'movie_type/:movie_type_id', component: MovieTypeComponent },
       { path: 'detail/:id', component: MovieDetailsComponent},
       { path: 'watching/:id', component: WatchingComponent},
+      { path: 'movie-hot', component: MovieHotComponent},
       { path: 'bookmark', component: BookmarkComponent},
+      { path: 'search_movie', component: SearchMovieComponent},   
     ]
   },
   {
@@ -60,38 +68,39 @@ const routes: Routes = [
       { path: 'forgot-password', component: ForgotPasswordComponent},
       { path: 'reset-password', component: ResetPasswordComponent},
       { path: 'authenticate-account', component: AuthenticateAccountComponent},
+      { path: 'upgrade-account', component: UpgradeAccountComponent},
+      { path: 'payment', component: PaymentComponent},     
     ]
   },
   {
     path: 'admin',
     component: AdminLayoutComponent,
     children: [
-      //{ path: '', component: AdminDashboardComponent, canActivate:[AdminGuardFn]},
-      { path: '', component: AdminDashboardComponent, canActivate:[AdminGuardFn]},
+      { path: '', component: AdminDashboardComponent , canActivate:[AdminGuardFn]},
       // Movie
-      { path: 'movie/list-movie', component: ListMovieComponent},
-      { path: 'movie/update-movie', component: UpdateMovieComponent},
-      { path: 'movie/add-movie', component: AddMovieComponent},
+      { path: 'movie/list-movie', component: ListMovieComponent, canActivate:[AdminGuardFn]},
+      { path: 'movie/update-movie/:id', component: UpdateMovieComponent, canActivate:[AdminGuardFn]},
+      { path: 'movie/add-movie', component: AddMovieComponent, canActivate:[AdminGuardFn]},
       //Genre
-      { path: 'genre/list-genre', component: ListGenreComponent},
-      { path: 'genre/update-genre', component: UpdateGenreComponent},
-      { path: 'genre/add-genre', component: AddGenreComponent},
+      { path: 'genre/list-genre', component: ListGenreComponent, canActivate:[AdminGuardFn]},
+      { path: 'genre/update-genre/:id', component: UpdateGenreComponent, canActivate:[AdminGuardFn]},
+      { path: 'genre/add-genre', component: AddGenreComponent, canActivate:[AdminGuardFn]},
       //Country
-      { path: 'country/list-country', component: ListCountryComponent},
-      { path: 'country/update-country', component: UpdateCountryComponent},
-      { path: 'country/add-country', component: AddCountryComponent},
+      { path: 'country/list-country', component: ListCountryComponent, canActivate:[AdminGuardFn]},
+      { path: 'country/update-country/:id', component: UpdateCountryComponent, canActivate:[AdminGuardFn]},
+      { path: 'country/add-country', component: AddCountryComponent, canActivate:[AdminGuardFn]},
       // Movie Type
-      { path: 'movie-type/list-movie-type', component: ListMovieTypeComponent},
-      { path: 'movie-type/update-movie-type', component: UpdateMovieTypeComponent},
-      { path: 'movie-type/add-movie-type', component: AddMovieTypeComponent},
+      { path: 'movie-type/list-movie-type', component: ListMovieTypeComponent, canActivate:[AdminGuardFn]},
+      { path: 'movie-type/update-movie-type/:id', component: UpdateMovieTypeComponent, canActivate:[AdminGuardFn]},
+      { path: 'movie-type/add-movie-type', component: AddMovieTypeComponent, canActivate:[AdminGuardFn]},
       // Episode
-      { path: 'episode/list-episode', component: ListEpisodeComponent},
-      { path: 'episode/update-episode', component: UpdateEpisodeComponent},
-      { path: 'episode/add-episode', component: AddEpisodeComponent},
+      { path: 'episode/list-episode', component: ListEpisodeComponent, canActivate:[AdminGuardFn]},
+      { path: 'episode/update-episode/:id', component: UpdateEpisodeComponent, canActivate:[AdminGuardFn]},
+      { path: 'episode/add-episode', component: AddEpisodeComponent, canActivate:[AdminGuardFn]},
       // Account
-      { path: 'account/list-account', component: ListAccountComponent},
+      { path: 'account/list-account', component: ListAccountComponent, canActivate:[AdminGuardFn]},
       // Order
-      { path: 'order/list-order', component: ListOrderComponent},
+      { path: 'order/list-order', component: ListOrderComponent, canActivate:[AdminGuardFn]},
     ]
   }
 ];
@@ -101,4 +110,3 @@ const routes: Routes = [
   exports: [RouterModule]
 })
 export class AppRoutingModule { }
-

@@ -63,7 +63,7 @@ public class MovieViewServiceImpl implements MovieViewService {
         movieRepository.save(movie);
     }
 
-    public void updateViewsForDay() {
+    public void updateViewsForDay(){
 
         MovieViewExecuted movieViewExecuted= movieViewExecutedRepository.findByDateExecuted(LocalDate.now());
         if(movieViewExecuted==null) {
@@ -85,6 +85,7 @@ public class MovieViewServiceImpl implements MovieViewService {
                         .isExecuted(1)
                         .build();
                 movieViewExecutedRepository.save(movieViewExecuted);
+                movieViewExecutedRepository.deleteMovieViewsBetweenDates(today);
                 movieViewRepository.deleteMovieViewsBetweenDates(monday, yesterday.minusDays(1));
             }
         }

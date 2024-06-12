@@ -51,6 +51,9 @@ public class MovieViewResponse {
                     .movieView(movie.getNumberView())
                     .build();
             listMovieViewResponse.add(movieViewResponse);
+            if(listMovieViewResponse.size()==10){
+                break;
+            }
         }
         return listMovieViewResponse;
     }

@@ -1,0 +1,6 @@
+<form (submit)="onSubmit()">
+    <input type="text" [(ngModel)]="orderId" name="orderId" placeholder="Order ID" required>
+    <input type="text" [(ngModel)]="amount" name="amount" placeholder="Amount" required>
+    <button type="submit">Pay with VNPay</button>
+  </form>
+  

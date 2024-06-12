@@ -18,21 +18,21 @@
         </thead>
 
         <tbody>
-                <tr>
-                    <td>1</td>
-                    <td>1</td>
-                    <td>Phim Hay</td>
-                    <td>Hành động</td>
-                    <td>100k</td>                     
-                    <td>Yes</td>
-            <td>
-                <button type="button"  class="btn btn-danger">Delete</button>
-                <a href=""><button type="button" class="btn btn-warning">Update</button></a>
-            </td>
-
+            <tr *ngFor="let genre of genres; let i = index">
+                <td>{{ i + 1 }}</td>
+                <td>{{ genre.id }}</td>
+                <td>{{ genre.name }}</td>
+                <td>{{ genre.description }}</td>
+                <td>{{ genre.slug }}</td>
+                <td>{{ genre.is_active === 1 ? 'Active' : 'Inactive' }}</td>
+                <td>
+                    <button type="button" class="btn btn-danger" (click)="deleteGenre(genre.id)">Delete</button>
+                    <button type="button" class="btn btn-warning" (click)="updateGenre(genre)">Update</button>
+                </td>
             </tr>
-
         </tbody>
     </table>
 </main>
+
+
 </section>

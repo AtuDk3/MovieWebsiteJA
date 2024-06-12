@@ -21,7 +21,7 @@
                            </ul>
                         </div>
                         <div id="halim-advanced-widget-4-ajax-box" class="halim_box">
-                           <article class="col-md-2 col-sm-4 col-xs-6 thumb grid-item post-38424" *ngFor="let movie of movies">
+                           <article class="col-md-2 col-sm-4 col-xs-6 thumb grid-item post-38424" *ngFor="let movie of theatersMovie">
                               <div class="halim-item">
                                  <a class="halim-thumb" routerLink="/detail/{{ movie.id }}" title="{{ movie.name }}">
                                     <figure><img class="lazy img-responsive" [src]="movie.url" alt="{{ movie.name }}"></figure>
@@ -48,7 +48,7 @@
                            </a>
                         </div>
                         <div id="halim-advanced-widget-4-ajax-box" class="halim_box">
-                           <article class="col-md-2 col-sm-4 col-xs-6 thumb grid-item post-38424" *ngFor="let movie of movies">
+                           <article class="col-md-2 col-sm-4 col-xs-6 thumb grid-item post-38424" *ngFor="let movie of seriesMovie">
                               <div class="halim-item">
                                  <a class="halim-thumb" routerLink="/detail/{{ movie.id }}" title="{{ movie.name }}">
                                     <figure><img class="lazy img-responsive" [src]="movie.url" alt="{{ movie.name }}"></figure>
@@ -73,7 +73,7 @@
                            </a>
                         </div>
                         <div id="halim-advanced-widget-4-ajax-box" class="halim_box">
-                           <article class="col-md-2 col-sm-4 col-xs-6 thumb grid-item post-38424" *ngFor="let movie of movies">
+                           <article class="col-md-2 col-sm-4 col-xs-6 thumb grid-item post-38424" *ngFor="let movie of singleMovie">
                               <div class="halim-item">
                                  <a class="halim-thumb" routerLink="/detail/{{ movie.id }}" title="{{ movie.name }}">
                                     <figure><img class="lazy img-responsive" [src]="movie.url" alt="{{ movie.name }}"></figure>
@@ -91,31 +91,7 @@
                         </div>
                      </section>
                      <div class="clearfix"></div>
-                      <section id="halim-advanced-widget-2">
-                        <div class="section-heading">
-                           <a href="danhmuc.php" title="Phim Lẻ">
-                           <span class="h-text">Phim Chiếu Rạp</span>
-                           </a>
-                        </div>
-                        <div id="halim-advanced-widget-4-ajax-box" class="halim_box">
-                           <article class="col-md-2 col-sm-4 col-xs-6 thumb grid-item post-38424" *ngFor="let movie of movies">
-                              <div class="halim-item">
-                                 <a class="halim-thumb" routerLink="/detail/{{ movie.id }}" title="{{ movie.name }}">
-                                    <figure><img class="lazy img-responsive" [src]="movie.url" alt="{{ movie.name }}"></figure>
-                                    <span class="status">HD</span><span class="episode"><i class="fa fa-play" aria-hidden="true"></i>Vietsub</span> 
-                                    <div class="icon_overlay"></div>
-                                    <div class="halim-post-title-box">
-                                       <div class="halim-post-title ">
-                                          <p class="entry-title">{{ movie.name }}</p>
-                                          <p class="original_title">{{ movie.genre_name }}</p>
-                                       </div>
-                                    </div>
-                                 </a>
-                              </div>
-                           </article>                       
-                        </div>
-                     </section>
-                     <div class="clearfix"></div>
+                      
                   </main>
                   <app-top-views></app-top-views>
                </div>

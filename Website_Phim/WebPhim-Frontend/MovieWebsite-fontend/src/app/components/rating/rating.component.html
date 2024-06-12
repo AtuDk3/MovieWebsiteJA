@@ -1,1 +1,36 @@
-<p>rating works!</p>
+<!-- app.component.html -->
+<button (click)="openDialog()">Đánh giá</button>
+
+<div class="average-rating">
+  <h3>Đánh giá trung bình:</h3>
+  <div class="stars">
+    <ng-container *ngFor="let star of fullStars">&#9733;</ng-container>
+    <ng-container *ngIf="halfStar">&#9733;</ng-container>
+    <ng-container *ngFor="let star of emptyStars">&#9734;</ng-container>
+  </div>
+  <p>{{ averageRating }} / 5</p>
+</div>
+
+<div class="dialog" *ngIf="isDialogOpen">
+  <div class="dialog-content" (mouseleave)="resetHover()">
+    <h2>Đánh giá của bạn</h2>
+    <div class="rating">
+      <input value="1" name="rate" id="star1" type="radio" (change)="onRatingChange(1)" (mouseover)="onHover(1)">
+      <label title="Rất tệ" [ngClass]="{'active': rating >= 1 || hoverRating >= 1}" for="star1">&#9733;</label>
+      <input value="2" name="rate" id="star2" type="radio" (change)="onRatingChange(2)" (mouseover)="onHover(2)">
+      <label title="Tệ" [ngClass]="{'active': rating >= 2 || hoverRating >= 2}" for="star2">&#9733;</label>
+      <input value="3" name="rate" id="star3" type="radio" (change)="onRatingChange(3)" (mouseover)="onHover(3)">
+      <label title="Bình thường" [ngClass]="{'active': rating >= 3 || hoverRating >= 3}" for="star3">&#9733;</label>
+      <input value="4" name="rate" id="star4" type="radio" (change)="onRatingChange(4)" (mouseover)="onHover(4)">
+      <label title="Tốt" [ngClass]="{'active': rating >= 4 || hoverRating >= 4}" for="star4">&#9733;</label>
+      <input value="5" name="rate" id="star5" type="radio" (change)="onRatingChange(5)" (mouseover)="onHover(5)">
+      <label title="Xuất sắc" [ngClass]="{'active': rating >= 5 || hoverRating >= 5}" for="star5">&#9733;</label>
+    </div>
+    <div>
+      <h5>Mô tả đánh giá: {{ ratingDescription }}</h5>
+    </div>
+    <button (click)="submitRating()" class="form-control">Gửi đánh giá</button>
+    <button (click)="closeDialog()" class="form-control">Đóng</button>
+  </div>
+  <div class="dialog-overlay" (click)="closeDialog()"></div>
+</div>

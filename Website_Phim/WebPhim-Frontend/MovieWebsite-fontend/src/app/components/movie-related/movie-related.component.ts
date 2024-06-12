@@ -1,5 +1,8 @@
-import { Component, OnInit, AfterViewInit } from '@angular/core';
+import { Component, OnInit, AfterViewInit, AfterViewChecked } from '@angular/core';
+import { environment } from '../../environments/environment';
 import { MovieService } from '../../services/movie.service';
+import 'owl.carousel';
+import { ActivatedRoute } from '@angular/router';
 import { FavouriteResponse } from '../../responses/user/favourite.response';
 
 @Component({
@@ -7,19 +10,38 @@ import { FavouriteResponse } from '../../responses/user/favourite.response';
   templateUrl: './movie-related.component.html',
   styleUrls: ['./movie-related.component.scss']
 })
-export class MovieRelatedComponent implements OnInit, AfterViewInit {
+export class MovieRelatedComponent implements OnInit, AfterViewInit, AfterViewChecked {
+  
+  currentPage: number = 0; 
+  itemsPerPage: number = 10;
+  carouselInitialized: boolean = false;
+  moviesRelated: FavouriteResponse[] = [];
+  movieId: number = 0;
 
-  movies: FavouriteResponse[] = [];
-  constructor(private movieService: MovieService) {}
 
-  ngOnInit(): void {
-    this.movieService.currentData.subscribe((data) => {
-      this.movies = data.movies;
-    });
+  constructor(
+    private movieService: MovieService,
+    private activatedRoute: ActivatedRoute,
+  ) { }
+
+  ngOnInit() {
+    const idParam = this.activatedRoute.snapshot.paramMap.get('id');
+    console.log(idParam)
+    if (idParam !== null) {
+      this.movieId = +idParam;
+      this.getMoviesRelated(this.movieId, this.currentPage, this.itemsPerPage);
+    }
   }
 
   ngAfterViewInit(): void {
-    this.initOwlCarousel();
+    // Carousel initialization is handled in ngAfterViewChecked
+  }
+
+  ngAfterViewChecked(): void {
+    if (this.moviesRelated.length && !this.carouselInitialized) {
+      this.initOwlCarousel();
+      this.carouselInitialized = true;
+    }
   }
 
   initOwlCarousel(): void {
@@ -40,4 +62,20 @@ export class MovieRelatedComponent implements OnInit, AfterViewInit {
       }
     });
   }
+
+  getMoviesRelated(movie_id: number, page: number, limit: number){   
+    this.movieService.getMoviesRelated(movie_id, page, limit).subscribe({
+      next: (response: any) => {
+        response.movies.forEach((movie: FavouriteResponse) => {
+          movie.url = `${environment.apiBaseUrl}/movies/images/${movie.image}`;
+        });                
+        this.moviesRelated = response.movies;
+
+      },
+      error: (error: any) => {
+        console.error('Error fetching movies by related:', error);
+      }
+    });
+  }
+  
 }

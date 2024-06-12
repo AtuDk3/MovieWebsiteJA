@@ -1,4 +1,5 @@
 <link rel="stylesheet" href="../../../assets/css/style.css">
+
 <body>
 <div class="container">
    <div class="row fullwith-slider"></div>
@@ -29,21 +30,14 @@
                         <div class="halim-pulse-ring"></div>
                      </div>
                      <div (click)="addMovieBookmark(movie.id)" id="get-bookmark" class="box-shadow"><i class="fa-regular fa-bookmark"></i><span> Bookmarks</span></div>
-                     <div class="error-message-container">
-                        <p class="font-weight-bold text-danger" style="font-size: 15px;" *ngIf="existError">
-                          {{ existError }}
-                        </p>
-                        <p class="font-weight-bold text-success" style="font-size: 15px;" *ngIf="message">
-                          {{ message }}
-                        </p>
+                     <div class="error-message-container">                     
                       </div>
-                        
                   </div>
                   <div class="movie_info col-xs-12">
                      <div class="movie-poster col-md-3">
                         <img class="movie-thumb" [src]="movie.url" alt="{{ movie.name }}">
                         <div class="bwa-content">
-                           <div class="loader"></div>                           
+                           <div class="loader"></div>
                            <a (click)="checkFee(movie.is_fee, movie.id)" class="bwac-btn">
                               <i class="fa fa-play"></i>
                            </a>
@@ -91,7 +85,7 @@
                <div class="entry-content htmlwrap clearfix">
                   <div class="video-item halim-entry-box">
                      <article id="post-38424" class="item-content">
-                        Phim <a href="https://phimhay.co/goa-phu-den-38424/">{{ movie.name }}</a> - {{
+                        Phim <a href="">{{ movie.name }}</a> - {{
                         movie.release_date_formated }} - {{ movie.country_name }}:
                         <p>{{ movie.name }} &#8211; {{ movie.description }}</p>
                         <h5>Từ Khoá Tìm Kiếm:</h5>
@@ -101,77 +95,32 @@
                      </article>
                   </div>
                </div>
-               <div class="section-bar clearfix">
+               <!-- <div class="section-bar clearfix">
                   <h2 class="section-title"><span style="color:#ffed4d">Đánh giá phim</span></h2>
                </div>
                <div class="entry-content htmlwrap clearfix">
                   <div class="video-item halim-entry-box">
-                     <app-comment></app-comment>
+                  
+                     <app-rating></app-rating>
             </div>
+         </div> -->
+         <div class="section-bar clearfix">
+            <h2 class="section-title"><span style="color:#ffed4d">Bình luận phim</span></h2>
          </div>
+         <div class="entry-content htmlwrap clearfix">
+            <div class="video-item halim-entry-box">
+               <div class="fb-comments" 
+     [attr.data-href]="'http://localhost:4200/movie/' + movie.id" 
+     data-numposts="5" 
+     data-width="100%">
+</div>
+               <app-comment></app-comment>
+      
+      </div>
+   </div>
             </div>
          </section>
-         <!-- <app-movie-related></app-movie-related> -->
-         <body>
-         <div class="container">
-             <div class="row container" id="wrapper">
-                <div class="halim-panel-filter">
-                   <div id="ajax-filter" class="panel-collapse collapse" aria-expanded="true" role="menu">
-                      <div class="ajax"></div>
-                   </div>
-                </div>
-                <div class="col-xs-12 carausel-sliderWidget">
-                   <section id="halim-advanced-widget-4">
-                     <div class="section-heading">
-                         <a>
-                            <span class="h-text">CÓ THỂ BẠN MUỐN XEM</span>
-                         </a>
-                         <!-- <h3 class="section-title"><span>CÓ THỂ BẠN MUỐN XEM</span></h3> -->
-                         <ul class="heading-nav pull-right hidden-xs">
-                            <li class="section-btn halim_ajax_get_post" data-catid="4" data-showpost="12" data-widgetid="halim-advanced-widget-4" data-layout="6col"><span data-text="  "></span></li>
-                         </ul> 
-                      </div>
-                      <div id="halim-advanced-widget-4-ajax-box" class="halim_box">
-                        
-                         <article *ngFor="let movie of moviesRelated" class="col-md-2 col-sm-4 col-xs-6 thumb grid-item post-{{movie.movie_id}}">
-                            <div class="halim-item">
-                               <a class="halim-thumb" [title]="movie.movie_name" href="/detail/{{ movie.movie_id }}">
-                                  <figure><img class="lazy img-responsive" src="{{ movie.url }}" [alt]="movie.movie_name"></figure>
-                                  <span class="status">HD</span><span class="episode"><i class="fa fa-play" aria-hidden="true"></i>Vietsub</span> 
-                                  <div class="icon_overlay"></div>
-                                  <div class="halim-post-title-box">
-                                     <div class="halim-post-title ">
-                                        <p class="entry-title">{{movie.movie_name}}</p>
-                                        <p class="original_title">{{movie.genre_name}}</p>
-                                     </div>
-                                  </div>
-                               </a>
-                            </div>
-                         </article>    
-                                            
-                      </div>
-                   </section>
-          
-                   <nav aria-label="Page navigation example">
-                      <ul class="pagination justify-content-end">
-                        <li class="page-item" [class.disabled]="currentPage === 0">
-                          <a class="page-link" href="#" tabindex="-1" (click)="goToPage(currentPage - 1, $event)">Previous</a>
-                        </li>
-                        <li class="page-item" *ngFor="let page of visiblePages">
-                          <a class="page-link" href="#" (click)="goToPage(page, $event)" [class.active]="page === currentPage">{{ page + 1 }}</a>
-                        </li>
-                        <li class="page-item" [class.disabled]="currentPage === totalPages - 1">
-                          <a class="page-link" href="#" (click)="goToPage(currentPage + 1, $event)">Next</a>
-                        </li>
-                      </ul>
-                    </nav>                                     
-                    
-                   <div class="clearfix"></div>
-                </div>
-             </div>
-          </div>
-         </body>
-          
+         <app-movie-related></app-movie-related>
       </main>
       <app-top-views></app-top-views>
    </div>

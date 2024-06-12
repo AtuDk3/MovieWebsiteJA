@@ -6,18 +6,18 @@
     <main>
         <div class="container-form-add-product">
             <h2 class="text-center">Add Genre</h2>
-            <form action="" enctype="multipart/form-data">
+            <form (submit)="addGenre()">
                 <div class="row g-1">
                     <div class="col">
-                    <label for="name">Genre Name</label>
-                    <input type="text" name="name" class="form-control" required>
+                        <label for="name">Genre Name</label>
+                        <input [(ngModel)]="genre.name" type="text" name="name" class="form-control" required>
                     </div>           
                 </div>
 
                 <div class="row g-1">
                     <div class="col">
                         <label for="description">Genre Describe</label>
-                        <textarea type="text" id="editor1" name="description" class="form-control" required></textarea>
+                        <textarea [(ngModel)]="genre.description" name="description" class="form-control" required></textarea>
                     </div>           
                 </div>              
                 

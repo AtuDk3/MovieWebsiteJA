@@ -2,6 +2,7 @@
 package com.project.MovieWebsite.dtos;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.project.MovieWebsite.models.Genre;
 import jakarta.annotation.PostConstruct;
 import jakarta.validation.constraints.NotEmpty;
 import lombok.*;
@@ -42,4 +43,6 @@ public class GenreDTO {
             this.slug = generateSlug(this.name);
         }
     }
+
+
 }

@@ -1,3 +1,4 @@
+
 <link rel="stylesheet" href="../../../assets/css/style.css">
 <body>
 <div class="container">
@@ -47,6 +48,17 @@
                </div>
              </ul>
            </div>
+           <div class="section-bar clearfix">
+            <h2 class="section-title"><span style="color:#ffed4d">Đánh giá phim</span></h2>
+         </div>
+         <div class="entry-content htmlwrap clearfix">
+            <div class="video-item halim-entry-box">
+              <h5>Số lượt đánh giá: {{episodes[0].movie.numberRate}}</h5>
+              <h5>Số lượt đánh giá: {{episodes[0].movie.averageStar}}</h5>
+               <app-rating></app-rating>
+      </div>
+         </div>
+           
            <div class="collapse" id="moretool">
              <ul class="nav nav-pills x-nav-justified">
                <li class="fb-like" data-href="" data-layout="button_count" data-action="like" data-size="small" data-show-faces="true" data-share="true"></li>

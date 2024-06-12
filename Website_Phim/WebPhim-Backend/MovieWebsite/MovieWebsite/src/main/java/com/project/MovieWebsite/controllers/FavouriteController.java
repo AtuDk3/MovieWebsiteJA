@@ -71,7 +71,7 @@ public class FavouriteController {
     ){
         try {
             List<Favourite> favourites = favouriteService.getFavouritesByUser(userId);
-            return ResponseEntity.ok(favourites.size());
+            return ResponseEntity.ok(FavouriteResponse.fromFavourite(favourites).size());
         }catch (Exception e){
             return ResponseEntity.badRequest().build();
         }

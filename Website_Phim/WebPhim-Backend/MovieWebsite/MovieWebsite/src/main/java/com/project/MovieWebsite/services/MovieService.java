@@ -13,6 +13,8 @@ import java.util.List;
 
 public interface MovieService {
 
+    Page<MovieResponse> getAllSearchMovies(String keyword, PageRequest pageRequest);
+
     Page<MovieResponse> getAllMovies(String keyword, PageRequest pageRequest);
 
     Movie createMovie (MovieDTO movieDTO) throws DataNotFoundException;

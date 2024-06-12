@@ -7,6 +7,7 @@ import com.project.MovieWebsite.models.Rate;
 
 
 import java.util.List;
+import java.util.Map;
 
 public interface RateService {
 
@@ -14,9 +15,9 @@ public interface RateService {
 
     Rate getRate(int id);
 
-    List<Rate> getAllRates();
+    Map<String, String> getNumberRatesAndStarOfMovie(int movieId) throws DataNotFoundException;
 
-    Rate updateRate(int id, RateDTO rateDTO) throws DataNotFoundException;
+    Rate updateRate(Rate rate, RateDTO rateDTO) throws DataNotFoundException;
 
-    void deleteRate(int id);
+    void deleteRateMonth();
 }

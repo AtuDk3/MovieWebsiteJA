@@ -30,10 +30,7 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.nio.file.StandardCopyOption;
-import java.util.Collections;
-import java.util.List;
-import java.util.Map;
-import java.util.UUID;
+import java.util.*;
 
 
 @RestController
@@ -55,13 +52,33 @@ public class MovieController {
     }
 
     @PostMapping("")
-    public ResponseEntity<Map<String, String>> createMovie(@Valid @RequestBody MovieDTO movieDTO, BindingResult result) throws DataNotFoundException {
+    public ResponseEntity<?> createMovie(@Valid @RequestBody MovieDTO movieDTO, BindingResult result) throws DataNotFoundException {
         if (result.hasErrors()){
             List<String> errorsMessage = result.getFieldErrors().stream().map(FieldError::getDefaultMessage).toList();
             return ResponseEntity.badRequest().body(Collections.singletonMap("errors", String.join(", ", errorsMessage)));
         }
         movieService.createMovie(movieDTO);
         return ResponseEntity.ok(Collections.singletonMap("message", "Create movie successfully!"));
+    }
+
+//    @PostMapping("")
+//    public ResponseEntity<?> createMovie(@Valid @RequestBody MovieDTO movieDTO, BindingResult result) {
+//        if (result.hasErrors()) {
+//            List<String> errorsMessage = result.getFieldErrors().stream().map(FieldError::getDefaultMessage).toList();
+//            return ResponseEntity.badRequest().body(errorsMessage);
+//        }
+//        try{
+//            movieService.createMovie(movieDTO);
+//            return ResponseEntity.ok("Create movie type successfully!");
+//        }catch (Exception e){
+//            return ResponseEntity.badRequest().body(e.getMessage());
+//        }
+//    }
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Map<String, String>> deleteMovie(@PathVariable int id) {
+        movieService.deleteMovies(id);
+        return ResponseEntity.ok(Collections.singletonMap("message", "Delete movie successfully!"));
     }
 
     // Get List Movie of Admin
@@ -73,6 +90,20 @@ public class MovieController {
     ){
         PageRequest pageRequest = PageRequest.of(page, limit, Sort.by("id").descending());
         Page<MovieResponse> moviePage = movieService.getAllMovies(keyword, pageRequest);
+        int totalPages = moviePage.getTotalPages();
+        List<MovieResponse> movies = moviePage.getContent();
+        return ResponseEntity.ok(MovieListResponse.builder()
+                .movies(movies).totalPages(totalPages).build());
+    }
+
+    @GetMapping("/search_movies")
+    public ResponseEntity<MovieListResponse> getMoviesSearch(
+            @RequestParam(defaultValue = "") String keyword,
+            @RequestParam(defaultValue = "0") int page,
+            @RequestParam(defaultValue = "10") int limit
+    ){
+        PageRequest pageRequest = PageRequest.of(page, limit, Sort.by("id").descending());
+        Page<MovieResponse> moviePage = movieService.getAllSearchMovies(keyword, pageRequest);
         int totalPages = moviePage.getTotalPages();
         List<MovieResponse> movies = moviePage.getContent();
         return ResponseEntity.ok(MovieListResponse.builder()
@@ -216,6 +247,32 @@ public class MovieController {
             return ResponseEntity.badRequest().body(e.getMessage());
         }
     }
+
+    @PostMapping(value = "upload_image_movie", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
+    public ResponseEntity<?> uploadImageFromCreate(@Valid @ModelAttribute("file") MultipartFile file) {
+        try {
+            if (file != null) {
+                if (file.getSize() > 10 * 1024 * 1024) {
+                    return ResponseEntity.status(HttpStatus.PAYLOAD_TOO_LARGE).body("File is too large! Maximum size is 10MB");
+                }
+                String contentType = file.getContentType();
+                if (contentType == null || !contentType.startsWith("image/")) {
+                    return ResponseEntity.status(HttpStatus.UNSUPPORTED_MEDIA_TYPE).body("File must be an image");
+                }
+                String filename = storeFile(file);
+
+                // Create a JSON response
+                Map<String, String> response = new HashMap<>();
+                response.put("filename", filename);
+
+                return ResponseEntity.ok().body(response);
+            }
+            return ResponseEntity.badRequest().body("Loi upload image from create movie");
+        } catch (Exception e) {
+            return ResponseEntity.badRequest().body(e.getMessage());
+        }
+    }
+
 
     @GetMapping("/images/{imageName}")
     public ResponseEntity<?> viewImage(@PathVariable String imageName){

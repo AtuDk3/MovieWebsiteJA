@@ -4,41 +4,47 @@
 <section id="content">
     <!-- MAIN -->
     <main>
-        <div class="container-form-add-product">
+        <div *ngIf="genreDTO" class="container-form-add-product">
             <h2 class="text-center">Update Genre</h2>
-            <form action="" enctype="multipart/form-data">
+            <form (ngSubmit)="updateGenre()">
                 <div class="row g-1">
                     <div class="col">
-                    <label for="name">Genre Name</label>
-                    <input value="Phim hay" type="text" name="name" class="form-control" required>
+                        <label for="name">Genre Name</label>
+                        <input [(ngModel)]="genreDTO.name" type="text" name="name" class="form-control" required>
                     </div>           
                 </div>
 
                 <div class="row g-1">
                     <div class="col">
-                        <label for="description">Genre Describe</label>
-                        <textarea type="text" id="editor1" name="description" class="form-control" required>Phim hay ...</textarea>
+                        <label for="description">Description</label>
+                        <textarea [(ngModel)]="genreDTO.description" name="description" class="form-control" required></textarea>
                     </div>           
                 </div>    
                 
                 <div class="row g-1">
                     <div class="col">
-                    <label for="slug">Slug</label>
-                    <input value="phim-hay" type="text" name="slug" class="form-control" required>
+                        <label for="slug">Slug</label>
+                        <input [(ngModel)]="genreDTO.slug" type="text" name="slug" class="form-control" required>
                     </div>           
                 </div>
 
                 <div class="row g-1">
                     <div class="col">
                         <label>Active :</label>
-                        <select name="isActive">
-                            <option value="1" selected>Yes</option>
-                            <option value="1" selected>No</option>
-                        </select>
+                        <select [(ngModel)]="genreDTO.is_active" name="is_active" class="form-select">
+                            <ng-container *ngIf="genreDTO.is_active === 1; else inactiveFirst">
+                              <option [value]="1">Active</option>
+                              <option [value]="0">Inactive</option>
+                            </ng-container>
+                            <ng-template #inactiveFirst>
+                              <option [value]="0">Inactive</option>
+                              <option [value]="1">Active</option>
+                            </ng-template>                           
+                          </select>
                     </div>
                 </div> 
                 
-                <button id="btn" type="submit" class="btn btn-primary">Update Genre</button>
+                <button type="submit" class="btn btn-primary">Update Genre</button>
             </form>
         </div>
     </main>

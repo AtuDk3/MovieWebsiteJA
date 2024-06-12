@@ -19,9 +19,13 @@ public interface MovieViewRepository extends JpaRepository<MovieView, Integer> {
 
     @Query("SELECT mv.movie, CAST(SUM(mv.views) AS int) as totalViews " +
             "FROM MovieView mv " +
-            "WHERE mv.viewDate BETWEEN :startDate AND :endDate " +
-            "GROUP BY mv.movie " +
-            "ORDER BY totalViews DESC")
+            "WHERE (mv.viewDate BETWEEN :startDate AND :endDate) and"
+            + " mv.movie.isActive = 1 and"
+            + " mv.movie.genre.isActive = 1 and"
+            + " mv.movie.movieType.isActive = 1 and"
+            + " mv.movie.country.isActive = 1 "
+            +"GROUP BY mv.movie "
+            +"ORDER BY totalViews DESC")
     List<Object[]> findTopMoviesByViewsBetweenDates(@Param("startDate") LocalDate startDate,@Param("endDate") LocalDate endDate);
 
     @Modifying

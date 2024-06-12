@@ -46,22 +46,23 @@ export class BookmarkService {
     });
   }
 
-  private initializeBookmarkCount(user_id: number): void {
-    const savedCount = localStorage.getItem(this.STORAGE_KEY);
-    if (savedCount !== null) {
-      this.bookmarkCountSource.next(Number(savedCount));
-    }else{    
+  private initializeBookmarkCount(user_id: number): void {  
       this.http.get<number>(`${this.apiBookMark}/${user_id}/count`).subscribe({
       next: (count: number) => {  
+        const savedCount = localStorage.getItem(this.STORAGE_KEY);
+        if (savedCount !== null && Number(savedCount)===count) {
+          this.bookmarkCountSource.next(Number(savedCount));
+        }else{
           this.bookmarkCountSource.next(count);
-          localStorage.setItem(this.STORAGE_KEY, count.toString());       
+          localStorage.setItem(this.STORAGE_KEY, count.toString());      
+        } 
       },
       error: (error: any) => {
         console.error('Error fetching bookmark count:', error);
       }
     });
 
-  }  
+  
  }  
 
 

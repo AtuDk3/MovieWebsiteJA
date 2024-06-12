@@ -12,7 +12,10 @@ import com.project.MovieWebsite.services.RateService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDate;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 
 @Service
@@ -27,20 +30,29 @@ public class RateServiceImpl implements RateService {
 
     @Override
     public Rate createRate(RateDTO rateDTO) throws DataNotFoundException {
+
         Movie existingMovie= movieRepository.findById(rateDTO.getMovieId())
                 .orElseThrow(() -> new DataNotFoundException("Cannot find movie with id: "+rateDTO.getMovieId()));
 
         User existingUser= userRepository.findById(rateDTO.getUserId())
                 .orElseThrow(() -> new DataNotFoundException("Cannot find user with id: "+rateDTO.getUserId()));
 
-        Rate newRate= Rate.builder()
-                .movie(existingMovie)
-                .user(existingUser)
-                .description(rateDTO.getDescription())
-                .numberStars(rateDTO.getNumStars())
-                .build();
+        Rate findRateByMovieAndUser= rateRepository.findByMovieAndUser(existingMovie, existingUser);
+        if (findRateByMovieAndUser==null){
+            Rate newRate= Rate.builder()
+                    .movie(existingMovie)
+                    .user(existingUser)
+                    .numberStars(rateDTO.getNumStars())
+                    .rateDate(LocalDate.now())
+                    .build();
+            return rateRepository.save(newRate);
+        }else{
+            findRateByMovieAndUser.setNumberStars(rateDTO.getNumStars());
+            findRateByMovieAndUser.setRateDate(LocalDate.now());
+            return rateRepository.save(findRateByMovieAndUser);
+        }
 
-        return rateRepository.save(newRate);
+
     }
 
     @Override
@@ -49,20 +61,32 @@ public class RateServiceImpl implements RateService {
     }
 
     @Override
-    public List<Rate> getAllRates() {
-        return rateRepository.findAll();
-    }
-
-    @Override
-    public Rate updateRate(int id, RateDTO rateDTO) throws DataNotFoundException {
-        return null;
-    }
-
-    @Override
-    public void deleteRate(int id) {
-        Optional<Rate> optionalRate= rateRepository.findById(id);
-        if(optionalRate.isPresent()){
-            rateRepository.deleteById(id);
+    public Map<String, String> getNumberRatesAndStarOfMovie(int movieId) throws DataNotFoundException{
+        Movie existingMovie= movieRepository.findById(movieId)
+                .orElseThrow(() -> new DataNotFoundException("Cannot find movie with id: "+movieId));
+        List<Rate> listRate= rateRepository.findAllByMovie(existingMovie);
+        Map<String, String> resultMap = new HashMap<>();
+        existingMovie.setNumberRate(listRate.size());
+        resultMap.put("rate", existingMovie.getNumberRate()+"");
+        float numberStars= 0;
+        for(Rate rate: listRate){
+            numberStars+=rate.getNumberStars();
         }
+        existingMovie.setAverageStar(numberStars/listRate.size());
+        resultMap.put("average", existingMovie.getAverageStar()+"");
+        movieRepository.save(existingMovie);
+        return resultMap;
+    }
+
+    @Override
+    public Rate updateRate(Rate rate, RateDTO rateDTO) throws DataNotFoundException {
+        rate.setNumberStars(rate.getNumberStars());
+        return rateRepository.save(rate);
+    }
+
+    @Override
+    public void deleteRateMonth() {
+        LocalDate cutoffDate = LocalDate.now().minusMonths(1);
+        rateRepository.deleteRateOlderThanMonth(cutoffDate);
     }
 }

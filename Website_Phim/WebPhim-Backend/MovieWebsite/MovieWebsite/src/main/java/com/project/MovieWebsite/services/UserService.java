@@ -20,7 +20,9 @@ public interface UserService {
 
     User updateUser(int userId, UpdateUserDTO userDTO) throws DataNotFoundException;
 
-    void deleteUser(int userId);
+    void ban_account(int userId) throws DataNotFoundException;
+
+    void unban_account(int userId) throws DataNotFoundException;
 
     User updatePassword(String phoneNumber, String newPassword);
 

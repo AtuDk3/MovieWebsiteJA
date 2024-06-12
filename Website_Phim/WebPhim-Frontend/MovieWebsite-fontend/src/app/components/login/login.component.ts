@@ -22,6 +22,8 @@ export class LoginComponent {
   password: string;
   isAccept: boolean;
   userResponse ?: UserResponse;
+  errorPass: string | null = null;
+  errorActive: string | null = null;
 
   constructor(private router: Router, private userService: UserService, private tokenService: TokenService,
    private bookmarkService: BookmarkService, private authService: AuthService
@@ -89,9 +91,18 @@ export class LoginComponent {
       complete: () => {
         debugger
       },
-      error: (error: any) => {
-        this.loginForm.form.controls['password'].setErrors({'wrongPassword': true});
-      }}
+      error: (err) => {
+        this.errorPass = null;
+        this.errorActive = null;
+
+        if (err.error.errorPass) {
+          this.errorPass = err.error.errorPass;
+        }
+        if (err.error.errorActive) {
+          this.errorActive = err.error.errorActive;
+        }
+      }
+    }
     )
   }
 }

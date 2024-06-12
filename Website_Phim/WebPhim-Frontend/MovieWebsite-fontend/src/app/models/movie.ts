@@ -1,3 +1,4 @@
+
 export interface Movie {
     id: number,
     name: string,
@@ -20,4 +21,5 @@ export interface Movie {
     country_name: string,
     url: string
     release_date_formated: string
+    is_active: number
 }

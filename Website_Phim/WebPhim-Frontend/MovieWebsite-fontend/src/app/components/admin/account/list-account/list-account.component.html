@@ -4,52 +4,54 @@
 <section id="content">
 <main>
     <h2 class="text-center">List Accounts</h2>
+    <div style="overflow-x: auto;">
     <table id="example" class="table table-striped" id="table_list" style="width:100%;">
         <thead>
             <tr>
                 <th>No</th>
                 <th>Id</th>
                 <th>Full Name</th>
+                <th>Image</th>
                 <th>Phone Number</th>
                 <th>Email</th>
-                <th>Image</th>
                 <th>Create At</th>
                 <th>Update At</th>
                 <th>Date Of Birth</th>
                 <th>Facebook Account</th>
                 <th>Google Account</th>
                 <th>VIP</th>
-                <th>Role</th>             
+                <!-- <th>Role</th>              -->
                 <th>Active</th>
-                <th>Manager</th>
+                <!-- <th>Manager</th> -->
             </tr>
         </thead>
 
         <tbody>
 
-                <tr>
-                    <td>1</td>
-                    <td>1</td>
-                    <td>Phim Hay</td>
-                    <td><img class="image" src="" height="100px" width="100px"></td>
-                    <td>Hành động</td>
-                    <td>100k</td>
-                    <td>10</td>                        
-                    <td>Yes</td>
-                    <td>Yes</td>
-                    <td>Yes</td>
-                    <td>Yes</td>
-                    <td>Yes</td>
-                    <td>Yes</td>
-                    <td>100k</td>
+                <tr *ngFor="let user of userResponse; let i = index">
+                    <td>{{i + 1}}</td>
+                    <td>{{user.id}}</td>
+                    <td>{{user.full_name}}</td>
+                    <td><img class="image" [src]="user.image_url" height="100px" width="100px"></td>
+                    <td>{{user.phone_number}}</td>
+                    <td>{{user.email}}</td>
+                    <td>{{user.created_at_formatted}}</td>                        
+                    <td>{{user.update_at_formatted}}</td>
+                    <td>{{user.date_of_birth_formatted}}</td>                   
+                    <td>{{user.facebook_account_id}}</td>
+                    <td>{{user.google_account_id}}</td>
+                    <td>{{user.user_vip.name}}</td>
+                    <td>{{user.is_active == 1 ? 'Active' :"InActive"}}</td>
             <td>
-                <button type="button"  class="btn btn-danger">Delete</button>
-                <a href=""><button type="button" class="btn btn-warning">Update</button></a>
+                <button type="button" (click)="banAccount(user.id)"  class="btn btn-danger">BLOCK</button>
+                <button type="button" (click)="unBanAccount(user.id)"  class="btn btn-success">UNBLOCK</button>
+                
             </td>
 
             </tr>
 
         </tbody>
     </table>
+</div>
 </main>
 </section>

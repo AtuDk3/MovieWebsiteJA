@@ -1,5 +1,6 @@
+
 import { Injectable } from '@angular/core';
-import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
+import { HttpClient, HttpParams, HttpHeaders } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { environment } from '../environments/environment';
 
@@ -32,9 +33,8 @@ export class TopViewService {
   }
 
   incrementMovieView(movie_id: number): Observable<any> {
-    const params = new HttpParams()
-      .set('movie_id', movie_id)   
-    return this.http.post(this.apiTopView, { params });
+    const headers = new HttpHeaders({ 'Content-Type': 'application/json' });
+    return this.http.post(this.apiTopView, { movie_id }, { headers });
   }
 
   updateViewForDay(): Observable<any> {

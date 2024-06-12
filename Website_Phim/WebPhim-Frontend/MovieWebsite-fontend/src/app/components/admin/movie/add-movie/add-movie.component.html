@@ -6,77 +6,74 @@
     <main>
         <div class="container-form-add-product">
             <h2 class="text-center">Add Movie</h2>
-            <form action="" enctype="multipart/form-data">
+            <form (submit)="addMovie()" enctype="multipart/form-data">
                 <div class="row g-1">
                     <div class="col">
                     <label for="name">Movie Name</label>
-                    <input  type="text" name="name" class="form-control" required>
+                    <input  type="text" name="name" [(ngModel)]="movie.name" class="form-control" required>
                     </div>           
                 </div>
 
                 <div class="row g-1">
                     <div class="col">
                         <label for="description">Movie Describe</label>
-                        <textarea type="text" id="editor1" name="description" class="form-control" required></textarea>
+                        <textarea type="text" id="editor1" name="description" [(ngModel)]="movie.description" class="form-control" required></textarea>
                     </div>           
                 </div>
 
                 <div class="row g-1">
                     <div class="col">
                     <label for="image">Movie Image</label>
-                    <input type="file" name="image" class="form-control">
-                    <p> <img class="image" src="" height="100px" width="100px"></p>
+                    <input type="file" (change)="onFileSelected($event)" name="image" class="form-control">
+                    <p> <img class="image" [src]="imageUrl" height="100px" width="100px"></p>
                     </div>           
                 </div>
 
                 <div class="row g-1">
                     <div class="col">
                     <label for="releaseDate">Movie Release Date</label>
-                    <input type="date" name="releaseDate" class="form-control" required>
+                    <input type="date" name="releaseDate" [(ngModel)]="movie.release_date" class="form-control" required>
                     </div>           
                 </div>
 
                 <div class="row g-1">
                     <div class="col">
                     <label for="duration">Movie Duration</label>
-                    <input type="text" name="duration" class="form-control" required>
+                    <input type="text" name="duration" [(ngModel)]="movie.duration" class="form-control" required>
                     </div>           
                 </div>
 
                 <div class="row g-3">
                     <div class="col">
                         <label for="episode">Movie Episode</label>
-                        <input type="text" class="form-control" name="episode" required>
+                        <input type="text" class="form-control" name="episode" [(ngModel)]="movie.episode" required>
                     </div>
                     <div class="col">
                         <label for="season">Movie Season</label>
-                        <input type="text" class="form-control" name="season" required>
+                        <input type="text" class="form-control" name="season" [(ngModel)]="movie.season" required>
                     </div>  
                     <div class="col">
-                        <label for="season">Limited Age</label>
-                        <input type="text" class="form-control" name="limitedAge" required>
+                        <label for="limitedAge">Limited Age</label>
+                        <input type="text" class="form-control" [(ngModel)]="movie.limited_age" name="limitedAge" required>
                     </div>          
                 </div>
                 <div class="row g-3">
                     <div class="col">
                         <label>Movie Genre :</label>
-                        <select name="genre"> 
-                            <option selected value="1">Tâm Lý</option>
-                            <option value="0">Hành động</option>    
+                        <select name="genre" [(ngModel)]="movie.id_genre"> 
+                            <option value="{{ genre.id }}" *ngFor="let genre of genres">{{ genre.name }}</option> 
                         </select>
                     </div>
                     <div class="col">
                         <label>Movie Type :</label>
-                        <select name="movieType">
-                            <option value="1" selected>Phim bộ</option>
-                            <option value="1" selected>Phim lẻ</option>
+                        <select name="movieType"  [(ngModel)]="movie.id_movie_type">
+                            <option  value="{{ movieType.id }}" *ngFor="let movieType of movieTypes">{{ movieType.name }}</option>
                         </select>
                     </div>
                     <div class="col">
                         <label>Movie Country :</label>
-                        <select name="country">
-                            <option value="1" selected>Việt Nam</option>
-                            <option value="1" selected>Hàn Quốc</option>
+                        <select name="country" [(ngModel)]="movie.id_country">
+                            <option value="{{ country.id }}" *ngFor="let country of countries">{{ country.name }}</option>
                         </select>
                     </div>
                 </div> 
@@ -84,16 +81,16 @@
                 <div class="row g-2">
                     <div class="col">
                         <label>Movie Hot :</label>
-                        <select name="genre"> 
-                            <option selected value="1">Yes</option>
+                        <select name="hot" [(ngModel)]="movie.hot"> 
+                            <option value="1">Yes</option>
                             <option value="0">No</option>    
                         </select>
                     </div>
                     <div class="col">
                         <label>Fee :</label>
-                        <select name="movieType">
-                            <option value="1" selected>Yes</option>
-                            <option value="1" selected>No</option>
+                        <select name="fee" [(ngModel)]="movie.is_fee">
+                            <option value="1" >Yes</option>
+                            <option value="0" >No</option>
                         </select>
                     </div>
                     

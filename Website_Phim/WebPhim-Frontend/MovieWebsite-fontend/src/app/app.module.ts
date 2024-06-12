@@ -1,6 +1,6 @@
-import { NgModule, OnInit, APP_INITIALIZER   } from '@angular/core';
-import { BrowserModule } from '@angular/platform-browser';
 
+import { APP_INITIALIZER, NgModule, OnInit  } from '@angular/core';
+import { BrowserModule } from '@angular/platform-browser';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { HomeComponent } from './components/home/home.component';
@@ -49,9 +49,17 @@ import { UpdateEpisodeComponent } from './components/admin/episode/update-episod
 import { AddEpisodeComponent } from './components/admin/episode/add-episode/add-episode.component';
 import { ListAccountComponent } from './components/admin/account/list-account/list-account.component';
 import { ListOrderComponent } from './components/admin/order/list-order/list-order.component';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { ToastrModule } from 'ngx-toastr';
+import { MovieHotComponent } from './components/movie-hot/movie-hot.component';
+import { UpgradeAccountComponent } from './components/upgrade-account/upgrade-account.component';
 import { AuthenticateAccountComponent } from './components/authenticate-account/authenticate-account.component';
 import { BookmarkComponent } from './components/bookmark/bookmark.component';
+import { PaymentComponent } from './components/payments/payments.component';
 import { AuthService } from './services/auth.service';
+import { RouterModule } from '@angular/router';
+import { SearchMovieComponent } from './components/search-movie/search-movie.component';
+
 
 export function initializeAuthService(authService: AuthService) {
   return (): Promise<void> => {
@@ -103,8 +111,12 @@ export function initializeAuthService(authService: AuthService) {
     AddEpisodeComponent,
     ListAccountComponent,
     ListOrderComponent,
+    MovieHotComponent,
+    UpgradeAccountComponent,
     AuthenticateAccountComponent,
     BookmarkComponent,
+    PaymentComponent,
+    SearchMovieComponent
   ],
   imports: [
     BrowserModule,
@@ -112,7 +124,10 @@ export function initializeAuthService(authService: AuthService) {
     IonicModule.forRoot(),
     CarouselModule,
     FormsModule,
-    HttpClientModule
+    RouterModule,
+    HttpClientModule,
+    BrowserAnimationsModule, // cần thiết cho Toastr
+    ToastrModule.forRoot(), // Cấu hình mặc định của Toastr
   ],
   providers: [
     AuthService,
@@ -123,7 +138,7 @@ export function initializeAuthService(authService: AuthService) {
       multi: true
     },
     {
-      provide: HTTP_INTERCEPTORS,   
+      provide: HTTP_INTERCEPTORS, 
       useClass: TokenInterceptor,
       multi: true
     }

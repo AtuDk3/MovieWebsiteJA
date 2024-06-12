@@ -16,17 +16,15 @@
         </thead>
 
         <tbody>
-                <tr>
-                    <td>1</td>
-                    <td>1</td>
-                    <td>Phim Hay</td>
-                    <td>Hành động</td>                    
-                    <td>Yes</td>
-            <td>
-                <button type="button"  class="btn btn-danger">Delete</button>
-                <a href=""><button type="button" class="btn btn-warning">Update</button></a>
-            </td>
-
+            <tr *ngFor="let country of countries; let i = index">
+                <td>{{ i + 1 }}</td>
+                <td>{{ country.id }}</td>
+                <td>{{ country.name }}</td>
+                <td>{{ country.is_active === 1 ? 'Active' : 'Inactive' }}</td>
+                <td>
+                    <button type="button" class="btn btn-danger" (click)="deleteCountry(country.id)">Delete</button>
+                    <button type="button" class="btn btn-warning" (click)="updateCountry(country)">Update</button>
+                </td>
             </tr>
 
         </tbody>
