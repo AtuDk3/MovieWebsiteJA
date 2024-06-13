@@ -7,7 +7,7 @@ import { VnpayService } from '../../services/vnpay.service';
   templateUrl: './thanks.component.html',
   styleUrls: ['./thanks.component.scss']
 })
-export class ThanksComponent implements OnInit {
+export class ThanksComponent {
 
   constructor(
     private route: ActivatedRoute,
@@ -15,22 +15,23 @@ export class ThanksComponent implements OnInit {
     private vnpayService: VnpayService
   ) { }
 
-  ngOnInit(): void {
-    this.route.queryParams.subscribe(params => {
+  // ngOnInit(): void {
+  //   this.route.queryParams.subscribe(params => {
 
-      this.vnpayService.paymentCompleted().subscribe({
-        next: (response: string) => {
-          if (response.startsWith('redirect:')) {
-            const redirectUrl = response.substring('redirect:'.length);
-            window.location.href = redirectUrl;
-          } else {
-            console.error('Invalid response:', response);
-          }
-        },
-        error: (error) => {
-          console.error('Payment request failed', error);
-        }
-      });
-      });
-    };
+  //     this.vnpayService.paymentCompleted().subscribe({
+  //       next: (response: string) => {
+  //         if (response.startsWith('redirect:')) {
+  //           const redirectUrl = response.substring('redirect:'.length);
+  //           window.location.href = redirectUrl;
+  //         } else {
+  //           console.error('Invalid response:', response);
+  //         }
+  //       },
+  //       error: (error) => {
+  //         console.error('Payment request failed', error);
+  //       }
+  //     });
+  //     });
+  //   };
+ 
 }

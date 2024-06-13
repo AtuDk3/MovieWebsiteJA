@@ -14,8 +14,7 @@ import java.util.*;
 @Service
 @RequiredArgsConstructor
 public class VNPAYService {
-    public String createOrder(HttpServletRequest request, int amount, String orderInfor, String urlReturn){
-        //Các bạn có thể tham khảo tài liệu hướng dẫn và điều chỉnh các tham số
+    public String createOrder(HttpServletRequest request, int amount, String orderInfor, String urlReturn) {
         String vnp_Version = "2.1.0";
         String vnp_Command = "pay";
         String vnp_TxnRef = VNPAYConfig.getRandomNumber(8);
@@ -27,7 +26,7 @@ public class VNPAYService {
         vnp_Params.put("vnp_Version", vnp_Version);
         vnp_Params.put("vnp_Command", vnp_Command);
         vnp_Params.put("vnp_TmnCode", vnp_TmnCode);
-        vnp_Params.put("vnp_Amount", String.valueOf(amount*100));
+        vnp_Params.put("vnp_Amount", String.valueOf(amount * 100));
         vnp_Params.put("vnp_CurrCode", "VND");
 
         vnp_Params.put("vnp_TxnRef", vnp_TxnRef);
@@ -37,8 +36,8 @@ public class VNPAYService {
         String locate = "vn";
         vnp_Params.put("vnp_Locale", locate);
 
-        urlReturn += VNPAYConfig.vnp_Returnurl;
-        vnp_Params.put("vnp_ReturnUrl", urlReturn);
+        // Đặt urlReturn thành vnp_Returnurl trực tiếp từ cấu hình
+        vnp_Params.put("vnp_ReturnUrl", VNPAYConfig.vnp_Returnurl);
         vnp_Params.put("vnp_IpAddr", vnp_IpAddr);
 
         Calendar cld = Calendar.getInstance(TimeZone.getTimeZone("Etc/GMT+7"));
@@ -50,14 +49,14 @@ public class VNPAYService {
         String vnp_ExpireDate = formatter.format(cld.getTime());
         vnp_Params.put("vnp_ExpireDate", vnp_ExpireDate);
 
-        List fieldNames = new ArrayList(vnp_Params.keySet());
+        List<String> fieldNames = new ArrayList<>(vnp_Params.keySet());
         Collections.sort(fieldNames);
         StringBuilder hashData = new StringBuilder();
         StringBuilder query = new StringBuilder();
-        Iterator itr = fieldNames.iterator();
+        Iterator<String> itr = fieldNames.iterator();
         while (itr.hasNext()) {
-            String fieldName = (String) itr.next();
-            String fieldValue = (String) vnp_Params.get(fieldName);
+            String fieldName = itr.next();
+            String fieldValue = vnp_Params.get(fieldName);
             if ((fieldValue != null) && (fieldValue.length() > 0)) {
                 //Build hash data
                 hashData.append(fieldName);
@@ -85,13 +84,13 @@ public class VNPAYService {
         return paymentUrl;
     }
 
-    public int orderReturn(HttpServletRequest request){
-        Map fields = new HashMap();
-        for (Enumeration params = request.getParameterNames(); params.hasMoreElements();) {
+    public int orderReturn(HttpServletRequest request) {
+        Map<String, String> fields = new HashMap<>();
+        for (Enumeration<String> params = request.getParameterNames(); params.hasMoreElements();) {
             String fieldName = null;
             String fieldValue = null;
             try {
-                fieldName = URLEncoder.encode((String) params.nextElement(), StandardCharsets.US_ASCII.toString());
+                fieldName = URLEncoder.encode(params.nextElement(), StandardCharsets.US_ASCII.toString());
                 fieldValue = URLEncoder.encode(request.getParameter(fieldName), StandardCharsets.US_ASCII.toString());
             } catch (UnsupportedEncodingException e) {
                 e.printStackTrace();

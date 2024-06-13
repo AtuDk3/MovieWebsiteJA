@@ -21,7 +21,7 @@ export class VnpayService {
     return this.http.post(`${this.apiUrl}/create_order`, null, { params, responseType: 'text' });
   }
 
-  paymentCompleted(): Observable<string> {
-    return this.http.get(`${this.apiUrl}/vnpay_payment_return`, { responseType: 'text' });
-  }
+  // paymentCompleted(): Observable<string> {
+  //   return this.http.get(`${this.apiUrl}/vnpay_payment_return`, { responseType: 'text' });
+  // }
 }
