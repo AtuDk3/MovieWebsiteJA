@@ -13,7 +13,8 @@ export class AdminSidebarComponent {
     movie: false,
     episode: false,
     order: false,
-    account: false
+    account: false,
+    storage: false
   };
 
   openDropdown(menu: string): void {

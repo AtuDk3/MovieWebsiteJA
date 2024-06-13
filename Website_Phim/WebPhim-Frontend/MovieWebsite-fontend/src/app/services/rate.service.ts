@@ -11,7 +11,8 @@ import { RateDTO } from '../dtos/user/rate.dto';
 export class RateService {
   
   private apiRateMovie = `${environment.apiBaseUrl}/rates`;
-
+  private apiDeleteOldRateMonth= `${environment.apiBaseUrl}/rates/delete_old_rate`;
+  private apiGetLastDeleteRate= `${environment.apiBaseUrl}/rates/last_delete_rate`;
 
   constructor(private http: HttpClient) { }
 
@@ -22,6 +23,15 @@ export class RateService {
     });
 
     return this.http.post(this.apiRateMovie, rateDTO, { headers: headers });
+  }
+
+  //Admin
+  deleteOldRateMonth(): Observable<any> {
+    return this.http.delete(this.apiDeleteOldRateMonth);
+  }
+
+  getGetLastDeleteRate(): Observable<any> {
+    return this.http.get(this.apiGetLastDeleteRate);
   }
 
 

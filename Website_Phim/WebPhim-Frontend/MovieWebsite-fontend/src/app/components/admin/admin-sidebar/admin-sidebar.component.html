@@ -82,6 +82,17 @@
                 <li><a routerLink="/admin/account/list-account">List Account</a></li>
             </ul>
         </li>
+
+        <li (mouseenter)="openDropdown('storage')" (mouseleave)="closeDropdown('storage')">
+            <a href="#">
+                <i class='bx bx-user'></i> Manager Storage
+                <i class='bx bx-chevron-right icon-right' [class.rotate]="isDropdownOpen('storage')"></i>
+            </a>
+            <ul class="side-dropdown" [class.show]="isDropdownOpen('storage')">
+                <li><a routerLink="/admin/storage/storage-top-view">Storage top-view</a></li>
+                <li><a routerLink="/admin/storage/storage-rate">Storage top-rate</a></li>
+            </ul>
+        </li>
     </ul>
     <div class="ads">
         <div class="wrapper">

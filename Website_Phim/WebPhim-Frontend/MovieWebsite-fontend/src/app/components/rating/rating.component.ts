@@ -1,6 +1,5 @@
-// rating.component.ts
 import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { RateService } from '../../services/rate.service';
 import { RateDTO } from '../../dtos/user/rate.dto';
 import { UserService } from '../../services/user.service';
@@ -18,13 +17,15 @@ export class RatingComponent implements OnInit {
   hoverRating = 0; // Giá trị mặc định khi di chuột
   movieId: number = 0;
   userResponse: UserResponse | null = null;
-  averageRating = 3.6;
-
+  averageRating = 1.4; // Số trung bình sao (ví dụ)
+  numberOfRatings = 100; // Số lượt đánh giá (ví dụ)
+  
   constructor(
     private activatedRoute: ActivatedRoute,
     private rateService: RateService,
     private userService: UserService,
-    private tokenService: TokenService
+    private tokenService: TokenService,
+    private router: Router
   ) { }
 
   ngOnInit() {
@@ -43,16 +44,17 @@ export class RatingComponent implements OnInit {
     5: 'Xuất sắc'
   };
 
-  get fullStars(): number[] {
-    return Array(Math.floor(this.averageRating)).fill(0);
+  get fullStars(): number {
+    return Math.floor(this.averageRating);
   }
 
-  get halfStar(): boolean {
-    return (this.averageRating % 1) >= 0.5;
+  get halfStarWidth(): string {
+    const remainder = this.averageRating % 1;
+    return `${Math.round(remainder * 100)}%`;
   }
 
-  get emptyStars(): number[] {
-    return Array(5 - Math.ceil(this.averageRating)).fill(0);
+  get emptyStars(): number {
+    return 5 - Math.ceil(this.averageRating);
   }
 
   get ratingDescription(): string {
@@ -84,18 +86,16 @@ export class RatingComponent implements OnInit {
 
     if (this.userResponse) {
       const rateDTO: RateDTO = {
-        movie_id: this.movieId,
-        user_id: this.userResponse.id,
-        number_stars: this.rating
+        "movie_id": this.movieId,
+        "user_id": this.userResponse.id,
+        "number_stars": this.rating
       };
       this.rateService.createRateMovie(rateDTO, this.tokenService.getToken()!).subscribe({
         next: (response: any) => {
           this.closeDialog();
         },
-        complete: () => {
-        },
-        error: (err) => {
-        }
+        complete: () => {},
+        error: (err) => {}
       });
     }
   }

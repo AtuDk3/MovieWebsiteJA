@@ -59,6 +59,9 @@ import { PaymentComponent } from './components/payments/payments.component';
 import { AuthService } from './services/auth.service';
 import { RouterModule } from '@angular/router';
 import { SearchMovieComponent } from './components/search-movie/search-movie.component';
+import { StorageTopViewComponent } from './components/admin/manager-storage/storage-top-view/storage-top-view.component';
+import { AdComponent } from './components/ad/ad.component';
+import { StorageRateComponent } from './components/admin/manager-storage/storage-rate/storage-rate.component';
 
 
 export function initializeAuthService(authService: AuthService) {
@@ -116,7 +119,10 @@ export function initializeAuthService(authService: AuthService) {
     AuthenticateAccountComponent,
     BookmarkComponent,
     PaymentComponent,
-    SearchMovieComponent
+    SearchMovieComponent,
+    StorageTopViewComponent,
+    AdComponent,
+    StorageRateComponent
   ],
   imports: [
     BrowserModule,

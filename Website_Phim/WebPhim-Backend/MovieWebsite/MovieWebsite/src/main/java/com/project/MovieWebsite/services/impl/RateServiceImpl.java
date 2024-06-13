@@ -2,9 +2,8 @@ package com.project.MovieWebsite.services.impl;
 
 import com.project.MovieWebsite.dtos.RateDTO;
 import com.project.MovieWebsite.exceptions.DataNotFoundException;
-import com.project.MovieWebsite.models.Movie;
-import com.project.MovieWebsite.models.Rate;
-import com.project.MovieWebsite.models.User;
+import com.project.MovieWebsite.models.*;
+import com.project.MovieWebsite.repositories.ManagerStorageRateRepository;
 import com.project.MovieWebsite.repositories.MovieRepository;
 import com.project.MovieWebsite.repositories.RateRepository;
 import com.project.MovieWebsite.repositories.UserRepository;
@@ -26,7 +25,7 @@ public class RateServiceImpl implements RateService {
     private final MovieRepository movieRepository;
     private final UserRepository userRepository;
     private final RateRepository rateRepository;
-
+    private final ManagerStorageRateRepository managerStorageRateRepository;
 
     @Override
     public Rate createRate(RateDTO rateDTO) throws DataNotFoundException {
@@ -86,7 +85,13 @@ public class RateServiceImpl implements RateService {
 
     @Override
     public void deleteRateMonth() {
-        LocalDate cutoffDate = LocalDate.now().minusMonths(1);
-        rateRepository.deleteRateOlderThanMonth(cutoffDate);
+        ManagerStorageRate managerStorageRate= managerStorageRateRepository.getAll();
+        if(managerStorageRate!=null){
+            managerStorageRate.setLastDelete(LocalDate.now());
+            managerStorageRateRepository.save(managerStorageRate);
+            LocalDate cutoffDate = LocalDate.now().minusMonths(1);
+            rateRepository.deleteRateOlderThanMonth(cutoffDate);
+        }
+
     }
 }

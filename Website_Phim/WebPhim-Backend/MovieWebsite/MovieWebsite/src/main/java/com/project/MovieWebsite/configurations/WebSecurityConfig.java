@@ -55,6 +55,7 @@ public class WebSecurityConfig {
                             .requestMatchers(HttpMethod.GET, String.format("%s/roles", apiPrefix)).permitAll()
                             .requestMatchers(HttpMethod.GET, String.format("%s/accounts/**", apiPrefix)).hasRole("ADMIN")
                             .requestMatchers(GET, String.format("%s/movie_views/**", apiPrefix)).permitAll()
+                            .requestMatchers(GET, String.format("%s/movie_views/last_delete_view", apiPrefix)).hasRole("ADMIN")
                             .requestMatchers(DELETE, String.format("%s/movie_views/**", apiPrefix)).hasRole("ADMIN")
                             .requestMatchers(POST, String.format("%s/movie_views/**", apiPrefix)).permitAll()
                             .requestMatchers(HttpMethod.GET, String.format("%s/genres/**", apiPrefix)).permitAll()
@@ -92,7 +93,10 @@ public class WebSecurityConfig {
                             .requestMatchers(POST, String.format("%s/favourites/**", apiPrefix)).hasAnyRole( "USER", "ADMIN")
                             .requestMatchers(POST, String.format("%s/rates/**", apiPrefix)).hasAnyRole( "USER", "ADMIN")
                             .requestMatchers(GET, String.format("%s/rates/**", apiPrefix)).hasAnyRole( "USER", "ADMIN")
+                            .requestMatchers(GET, String.format("%s/rates/last_delete_rate", apiPrefix)).hasRole("ADMIN")
                             .requestMatchers(DELETE, String.format("%s/rates/**", apiPrefix)).hasRole("ADMIN")
+                            .requestMatchers(POST, String.format("%s/payments/create_order/**", apiPrefix)).hasAnyRole( "USER", "ADMIN")
+                            .requestMatchers(GET, String.format("%s/payments/vnpay_payment_return/**", apiPrefix)).hasAnyRole( "USER", "ADMIN")
                             .anyRequest()
                             .authenticated();
                 })

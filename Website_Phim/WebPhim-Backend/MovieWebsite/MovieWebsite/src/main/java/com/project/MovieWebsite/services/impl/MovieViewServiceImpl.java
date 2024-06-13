@@ -2,9 +2,11 @@ package com.project.MovieWebsite.services.impl;
 
 
 import com.project.MovieWebsite.exceptions.DataNotFoundException;
+import com.project.MovieWebsite.models.ManagerStorageView;
 import com.project.MovieWebsite.models.MovieView;
 import com.project.MovieWebsite.models.Movie;
 import com.project.MovieWebsite.models.MovieViewExecuted;
+import com.project.MovieWebsite.repositories.ManagerStorageViewRepository;
 import com.project.MovieWebsite.repositories.MovieRepository;
 import com.project.MovieWebsite.repositories.MovieViewExecutedRepository;
 import com.project.MovieWebsite.repositories.MovieViewRepository;
@@ -24,6 +26,7 @@ public class MovieViewServiceImpl implements MovieViewService {
     private final MovieViewRepository movieViewRepository;
     private final MovieRepository movieRepository;
     private final MovieViewExecutedRepository movieViewExecutedRepository;
+    private final ManagerStorageViewRepository managerStorageViewRepository;
 
     public List<Movie> getTopMoviesByViews(LocalDate startDate, LocalDate endDate) {
         List<Object[]> results = movieViewRepository.findTopMoviesByViewsBetweenDates(startDate, endDate);
@@ -93,9 +96,12 @@ public class MovieViewServiceImpl implements MovieViewService {
 
     @Override
     public void deleteOldViewsMonth() {
-        LocalDate cutoffDate = LocalDate.now().minusMonths(1);
-        movieViewRepository.deleteViewsOlderThanMonth(cutoffDate);
+        ManagerStorageView managerStorageView= managerStorageViewRepository.getAll();
+        if(managerStorageView!=null){
+            managerStorageView.setLastDelete(LocalDate.now());
+            managerStorageViewRepository.save(managerStorageView);
+            LocalDate cutoffDate = LocalDate.now().minusMonths(1);
+            movieViewRepository.deleteViewsOlderThanMonth(cutoffDate);
+        }
     }
-
-
 }

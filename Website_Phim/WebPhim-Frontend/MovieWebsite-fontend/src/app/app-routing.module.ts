@@ -40,6 +40,8 @@ import { AuthenticateAccountComponent } from './components/authenticate-account/
 import { PaymentComponent } from './components/payments/payments.component';
 import { UpgradeAccountComponent } from './components/upgrade-account/upgrade-account.component';
 import { SearchMovieComponent } from './components/search-movie/search-movie.component';
+import { StorageTopViewComponent } from './components/admin/manager-storage/storage-top-view/storage-top-view.component';
+import { StorageRateComponent } from './components/admin/manager-storage/storage-rate/storage-rate.component';
 
 
 const routes: Routes = [
@@ -99,6 +101,9 @@ const routes: Routes = [
       { path: 'episode/add-episode', component: AddEpisodeComponent, canActivate:[AdminGuardFn]},
       // Account
       { path: 'account/list-account', component: ListAccountComponent, canActivate:[AdminGuardFn]},
+      // Storage
+      { path: 'storage/storage-top-view', component: StorageTopViewComponent, canActivate:[AdminGuardFn]},
+      { path: 'storage/storage-rate', component: StorageRateComponent, canActivate:[AdminGuardFn]},
       // Order
       { path: 'order/list-order', component: ListOrderComponent, canActivate:[AdminGuardFn]},
     ]

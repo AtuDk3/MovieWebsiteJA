@@ -1,6 +1,7 @@
 package com.project.MovieWebsite.controllers;
 
 
+import com.project.MovieWebsite.repositories.ManagerStorageViewRepository;
 import com.project.MovieWebsite.responses.MovieViewResponse;
 import com.project.MovieWebsite.services.MovieViewService;
 import lombok.RequiredArgsConstructor;
@@ -18,7 +19,7 @@ import java.util.Map;
 public class MovieViewController {
 
     private final MovieViewService movieViewService;
-
+    private final ManagerStorageViewRepository managerStorageViewRepository;
     @GetMapping("/top_view_day")
     public ResponseEntity<List<MovieViewResponse>> getTopMoviesByDay() {
         return ResponseEntity.ok(MovieViewResponse.fromMovie(movieViewService.getTopMoviesByDay()));
@@ -62,6 +63,17 @@ public class MovieViewController {
         try{
             movieViewService.deleteOldViewsMonth();
             return ResponseEntity.ok().build();
+        }catch (Exception e){
+            return ResponseEntity.badRequest().body(e.getMessage());
+        }
+
+    }
+
+    @GetMapping("/last_delete_view")
+    public ResponseEntity<?> getLastDelete() {
+        try{
+            managerStorageViewRepository.getAll();
+            return ResponseEntity.ok(managerStorageViewRepository.getAll());
         }catch (Exception e){
             return ResponseEntity.badRequest().body(e.getMessage());
         }

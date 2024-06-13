@@ -5,6 +5,7 @@ import com.project.MovieWebsite.dtos.RateDTO;
 import com.project.MovieWebsite.dtos.UserDTO;
 import com.project.MovieWebsite.models.Favourite;
 import com.project.MovieWebsite.models.User;
+import com.project.MovieWebsite.repositories.ManagerStorageRateRepository;
 import com.project.MovieWebsite.responses.FavouriteResponse;
 import com.project.MovieWebsite.services.RateService;
 import com.project.MovieWebsite.services.UserService;
@@ -28,7 +29,7 @@ public class RateController {
 
     private final RateService rateService;
     private final UserService userService;
-
+    private final ManagerStorageRateRepository managerStorageRateRepository;
     @PostMapping("")
     public ResponseEntity<?> createRate(@Valid @RequestBody RateDTO rateDTO, BindingResult result,
                                         @RequestHeader("Authorization") String authorizationHeader) {
@@ -71,7 +72,7 @@ public class RateController {
     }
 
     //admin
-    @DeleteMapping("")
+    @DeleteMapping("/delete_old_rate")
     public ResponseEntity<?> deleteRateOldMonth(){
         try {
             rateService.deleteRateMonth();
@@ -79,5 +80,16 @@ public class RateController {
         }catch (Exception e){
             return ResponseEntity.badRequest().build();
         }
+    }
+
+    @GetMapping("/last_delete_rate")
+    public ResponseEntity<?> getLastDelete() {
+        try{
+            managerStorageRateRepository.getAll();
+            return ResponseEntity.ok(managerStorageRateRepository.getAll());
+        }catch (Exception e){
+            return ResponseEntity.badRequest().body(e.getMessage());
+        }
+
     }
 }
