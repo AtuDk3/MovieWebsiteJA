@@ -6,9 +6,9 @@ import com.project.MovieWebsite.models.VipPeriod;
 
 public interface VipPeriodService {
 
-    VipPeriod createVipPeriod(VipPeriodDTO vipPeriodDTO) throws DataNotFoundException;
+    VipPeriod createVipPeriod(int userId) throws DataNotFoundException;
 
-    VipPeriod updateVipPeriod(VipPeriodDTO vipPeriodDTO) throws DataNotFoundException;
+    VipPeriod updateVipPeriod(int userId) throws DataNotFoundException;
 
     void deleteVipPeriod(int userId);
 }

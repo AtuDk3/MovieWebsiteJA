@@ -1,6 +1,7 @@
+
 import { Component, OnInit } from '@angular/core';
 import { RateService } from '../../../../services/rate.service'
-import { ManagerStorage } from '../../../../models/storage';
+import { ManagerStorage } from '../../../../models/storage'; 
 
 @Component({
   selector: 'app-storage-rate',

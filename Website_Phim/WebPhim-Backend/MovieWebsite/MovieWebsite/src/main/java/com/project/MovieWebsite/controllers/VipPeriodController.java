@@ -26,20 +26,20 @@ public class VipPeriodController {
     private final UserService userService;
     private final VipPeriodRepository vipPeriodRepository;
 
-    @PostMapping("")
-    public ResponseEntity<?> createVipPeriod(@Valid @RequestBody VipPeriodDTO vipPeriodDTO, BindingResult result) {
-
-        if (result.hasErrors()) {
-            List<String> errorsMessage = result.getFieldErrors().stream().map(FieldError::getDefaultMessage).toList();
-            return ResponseEntity.badRequest().body(errorsMessage);
-        }
-        try{
-            vipPeriodService.createVipPeriod(vipPeriodDTO);
-            return ResponseEntity.ok().build();
-        }catch (Exception e){
-            return ResponseEntity.badRequest().body(e.getMessage());
-        }
-    }
+//    @PostMapping("")
+//    public ResponseEntity<?> createVipPeriod(@Valid @RequestBody VipPeriodDTO vipPeriodDTO, BindingResult result) {
+//
+//        if (result.hasErrors()) {
+//            List<String> errorsMessage = result.getFieldErrors().stream().map(FieldError::getDefaultMessage).toList();
+//            return ResponseEntity.badRequest().body(errorsMessage);
+//        }
+//        try{
+//            vipPeriodService.createVipPeriod(vipPeriodDTO);
+//            return ResponseEntity.ok().build();
+//        }catch (Exception e){
+//            return ResponseEntity.badRequest().body(e.getMessage());
+//        }
+//    }
 
     @GetMapping("")
     public ResponseEntity<VipPeriodResponse> getVipPeriod(@RequestHeader("Authorization") String authorizationHeader){

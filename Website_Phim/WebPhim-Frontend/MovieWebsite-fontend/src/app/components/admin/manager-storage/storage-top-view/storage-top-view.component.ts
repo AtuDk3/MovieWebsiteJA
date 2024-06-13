@@ -1,6 +1,7 @@
+
 import { Component, OnInit } from '@angular/core';
 import { TopViewService } from '../../../../services/top_view.service';
-import { ManagerStorage } from '../../../../models/storage';
+import { ManagerStorage } from '../../../../models/storage'; 
 @Component({
   selector: 'app-storage-top-view',
   templateUrl: './storage-top-view.component.html',

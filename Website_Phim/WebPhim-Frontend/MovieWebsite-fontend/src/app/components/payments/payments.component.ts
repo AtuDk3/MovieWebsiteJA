@@ -1,21 +1,40 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
+import { ActivatedRoute } from '@angular/router';
 import { VnpayService } from '../../services/vnpay.service';
 
 @Component({
   selector: 'app-payments',
   templateUrl: './payments.component.html',
-  styleUrl: './payments.component.scss'
+  styleUrls: ['./payments.component.scss']
 })
-export class PaymentComponent {
+export class PaymentComponent implements OnInit {
 
-  orderId: string = '';
-  amount: string = '';
+  amount: number = 0;
+  vip_name: string = '';
 
-  constructor(private vnpayService: VnpayService) { }
+  constructor(private route: ActivatedRoute,
+    private vnpayService: VnpayService) { }
+
+  ngOnInit(): void {
+    this.route.queryParams.subscribe(params => {
+      this.amount = +params['amount'];
+      this.vip_name = params['vip_name'];
+    });
+  }
 
   onSubmit() {
-    this.vnpayService.createPayment(this.orderId, this.amount).subscribe(paymentUrl => {
-      window.location.href = paymentUrl; // Redirect to VNPay payment URL
+    this.vnpayService.createPayment(this.amount, this.vip_name).subscribe({
+      next: (response: string) => {
+        if (response.startsWith('redirect:')) {
+          const redirectUrl = response.substring('redirect:'.length);
+          window.location.href = redirectUrl;
+        } else {
+          console.error('Invalid response:', response);
+        }
+      },
+      error: (error) => {
+        console.error('Payment request failed', error);
+      }
     });
   }
 }

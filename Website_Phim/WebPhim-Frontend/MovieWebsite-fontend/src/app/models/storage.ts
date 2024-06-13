@@ -1,3 +1,4 @@
+
 export interface ManagerStorage{
     id: number;
     lastDelete: Date;

@@ -121,7 +121,7 @@ export class MovieDetailsComponent implements OnInit {
                           }
                         });
                       //trang mua quyen
-                      this.router.navigate(['/register']);
+                      this.router.navigate(['/upgrade-account']);
                     }
 
                   },
@@ -140,7 +140,7 @@ export class MovieDetailsComponent implements OnInit {
             console.log('Người dùng lỗi user vip')
           }
         } else {
-          this.router.navigate(['/register']);
+          this.router.navigate(['/upgrade-account']);
           //trang mua quyen
         }
       } else {

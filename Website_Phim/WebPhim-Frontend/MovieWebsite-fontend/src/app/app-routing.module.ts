@@ -1,4 +1,3 @@
-
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { HomeComponent } from './components/home/home.component';
@@ -38,11 +37,11 @@ import { MovieHotComponent } from './components/movie-hot/movie-hot.component';
 import { BookmarkComponent } from './components/bookmark/bookmark.component';
 import { AuthenticateAccountComponent } from './components/authenticate-account/authenticate-account.component';
 import { PaymentComponent } from './components/payments/payments.component';
-import { UpgradeAccountComponent } from './components/upgrade-account/upgrade-account.component';
+import { UpgradeComponent } from './components/upgrade/upgrade.component';
+import { ThanksComponent } from './components/thanks/thanks.component';
 import { SearchMovieComponent } from './components/search-movie/search-movie.component';
 import { StorageTopViewComponent } from './components/admin/manager-storage/storage-top-view/storage-top-view.component';
 import { StorageRateComponent } from './components/admin/manager-storage/storage-rate/storage-rate.component';
-
 
 const routes: Routes = [
   {
@@ -58,7 +57,7 @@ const routes: Routes = [
       { path: 'watching/:id', component: WatchingComponent},
       { path: 'movie-hot', component: MovieHotComponent},
       { path: 'bookmark', component: BookmarkComponent},
-      { path: 'search_movie', component: SearchMovieComponent},   
+      { path: 'search_movie', component: SearchMovieComponent},  
     ]
   },
   {
@@ -70,8 +69,9 @@ const routes: Routes = [
       { path: 'forgot-password', component: ForgotPasswordComponent},
       { path: 'reset-password', component: ResetPasswordComponent},
       { path: 'authenticate-account', component: AuthenticateAccountComponent},
-      { path: 'upgrade-account', component: UpgradeAccountComponent},
-      { path: 'payment', component: PaymentComponent},     
+      { path: 'upgrade-account', component: UpgradeComponent},
+      { path: 'payment', component: PaymentComponent},
+      { path: 'thanks', component: ThanksComponent},
     ]
   },
   {
@@ -115,3 +115,4 @@ const routes: Routes = [
   exports: [RouterModule]
 })
 export class AppRoutingModule { }
+
