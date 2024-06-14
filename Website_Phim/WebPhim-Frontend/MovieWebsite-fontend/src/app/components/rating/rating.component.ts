@@ -6,6 +6,7 @@ import { RateDTO } from '../../dtos/user/rate.dto';
 import { UserService } from '../../services/user.service';
 import { UserResponse } from '../../responses/user/user.response';
 import { TokenService } from '../../services/token.service';
+import { RateResponse } from '../../responses/user/rate.response';
 
 @Component({
   selector: 'app-rating',
@@ -17,9 +18,10 @@ export class RatingComponent implements OnInit {
   rating = 0; // Giá trị mặc định
   hoverRating = 0; // Giá trị mặc định khi di chuột
   movieId: number = 0;
+  averageRating:number= 0;
+  numberRate: number=0;
   userResponse: UserResponse | null = null;
-  averageRating = 1.4; // Số trung bình sao (ví dụ)
-  numberOfRatings = 100; // Số lượt đánh giá (ví dụ)
+  rateResponse: RateResponse | null = null;
   
   constructor(
     private activatedRoute: ActivatedRoute,
@@ -33,7 +35,26 @@ export class RatingComponent implements OnInit {
     const idParam = this.activatedRoute.snapshot.paramMap.get('id');
     if (idParam !== null) {
       this.movieId = +idParam;
+      this.getRate(this.movieId);
     }
+  }
+
+  getRate(movie_id: number){
+    this.rateService.getRate(movie_id).subscribe(
+      {
+        next: (response: any) => {  
+            this.rateResponse= response;
+            if(this.rateResponse){
+            this.averageRating= this.rateResponse.average_star; 
+            this.numberRate= this.rateResponse.number_rate
+            }            
+        },
+        complete: () => {
+        },
+        error: (err) => {
+          console.log('error');
+        }
+      });
   }
 
   // Các mô tả cho từng mức đánh giá
@@ -67,7 +88,7 @@ export class RatingComponent implements OnInit {
   }
 
   closeDialog(): void {
-    this.isDialogOpen = false;
+    this.isDialogOpen = false;        
   }
 
   onRatingChange(newRating: number): void {
@@ -92,8 +113,12 @@ export class RatingComponent implements OnInit {
         "number_stars": this.rating
       };
       this.rateService.createRateMovie(rateDTO, this.tokenService.getToken()!).subscribe({
-        next: (response: any) => {
-          this.closeDialog();
+        next: (response: any) => {         
+         this.closeDialog();        
+        //  this.router.navigate([`/watching/${this.rateResponse?.movie_id}`]).then(() => {
+        //   (window as any).location.reload(); // Explicitly typing window
+        // });      
+        this.getRate(this.movieId);
         },
         complete: () => {},
         error: (err) => {}

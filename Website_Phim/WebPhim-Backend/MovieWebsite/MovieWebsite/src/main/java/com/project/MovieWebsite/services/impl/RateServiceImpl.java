@@ -55,8 +55,11 @@ public class RateServiceImpl implements RateService {
     }
 
     @Override
-    public Rate getRate(int id) {
-        return rateRepository.findById(id).orElseThrow(() -> new RuntimeException("Rate not found"));
+    public Movie getRateByMovie(int movieId) throws DataNotFoundException{
+        Movie existingMovie= movieRepository.findById(movieId)
+                .orElseThrow(() -> new DataNotFoundException("Cannot find movie with id: "+movieId));
+
+        return existingMovie;
     }
 
     @Override

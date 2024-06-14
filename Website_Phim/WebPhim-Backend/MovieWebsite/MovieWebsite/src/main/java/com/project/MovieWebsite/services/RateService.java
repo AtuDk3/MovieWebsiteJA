@@ -3,6 +3,7 @@ package com.project.MovieWebsite.services;
 
 import com.project.MovieWebsite.dtos.RateDTO;
 import com.project.MovieWebsite.exceptions.DataNotFoundException;
+import com.project.MovieWebsite.models.Movie;
 import com.project.MovieWebsite.models.Rate;
 
 
@@ -13,7 +14,7 @@ public interface RateService {
 
     Rate createRate(RateDTO rateDTO) throws DataNotFoundException;
 
-    Rate getRate(int id);
+    Movie getRateByMovie(int movieId) throws DataNotFoundException;
 
     Map<String, String> getNumberRatesAndStarOfMovie(int movieId) throws DataNotFoundException;
 

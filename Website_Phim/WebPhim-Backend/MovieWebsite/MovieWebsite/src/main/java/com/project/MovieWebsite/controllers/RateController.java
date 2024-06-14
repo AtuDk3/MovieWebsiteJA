@@ -7,6 +7,7 @@ import com.project.MovieWebsite.models.Favourite;
 import com.project.MovieWebsite.models.User;
 import com.project.MovieWebsite.repositories.ManagerStorageRateRepository;
 import com.project.MovieWebsite.responses.FavouriteResponse;
+import com.project.MovieWebsite.responses.RateResponse;
 import com.project.MovieWebsite.services.RateService;
 import com.project.MovieWebsite.services.UserService;
 import jakarta.validation.Valid;
@@ -71,6 +72,16 @@ public class RateController {
         }
     }
 
+    @PostMapping("/information_rate")
+    public ResponseEntity<?> getInformationRate(@RequestBody Map<String, Integer> request) {
+        try{
+            return ResponseEntity.ok(RateResponse.fromRate(rateService.getRateByMovie(request.get("movie_id"))));
+        }catch (Exception e){
+            return ResponseEntity.badRequest().body(e.getMessage());
+        }
+
+    }
+
     //admin
     @DeleteMapping("/delete_old_rate")
     public ResponseEntity<?> deleteRateOldMonth(){
@@ -92,4 +103,6 @@ public class RateController {
         }
 
     }
+
+
 }
