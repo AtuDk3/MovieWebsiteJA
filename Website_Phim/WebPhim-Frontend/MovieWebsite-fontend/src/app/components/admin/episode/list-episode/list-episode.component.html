@@ -3,39 +3,53 @@
 <!-- MAIN -->
 <section id="content">
 <main>
-    <h2 class="text-center">List Movie</h2>
+    <h2 class="text-center">List Episode Movie</h2>
+    <div style="overflow-x: auto;">
     <table id="example" class="table table-striped" id="table_list" style="width:100%;">
         <thead>
             <tr>
                 <th>No</th>
                 <th>Id</th>
-                <th>Name Movie</th>
+                <th>Name Movie</th>              
+                <th>Image</th>               
                 <th>Episode</th>
-                <th>Movie URL</th>
-                <th>Create At</th>
-                <th>Update At</th>
+                <th>Active</th>      
                 <th>Manager</th>
             </tr>
         </thead>
 
         <tbody>
 
-                <tr>
-                    <td>1</td>
-                    <td>1</td>
-                    <td>Yes</td>
-                    <td>Yes</td>
-                    <td>Yes</td>
-                    <td>Yes</td>
-                    <td>100k</td>
-            <td>
-                <button type="button"  class="btn btn-danger">Delete</button>
-                <a href=""><button type="button" class="btn btn-warning">Update</button></a>
-            </td>
-
+            <tr *ngFor="let movie of movies; let i = index">
+                <td>{{ i + 1 }}</td>
+                <td>{{ movie.id }}</td>
+                <td>{{ movie.name }}</td>
+                <td><img src="{{ movie.url }}" alt="{{ movie.name }}" height="80px" width="80px"></td>                
+                <td>{{ movie.episode }}</td>               
+                <td>{{ movie.is_active === 1 ? 'Active' : 'Inactive' }}</td>
+                <td>
+                    <button type="button" class="btn btn-danger" (click)="viewEpisodes(movie.id)">View</button>
+                    <button type="button"  class="btn btn-success" (click)="addEpisodes(movie.id)">Add</button>                
+                </td>
             </tr>
+
 
         </tbody>
     </table>
+
+    <nav aria-label="Page navigation example">
+        <ul class="pagination justify-content-end">
+          <li class="page-item" [class.disabled]="currentPage === 0">
+            <a class="page-link" href="#" tabindex="-1" (click)="goToPage(currentPage - 1, $event)">Previous</a>
+          </li>
+          <li class="page-item" *ngFor="let page of visiblePages">
+            <a class="page-link" href="#" (click)="goToPage(page, $event)" [class.active]="page === currentPage">{{ page + 1 }}</a>
+          </li>
+          <li class="page-item" [class.disabled]="currentPage === totalPages - 1">
+            <a class="page-link" href="#" (click)="goToPage(currentPage + 1, $event)">Next</a>
+          </li>
+        </ul>
+      </nav> 
+    </div>  
 </main>
 </section>

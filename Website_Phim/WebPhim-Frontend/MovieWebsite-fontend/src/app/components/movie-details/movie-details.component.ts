@@ -83,7 +83,7 @@ export class MovieDetailsComponent implements OnInit {
 
             if (expirationDate < currentDate) {
               const updateUserDTO: UpdateUserDTO = {
-                full_name: null,
+                full_name: '',
                 vip_name: 'Normal User'
               };
 
@@ -113,6 +113,7 @@ export class MovieDetailsComponent implements OnInit {
                       this.userService.deleteVipPeriod(this.userResponse.id, this.tokenService.getToken()!).subscribe(
                         {
                           next: (response: any) => {
+                            this.router.navigate(['/upgrade-account']);
                           },
                           complete: () => {
                           },
@@ -121,7 +122,7 @@ export class MovieDetailsComponent implements OnInit {
                           }
                         });
                       //trang mua quyen
-                      this.router.navigate(['/upgrade-account']);
+                      
                     }
 
                   },

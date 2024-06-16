@@ -42,6 +42,7 @@ import { ThanksComponent } from './components/thanks/thanks.component';
 import { SearchMovieComponent } from './components/search-movie/search-movie.component';
 import { StorageTopViewComponent } from './components/admin/manager-storage/storage-top-view/storage-top-view.component';
 import { StorageRateComponent } from './components/admin/manager-storage/storage-rate/storage-rate.component';
+import { ListEpisodeByMovieComponent } from './components/admin/episode/list-episode-by-movie/list-episode-by-movie.component';
 
 const routes: Routes = [
   {
@@ -98,7 +99,8 @@ const routes: Routes = [
       // Episode
       { path: 'episode/list-episode', component: ListEpisodeComponent, canActivate:[AdminGuardFn]},
       { path: 'episode/update-episode/:id', component: UpdateEpisodeComponent, canActivate:[AdminGuardFn]},
-      { path: 'episode/add-episode', component: AddEpisodeComponent, canActivate:[AdminGuardFn]},
+      { path: 'episode/add-episode/:id', component: AddEpisodeComponent, canActivate:[AdminGuardFn]},
+      { path: 'episode/list-episode-by-movie/:id', component: ListEpisodeByMovieComponent, canActivate:[AdminGuardFn]},
       // Account
       { path: 'account/list-account', component: ListAccountComponent, canActivate:[AdminGuardFn]},
       // Storage

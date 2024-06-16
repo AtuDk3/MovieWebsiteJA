@@ -63,6 +63,7 @@ import { ThanksComponent } from './components/thanks/thanks.component';
 import { SearchMovieComponent } from './components/search-movie/search-movie.component';
 import { StorageRateComponent } from './components/admin/manager-storage/storage-rate/storage-rate.component';
 import { StorageTopViewComponent } from './components/admin/manager-storage/storage-top-view/storage-top-view.component';
+import { ListEpisodeByMovieComponent } from './components/admin/episode/list-episode-by-movie/list-episode-by-movie.component';
 
 
 export function initializeAuthService(authService: AuthService) {
@@ -122,7 +123,8 @@ export function initializeAuthService(authService: AuthService) {
         ThanksComponent,
         SearchMovieComponent,
         StorageRateComponent,
-        StorageTopViewComponent
+        StorageTopViewComponent,
+        ListEpisodeByMovieComponent
     ],
     bootstrap: [
         AppComponent
