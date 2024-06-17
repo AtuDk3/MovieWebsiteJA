@@ -26,10 +26,24 @@ spring:
 #      client:
 #        registration:
 #          google:
-#            client-id: "376310187656-48ht7enjmq150efgtos8p2kfi9ghs0dh.apps.googleusercontent.com"
-#            client-secret: "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"
+#            client-id: "766011988725-tus8l0dma4k01244c197l7jirsbi4l25.apps.googleusercontent.com"
+#            client-secret: "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"
 
-
+  security:
+    oauth2:
+      client:
+        registration:
+          google:
+            client-id: "766011988725-tus8l0dma4k01244c197l7jirsbi4l25.apps.googleusercontent.com"
+            client-secret: "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"
+            scope: profile, email
+            redirect-uri: "{baseUrl}/login/oauth2/code/{registrationId}"
+        provider:
+          google:
+            authorization-uri: https://accounts.google.com/o/oauth2/auth
+            token-uri: https://oauth2.googleapis.com/token
+            user-info-uri: https://www.googleapis.com/oauth2/v3/userinfo
+            user-name-attribute: sub
 
 #  mail:
 #    host: smtp.gmail.com

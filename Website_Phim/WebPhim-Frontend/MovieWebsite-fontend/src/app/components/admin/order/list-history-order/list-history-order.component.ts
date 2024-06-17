@@ -1,14 +1,14 @@
 import { Component, OnInit } from '@angular/core';
 import { OrderResponse } from '../../../../responses/user/order.response';
 import { OrderService } from '../../../../services/order.service';
-import { Router } from '@angular/router';
+import { ActivatedRoute } from '@angular/router';
 
 @Component({
-  selector: 'app-list-order',
-  templateUrl: './list-order.component.html',
-  styleUrl: './list-order.component.scss'
+  selector: 'app-list-history-order',
+  templateUrl: './list-history-order.component.html',
+  styleUrl: './list-history-order.component.scss'
 })
-export class ListOrderComponent implements OnInit {
+export class ListHistoryOrderComponent implements OnInit{
 
   orderResponse: OrderResponse[] = [];
   currentPage: number = 0;
@@ -16,19 +16,23 @@ export class ListOrderComponent implements OnInit {
   pages: number[] = [];
   totalPages: number = 0;
   visiblePages: number[] = [];
-
+  user_id: number= 0;
   constructor(private orderService: OrderService,
-              private router: Router
+    private route: ActivatedRoute
   ) { }
 
   ngOnInit() {
-    this.getOrders(this.currentPage, this.itemsPerPage);
+    const id = Number(this.route.snapshot.paramMap.get('id'));
+    if (id) {
+      this.user_id= id;
+      this.getOrderByUser(this.user_id, this.currentPage, this.itemsPerPage);
+    }
   }
 
-  getOrders(page: number, limit: number) {
-    this.orderService.getOrders(page, limit).subscribe({
+  getOrderByUser(user_id: number, page: number, limit: number) {
+    this.orderService.getOrderByUser(user_id, page, limit).subscribe({
       next: (response: any) => {
-        response.orders.forEach((order: OrderResponse) => {   
+        response.orders.forEach((order: OrderResponse) => {      
         });
         this.orderResponse = response.orders;
         this.totalPages = response.totalPages;
@@ -58,11 +62,7 @@ export class ListOrderComponent implements OnInit {
     event.preventDefault();
     if (page >= 0 && page <= this.totalPages - 1) { // Đảm bảo không vượt quá giới hạn trang
       this.currentPage = page;
-      this.getOrders(this.currentPage, this.itemsPerPage);
+      this.getOrderByUser(this.user_id, this.currentPage, this.itemsPerPage);
     }
-  }
-
-  historyOrder(user_id: number){
-    this.router.navigate([`admin/order/list-history-order/${user_id}`]);
   }
 }

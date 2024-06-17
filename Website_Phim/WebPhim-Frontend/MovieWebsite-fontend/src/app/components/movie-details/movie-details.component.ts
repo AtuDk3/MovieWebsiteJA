@@ -23,8 +23,8 @@ export class MovieDetailsComponent implements OnInit {
   movieId: number = 0;
   userResponse?: UserResponse | null
   vipPeriodResponse?: VipPeriodResponse | null
-  
- 
+
+
   constructor(
     private movieService: MovieService,
     private router: Router,
@@ -70,9 +70,9 @@ export class MovieDetailsComponent implements OnInit {
   }
 
 
-  checkFee(isFee: number, movieId: number) {
-    if (isFee === 1) {
-      this.userResponse = this.userService.getUserResponseFromLocalStorage();
+  checkFee(isFee: number, movieId: number, limit_age: number) {
+    this.userResponse = this.userService.getUserResponseFromLocalStorage();
+    if (isFee === 1) {      
       if (this.userResponse) {
         if (this.userResponse.user_vip.name.includes('vip')) {
           this.vipPeriodResponse = this.userService.getVipPeriodResponseFromLocalStorage();
@@ -122,7 +122,7 @@ export class MovieDetailsComponent implements OnInit {
                           }
                         });
                       //trang mua quyen
-                      
+
                     }
 
                   },
@@ -134,7 +134,7 @@ export class MovieDetailsComponent implements OnInit {
                     console.log('Update user details movie-detail request completed.');
                   }
                 });
-            } else {              
+            } else {
               this.router.navigate([`/watching/${movieId}`])
             }
           } else {
@@ -147,10 +147,24 @@ export class MovieDetailsComponent implements OnInit {
       } else {
         this.router.navigate(['/login']);
       }
-    } else {     
-      this.router.navigate([`/watching/${movieId}`])     
-    }
+    } else {
+      if (this.userResponse) {
+        const dob= new Date(this.userResponse.date_of_birth)
+        const today = new Date();
+        let age = today.getFullYear() - dob.getFullYear();
+        const monthDifference = today.getMonth() - dob.getMonth();
 
+        if (monthDifference < 0 || (monthDifference === 0 && today.getDate() < dob.getDate())) {
+          age--;
+        }
+        if(age>=limit_age){
+          this.router.navigate([`/watching/${movieId}`])
+        }else{
+          alert('Phim không phụ hợp với độ tuổi của bạn!');
+        }
+      
+      }
+    }
   }
 
   // incremnetViewMovie(movie_id:number){
@@ -171,10 +185,10 @@ export class MovieDetailsComponent implements OnInit {
     if (this.userResponse) {
       this.bookmarkService.addMovieFavourite(this.userResponse?.id, movieId, this.tokenService.getToken()!).subscribe({
         next: response => {
-          this.toastr.success('Đã thêm vào mục phim yêu thích!' ,'Thêm thành công', {
+          this.toastr.success('Đã thêm vào mục phim yêu thích!', 'Thêm thành công', {
             timeOut: 3000,
             positionClass: 'toast-bottom-right'
-          });         
+          });
           this.bookmarkService.incrementBookmarkCount();
         },
         error: err => {
@@ -182,7 +196,7 @@ export class MovieDetailsComponent implements OnInit {
           this.toastr.error('Đã có trong mục phim yêu thích!', 'Thêm thất bại', {
             timeOut: 3000,
             positionClass: 'toast-bottom-right'
-          });                
+          });
         }
       });
     }

@@ -67,7 +67,7 @@ public class MovieResponse {
     private int isActive;
 
 
-    public  static MovieResponse fromMovie(Movie movie){
+    public static MovieResponse fromMovie(Movie movie){
         MovieResponse movieResponse = MovieResponse.builder()
                 .id(movie.getId())
                 .name(movie.getName())

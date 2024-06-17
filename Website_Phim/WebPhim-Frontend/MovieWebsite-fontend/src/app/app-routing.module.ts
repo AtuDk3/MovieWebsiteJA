@@ -43,6 +43,8 @@ import { SearchMovieComponent } from './components/search-movie/search-movie.com
 import { StorageTopViewComponent } from './components/admin/manager-storage/storage-top-view/storage-top-view.component';
 import { StorageRateComponent } from './components/admin/manager-storage/storage-rate/storage-rate.component';
 import { ListEpisodeByMovieComponent } from './components/admin/episode/list-episode-by-movie/list-episode-by-movie.component';
+import { ListHistoryOrderComponent } from './components/admin/order/list-history-order/list-history-order.component';
+import { MovieYearComponent } from './components/movie-year/movie-year.component';
 
 const routes: Routes = [
   {
@@ -58,7 +60,8 @@ const routes: Routes = [
       { path: 'watching/:id', component: WatchingComponent},
       { path: 'movie-hot', component: MovieHotComponent},
       { path: 'bookmark', component: BookmarkComponent},
-      { path: 'search_movie', component: SearchMovieComponent},  
+      { path: 'search_movie', component: SearchMovieComponent}, 
+      {path: 'movie_year/:year', component: MovieYearComponent }
     ]
   },
   {
@@ -108,6 +111,7 @@ const routes: Routes = [
       { path: 'storage/storage-rate', component: StorageRateComponent, canActivate:[AdminGuardFn]},
       // Order
       { path: 'order/list-order', component: ListOrderComponent, canActivate:[AdminGuardFn]},
+      { path: 'order/list-history-order/:id', component: ListHistoryOrderComponent, canActivate:[AdminGuardFn]},
     ]
   }
 ];

@@ -111,6 +111,12 @@ public class MovieServiceImpl implements MovieService {
     }
 
     @Override
+    public Page<MovieResponse> getAllMoviesByYear(int year, PageRequest pageRequest) {
+        Page<Movie> moviesPage = movieRepository.searchMoviesByYear(year,pageRequest);
+        return mapToMovieResponsePage(moviesPage);
+    }
+
+    @Override
     public Page<MovieResponse> getAllMoviesByCountryId(String keyword, int countryId, PageRequest pageRequest) {
         Page<Movie> moviesPage = movieRepository.searchMoviesByCountryId(countryId,pageRequest);
         return mapToMovieResponsePage(moviesPage);
@@ -208,6 +214,10 @@ public class MovieServiceImpl implements MovieService {
         return movieRepository.existsByName(name);
     }
 
+    @Override
+    public List<Integer> getDistinctYears() {
+        return movieRepository.findDistinctYears();
+    }
 
 
 }

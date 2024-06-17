@@ -243,4 +243,12 @@ export class UserService {
     return this.http.get(this.apiGetUserVip);   
   }
 
+  loginGoogle(): void {
+    window.location.href = 'http://localhost:8088/oauth2/authorization/google';
+  }
+
+  getUser(): Observable<any> {
+    return this.http.get<any>('http://localhost:8088/api/v1/users/signingoogle');
+  }
+
 }

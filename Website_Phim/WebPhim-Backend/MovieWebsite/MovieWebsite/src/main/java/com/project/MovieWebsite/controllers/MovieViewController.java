@@ -1,6 +1,5 @@
 package com.project.MovieWebsite.controllers;
 
-
 import com.project.MovieWebsite.repositories.ManagerStorageViewRepository;
 import com.project.MovieWebsite.responses.MovieViewResponse;
 import com.project.MovieWebsite.services.MovieViewService;
@@ -46,7 +45,7 @@ public class MovieViewController {
         }
     }
 
-    @GetMapping("")
+    @GetMapping("/update_view_day")
     public ResponseEntity<?> updateViewForDay() {
         try{
             movieViewService.updateViewsForDay();

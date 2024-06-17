@@ -9,6 +9,9 @@ import { TokenService } from '../../services/token.service';
 import { Router } from '@angular/router';
 import { VipPeriodResponse } from '../../responses/user/vip_period.response';
 import { BookmarkService } from '../../services/bookmark.service';
+import { MovieService } from '../../services/movie.service';
+import { Movie } from '../../models/movie';
+
 @Component({
   selector: 'app-header',
   templateUrl: './header.component.html',
@@ -17,6 +20,7 @@ import { BookmarkService } from '../../services/bookmark.service';
 export class HeaderComponent implements OnInit {
   genres: Genre[] = [];
   countries: Country[] = [];
+  movieYears: number[] = [];
   showGenreMenu: boolean = false;
   showCountryMenu: boolean = false;
   showYearMenu: boolean = false;
@@ -26,17 +30,33 @@ export class HeaderComponent implements OnInit {
   isPopoverOpen= false;
   search: string = '';
   bookmarkCount: number = 0;
+  movies : Movie[]=[];
+  filteredMovies : Movie[]=[];
+
+  openFilterModal(): void {
+    // $('#filterModal').modal('show'); // Show the filter modal
+  }
+
+  onFilterApplied(filters: any): void {
+    this.filteredMovies = this.movies.filter(movie => {
+      return (!filters.genre || movie.id_genre === filters.genre) &&
+             (!filters.year || movie.release_date === filters.year) &&
+             (!filters.country || movie.id_country === filters.country);
+    });
+  }
 
   constructor(private genreService: GenreService, private countryService: CountryService,
     private userService: UserService,
     private tokenService: TokenService
-    , private  router: Router, private bookmarkService: BookmarkService
+    , private  router: Router, private bookmarkService: BookmarkService,
+    private movieService: MovieService
   ) {    
   }
 
   ngOnInit() {
     this.getGenres();
     this.getCountries();
+    this.getYears();
     if(!this.tokenService.isTokenExpired()){
       this.userResponse= this.userService.getUserResponseFromLocalStorage();
       if(this.userResponse?.user_vip.name.includes('vip') && this.userService.getVipPeriodResponseFromLocalStorage()===null){
@@ -58,6 +78,18 @@ export class HeaderComponent implements OnInit {
     this.genreService.getGenres().subscribe({
       next: (response: any) => {
         this.genres = response;
+      },
+      error: (error: any) => {
+        console.log(error);
+      }
+    });
+  }
+
+  getYears() {
+    this.movieService.getYearsMovie().subscribe({
+      next: (response: any) => {
+        this.movieYears = response;
+        console.log(this.movieYears)
       },
       error: (error: any) => {
         console.log(error);

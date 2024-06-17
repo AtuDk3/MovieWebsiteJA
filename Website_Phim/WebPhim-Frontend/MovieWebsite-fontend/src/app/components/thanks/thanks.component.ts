@@ -6,6 +6,8 @@ import { UpdateUserDTO } from '../../dtos/user/updateuser.dto';
 import { UserResponse } from '../../responses/user/user.response';
 import { TokenService } from '../../services/token.service';
 import { VipPeriodResponse } from '../../responses/user/vip_period.response';
+import { OrderDTO } from '../../dtos/user/order.dto';
+import { OrderService } from '../../services/order.service';
 
 @Component({
   selector: 'app-thanks',
@@ -16,14 +18,15 @@ export class ThanksComponent implements OnInit {
   vnp_ammount: number = 0
   vip_name: string = ''
   userResponse?: UserResponse | null
-  vipPeriodResponse?:VipPeriodResponse | null
+  vipPeriodResponse?: VipPeriodResponse | null
 
   constructor(
     private route: ActivatedRoute,
     private router: Router,
     private vnpayService: VnpayService,
     private userService: UserService,
-    private tokenService: TokenService
+    private tokenService: TokenService,
+    private orderService: OrderService
   ) { }
 
   // ngOnInit(): void {
@@ -79,12 +82,12 @@ export class ThanksComponent implements OnInit {
                 this.userService.saveUserResponseToLocalStorage(this.userResponse);
 
                 this.userResponse = this.userService.getUserResponseFromLocalStorage();
-                if (this.userResponse) {                 
-                 
+                if (this.userResponse) {
+
                   this.userService.createVipPeriod(this.userResponse.id, this.tokenService.getToken()!).subscribe(
                     {
-                      next: (response: any) => {  
-                        this.getVipPeriod();                   
+                      next: (response: any) => {
+                        this.getVipPeriod();
                       },
                       complete: () => {
                       },
@@ -93,6 +96,20 @@ export class ThanksComponent implements OnInit {
                       }
                     });
 
+                  const orderDTO: OrderDTO = {
+                    user_id: this.userResponse.id,
+                    price: this.vnp_ammount
+                  };
+                  this.orderService.createOrder(orderDTO, this.tokenService.getToken()!).subscribe(
+                    {
+                      next: (response: any) => {
+                      },
+                      complete: () => {
+                      },
+                      error: (err) => {
+                        console.log('error create order');
+                      }
+                    });
                 }
               }
 
@@ -109,35 +126,35 @@ export class ThanksComponent implements OnInit {
 
   }
 
-  getVipPeriod(){
+  getVipPeriod() {
     this.userService.getVipPeriod(this.tokenService.getToken()!).subscribe({
-      next: (response: any) =>{
-        debugger               
-        this.vipPeriodResponse={
-          ... response                                
-       } 
-        if (this.vipPeriodResponse) {                  
-          const day =  ('0' + (new Date(this.vipPeriodResponse.registration_date).getDate())).slice(-2);
-          const month = ('0' + (new Date(this.vipPeriodResponse.registration_date).getMonth() +1 )).slice(-2); 
+      next: (response: any) => {
+        debugger
+        this.vipPeriodResponse = {
+          ...response
+        }
+        if (this.vipPeriodResponse) {
+          const day = ('0' + (new Date(this.vipPeriodResponse.registration_date).getDate())).slice(-2);
+          const month = ('0' + (new Date(this.vipPeriodResponse.registration_date).getMonth() + 1)).slice(-2);
           const year = new Date(this.vipPeriodResponse.registration_date).getFullYear();
           const formattedDate = `${day}/${month}/${year}`;
           this.vipPeriodResponse.registration_date_formatted = formattedDate;
 
-          const day1 =  ('0' + (new Date(this.vipPeriodResponse.expiration_date).getDate())).slice(-2);
-          const month1 = ('0' + (new Date(this.vipPeriodResponse.expiration_date).getMonth() +1 )).slice(-2); 
+          const day1 = ('0' + (new Date(this.vipPeriodResponse.expiration_date).getDate())).slice(-2);
+          const month1 = ('0' + (new Date(this.vipPeriodResponse.expiration_date).getMonth() + 1)).slice(-2);
           const year1 = new Date(this.vipPeriodResponse.expiration_date).getFullYear();
           const formattedDate1 = `${day1}/${month1}/${year1}`;
           this.vipPeriodResponse.expiration_date_formatted = formattedDate1;
           this.userService.saveVipPeriodResponseToLocalStorage(this.vipPeriodResponse);
-          this.vipPeriodResponse=   this.userService.getVipPeriodResponseFromLocalStorage();
-      }             
+          this.vipPeriodResponse = this.userService.getVipPeriodResponseFromLocalStorage();
+        }
 
       },
       complete: () => {
       },
-      error: (error: any) => {               
+      error: (error: any) => {
         console.log(error.error.message);
       }
-    })        
+    })
   }
 }

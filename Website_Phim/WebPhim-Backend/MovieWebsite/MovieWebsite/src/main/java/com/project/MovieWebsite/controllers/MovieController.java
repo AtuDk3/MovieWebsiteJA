@@ -126,6 +126,20 @@ public class MovieController {
                 .movies(movies).totalPages(totalPages).build());
     }
 
+    @GetMapping("/movie_year")
+    public ResponseEntity<MovieListResponse> getMovieByYear(
+            @RequestParam(defaultValue = "0", name = "year") int year,
+            @RequestParam(defaultValue = "0") int page,
+            @RequestParam(defaultValue = "10") int limit
+    ){
+        PageRequest pageRequest = PageRequest.of(page, limit, Sort.by("id").descending());
+        Page<MovieResponse> moviePage = movieService.getAllMoviesByYear(year, pageRequest);
+        int totalPages = moviePage.getTotalPages();
+        List<MovieResponse> movies = moviePage.getContent();
+        return ResponseEntity.ok(MovieListResponse.builder()
+                .movies(movies).totalPages(totalPages).build());
+    }
+
     @GetMapping("/countries")
     public ResponseEntity<MovieListResponse> getMovieByCountryId(
             @RequestParam(defaultValue = "") String keyword,
@@ -183,6 +197,11 @@ public class MovieController {
         List<MovieResponse> movies = moviePage.getContent();
         return ResponseEntity.ok(FavouriteListResponse.builder()
                 .movies(FavouriteResponse.fromMovie(movies)).totalPages(totalPages).build());
+    }
+
+    @GetMapping("/years")
+    public ResponseEntity<List<Integer>> getMovieYears() {
+        return ResponseEntity.ok(movieService.getDistinctYears());
     }
 
     @GetMapping("/{id}")

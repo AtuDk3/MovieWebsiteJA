@@ -1,18 +1,18 @@
 package com.project.MovieWebsite.controllers;
 
-import org.springframework.security.oauth2.client.authentication.OAuth2AuthenticationToken;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.security.oauth2.core.user.OAuth2User;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-
-import java.util.Map;
 
 @RestController
 @RequestMapping("${api.prefix}/users")
 public class LoginGoogleController {
 
     @GetMapping("/signingoogle")
-    public Map<String, Object> currentUser(OAuth2AuthenticationToken oAuth2AuthenticationToken){
-        return oAuth2AuthenticationToken.getPrincipal().getAttributes();
+    public OAuth2User user(@AuthenticationPrincipal OAuth2User principal) {
+        return principal;
     }
+    
 }

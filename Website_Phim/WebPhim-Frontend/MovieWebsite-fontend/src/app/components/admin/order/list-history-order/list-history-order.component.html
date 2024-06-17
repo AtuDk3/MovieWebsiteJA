@@ -8,24 +8,22 @@
     <table id="example" class="table table-striped" id="table_list" style="width:100%;">
         <thead>
             <tr>
-                <th>No</th>
+                <th>No</th>              
                 <th>User Name</th>                             
                 <th>Order date</th>
-                <th>Price</th>
-                <th>History</th>  
+                <th>Price</th>                
             </tr>
         </thead>
-
         <tbody>
 
             <tr *ngFor="let order of orderResponse; let i = index">
-                <td>{{ i + 1 }}</td>
+                <td>{{ i + 1 }}</td>               
                 <td>{{ order.user_name }}</td>
                 <td>{{ order.order_date | date: 'dd-MM-yyyy'}}</td>
                 <td>{{ order.price | currency:'VND'}}</td>
                 <td>
                     <!-- <button type="button" class="btn btn-danger" (click)="deleteMovie(movie.id)">Delete</button> -->
-                    <button type="button" class="btn btn-warning" (click)="historyOrder(order.user_id)">View</button>
+                    <!-- <button type="button" class="btn btn-warning" (click)="historyOrder(order.user_id)">View</button> -->
                 </td>
             </tr>
 

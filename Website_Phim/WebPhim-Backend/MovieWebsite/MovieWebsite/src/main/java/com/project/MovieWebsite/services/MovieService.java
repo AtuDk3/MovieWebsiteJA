@@ -23,6 +23,8 @@ public interface MovieService {
 
     Page<MovieResponse> getAllMoviesByGenreId(String keyword, int genreId, PageRequest pageRequest);
 
+    Page<MovieResponse> getAllMoviesByYear(int year, PageRequest pageRequest);
+
     Page<MovieResponse> getAllMoviesByCountryId(String keyword, int countryId, PageRequest pageRequest);
 
     Page<MovieResponse> getAllMoviesByMovieTypeId(String keyword, int movieTypeId, PageRequest pageRequest);
@@ -42,4 +44,6 @@ public interface MovieService {
     void deleteMovies(int id);
 
     boolean existByName(String name);
+
+    List<Integer> getDistinctYears();
 }

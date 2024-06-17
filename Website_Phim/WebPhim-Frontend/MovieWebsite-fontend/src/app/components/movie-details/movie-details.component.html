@@ -38,7 +38,7 @@
                         <img class="movie-thumb" [src]="movie.url" alt="{{ movie.name }}">
                         <div class="bwa-content">
                            <div class="loader"></div>
-                           <a (click)="checkFee(movie.is_fee, movie.id)" class="bwac-btn">
+                           <a (click)="checkFee(movie.is_fee, movie.id, movie.limited_age)" class="bwac-btn">
                               <i class="fa fa-play"></i>
                            </a>
                         </div>

@@ -18,6 +18,8 @@ export class MovieService {
   private apiGetHotMovies = `${environment.apiBaseUrl}/movies/movie-hot`;
   private apiGetImageMovie = `${environment.apiBaseUrl}/movies/upload_movie`;
   private apiGetMoviesRelated = `${environment.apiBaseUrl}/movies/related_movies`;
+  private apiGetYears = `${environment.apiBaseUrl}/movies/years`;
+  private apiGetMoviesByYear = `${environment.apiBaseUrl}/movies/movie_year`;
   
   constructor(private http: HttpClient) { }
 
@@ -82,6 +84,15 @@ export class MovieService {
     return this.http.get<Movie[]>(this.apiGetMoviesByGenre, { params });
   }
 
+  getMoviesByYear(year: number, page: number, limit: number): Observable<Movie[]> {
+    const params = new HttpParams()
+      .set('page', page.toString())
+      .set('limit', limit.toString())
+      .set('year', year.toString());
+
+    return this.http.get<Movie[]>(this.apiGetMoviesByYear, { params });
+  }
+
   getMoviesByCountryId(country_id: number, page: number, limit: number): Observable<Movie[]> {
     const params = new HttpParams()
       .set('page', page.toString())
@@ -115,6 +126,10 @@ export class MovieService {
       .set('movie_id', movie_id.toString())
 
     return this.http.get<Movie[]>(this.apiGetMoviesRelated, { params });
+  }
+
+  getYearsMovie(): Observable<any> {   
+    return this.http.get(this.apiGetYears); 
   }
 
   getMoviesByNumberViews(): Observable<Movie[]> {
