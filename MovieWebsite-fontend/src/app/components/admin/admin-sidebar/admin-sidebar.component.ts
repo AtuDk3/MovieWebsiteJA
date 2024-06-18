@@ -1,3 +1,4 @@
+
 import { Component } from '@angular/core';
 
 @Component({
@@ -13,7 +14,9 @@ export class AdminSidebarComponent {
     movie: false,
     episode: false,
     order: false,
-    account: false
+    account: false,
+    ads: false,
+    storage: false
   };
 
   openDropdown(menu: string): void {

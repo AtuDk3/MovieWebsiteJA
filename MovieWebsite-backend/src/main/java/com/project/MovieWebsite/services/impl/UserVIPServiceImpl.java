@@ -8,6 +8,7 @@ import com.project.MovieWebsite.services.UserVIPService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @RequiredArgsConstructor
@@ -29,7 +30,14 @@ public class UserVIPServiceImpl implements UserVIPService {
 
     @Override
     public List<UserVIP> getAllUserVIP() {
-        return userVIPRepository.findAll();
+        List<UserVIP> listUserVip= new ArrayList<>();
+        for (UserVIP userVIP: userVIPRepository.findAll()){
+            if(userVIP.getName().contains("User")){
+                continue;
+            }
+            listUserVip.add(userVIP);
+        }
+        return listUserVip;
     }
 
     @Override

@@ -11,28 +11,28 @@
                     d="M10.97 4.97a.235.235 0 0 0-.02.022L7.477 9.417 5.384 7.323a.75.75 0 0 0-1.06 1.06L6.97 11.03a.75.75 0 0 0 1.079-.02l3.992-4.99a.75.75 0 0 0-1.071-1.05z" />
             </svg>
         </div>
-        <div class="text-center">
+        <div class="text-center" *ngIf="userResponse">
             <h3>Nâng cấp tài khoản thành công</h3>
             <p>
-                Thank you <strong>Thanh Tú</strong>. Bây giờ bạn có thể xem phim thoải mái :))</p>
+                Thank you <strong>{{userResponse.full_name}}</strong>. Bây giờ bạn có thể xem phim thoải mái :))</p>
 
                 <table class="table table-bordered">
                     <tbody>
                     <tr>
                         <td>Bạn đã nâng cấp gói:</td>
-                        <td><span th:text="${orderId}">[Gói gì đó]</span></td>
+                        <td><span th:text="${orderId}">Gói {{userResponse.user_vip.numberMonth}} tháng</span></td>
                     </tr>
                     <tr>
                         <td>Tổng tiền:</td>
-                        <td><span th:text="${totalPrice}">[50k/1 tháng]</span></td>
+                        <td><span th:text="${totalPrice}">{{userResponse.user_vip.price | number:'1.0-0' }}k/{{userResponse.user_vip.numberMonth}} tháng</span></td>
                     </tr>
                     <tr>
                         <td>Thời gian bắt đầu:</td>
-                        <td><span th:text="${paymentTime}">[01/01/2024]</span></td>
+                        <td><span th:text="${paymentTime}">{{vipPeriodResponse?.registration_date_formatted}}</span></td>
                     </tr>
                     <tr>
                         <td>Thời gian kết thúc:</td>
-                        <td><span th:text="${transactionId}">[01/02/2024]</span></td>
+                        <td><span th:text="${transactionId}">{{vipPeriodResponse?.expiration_date_formatted}}</span></td>
                     </tr>
                     </tbody>
                 </table>
@@ -40,3 +40,19 @@
             
         </div>
     </div>
+
+<!-- <div class="vh-100 d-flex justify-content-center align-items-center">
+    <div class="card col-md-4 bg-white shadow-md p-5">
+        <div class="mb-4 text-center">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><path d="M256 48a208 208 0 1 1 0 416 208 208 0 1 1 0-416zm0 464A256 256 0 1 0 256 0a256 256 0 1 0 0 512zM175 175c-9.4 9.4-9.4 24.6 0 33.9l47 47-47 47c-9.4 9.4-9.4 24.6 0 33.9s24.6 9.4 33.9 0l47-47 47 47c9.4 9.4 24.6 9.4 33.9 0s9.4-24.6 0-33.9l-47-47 47-47c9.4-9.4 9.4-24.6 0-33.9s-24.6-9.4-33.9 0l-47 47-47-47c-9.4-9.4-24.6-9.4-33.9 0z"/></svg>
+        </div>
+        <div class="text-center">
+            <h3>Nâng cấp tài khoản thất bại</h3>
+            <p>
+                Thank you <strong>Thanh Tú</strong>. Hãy thanh toán lại!</p>
+
+            <a href="/"><button class="btn btn-outline-success"> Back Home</button></a>
+            <a href="/upgrade-account"><button class="btn btn-outline-danger"> Upgrade Account</button></a>
+
+        </div>
+    </div> -->

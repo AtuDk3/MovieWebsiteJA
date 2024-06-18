@@ -14,5 +14,7 @@ public class OrderDTO {
     @JsonProperty("user_id")
     private int userId;
 
+    @JsonProperty("price")
+    private double price;
 
 }

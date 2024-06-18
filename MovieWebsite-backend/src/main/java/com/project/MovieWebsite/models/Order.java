@@ -26,6 +26,9 @@ public class Order {
     @Column(name="order-date")
     private LocalDateTime orderDate;
 
+    @Column(name="price")
+    private double price;
+
     @PrePersist
     protected void onCreate(){
         orderDate= LocalDateTime.now();

@@ -45,7 +45,7 @@ export class MovieRelatedComponent implements OnInit, AfterViewInit, AfterViewCh
   }
 
   initOwlCarousel(): void {
-    $('#halim_related_movies-2').owlCarousel({
+    ($('#halim_related_movies-2') as any).owlCarousel({
       loop: true,
       margin: 4,
       autoplay: true,
@@ -62,6 +62,7 @@ export class MovieRelatedComponent implements OnInit, AfterViewInit, AfterViewCh
       }
     });
   }
+  
 
   getMoviesRelated(movie_id: number, page: number, limit: number){   
     this.movieService.getMoviesRelated(movie_id, page, limit).subscribe({

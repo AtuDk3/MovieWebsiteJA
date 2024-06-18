@@ -6,52 +6,21 @@
     <main>
         <div class="container-form-add-product">
             <h2 class="text-center">Add Episode</h2>
-            <form action="" enctype="multipart/form-data">
-                <div class="row g-1">
-                    <div class="col">
-                    <label for="fullName">Movie Name</label>
-                    <input type="text" name="fullName" class="form-control" required>
-                    </div>           
-                </div>
-
+            <form (ngSubmit)="addEpisode()">
+                
                 <div class="row g-1">
                     <div class="col">
                         <label for="description">Episode</label>
-                        <input type="text" name="fullName" class="form-control" required>
+                        <input type="text" name="episode" [(ngModel)]="episode" class="form-control" required>
                     </div>           
                 </div>
 
                 <div class="row g-1">
                     <div class="col">
                     <label for="image">Movie URL</label>
-                    <input type="texttext" name="image" class="form-control">
+                    <input type="texttext" name="movie_url" [(ngModel)]="movie_url"class="form-control">
                     </div>           
-                </div>
-
-                <div class="row g-1">
-                    <div class="col">
-                    <label for="releaseDate">Create At</label>
-                    <input type="date" name="releaseDate" class="form-control" required>
-                    </div>           
-                </div>
-
-                <div class="row g-1">
-                    <div class="col">
-                    <label for="duration">Update At</label>
-                    <input type="date" name="duration" class="form-control" required>
-                    </div>           
-                </div>
-
-                <div class="row g-1">
-                    <div class="col">
-                        <label>Active :</label>
-                        <select name="isActive">
-                            <option value="1" selected>Yes</option>
-                            <option value="1" selected>No</option>
-                        </select>
-                    </div>
-                </div> 
-                
+                </div>                                            
                 <button id="btn" type="submit" class="btn btn-primary">Add Episode</button>
             </form>
         </div>

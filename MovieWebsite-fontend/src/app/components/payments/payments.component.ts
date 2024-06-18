@@ -10,7 +10,7 @@ import { VnpayService } from '../../services/vnpay.service';
 export class PaymentComponent implements OnInit {
 
   amount: number = 0;
-  orderInfo: string = '';
+  vip_name: string = '';
 
   constructor(private route: ActivatedRoute,
     private vnpayService: VnpayService) { }
@@ -18,12 +18,12 @@ export class PaymentComponent implements OnInit {
   ngOnInit(): void {
     this.route.queryParams.subscribe(params => {
       this.amount = +params['amount'];
-      this.orderInfo = params['orderInfo'];
+      this.vip_name = params['vip_name'];
     });
   }
 
   onSubmit() {
-    this.vnpayService.createPayment(this.amount, this.orderInfo).subscribe({
+    this.vnpayService.createPayment(this.amount, this.vip_name).subscribe({
       next: (response: string) => {
         if (response.startsWith('redirect:')) {
           const redirectUrl = response.substring('redirect:'.length);

@@ -160,5 +160,12 @@ export class UpdateMovieComponent implements OnInit {
     }
   }
 
+  formatDate(d: Date): string {
+    const date = new Date(d);
+    const day = date.getDate();
+    const month = date.getMonth() + 1; // getMonth() is zero-based
+    const year = date.getFullYear();
+    return `${day}/${month}/${year}`;
+  }
 
 }

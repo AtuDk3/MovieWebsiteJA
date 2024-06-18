@@ -7,6 +7,7 @@ import { environment } from '../environments/environment';
 import { UserResponse } from '../responses/user/user.response';
 import { UpdateUserDTO } from '../dtos/user/updateuser.dto';
 import { VipPeriodResponse } from '../responses/user/vip_period.response';
+import { VipPeriodDTO } from '../dtos/user/vip_period.dto';
 @Injectable({
   providedIn: 'root'
 })
@@ -23,6 +24,8 @@ export class UserService {
   private apiCheckRegister = `${environment.apiBaseUrl}/users/check-register`;
   private apiCheckOTP = `${environment.apiBaseUrl}/users/check-otp`;
   private apiVipPeriod = `${environment.apiBaseUrl}/users/vip_period`;
+  private apiGetUserVip = `${environment.apiBaseUrl}/users/list_user_vip`;
+
 
   private apiConfig = {
     headers: this.createHeader(),
@@ -225,6 +228,27 @@ export class UserService {
     });
 
     return this.http.delete(url, { headers: headers });
+  }
+
+  createVipPeriod(user_id: number, token: string): Observable<any> {     
+    
+    const headers = new HttpHeaders({
+      'Content-Type': 'application/json',
+      'Authorization': `Bearer ${token}`
+    });
+    return this.http.post(this.apiVipPeriod, {user_id}, { headers: headers });
+  }
+
+  getUserVip(): Observable<any>{
+    return this.http.get(this.apiGetUserVip);   
+  }
+
+  loginGoogle(): void {
+    window.location.href = 'http://localhost:8088/oauth2/authorization/google';
+  }
+
+  getUser(): Observable<any> {
+    return this.http.get<any>('http://localhost:8088/api/v1/users/signingoogle');
   }
 
 }

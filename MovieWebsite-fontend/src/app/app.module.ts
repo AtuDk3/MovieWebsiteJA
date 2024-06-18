@@ -51,7 +51,6 @@ import { ListOrderComponent } from './components/admin/order/list-order/list-ord
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { ToastrModule } from 'ngx-toastr';
 import { MovieHotComponent } from './components/movie-hot/movie-hot.component';
-import { UpgradeAccountComponent } from './components/upgrade-account/upgrade-account.component';
 import { AuthenticateAccountComponent } from './components/authenticate-account/authenticate-account.component';
 import { BookmarkComponent } from './components/bookmark/bookmark.component';
 import { PaymentComponent } from './components/payments/payments.component';
@@ -61,6 +60,15 @@ import { ModalModule } from 'ngx-bootstrap/modal';
 import { UpgradeComponent } from './components/upgrade/upgrade.component';
 import { ThanksComponent } from './components/thanks/thanks.component';
 import { SearchMovieComponent } from './components/search-movie/search-movie.component';
+import { StorageRateComponent } from './components/admin/manager-storage/storage-rate/storage-rate.component';
+import { StorageTopViewComponent } from './components/admin/manager-storage/storage-top-view/storage-top-view.component';
+import { ListEpisodeByMovieComponent } from './components/admin/episode/list-episode-by-movie/list-episode-by-movie.component';
+import { AddAdsComponent } from './components/admin/ads/add-ads/add-ads.component';
+import { ListAdsComponent } from './components/admin/ads/list-ads/list-ads.component';
+import { UpdateAdsComponent } from './components/admin/ads/update-ads/update-ads.component';
+import { AdsComponent } from './components/ads/ads.component';
+import { ListHistoryOrderComponent } from './components/admin/order/list-history-order/list-history-order.component';
+import { MovieYearComponent } from './components/movie-year/movie-year.component';
 
 
 export function initializeAuthService(authService: AuthService) {
@@ -113,13 +121,21 @@ export function initializeAuthService(authService: AuthService) {
         ListAccountComponent,
         ListOrderComponent,
         MovieHotComponent,
-        UpgradeAccountComponent,
         AuthenticateAccountComponent,
         BookmarkComponent,
         PaymentComponent,
         UpgradeComponent,
         ThanksComponent,
-        SearchMovieComponent
+        SearchMovieComponent,
+        StorageRateComponent,
+        StorageTopViewComponent,
+        ListEpisodeByMovieComponent,
+        AddAdsComponent,
+        ListAdsComponent,
+        UpdateAdsComponent,
+        AdsComponent,
+        ListHistoryOrderComponent,
+        MovieYearComponent
     ],
     bootstrap: [
         AppComponent

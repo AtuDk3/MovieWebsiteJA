@@ -1,4 +1,5 @@
 
+
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpParams, HttpHeaders } from '@angular/common/http';
 import { Observable } from 'rxjs';
@@ -15,6 +16,9 @@ export class TopViewService {
   private apiTopViewByWeek = `${environment.apiBaseUrl}/movie_views/top_view_week`;
   private apiTopViewByMonth = `${environment.apiBaseUrl}/movie_views/top_view_month`;
   private apiDeleteOldViewMonth = `${environment.apiBaseUrl}/movie_views/delete_old_view`;
+  private apiGetLastDeleteView = `${environment.apiBaseUrl}/movie_views/last_delete_view`;
+
+  
   
   constructor(private http: HttpClient) { }
 
@@ -42,6 +46,10 @@ export class TopViewService {
   //Admin
   deleteOldViewMonth(): Observable<any> {
     return this.http.delete(this.apiDeleteOldViewMonth);
+  }
+
+  getGetLastDeleteView(): Observable<any> {
+    return this.http.get(this.apiGetLastDeleteView);
   }
 
 

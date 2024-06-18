@@ -19,6 +19,8 @@ public interface RateRepository extends JpaRepository<Rate, Integer> {
 
     List<Rate> findAllByMovie(Movie movie);
 
+    List<Rate> findByMovie(Movie movie);
+
     @Modifying
     @Transactional
     @Query("DELETE FROM Rate r WHERE r.rateDate < :cutoffDate")

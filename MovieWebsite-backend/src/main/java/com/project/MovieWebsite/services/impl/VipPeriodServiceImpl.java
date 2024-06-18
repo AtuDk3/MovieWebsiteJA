@@ -22,13 +22,13 @@ public class VipPeriodServiceImpl implements VipPeriodService {
     private final VipPeriodRepository vipPeriodRepository;
 
     @Override
-    public VipPeriod createVipPeriod(VipPeriodDTO vipPeriodDTO) throws DataNotFoundException{
+    public VipPeriod createVipPeriod(int userId) throws DataNotFoundException{
 
-        if(vipPeriodRepository.findByUserId(vipPeriodDTO.getUserId())==null) {
+        if(vipPeriodRepository.findByUserId(userId)==null) {
 
 
-            User existingUser = userRepository.findById(vipPeriodDTO.getUserId())
-                    .orElseThrow(() -> new DataNotFoundException("Cannot find user with id: " + vipPeriodDTO.getUserId()));
+            User existingUser = userRepository.findById(userId)
+                    .orElseThrow(() -> new DataNotFoundException("Cannot find user with id: " + userId));
 
 
             VipPeriod newVipPeriod = VipPeriod.builder()
@@ -38,16 +38,16 @@ public class VipPeriodServiceImpl implements VipPeriodService {
                     .build();
             return vipPeriodRepository.save(newVipPeriod);
         }
-        return updateVipPeriod(vipPeriodDTO);
+        return updateVipPeriod(userId);
     }
 
     @Override
-    public VipPeriod updateVipPeriod(VipPeriodDTO vipPeriodDTO) throws DataNotFoundException{
+    public VipPeriod updateVipPeriod(int userId) throws DataNotFoundException{
 
-        VipPeriod existingVipPeriod= vipPeriodRepository.findByUserId(vipPeriodDTO.getUserId());
+        VipPeriod existingVipPeriod= vipPeriodRepository.findByUserId(userId);
 
-        User existingUser = userRepository.findById(vipPeriodDTO.getUserId())
-                .orElseThrow(() -> new DataNotFoundException("Cannot find user with id: " + vipPeriodDTO.getUserId()));
+        User existingUser = userRepository.findById(userId)
+                .orElseThrow(() -> new DataNotFoundException("Cannot find user with id: " + userId));
 
         LocalDateTime now = LocalDateTime.now();
 

@@ -5,10 +5,10 @@ import com.project.MovieWebsite.constants.MessageKeys;
 import com.project.MovieWebsite.dtos.UpdateUserDTO;
 import com.project.MovieWebsite.dtos.UserDTO;
 import com.project.MovieWebsite.dtos.UserLoginDTO;
-import com.project.MovieWebsite.dtos.VipPeriodDTO;
 import com.project.MovieWebsite.exceptions.DataNotFoundException;
 import com.project.MovieWebsite.exceptions.MailErrorExeption;
 import com.project.MovieWebsite.models.User;
+import com.project.MovieWebsite.models.UserVIP;
 import com.project.MovieWebsite.models.VipPeriod;
 import com.project.MovieWebsite.repositories.UserRepository;
 import com.project.MovieWebsite.repositories.VipPeriodRepository;
@@ -17,6 +17,7 @@ import com.project.MovieWebsite.responses.UserResponse;
 import com.project.MovieWebsite.responses.VipPeriodResponse;
 import com.project.MovieWebsite.services.ClientService;
 import com.project.MovieWebsite.services.UserService;
+import com.project.MovieWebsite.services.UserVIPService;
 import com.project.MovieWebsite.services.VipPeriodService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -24,6 +25,9 @@ import org.springframework.core.io.UrlResource;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.security.oauth2.core.user.OAuth2User;
+import org.springframework.ui.Model;
 import org.springframework.util.StringUtils;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.FieldError;
@@ -49,6 +53,7 @@ public class UserController {
     private final ClientService clientService;
     private final VipPeriodService vipPeriodService;
     private final VipPeriodRepository vipPeriodRepository;
+    private final UserVIPService userVIPService;
 
     @PostMapping("/register")
     public ResponseEntity<?> createUser(@Valid @RequestBody UserDTO userDTO, BindingResult result) {
@@ -282,14 +287,15 @@ public class UserController {
     }
 
     @PostMapping("/vip_period")
-    public ResponseEntity<?> createVipPeriod(@Valid @RequestBody VipPeriodDTO vipPeriodDTO, BindingResult result) {
+    public ResponseEntity<?> createVipPeriod(@RequestBody Map<String, Integer> request, BindingResult result,
+                                             @RequestHeader("Authorization") String authorizationHeader) {
 
         if (result.hasErrors()) {
             List<String> errorsMessage = result.getFieldErrors().stream().map(FieldError::getDefaultMessage).toList();
             return ResponseEntity.badRequest().body(errorsMessage);
         }
         try{
-            vipPeriodService.createVipPeriod(vipPeriodDTO);
+            vipPeriodService.createVipPeriod(request.get("user_id"));
             return ResponseEntity.ok().build();
         }catch (Exception e){
             return ResponseEntity.badRequest().body(e.getMessage());
@@ -328,7 +334,14 @@ public class UserController {
         }
     }
 
-
+    @GetMapping("/list_user_vip")
+    public ResponseEntity<List<UserVIP>> getVipPeriod(){
+        try{
+            return ResponseEntity.ok(userVIPService.getAllUserVIP());
+        }catch (Exception e){
+            return ResponseEntity.badRequest().build();
+        }
+    }
 
 
 }

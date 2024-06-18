@@ -37,10 +37,17 @@ import { MovieHotComponent } from './components/movie-hot/movie-hot.component';
 import { BookmarkComponent } from './components/bookmark/bookmark.component';
 import { AuthenticateAccountComponent } from './components/authenticate-account/authenticate-account.component';
 import { PaymentComponent } from './components/payments/payments.component';
-import { UpgradeAccountComponent } from './components/upgrade-account/upgrade-account.component';
 import { UpgradeComponent } from './components/upgrade/upgrade.component';
 import { ThanksComponent } from './components/thanks/thanks.component';
 import { SearchMovieComponent } from './components/search-movie/search-movie.component';
+import { StorageTopViewComponent } from './components/admin/manager-storage/storage-top-view/storage-top-view.component';
+import { StorageRateComponent } from './components/admin/manager-storage/storage-rate/storage-rate.component';
+import { ListEpisodeByMovieComponent } from './components/admin/episode/list-episode-by-movie/list-episode-by-movie.component';
+import { ListAdsComponent } from './components/admin/ads/list-ads/list-ads.component';
+import { UpdateAdsComponent } from './components/admin/ads/update-ads/update-ads.component';
+import { AddAdsComponent } from './components/admin/ads/add-ads/add-ads.component';
+import { MovieYearComponent } from './components/movie-year/movie-year.component';
+import { ListHistoryOrderComponent } from './components/admin/order/list-history-order/list-history-order.component';
 
 const routes: Routes = [
   {
@@ -57,6 +64,7 @@ const routes: Routes = [
       { path: 'movie-hot', component: MovieHotComponent},
       { path: 'bookmark', component: BookmarkComponent},
       { path: 'search_movie', component: SearchMovieComponent},  
+      {path: 'movie_year/:year', component: MovieYearComponent }
     ]
   },
   {
@@ -97,11 +105,20 @@ const routes: Routes = [
       // Episode
       { path: 'episode/list-episode', component: ListEpisodeComponent, canActivate:[AdminGuardFn]},
       { path: 'episode/update-episode/:id', component: UpdateEpisodeComponent, canActivate:[AdminGuardFn]},
-      { path: 'episode/add-episode', component: AddEpisodeComponent, canActivate:[AdminGuardFn]},
+      { path: 'episode/add-episode/:id', component: AddEpisodeComponent, canActivate:[AdminGuardFn]},
+      { path: 'episode/list-episode-by-movie/:id', component: ListEpisodeByMovieComponent, canActivate:[AdminGuardFn]},
       // Account
       { path: 'account/list-account', component: ListAccountComponent, canActivate:[AdminGuardFn]},
+      // Ads
+      { path: 'ads/list-ads', component: ListAdsComponent, canActivate:[AdminGuardFn]},
+      { path: 'ads/update-ads/:id', component: UpdateAdsComponent, canActivate:[AdminGuardFn]},
+      { path: 'ads/add-ads', component: AddAdsComponent, canActivate:[AdminGuardFn]},
+      // Storage
+      { path: 'storage/storage-top-view', component: StorageTopViewComponent, canActivate:[AdminGuardFn]},
+      { path: 'storage/storage-rate', component: StorageRateComponent, canActivate:[AdminGuardFn]},
       // Order
       { path: 'order/list-order', component: ListOrderComponent, canActivate:[AdminGuardFn]},
+      { path: 'order/list-history-order/:id', component: ListHistoryOrderComponent, canActivate:[AdminGuardFn]},
     ]
   }
 ];
@@ -111,4 +128,3 @@ const routes: Routes = [
   exports: [RouterModule]
 })
 export class AppRoutingModule { }
-

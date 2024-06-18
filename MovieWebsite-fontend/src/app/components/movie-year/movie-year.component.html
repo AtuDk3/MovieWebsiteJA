@@ -1,0 +1,57 @@
+<link rel="stylesheet" href="../../../assets/css/style.css">
+<body>
+<div class="container">
+   <div class="row container" id="wrapper">
+      <div class="halim-panel-filter">
+         <div id="ajax-filter" class="panel-collapse collapse" aria-expanded="true" role="menu">
+            <div class="ajax"></div>
+         </div>
+      </div>
+      <div class="col-xs-12 carausel-sliderWidget">
+         <section id="halim-advanced-widget-4">
+           <div class="section-heading">
+               <a href="" title="Phim {{ year | date: 'yyyy' }}">
+                  <span class="h-text">Phim {{ year | date: 'yyyy' }}</span>
+               </a>
+               <ul class="heading-nav pull-right hidden-xs">
+                  <li class="section-btn halim_ajax_get_post" data-catid="4" data-showpost="12" data-widgetid="halim-advanced-widget-4" data-layout="6col"><span data-text="  "></span></li>
+               </ul> 
+            </div>
+            <div id="halim-advanced-widget-4-ajax-box" class="halim_box">
+               <article *ngFor="let movie of movies" class="col-md-2 col-sm-4 col-xs-6 thumb grid-item post-{{movie.id}}">
+                  <div class="halim-item">
+                     <a class="halim-thumb" [title]="movie.name" routerLink="/detail/{{ movie.id }}">
+                        <figure><img class="lazy img-responsive" src="{{ movie.url }}" [alt]="movie.name"></figure>
+                        <span class="status">HD</span><span class="episode"><i class="fa fa-play" aria-hidden="true"></i>Vietsub</span> 
+                        <div class="icon_overlay"></div>
+                        <div class="halim-post-title-box">
+                           <div class="halim-post-title ">
+                              <p class="entry-title">{{movie.name}}</p>
+                              <p class="original_title">{{movie.genre_name}}</p>
+                           </div>
+                        </div>
+                     </a>
+                  </div>
+               </article>                       
+            </div>
+         </section>
+
+         <nav aria-label="Page navigation example">
+            <ul class="pagination justify-content-end">
+              <li class="page-item" [class.disabled]="currentPage === 0">
+                <a class="page-link" href="#" tabindex="-1" (click)="goToPage(currentPage - 1, $event)">Previous</a>
+              </li>
+              <li class="page-item" *ngFor="let page of visiblePages">
+                <a class="page-link" href="#" (click)="goToPage(page, $event)" [class.active]="page === currentPage">{{ page + 1 }}</a>
+              </li>
+              <li class="page-item" [class.disabled]="currentPage === totalPages - 1">
+                <a class="page-link" href="#" (click)="goToPage(currentPage + 1, $event)">Next</a>
+              </li>
+            </ul>
+          </nav>                                     
+          
+         <div class="clearfix"></div>
+      </div>
+   </div>
+</div>
+</body>

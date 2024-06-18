@@ -1,8 +1,9 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild, AfterViewInit } from '@angular/core';
 import { environment } from '../../environments/environment';
 import { MovieService } from '../../services/movie.service';
 import { Movie } from '../../models/movie';
 import { ActivatedRoute, Router } from '@angular/router';
+import { AdsComponent } from '../ads/ads.component';
 
 @Component({
   selector: 'app-home',
@@ -10,6 +11,7 @@ import { ActivatedRoute, Router } from '@angular/router';
   styleUrls: ['./home.component.scss']
 })
 export class HomeComponent implements OnInit {
+  @ViewChild(AdsComponent) adPopup!: AdsComponent;
   theatersMovie: Movie[] = [];
   singleMovie: Movie[] = [];
   seriesMovie: Movie[] = [];

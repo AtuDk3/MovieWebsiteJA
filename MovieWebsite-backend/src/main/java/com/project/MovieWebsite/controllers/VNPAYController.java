@@ -4,13 +4,12 @@ import com.project.MovieWebsite.services.VNPAYService;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("${api.prefix}/payments")
 @RequiredArgsConstructor
-public class Controller {
+public class VNPAYController {
     @Autowired
     private VNPAYService vnPayService;
 

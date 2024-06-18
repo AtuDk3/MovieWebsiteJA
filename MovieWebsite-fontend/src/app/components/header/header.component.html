@@ -80,10 +80,8 @@
                  <li class="mega"><a title="Phim Hot" routerLink="/movie-hot">Phim Hot</a></li>
                  <li class="mega dropdown" [class.show]="showYearMenu" (mouseenter)="showMenu('year')" (mouseleave)="hideMenu('year')">
                     <a title="Năm" href="#" data-toggle="dropdown" class="dropdown-toggle" aria-haspopup="true">Năm <span class="caret"></span></a>
-                    <ul role="menu" class="dropdown-menu">
-                       <li><a title="Phim 2020" href="danhmuc.php">Phim 2020</a></li>
-                       <li><a title="Năm 2019" href="danhmuc.php">Năm 2019</a></li>
-                       <li><a title="Năm 2018" href="danhmuc.php">Năm 2018</a></li>
+                    <ul role="menu" class="dropdown-menu" >
+                       <li *ngFor="let year of movieYears"><a title="Phim {{year}}" routerLink="/movie_year/{{ year }}">Phim {{year}}</a></li>
                     </ul>
                  </li>
                  <li class="mega dropdown" [class.show]="showGenreMenu" (mouseenter)="showMenu('genre')" (mouseleave)="hideMenu('genre')">
@@ -104,7 +102,7 @@
               </ul>
            </div>
            <ul class="nav navbar-nav navbar-left" style="background:#000;">
-              <li><a href="#" onclick="locphim()" style="color: #ffed4d;">Lọc Phim</a></li>
+              <li><a href="#" onclick="locphim()" style="color: #ffed4d;">Lọc Phim</a></li>            
            </ul>
         </div>
      </nav>

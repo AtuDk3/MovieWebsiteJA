@@ -1,3 +1,4 @@
+
 package com.project.MovieWebsite.services.impl;
 
 import com.project.MovieWebsite.dtos.EpisodeDTO;
@@ -9,7 +10,6 @@ import com.project.MovieWebsite.repositories.MovieRepository;
 import com.project.MovieWebsite.services.EpisodeService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
-
 import java.util.List;
 import java.util.Optional;
 
@@ -23,12 +23,22 @@ public class EpisodeServiceImpl implements EpisodeService {
     @Override
     public Episode createEpisode(EpisodeDTO episodeDTO) throws DataNotFoundException {
         Movie existingMovie= movieRepository.findById(episodeDTO.getMovieId())
-                .orElseThrow(() -> new DataNotFoundException("Cannot find movie type with id: "+episodeDTO.getMovieId()));
+                .orElseThrow(() -> new DataNotFoundException("Cannot find movie with id: "+episodeDTO.getMovieId()));
+        if(episodeRepository.findByMovieAndEpisode(existingMovie, episodeDTO.getEpisode()).size()!=0){
+            throw new DataNotFoundException("Episode existed");
+        }
+
         Episode newEpisode= Episode.builder()
                 .movie(existingMovie)
                 .episode(episodeDTO.getEpisode())
                 .movieUrl(episodeDTO.getMovieUrl())
                 .build();
+        episodeRepository.save(newEpisode);
+
+        List<Episode> listEpisode= episodeRepository.findByMovieId(episodeDTO.getMovieId());
+        existingMovie.setEpisode(listEpisode.size());
+        movieRepository.save(existingMovie);
+
         return episodeRepository.save(newEpisode);
     }
 
@@ -56,23 +66,27 @@ public class EpisodeServiceImpl implements EpisodeService {
     public Episode updateEpisode(int id, EpisodeDTO episodeDTO) throws DataNotFoundException {
         Episode existingEpisode= getEpisode(id);
         if(existingEpisode!=null){
-            Movie existingMovie= movieRepository.findById(episodeDTO.getMovieId())
-                    .orElseThrow(() -> new DataNotFoundException("Cannot find movie type with id: "+episodeDTO.getMovieId()));
-
-            existingEpisode.setMovie(existingMovie);
-            existingEpisode.setEpisode(episodeDTO.getEpisode());
-            existingEpisode.setMovieUrl(episodeDTO.getMovieUrl());
-
-            return episodeRepository.save(existingEpisode);
+            if(existingEpisode.getEpisode()!=episodeDTO.getEpisode()){
+                existingEpisode.setEpisode(episodeDTO.getEpisode());
+            }
+            if(!episodeDTO.getMovieUrl().isEmpty()) {
+                existingEpisode.setMovieUrl(episodeDTO.getMovieUrl());
+                return episodeRepository.save(existingEpisode);
+            }
         }
-        return null;
+        return existingEpisode;
     }
 
     @Override
-    public void deleteEpisode(int id) {
+    public void deleteEpisode(int id) throws DataNotFoundException{
         Optional<Episode> optionalEpisode= episodeRepository.findById(id);
         if(optionalEpisode.isPresent()){
             episodeRepository.deleteById(id);
+            List<Episode> listEpisode= episodeRepository.findByMovieId(optionalEpisode.get().getMovie().getId());
+            Movie existingMovie= movieRepository.findById(optionalEpisode.get().getMovie().getId())
+                    .orElseThrow(() -> new DataNotFoundException("Cannot find movie with id"));
+            existingMovie.setEpisode(listEpisode.size());
+            movieRepository.save(existingMovie);
         }
     }
 }

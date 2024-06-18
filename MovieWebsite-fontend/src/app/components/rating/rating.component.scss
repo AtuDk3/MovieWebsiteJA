@@ -1,11 +1,102 @@
-/* styles.css */
-.average-rating {
-  text-align: center;
-  margin-bottom: 20px;
 
-  .stars {
-    font-size: 2rem;
+/* General styling for the component */
+.section-bar {
+  margin: 20px 0;
+}
+
+.section-title span {
+  color: #ffed4d;
+}
+
+.rating-info {
+  margin: 10px 0;
+}
+
+.average-rating {
+  display: flex;
+  align-items: center;
+  font-size: 24px;
+}
+
+.star-container {
+  position: relative;
+  display: inline-block;
+  font-size: 25px;
+  color: #ccc; /* Màu ngôi sao rỗng */
+  cursor: pointer;
+  margin-right: 5px;
+}
+
+.star-full {
+  position: absolute;
+  top: 0;
+  left: 0;
+  overflow: hidden;
+  white-space: nowrap;
+  color: gold; /* Màu ngôi sao đầy */
+}
+
+.star-rating p {
+  margin-left: 10px;
+  font-size: 16px;
+  color: #333;
+}
+
+
+//đ
+.section-bar {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+}
+
+.section-title {
+  margin: 0;
+}
+
+.rating-info {
+  display: flex;
+  align-items: center;
+  margin-top: 10px;
+}
+
+.average-rating {
+  display: flex;
+  align-items: center;
+  font-size: 2rem;
+  color: gold;
+  margin-left: 10px;
+
+  a {
+    cursor: pointer;
     color: gold;
+    text-decoration: none;
+    margin: 0 2px;
+  }
+
+  .half {
+    position: relative;
+    display: inline-block;
+  }
+
+  .half:before {
+    content: '\2605';
+    position: absolute;
+    left: 0;
+    width: 50%;
+    overflow: hidden;
+    color: gold;
+  }
+
+  .half:after {
+    content: '\2606';
+    color: gold;
+  }
+
+  p {
+    margin: 0 0 0 10px;
+    font-size: 1rem;
+    color: white; /* Đổi màu chữ thành trắng */
   }
 }
 
