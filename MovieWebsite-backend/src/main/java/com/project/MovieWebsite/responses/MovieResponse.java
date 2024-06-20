@@ -1,3 +1,4 @@
+
 package com.project.MovieWebsite.responses;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
@@ -13,6 +14,7 @@ import java.util.Date;
 @Builder
 
 public class MovieResponse {
+
     private  int id;
 
     private String name;
@@ -64,7 +66,8 @@ public class MovieResponse {
     @JsonProperty("is_active")
     private int isActive;
 
-    public  static MovieResponse fromMovie(Movie movie){
+
+    public static MovieResponse fromMovie(Movie movie){
         MovieResponse movieResponse = MovieResponse.builder()
                 .id(movie.getId())
                 .name(movie.getName())

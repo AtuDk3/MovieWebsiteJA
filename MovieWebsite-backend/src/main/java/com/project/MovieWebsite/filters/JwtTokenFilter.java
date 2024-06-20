@@ -40,7 +40,7 @@ public class JwtTokenFilter extends OncePerRequestFilter {
             @NotNull HttpServletResponse response,
             @NotNull FilterChain filterChain) throws ServletException, IOException {
         try {
-            if(isByPassToken(request)){
+           if(isByPassToken(request)){
                 filterChain.doFilter(request, response);
                 return;
             }
@@ -86,7 +86,6 @@ public class JwtTokenFilter extends OncePerRequestFilter {
                 Pair.of(String.format("%s/countries", apiPrefix), "GET"),
                 Pair.of(String.format("%s/movie_types", apiPrefix), "GET"),
                 Pair.of(String.format("%s/episodes", apiPrefix), "GET"),
-                Pair.of(String.format("%s/ads", apiPrefix), "GET"),
                 Pair.of(String.format("%s/users/authenticate-account", apiPrefix), "POST"),
                 Pair.of(String.format("%s/users/check-register", apiPrefix), "POST"),
                 Pair.of(String.format("%s/movie_views", apiPrefix), "POST"),

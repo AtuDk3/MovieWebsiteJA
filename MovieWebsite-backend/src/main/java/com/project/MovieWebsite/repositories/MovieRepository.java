@@ -39,7 +39,7 @@ public interface MovieRepository extends JpaRepository<Movie, Integer> {
             + " m.genre.id = :genreId")
     Page<Movie> searchMoviesByGenreId(
             @Param("genreId") int genreId,
-            Pageable pageable
+             Pageable pageable
     );
 
     @Query("select m from Movie m where"

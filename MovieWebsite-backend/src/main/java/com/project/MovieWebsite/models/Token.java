@@ -19,10 +19,10 @@ public class Token {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
 
-    @Column(name = "token", nullable = false)
+    @Column(name = "token")
     private String token;
 
-    @Column(name = "token_type", nullable = false)
+    @Column(name = "token_type")
     private String tokenType;
 
     @Column(name = "expration_date")
@@ -35,6 +35,6 @@ public class Token {
     private int expired;
 
     @ManyToOne
-    @JoinColumn(name = "user_id", nullable = false)
+    @JoinColumn(name = "user_id")
     private User user;
 }

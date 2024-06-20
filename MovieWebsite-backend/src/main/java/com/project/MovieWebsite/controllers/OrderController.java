@@ -78,8 +78,8 @@ public class OrderController {
 
     @GetMapping("/order_by_user")
     public ResponseEntity<?> getAllOrderByUser(@RequestParam(defaultValue = "0") int page,
-                                               @RequestParam(defaultValue = "10") int limit,
-                                               @RequestParam(name = "user_id") int userId
+                                         @RequestParam(defaultValue = "10") int limit,
+                                         @RequestParam(name = "user_id") int userId
     ){
         PageRequest pageRequest = PageRequest.of(page, limit, Sort.by("orderDate").ascending());
         Page<OrderResponse> orderPage = orderService.getAllOrderByUser(userId,pageRequest);

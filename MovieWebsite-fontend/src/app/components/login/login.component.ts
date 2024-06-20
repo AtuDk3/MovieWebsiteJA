@@ -8,6 +8,8 @@ import { TokenService } from '../../services/token.service';
 import { UserResponse } from '../../responses/user/user.response';
 import { BookmarkService } from '../../services/bookmark.service';
 import { AuthService } from '../../services/auth.service';
+import { AuthGGService } from '../../services/auth-gg.service';
+import { AuthFBService } from '../../services/auth-fb.service';
 
 
 
@@ -25,8 +27,13 @@ export class LoginComponent {
   errorPass: string | null = null;
   errorActive: string | null = null;
 
-  constructor(private router: Router, private userService: UserService, private tokenService: TokenService,
-   private bookmarkService: BookmarkService, private authService: AuthService
+  constructor(private router: Router, 
+    private userService: UserService, 
+    private tokenService: TokenService,
+   private bookmarkService: BookmarkService, 
+   private authService: AuthService,
+   private authGGService: AuthGGService,
+   private authFBService: AuthFBService,
    ) {
     this.phoneNumber = '';
     this.password = '';
@@ -105,4 +112,13 @@ export class LoginComponent {
     }
     )
   }
+
+  loginGG(){
+    this.authGGService.loginGG();
+  }
+
+  loginFB(){
+    this.authFBService.login();
+  }
+
 }

@@ -1,10 +1,14 @@
 package com.project.MovieWebsite.responses;
-
 import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.persistence.MappedSuperclass;
-import lombok.*;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 import java.time.LocalDateTime;
+
 
 @Data
 @Getter

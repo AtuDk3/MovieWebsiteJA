@@ -40,10 +40,10 @@ public class FavouriteServiceImpl implements FavouriteService {
                 throw new DataNotFoundException("Đã có trong mục phim yêu thích!");
             }
         }
-        Favourite newFavourite = Favourite.builder()
-                .movie(existingMovie)
-                .user(existingUser)
-                .build();
+         Favourite newFavourite = Favourite.builder()
+                    .movie(existingMovie)
+                    .user(existingUser)
+                    .build();
         return favouriteRepository.save(newFavourite);
     }
 
@@ -54,12 +54,12 @@ public class FavouriteServiceImpl implements FavouriteService {
 
     @Override
     public List<Favourite> getFavouritesByUser(int userId) throws DataNotFoundException{
-        Optional<List<Favourite>> listFavourites= favouriteRepository.findByUserId(userId);
-        if (listFavourites.isPresent()){
-            return listFavourites.get();
-        }else{
-            throw new DataNotFoundException("không có phim yêu thích");
-        }
+         Optional<List<Favourite>> listFavourites= favouriteRepository.findByUserId(userId);
+         if (listFavourites.isPresent()){
+             return listFavourites.get();
+         }else{
+             throw new DataNotFoundException("không có phim yêu thích");
+         }
     }
 
     @Override

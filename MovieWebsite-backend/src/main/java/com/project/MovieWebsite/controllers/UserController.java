@@ -205,7 +205,7 @@ public class UserController {
             @PathVariable int userId,
             @RequestBody UpdateUserDTO userUpdateDTO,
             @RequestHeader("Authorization") String authorizationHeader
-    ){
+            ){
         try{
             String extractedToken= authorizationHeader.substring(7);
             User user= userService.getUserDetailsFromToken(extractedToken);
@@ -223,18 +223,18 @@ public class UserController {
 
     @PostMapping("/checkCurrentPassword")
     public ResponseEntity<?> checkCurrentPassword(@RequestBody Map<String, String> request, @RequestHeader("Authorization") String authorizationHeader) {
-        try {
-            String extractedToken = authorizationHeader.substring(7);
-            User user = userService.getUserDetailsFromToken(extractedToken);
-            boolean isPasswordValid = userService.checkCurrentPassword(user.getId(), request.get("password"));
-            if (isPasswordValid) {
-                return ResponseEntity.ok().build();
-            } else {
-                return ResponseEntity.status(400).body("Incorrect current password.");
+            try {
+                String extractedToken = authorizationHeader.substring(7);
+                User user = userService.getUserDetailsFromToken(extractedToken);
+                boolean isPasswordValid = userService.checkCurrentPassword(user.getId(), request.get("password"));
+                if (isPasswordValid) {
+                    return ResponseEntity.ok().build();
+                } else {
+                    return ResponseEntity.status(400).body("Incorrect current password.");
+                }
+            }catch (Exception e){
+                return ResponseEntity.status(400).body(e.getMessage());
             }
-        }catch (Exception e){
-            return ResponseEntity.status(400).body(e.getMessage());
-        }
     }
 
     @PostMapping("/changePassword")

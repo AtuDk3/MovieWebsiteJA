@@ -1,9 +1,10 @@
-import { Component, OnInit, ViewChild, AfterViewInit } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { environment } from '../../environments/environment';
 import { MovieService } from '../../services/movie.service';
 import { Movie } from '../../models/movie';
 import { ActivatedRoute, Router } from '@angular/router';
-import { AdsComponent } from '../ads/ads.component';
+import { AuthGGService } from '../../services/auth-gg.service';
+import { AuthFBService } from '../../services/auth-fb.service';
 
 @Component({
   selector: 'app-home',
@@ -11,7 +12,6 @@ import { AdsComponent } from '../ads/ads.component';
   styleUrls: ['./home.component.scss']
 })
 export class HomeComponent implements OnInit {
-  @ViewChild(AdsComponent) adPopup!: AdsComponent;
   theatersMovie: Movie[] = [];
   singleMovie: Movie[] = [];
   seriesMovie: Movie[] = [];
@@ -22,7 +22,11 @@ export class HomeComponent implements OnInit {
   visiblePages: number[] = []; 
   keyword: string = '';
 
-  constructor(private movieService: MovieService, private  router: Router, private route: ActivatedRoute) {
+  constructor(private movieService: MovieService, 
+    private  router: Router, 
+    private route: ActivatedRoute,
+    private authGGService: AuthGGService,
+    private authFBService: AuthFBService) {
     this.route.queryParams.subscribe(params => {
       this.keyword = params['search'] || '';
     });
@@ -30,6 +34,8 @@ export class HomeComponent implements OnInit {
 
   ngOnInit() {
     this.loadMovies();
+    this.showData();
+    this.getUserProfile();
   }
 
   loadMovies() {
@@ -45,7 +51,6 @@ export class HomeComponent implements OnInit {
           ...movie,
           url: `${environment.apiBaseUrl}/movies/images/${movie.image}`
         }));
-        console.log('Movies Chieu Rap:', response);
       },
       error: (error: any) => {
         console.error('Error fetching movies Chieu Rap:', error);
@@ -60,7 +65,6 @@ export class HomeComponent implements OnInit {
           ...movie,
           url: `${environment.apiBaseUrl}/movies/images/${movie.image}`
         }));
-        console.log('Movies Le:', response);
       },
       error: (error: any) => {
         console.error('Error fetching movies Le:', error);
@@ -75,7 +79,6 @@ export class HomeComponent implements OnInit {
           ...movie,
           url: `${environment.apiBaseUrl}/movies/images/${movie.image}`
         }));
-        console.log('Movies Bo:', response);
       },
       error: (error: any) => {
         console.error('Error fetching movies Bo:', error);
@@ -86,4 +89,42 @@ export class HomeComponent implements OnInit {
   getMoviesByMovieTypeId(movie_type_id: number, page: number, limit: number) {
     return this.movieService.getMoviesByMovieTypeId(movie_type_id, page, limit);
   }
+
+  showData(){
+    const data = JSON.stringify(this.authGGService.getProfile());
+
+    console.log(data);
+    // Parse the JSON string to an object
+    const profile = JSON.parse(data);
+
+    // Extract the information you need
+    const issuer = profile.iss;
+    const email = profile.email;
+    const emailVerified = profile.email_verified;
+    const name = profile.name;
+    const picture = profile.picture;
+    const givenName = profile.given_name;
+    const familyName = profile.family_name;
+
+    // Log the extracted information
+    console.log('Issuer:', issuer);
+    console.log('Email:', email);
+    console.log('Email Verified:', emailVerified);
+    console.log('Name:', name);
+    console.log('Picture URL:', picture);
+    console.log('Given Name:', givenName);
+    console.log('Family Name:', familyName);
+  }
+
+  getUserProfile() {
+    this.authFBService.getUserProfile()
+      .then(profile => {
+        this.authFBService = profile;
+        console.log('User Profile:', this.authFBService);
+      })
+      .catch(error => {
+        console.error('Error fetching user profile:', error);
+      });
+  }
+
 }

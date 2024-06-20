@@ -33,9 +33,9 @@ public class OrderServiceImpl implements OrderService {
         User existingUser= userRepository.findById(orderDTO.getUserId())
                 .orElseThrow(() -> new DataNotFoundException("Cannot find user type with id: "+orderDTO.getUserId()));
         Order newOrder= Order.builder()
-                .user(existingUser)
-                .price(orderDTO.getPrice()).
-                build();
+                        .user(existingUser)
+                        .price(orderDTO.getPrice()).
+                        build();
         return orderRepository.save(newOrder);
     }
 

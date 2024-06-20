@@ -1,3 +1,4 @@
+
 import { APP_INITIALIZER, NgModule, OnInit  } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { AppRoutingModule } from './app-routing.module';
@@ -56,21 +57,18 @@ import { BookmarkComponent } from './components/bookmark/bookmark.component';
 import { PaymentComponent } from './components/payments/payments.component';
 import { AuthService } from './services/auth.service';
 import { RouterModule } from '@angular/router';
-import { ModalModule } from 'ngx-bootstrap/modal';
+//import { ModalModule } from 'ngx-bootstrap/modal';
 import { UpgradeComponent } from './components/upgrade/upgrade.component';
 import { ThanksComponent } from './components/thanks/thanks.component';
 import { SearchMovieComponent } from './components/search-movie/search-movie.component';
 import { StorageRateComponent } from './components/admin/manager-storage/storage-rate/storage-rate.component';
 import { StorageTopViewComponent } from './components/admin/manager-storage/storage-top-view/storage-top-view.component';
 import { ListEpisodeByMovieComponent } from './components/admin/episode/list-episode-by-movie/list-episode-by-movie.component';
-import { AddAdsComponent } from './components/admin/ads/add-ads/add-ads.component';
-import { ListAdsComponent } from './components/admin/ads/list-ads/list-ads.component';
-import { UpdateAdsComponent } from './components/admin/ads/update-ads/update-ads.component';
-import { AdsComponent } from './components/ads/ads.component';
 import { ListHistoryOrderComponent } from './components/admin/order/list-history-order/list-history-order.component';
 import { MovieYearComponent } from './components/movie-year/movie-year.component';
-
-
+import { MovieFilterComponent } from './components/movie-filter/movie-filter.component';
+import { ReactiveFormsModule } from '@angular/forms';
+import { OAuthModule } from 'angular-oauth2-oidc';
 export function initializeAuthService(authService: AuthService) {
   return (): Promise<void> => {
     return authService.initialize(); 
@@ -130,12 +128,9 @@ export function initializeAuthService(authService: AuthService) {
         StorageRateComponent,
         StorageTopViewComponent,
         ListEpisodeByMovieComponent,
-        AddAdsComponent,
-        ListAdsComponent,
-        UpdateAdsComponent,
-        AdsComponent,
         ListHistoryOrderComponent,
-        MovieYearComponent
+        MovieYearComponent,
+        MovieFilterComponent,
     ],
     bootstrap: [
         AppComponent
@@ -145,9 +140,12 @@ export function initializeAuthService(authService: AuthService) {
         CarouselModule,
         FormsModule,
         RouterModule,
+        ReactiveFormsModule,
         BrowserAnimationsModule, // cần thiết cho Toastr
         ToastrModule.forRoot(), // Cấu hình mặc định của Toastr
-        ModalModule.forRoot()], providers: [
+        //ModalModule.forRoot(),
+        OAuthModule.forRoot()
+    ], providers: [
         AuthService,
         {
             provide: APP_INITIALIZER,

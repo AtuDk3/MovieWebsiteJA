@@ -1,6 +1,6 @@
 <div class="section-bar clearfix">
   <h2 class="section-title"><span>Đánh giá phim</span></h2>
-  <div class="rating-info">
+  <div class="rating-info" >
     <h5>Số lượt đánh giá: {{ numberRate }}</h5>
     <div class="average-rating">
       <div class="star-rating">
@@ -29,8 +29,8 @@
 
 <div class="dialog" *ngIf="isDialogOpen">
   <div class="dialog-overlay" (click)="closeDialog()"></div>
-  <div class="dialog-content" (mouseleave)="resetHover()"  style="background-color: #12171b;">
-    <h3 class="text-center">Đánh giá của bạn</h3>
+  <div class="dialog-content" (mouseleave)="resetHover()">
+    <h2>Đánh giá của bạn</h2>
     <div class="rating">
       <input value="1" name="rate" id="star1" type="radio" (change)="onRatingChange(1)" (mouseover)="onHover(1)">
       <label title="Rất tệ" [ngClass]="{'active': rating >= 1 || hoverRating >= 1}" for="star1">&#9733;</label>
@@ -46,7 +46,7 @@
     <div>
       <h5>Mô tả đánh giá: {{ ratingDescription }}</h5>
     </div>
-    <button (click)="submitRating()" class="form-control" style="background-color: black; color: white; font-size: 1.5rem !important;">Gửi đánh giá</button>
-    <button (click)="closeDialog()" class="form-control" style="background-color: black; color: white; font-size: 1.5rem !important;">Đóng</button>
+    <button (click)="submitRating()" class="form-control">Gửi đánh giá</button>
+    <button (click)="closeDialog()" class="form-control">Đóng</button>
   </div>
 </div>

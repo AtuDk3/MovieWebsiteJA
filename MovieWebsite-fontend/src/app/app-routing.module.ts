@@ -43,11 +43,8 @@ import { SearchMovieComponent } from './components/search-movie/search-movie.com
 import { StorageTopViewComponent } from './components/admin/manager-storage/storage-top-view/storage-top-view.component';
 import { StorageRateComponent } from './components/admin/manager-storage/storage-rate/storage-rate.component';
 import { ListEpisodeByMovieComponent } from './components/admin/episode/list-episode-by-movie/list-episode-by-movie.component';
-import { ListAdsComponent } from './components/admin/ads/list-ads/list-ads.component';
-import { UpdateAdsComponent } from './components/admin/ads/update-ads/update-ads.component';
-import { AddAdsComponent } from './components/admin/ads/add-ads/add-ads.component';
-import { MovieYearComponent } from './components/movie-year/movie-year.component';
 import { ListHistoryOrderComponent } from './components/admin/order/list-history-order/list-history-order.component';
+import { MovieYearComponent } from './components/movie-year/movie-year.component';
 
 const routes: Routes = [
   {
@@ -63,7 +60,7 @@ const routes: Routes = [
       { path: 'watching/:id', component: WatchingComponent},
       { path: 'movie-hot', component: MovieHotComponent},
       { path: 'bookmark', component: BookmarkComponent},
-      { path: 'search_movie', component: SearchMovieComponent},  
+      { path: 'search_movie', component: SearchMovieComponent}, 
       {path: 'movie_year/:year', component: MovieYearComponent }
     ]
   },
@@ -109,10 +106,6 @@ const routes: Routes = [
       { path: 'episode/list-episode-by-movie/:id', component: ListEpisodeByMovieComponent, canActivate:[AdminGuardFn]},
       // Account
       { path: 'account/list-account', component: ListAccountComponent, canActivate:[AdminGuardFn]},
-      // Ads
-      { path: 'ads/list-ads', component: ListAdsComponent, canActivate:[AdminGuardFn]},
-      { path: 'ads/update-ads/:id', component: UpdateAdsComponent, canActivate:[AdminGuardFn]},
-      { path: 'ads/add-ads', component: AddAdsComponent, canActivate:[AdminGuardFn]},
       // Storage
       { path: 'storage/storage-top-view', component: StorageTopViewComponent, canActivate:[AdminGuardFn]},
       { path: 'storage/storage-rate', component: StorageRateComponent, canActivate:[AdminGuardFn]},
@@ -128,3 +121,4 @@ const routes: Routes = [
   exports: [RouterModule]
 })
 export class AppRoutingModule { }
+

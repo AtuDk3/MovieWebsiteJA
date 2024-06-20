@@ -84,7 +84,13 @@ export class RatingComponent implements OnInit {
   }
 
   openDialog(): void {
-    this.isDialogOpen = true;
+    this.userResponse= this.userService.getUserResponseFromLocalStorage();
+    if(this.userResponse){
+      this.isDialogOpen = true;
+    }else{
+      this.router.navigate(['/login']);
+    }
+
   }
 
   closeDialog(): void {

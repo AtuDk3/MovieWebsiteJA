@@ -11,6 +11,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Component;
 
+import java.security.InvalidParameterException;
 import java.security.Key;
 import java.security.SecureRandom;
 import java.util.Date;
@@ -41,7 +42,7 @@ public class JwtTokenUtil {
                     .compact();
             return token;
         } catch (Exception e) {
-            throw new IllegalArgumentException("Cannot create jwt, error: " + e.getMessage());
+            throw new InvalidParameterException("Cannot create jwt, error: " + e.getMessage());
         }
     }
 

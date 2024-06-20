@@ -12,10 +12,12 @@ export class VnpayService {
   constructor(private http: HttpClient) { }
 
   createPayment(amount: number, orderInfo: string): Observable<string> {
+    // Tạo các tham số của yêu cầu HTTP
     const params = new HttpParams()
       .set('amount', amount)
       .set('orderInfo', orderInfo);
 
+    // Gửi yêu cầu HTTP POST với các tham số dạng query parameters
     return this.http.post(`${this.apiUrl}/create_order`, null, { params, responseType: 'text' });
   }
 

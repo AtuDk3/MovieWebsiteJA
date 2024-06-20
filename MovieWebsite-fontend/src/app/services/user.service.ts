@@ -8,6 +8,7 @@ import { UserResponse } from '../responses/user/user.response';
 import { UpdateUserDTO } from '../dtos/user/updateuser.dto';
 import { VipPeriodResponse } from '../responses/user/vip_period.response';
 import { VipPeriodDTO } from '../dtos/user/vip_period.dto';
+import { AuthConfig, OAuthService } from 'angular-oauth2-oidc';
 @Injectable({
   providedIn: 'root'
 })
@@ -31,7 +32,8 @@ export class UserService {
     headers: this.createHeader(),
   }
 
-  constructor(private http: HttpClient) { }
+  constructor(private http: HttpClient,
+    private oAuthService: OAuthService) { }
 
   private createHeader(): HttpHeaders {
     return new HttpHeaders({
@@ -243,12 +245,35 @@ export class UserService {
     return this.http.get(this.apiGetUserVip);   
   }
 
-  loginGoogle(): void {
-    window.location.href = 'http://localhost:8088/oauth2/authorization/google';
+  // loginGoogle(): void {
+  //   window.location.href = 'http://localhost:8080/oauth2/authorization/google';
+  // }
+
+  // getUser(): Observable<any> {
+  //   return this.http.get<any>('http://localhost:8080/api/v1/users/signingoogle');
+  // }
+
+  initLoginGG(){
+    const config: AuthConfig = {
+      issuer: 'htts:/accounts.google.com',
+      strictDiscoveryDocumentValidation: false,
+      clientId: '155822361355-4mcbcv266h8aof1056dvtk1udjeth901.apps.googleusercontent.com',
+      redirectUri: window.location.origin,
+      scope: 'openid profile email',
+    }
+    this.oAuthService.configure(config);
+    this.oAuthService.setupAutomaticSilentRefresh();
+    this.oAuthService.loadDiscoveryDocumentAndTryLogin();
   }
 
-  getUser(): Observable<any> {
-    return this.http.get<any>('http://localhost:8088/api/v1/users/signingoogle');
+  loginGG(){
+    this.oAuthService.initLoginFlow();
   }
+
+  getProfile(){
+    return this.oAuthService.getIdentityClaims();
+  }
+
+
 
 }

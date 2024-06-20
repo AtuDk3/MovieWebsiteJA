@@ -61,6 +61,20 @@ public class MovieController {
         return ResponseEntity.ok(Collections.singletonMap("message", "Create movie successfully!"));
     }
 
+//    @PostMapping("")
+//    public ResponseEntity<?> createMovie(@Valid @RequestBody MovieDTO movieDTO, BindingResult result) {
+//        if (result.hasErrors()) {
+//            List<String> errorsMessage = result.getFieldErrors().stream().map(FieldError::getDefaultMessage).toList();
+//            return ResponseEntity.badRequest().body(errorsMessage);
+//        }
+//        try{
+//            movieService.createMovie(movieDTO);
+//            return ResponseEntity.ok("Create movie type successfully!");
+//        }catch (Exception e){
+//            return ResponseEntity.badRequest().body(e.getMessage());
+//        }
+//    }
+
     @DeleteMapping("/{id}")
     public ResponseEntity<Map<String, String>> deleteMovie(@PathVariable int id) {
         movieService.deleteMovies(id);
@@ -201,6 +215,32 @@ public class MovieController {
             return ResponseEntity.badRequest().body(e.getMessage());
         }
     }
+
+//    @GetMapping("/genres/{genreId}")
+//    public ResponseEntity<?> getMovieByGenreId(@PathVariable("genreId") int genreId) {
+//        try {
+//            List<Movie> moviesByGenre = movieService.getMoviesByGenreId(genreId);
+//            List<MovieResponse> movieResponses = moviesByGenre.stream()
+//                    .map(MovieResponse::fromMovie)
+//                    .collect(Collectors.toList());
+//            return ResponseEntity.ok(movieResponses);
+//        } catch (Exception e) {
+//            return ResponseEntity.badRequest().body(e.getMessage());
+//        }
+//    }
+//
+//    @GetMapping("/countries/{countryId}")
+//    public ResponseEntity<?> getMovieByCountryId(@PathVariable("countryId") int countryId) {
+//        try {
+//            List<Movie> moviesByCountry = movieService.getMoviesByCountryId(countryId);
+//            List<MovieResponse> movieResponses = moviesByCountry.stream()
+//                    .map(MovieResponse::fromMovie)
+//                    .collect(Collectors.toList());
+//            return ResponseEntity.ok(movieResponses);
+//        } catch (Exception e) {
+//            return ResponseEntity.badRequest().body(e.getMessage());
+//        }
+//    }
 
     @PostMapping(value= "upload_movie/{id}", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
     public ResponseEntity<?> uploadAvatar (

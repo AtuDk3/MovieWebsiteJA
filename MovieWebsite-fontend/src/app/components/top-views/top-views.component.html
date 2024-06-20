@@ -27,8 +27,8 @@
          <div role="tabpanel" class="tab-pane active halim-ajax-popular-post">
             <div class="halim-ajax-popular-post-loading hidden"></div>
             <div id="halim-ajax-popular-post" class="popular-post">
-               <div class="item post-37176" style="margin-bottom: -20px;">
-                  <a routerLink="/detail/{{ movie.movie_id }}" title="{{ movie.movie_name }}">
+               <div class="item post-37176">
+                  <a href="/detail/{{ movie.movie_id }}" title="{{ movie.movie_name }}">
                      <div class="item-link">
                         <img [src]="movie.url" alt="{{ movie.movie_name }}" class="lazy post-thumb"
                            title="{{ movie.movie_name }}" />

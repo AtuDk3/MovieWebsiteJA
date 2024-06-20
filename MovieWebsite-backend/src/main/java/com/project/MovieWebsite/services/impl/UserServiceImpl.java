@@ -11,6 +11,7 @@ import com.project.MovieWebsite.models.Role;
 import com.project.MovieWebsite.models.User;
 import com.project.MovieWebsite.models.UserVIP;
 import com.project.MovieWebsite.repositories.RoleRepository;
+import com.project.MovieWebsite.repositories.TokenRepository;
 import com.project.MovieWebsite.repositories.UserRepository;
 import com.project.MovieWebsite.repositories.UserVIPRepository;
 import com.project.MovieWebsite.services.UserService;
@@ -35,6 +36,7 @@ public class UserServiceImpl implements UserService {
     private final PasswordEncoder passwordEncoder;
     private final JwtTokenUtil jwtTokenUtil;
     private final AuthenticationManager authenticationManager;
+    private final TokenRepository tokenRepository;
     private final LocalizationUtil localizationUtil;
 
     @Override

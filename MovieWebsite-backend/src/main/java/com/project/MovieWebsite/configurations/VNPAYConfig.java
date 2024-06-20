@@ -1,12 +1,13 @@
+
 package com.project.MovieWebsite.configurations;
 
 import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.context.annotation.Configuration;
-
 import javax.crypto.Mac;
 import javax.crypto.spec.SecretKeySpec;
 import java.nio.charset.StandardCharsets;
 import java.util.*;
+
 @Configuration
 public class VNPAYConfig {
     public static String vnp_PayUrl = "https://sandbox.vnpayment.vn/paymentv2/vpcpay.html";

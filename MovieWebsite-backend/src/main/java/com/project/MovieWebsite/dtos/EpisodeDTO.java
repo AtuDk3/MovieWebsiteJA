@@ -1,3 +1,4 @@
+
 package com.project.MovieWebsite.dtos;
 
 import com.fasterxml.jackson.annotation.JsonProperty;

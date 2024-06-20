@@ -104,9 +104,6 @@ public class WebSecurityConfig {
                             .requestMatchers(POST, String.format("%s/orders", apiPrefix)).hasAnyRole( "USER", "ADMIN")
                             .requestMatchers(GET, String.format("%s/orders/all_orders", apiPrefix)).hasRole("ADMIN")
                             .requestMatchers(GET, String.format("%s/orders/order_by_user", apiPrefix)).hasRole("ADMIN")
-                            .requestMatchers(PUT, String.format("%s/ads/**", apiPrefix)).hasRole("ADMIN")
-                            .requestMatchers(POST, String.format("%s/ads/**", apiPrefix)).hasRole("ADMIN")
-                            .requestMatchers(DELETE, String.format("%s/ads/**", apiPrefix)).hasRole("ADMIN")
                             .anyRequest()
                             .authenticated();
                 })
@@ -129,7 +126,7 @@ public class WebSecurityConfig {
         http
                 .oauth2Login(oauth2Login ->
                         oauth2Login
-                                .defaultSuccessUrl("/profile", true) // Chuyển hướng sau khi đăng nhập thành công
+                                .defaultSuccessUrl("http://localhost:8088/api/v1/users/signingoogle", true) // Chuyển hướng sau khi đăng nhập thành công
                                 .failureUrl("/login?error=true") // Chuyển hướng sau khi đăng nhập thất bại
                 );
 

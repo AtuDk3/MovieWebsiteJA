@@ -85,26 +85,26 @@ public class UserResponse{
     public static List<UserResponse> fromListUser(List<User> listUser) {
         List<UserResponse> litsUserResponse = new ArrayList<>();
         for (User user: listUser){
-            if(user.getRole().getName().equalsIgnoreCase("Admin")){
-                continue;
-            }
-            UserResponse userResponse= UserResponse.builder().
-                    id(user.getId()).
-                    fullName(user.getFullName()).
-                    phoneNumber(user.getPhoneNumber()).
-                    imgAvatar(user.getImgAvatar()).
-                    dob(user.getDob()).
-                    googleAccountId(user.getGoogleAccountId()).
-                    facebookAccountId(user.getFacebookAccountId()).
-                    createdAt(convertToDate(user.getCreateAt())).
-                    updatedAt(convertToDate(user.getUpdateAt())).
-                    userVip(user.getUserVip()).
-                    role(user.getRole()).
-                    email(user.getEmail()).
-                    isActive(user.getIsActive()).
-                    build();
-            litsUserResponse.add(userResponse);
-        }
+                if(user.getRole().getName().equalsIgnoreCase("Admin")){
+                    continue;
+                }
+                UserResponse userResponse= UserResponse.builder().
+                        id(user.getId()).
+                        fullName(user.getFullName()).
+                        phoneNumber(user.getPhoneNumber()).
+                        imgAvatar(user.getImgAvatar()).
+                        dob(user.getDob()).
+                        googleAccountId(user.getGoogleAccountId()).
+                        facebookAccountId(user.getFacebookAccountId()).
+                        createdAt(convertToDate(user.getCreateAt())).
+                        updatedAt(convertToDate(user.getUpdateAt())).
+                        userVip(user.getUserVip()).
+                        role(user.getRole()).
+                        email(user.getEmail()).
+                        isActive(user.getIsActive()).
+                        build();
+                    litsUserResponse.add(userResponse);
+                }
         return litsUserResponse;
     }
 

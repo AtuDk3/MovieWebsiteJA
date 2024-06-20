@@ -12,6 +12,7 @@ import { environment } from '../environments/environment';
 export class TopViewService {
   
   private apiTopView = `${environment.apiBaseUrl}/movie_views`;
+  private apiUpdateViewForDay = `${environment.apiBaseUrl}/movie_views/update_view_day`;
   private apiTopViewByDay = `${environment.apiBaseUrl}/movie_views/top_view_day`;
   private apiTopViewByWeek = `${environment.apiBaseUrl}/movie_views/top_view_week`;
   private apiTopViewByMonth = `${environment.apiBaseUrl}/movie_views/top_view_month`;
@@ -40,7 +41,7 @@ export class TopViewService {
   }
 
   updateViewForDay(): Observable<any> {
-    return this.http.get(this.apiTopView);
+    return this.http.get(this.apiUpdateViewForDay);
   }
 
   //Admin
