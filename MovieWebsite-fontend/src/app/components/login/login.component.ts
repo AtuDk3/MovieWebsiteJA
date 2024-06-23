@@ -9,9 +9,6 @@ import { UserResponse } from '../../responses/user/user.response';
 import { BookmarkService } from '../../services/bookmark.service';
 import { AuthService } from '../../services/auth.service';
 import { AuthGGService } from '../../services/auth-gg.service';
-import { AuthFBService } from '../../services/auth-fb.service';
-
-
 
 @Component({
   selector: 'app-login',
@@ -33,7 +30,6 @@ export class LoginComponent {
    private bookmarkService: BookmarkService, 
    private authService: AuthService,
    private authGGService: AuthGGService,
-   private authFBService: AuthFBService,
    ) {
     this.phoneNumber = '';
     this.password = '';
@@ -115,10 +111,6 @@ export class LoginComponent {
 
   loginGG(){
     this.authGGService.loginGG();
-  }
-
-  loginFB(){
-    this.authFBService.login();
   }
 
 }

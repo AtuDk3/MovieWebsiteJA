@@ -69,6 +69,8 @@ import { MovieYearComponent } from './components/movie-year/movie-year.component
 import { MovieFilterComponent } from './components/movie-filter/movie-filter.component';
 import { ReactiveFormsModule } from '@angular/forms';
 import { OAuthModule } from 'angular-oauth2-oidc';
+import { AdsComponent } from './components/ads/ads.component';
+
 export function initializeAuthService(authService: AuthService) {
   return (): Promise<void> => {
     return authService.initialize(); 
@@ -131,6 +133,7 @@ export function initializeAuthService(authService: AuthService) {
         ListHistoryOrderComponent,
         MovieYearComponent,
         MovieFilterComponent,
+        AdsComponent
     ],
     bootstrap: [
         AppComponent
@@ -143,8 +146,7 @@ export function initializeAuthService(authService: AuthService) {
         ReactiveFormsModule,
         BrowserAnimationsModule, // cần thiết cho Toastr
         ToastrModule.forRoot(), // Cấu hình mặc định của Toastr
-        //ModalModule.forRoot(),
-        OAuthModule.forRoot()
+        OAuthModule.forRoot(),
     ], providers: [
         AuthService,
         {

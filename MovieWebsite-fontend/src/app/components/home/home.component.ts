@@ -4,7 +4,6 @@ import { MovieService } from '../../services/movie.service';
 import { Movie } from '../../models/movie';
 import { ActivatedRoute, Router } from '@angular/router';
 import { AuthGGService } from '../../services/auth-gg.service';
-import { AuthFBService } from '../../services/auth-fb.service';
 
 @Component({
   selector: 'app-home',
@@ -25,8 +24,7 @@ export class HomeComponent implements OnInit {
   constructor(private movieService: MovieService, 
     private  router: Router, 
     private route: ActivatedRoute,
-    private authGGService: AuthGGService,
-    private authFBService: AuthFBService) {
+    private authGGService: AuthGGService) {
     this.route.queryParams.subscribe(params => {
       this.keyword = params['search'] || '';
     });
@@ -35,7 +33,6 @@ export class HomeComponent implements OnInit {
   ngOnInit() {
     this.loadMovies();
     this.showData();
-    this.getUserProfile();
   }
 
   loadMovies() {
@@ -114,17 +111,6 @@ export class HomeComponent implements OnInit {
     console.log('Picture URL:', picture);
     console.log('Given Name:', givenName);
     console.log('Family Name:', familyName);
-  }
-
-  getUserProfile() {
-    this.authFBService.getUserProfile()
-      .then(profile => {
-        this.authFBService = profile;
-        console.log('User Profile:', this.authFBService);
-      })
-      .catch(error => {
-        console.error('Error fetching user profile:', error);
-      });
   }
 
 }

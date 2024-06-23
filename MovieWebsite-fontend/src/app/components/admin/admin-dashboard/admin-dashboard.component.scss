@@ -442,3 +442,24 @@ main .btn-send:hover {
 	}
 }
 
+/* admin-dashboard.component.scss */
+.progress {
+	width: 100%;
+	background-color: #e0e0e0; /* Màu nền của thanh tiến trình */
+	border-radius: 5px;
+	overflow: hidden;
+	position: relative;
+	height: 20px; /* Chiều cao của thanh tiến trình */
+	margin-top: 10px;
+  }
+  
+  .progress-bar {
+	height: 100%; /* Chiều cao đầy đủ của phần tử cha */
+	background-color: #1775F1; /* Màu xanh */
+	transition: width 0.5s; /* Hiệu ứng chuyển động khi thay đổi chiều rộng */
+  }
+  
+  .card {
+	margin-bottom: 20px; /* Khoảng cách giữa các thẻ */
+  }
+  
