@@ -3,6 +3,8 @@ import { environment } from '../../environments/environment';
 import { MovieService } from '../../services/movie.service';
 import { Movie } from '../../models/movie';
 import { ActivatedRoute, Router } from '@angular/router';
+import { AuthGGService } from '../../services/auth-gg.service';
+import { LoginGGDTO } from '../../dtos/user/logingg.dto';
 
 @Component({
   selector: 'app-home',
@@ -20,7 +22,12 @@ export class HomeComponent implements OnInit {
   visiblePages: number[] = []; 
   keyword: string = '';
 
-  constructor(private movieService: MovieService, private  router: Router, private route: ActivatedRoute) {
+  constructor(private movieService: MovieService, 
+    private  router: Router, 
+    private route: ActivatedRoute,
+    private authGGService: AuthGGService,
+
+    ) {
     this.route.queryParams.subscribe(params => {
       this.keyword = params['search'] || '';
     });
@@ -29,6 +36,8 @@ export class HomeComponent implements OnInit {
   ngOnInit() {
     this.loadMovies();
   }
+
+  
 
   loadMovies() {
     this.getTheatersMovie();
@@ -43,7 +52,6 @@ export class HomeComponent implements OnInit {
           ...movie,
           url: `${environment.apiBaseUrl}/movies/images/${movie.image}`
         }));
-        console.log('Movies Chieu Rap:', response);
       },
       error: (error: any) => {
         console.error('Error fetching movies Chieu Rap:', error);
@@ -58,7 +66,6 @@ export class HomeComponent implements OnInit {
           ...movie,
           url: `${environment.apiBaseUrl}/movies/images/${movie.image}`
         }));
-        console.log('Movies Le:', response);
       },
       error: (error: any) => {
         console.error('Error fetching movies Le:', error);
@@ -73,7 +80,6 @@ export class HomeComponent implements OnInit {
           ...movie,
           url: `${environment.apiBaseUrl}/movies/images/${movie.image}`
         }));
-        console.log('Movies Bo:', response);
       },
       error: (error: any) => {
         console.error('Error fetching movies Bo:', error);
@@ -84,4 +90,7 @@ export class HomeComponent implements OnInit {
   getMoviesByMovieTypeId(movie_type_id: number, page: number, limit: number) {
     return this.movieService.getMoviesByMovieTypeId(movie_type_id, page, limit);
   }
+
+  
+
 }

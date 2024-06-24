@@ -31,12 +31,12 @@ public class JwtTokenUtil {
 
     public String generateToken(com.project.MovieWebsite.models.User user) throws Exception {
         Map<String, Object> claims = new HashMap<>();
-        claims.put("phoneNumber", user.getPhoneNumber());
+        claims.put("email", user.getEmail());
         claims.put("id", user.getId());
         try {
             String token = Jwts.builder()
                     .setClaims(claims)
-                    .setSubject(user.getPhoneNumber())
+                    .setSubject(user.getEmail())
                     .setExpiration(new Date(System.currentTimeMillis() + expiration * 1000L))
                     .signWith(getSignInKey(), SignatureAlgorithm.HS256)
                     .compact();
@@ -74,12 +74,12 @@ public class JwtTokenUtil {
         return expirationDate.before(new Date());
     }
 
-    public String extractPhoneNumber(String token){
+    public String extractEmail(String token){
         return extractClaim(token, Claims::getSubject);
     }
 
     public boolean validationToken(String token, UserDetails userDetails){
-        String phoneNumber = extractPhoneNumber(token);
-        return (phoneNumber.equals(userDetails.getUsername()) && !isTokenExpired(token));
+        String email = extractEmail(token);
+        return (email.equals(userDetails.getUsername()) && !isTokenExpired(token));
     }
 }

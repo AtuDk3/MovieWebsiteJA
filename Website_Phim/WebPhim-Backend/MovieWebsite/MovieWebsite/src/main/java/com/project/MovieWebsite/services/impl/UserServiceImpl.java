@@ -1,17 +1,15 @@
 package com.project.MovieWebsite.services.impl;
 
 import com.project.MovieWebsite.components.JwtTokenUtil;
-import com.project.MovieWebsite.components.LocalizationUtil;
-import com.project.MovieWebsite.constants.MessageKeys;
 import com.project.MovieWebsite.dtos.UpdateUserDTO;
 import com.project.MovieWebsite.dtos.UserDTO;
+import com.project.MovieWebsite.dtos.UserLoginGGDTO;
 import com.project.MovieWebsite.exceptions.DataNotFoundException;
 import com.project.MovieWebsite.exceptions.MailErrorExeption;
 import com.project.MovieWebsite.models.Role;
 import com.project.MovieWebsite.models.User;
 import com.project.MovieWebsite.models.UserVIP;
 import com.project.MovieWebsite.repositories.RoleRepository;
-import com.project.MovieWebsite.repositories.TokenRepository;
 import com.project.MovieWebsite.repositories.UserRepository;
 import com.project.MovieWebsite.repositories.UserVIPRepository;
 import com.project.MovieWebsite.services.UserService;
@@ -36,8 +34,6 @@ public class UserServiceImpl implements UserService {
     private final PasswordEncoder passwordEncoder;
     private final JwtTokenUtil jwtTokenUtil;
     private final AuthenticationManager authenticationManager;
-    private final TokenRepository tokenRepository;
-    private final LocalizationUtil localizationUtil;
 
     @Override
     public User createUser(UserDTO userDTO){
@@ -66,6 +62,33 @@ public class UserServiceImpl implements UserService {
         }
         return userRepository.save(newUser);
 
+    }
+
+    @Override
+    public User createUserFromLoginGG(UserLoginGGDTO userLoginGGDTO) {
+        Role existingRole= roleRepository.findByName(userLoginGGDTO.getRoleName());
+
+        UserVIP existingUserVip= userVIPRepository.findByName(userLoginGGDTO.getVipName());
+
+        User newUser = User.builder().
+                fullName(userLoginGGDTO.getFullName()).
+                phoneNumber(userLoginGGDTO.getPhoneNumber()).
+                password(userLoginGGDTO.getPassword()).
+                imgAvatar(userLoginGGDTO.getImgAvatar()).
+                dob(userLoginGGDTO.getDob()).
+                facebookAccountId(userLoginGGDTO.getFacebookAccountId()).
+                googleAccountId(userLoginGGDTO.getGoogleAccountId()).
+                userVip(existingUserVip).
+                role(existingRole).
+                email(userLoginGGDTO.getEmail()).
+                isActive(userLoginGGDTO.getIsActive()).
+                build();
+        if(userLoginGGDTO.getGoogleAccountId().equals("0")  && userLoginGGDTO.getFacebookAccountId().equals("0") ){
+            String password= userLoginGGDTO.getPassword();
+            String encodedPassword = passwordEncoder.encode(password);
+            newUser.setPassword(encodedPassword);
+        }
+        return userRepository.save(newUser);
     }
 
     @Override
@@ -167,7 +190,7 @@ public class UserServiceImpl implements UserService {
         }
 
         UsernamePasswordAuthenticationToken authenticationToken= new UsernamePasswordAuthenticationToken(
-                phoneNumber, password,
+                existingUser.getEmail(), password,
                 existingUser.getAuthorities()
         );
         authenticationManager.authenticate(authenticationToken);
@@ -175,15 +198,24 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
+    public String loginGG(UserLoginGGDTO userLoginGGDTO) throws Exception {
+        Optional<User> user= userRepository.findByEmail(userLoginGGDTO.getEmail());
+        if(!user.isPresent()){
+            return jwtTokenUtil.generateToken(createUserFromLoginGG(userLoginGGDTO));
+        }else{
+            return jwtTokenUtil.generateToken(user.get());
+        }
+    }
+
+    @Override
     public User getUserDetailsFromToken(String token) throws Exception {
         if(jwtTokenUtil.isTokenExpired(token)){
             throw new Exception("Token is expired");
         }
-        String phoneNumber= jwtTokenUtil.extractPhoneNumber(token);
-        Optional<User> user= userRepository.findByPhoneNumber(phoneNumber);
-
-        if(user.isPresent()){
-            return user.get();
+        String email= jwtTokenUtil.extractEmail(token);
+        Optional<User> userOptional = userRepository.findByEmail(email);
+        if(userOptional.isPresent()){
+            return userOptional.get();
         }else{
             throw new Exception("User not found");
         }

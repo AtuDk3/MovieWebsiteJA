@@ -102,10 +102,7 @@ export class UpdateMovieComponent implements OnInit {
       this.movie.release_date = new Date(this.movie.release_date_formated);
 
       this.movieService.updateMovie(this.movie).subscribe({
-
         next: (response: any) => {
-
-          console.log(this.movie?.image)
           this.toastr.success('The movie was updated successfully!', 'Update Success', {
             timeOut: 3000,
             positionClass: 'toast-bottom-right'
@@ -146,7 +143,6 @@ export class UpdateMovieComponent implements OnInit {
       const reader = new FileReader();
       reader.onload = e => this.imageUrl = reader.result;
       reader.readAsDataURL(file);
-      console.log(this.movieId)
       this.movieService.uploadImageMovie(this.movieId, file).subscribe({
         next: (response) => {
           console.log('File uploaded successfully', response);

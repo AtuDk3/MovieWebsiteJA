@@ -59,7 +59,7 @@ export class ListMovieComponent  implements OnInit {
       this.visiblePages = this.generateVisiblePageArray(this.currentPage, this.totalPages);
     },
     error: (error: any) => {
-      console.error('Error fetching movies by genre:', error);
+      console.error('Error fetching movies!', error);
     }
   });
 }

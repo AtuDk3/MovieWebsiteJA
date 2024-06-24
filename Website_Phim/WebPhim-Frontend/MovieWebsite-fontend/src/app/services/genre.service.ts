@@ -39,4 +39,5 @@ export class GenreService {
     const url = `${this.apiGetGenres}/${genreId}`;
     return this.http.delete<any>(url);
   }
+
 }

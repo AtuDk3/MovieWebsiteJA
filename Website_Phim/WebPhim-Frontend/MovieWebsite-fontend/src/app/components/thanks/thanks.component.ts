@@ -22,8 +22,6 @@ export class ThanksComponent implements OnInit {
 
   constructor(
     private route: ActivatedRoute,
-    private router: Router,
-    private vnpayService: VnpayService,
     private userService: UserService,
     private tokenService: TokenService,
     private orderService: OrderService
@@ -65,18 +63,7 @@ export class ThanksComponent implements OnInit {
                 date_of_birth: new Date(response.date_of_birth),
                 created_at: new Date(response.created_at)
               };
-              if (this.userResponse) {
-                const day = ('0' + new Date(this.userResponse.created_at).getDate()).slice(-2);
-                const month = ('0' + (new Date(this.userResponse.created_at).getMonth() + 1)).slice(-2);
-                const year = new Date(this.userResponse.created_at).getFullYear();
-                const formattedDate = `${day}/${month}/${year}`;
-                this.userResponse.created_at_formatted = formattedDate;
-
-                const day_of_birth = ('0' + new Date(this.userResponse.date_of_birth).getDate()).slice(-2);
-                const month_of_birth = ('0' + (new Date(this.userResponse.date_of_birth).getMonth() + 1)).slice(-2);
-                const year_of_birth = new Date(this.userResponse.date_of_birth).getFullYear();
-                const formatted_of_birth = `${day_of_birth}/${month_of_birth}/${year_of_birth}`;
-                this.userResponse.date_of_birth_formatted = formatted_of_birth;
+              if (this.userResponse) {             
                 this.userService.removeUserFromLocalStorage();
                 this.userService.removeVipPeriodFromLocalStorage();
                 this.userService.saveUserResponseToLocalStorage(this.userResponse);
@@ -133,18 +120,7 @@ export class ThanksComponent implements OnInit {
         this.vipPeriodResponse = {
           ...response
         }
-        if (this.vipPeriodResponse) {
-          const day = ('0' + (new Date(this.vipPeriodResponse.registration_date).getDate())).slice(-2);
-          const month = ('0' + (new Date(this.vipPeriodResponse.registration_date).getMonth() + 1)).slice(-2);
-          const year = new Date(this.vipPeriodResponse.registration_date).getFullYear();
-          const formattedDate = `${day}/${month}/${year}`;
-          this.vipPeriodResponse.registration_date_formatted = formattedDate;
-
-          const day1 = ('0' + (new Date(this.vipPeriodResponse.expiration_date).getDate())).slice(-2);
-          const month1 = ('0' + (new Date(this.vipPeriodResponse.expiration_date).getMonth() + 1)).slice(-2);
-          const year1 = new Date(this.vipPeriodResponse.expiration_date).getFullYear();
-          const formattedDate1 = `${day1}/${month1}/${year1}`;
-          this.vipPeriodResponse.expiration_date_formatted = formattedDate1;
+        if (this.vipPeriodResponse) {         
           this.userService.saveVipPeriodResponseToLocalStorage(this.vipPeriodResponse);
           this.vipPeriodResponse = this.userService.getVipPeriodResponseFromLocalStorage();
         }

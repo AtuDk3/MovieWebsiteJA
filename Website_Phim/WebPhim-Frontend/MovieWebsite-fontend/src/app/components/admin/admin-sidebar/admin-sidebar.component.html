@@ -1,4 +1,5 @@
 
+
 <!-- SIDEBAR -->
 <section id="sidebar">
     <ul class="side-menu">
@@ -86,12 +87,23 @@
 
         <li (mouseenter)="openDropdown('storage')" (mouseleave)="closeDropdown('storage')">
             <a href="#">
-                <i class='bx bx-user'></i> Manager Storage
+                <i class='bx bxl-play-store' ></i> Manager Storage
                 <i class='bx bx-chevron-right icon-right' [class.rotate]="isDropdownOpen('storage')"></i>
             </a>
             <ul class="side-dropdown" [class.show]="isDropdownOpen('storage')">
                 <li><a routerLink="/admin/storage/storage-top-view">Storage top-view</a></li>
                 <li><a routerLink="/admin/storage/storage-rate">Storage top-rate</a></li>
+            </ul>
+        </li>
+
+        <li (mouseenter)="openDropdown('ads')" (mouseleave)="closeDropdown('ads')">
+            <a href="#">
+                <i class='bx bx-book-add'></i> Advertising Manager
+                <i class='bx bx-chevron-right icon-right' [class.rotate]="isDropdownOpen('ads')"></i>
+            </a>
+            <ul class="side-dropdown" [class.show]="isDropdownOpen('ads')">
+                <li><a routerLink="/admin/ads/list-ads">List Advertising</a></li>
+                <li><a routerLink="/admin/ads/add-ads">Add Advertising</a></li>
             </ul>
         </li>
     </ul>

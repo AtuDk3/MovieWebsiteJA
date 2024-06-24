@@ -28,11 +28,11 @@
                     </tr>
                     <tr>
                         <td>Thời gian bắt đầu:</td>
-                        <td><span th:text="${paymentTime}">{{vipPeriodResponse?.registration_date_formatted}}</span></td>
+                        <td><span th:text="${paymentTime}">{{vipPeriodResponse?.registration_date | date: 'dd-MM-yyyy'}}</span></td>
                     </tr>
                     <tr>
                         <td>Thời gian kết thúc:</td>
-                        <td><span th:text="${transactionId}">{{vipPeriodResponse?.expiration_date_formatted}}</span></td>
+                        <td><span th:text="${transactionId}">{{vipPeriodResponse?.expiration_date | date: 'dd-MM-yyyy'}}</span></td>
                     </tr>
                     </tbody>
                 </table>

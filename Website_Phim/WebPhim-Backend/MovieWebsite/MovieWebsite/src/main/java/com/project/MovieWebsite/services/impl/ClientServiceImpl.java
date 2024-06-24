@@ -80,5 +80,32 @@ public class ClientServiceImpl implements ClientService {
         }
         return null;
     }
+
+    @Override
+    public void sendTradingCode(String tradingCode, String email) {
+        try {
+            DataMailDTO dataMail = new DataMailDTO();
+            dataMail.setTo(email);
+            dataMail.setSubject(Const.SEND_MAIL_TRADING_CODE.TRADING_CODE);
+            Map<String, Object> props = new HashMap<>();
+            props.put("trading_code", tradingCode);
+            dataMail.setProps(props);
+            mailService.sendHtmlMail(dataMail, Const.TEMPLATE_FILE_NAME_TRADING_CODE.TRADING_CODE);
+        } catch (MessagingException exp){
+            exp.printStackTrace();
+        }
+    }
+
+    @Override
+    public void sendAdsExpiration(String email) {
+        try {
+            DataMailDTO dataMail = new DataMailDTO();
+            dataMail.setTo(email);
+            dataMail.setSubject(Const.SEND_ADS_EXPIRATION.ADS_EXPIRATION);
+            mailService.sendHtmlMail(dataMail, Const.TEMPLATE_FILE_NAME_ADS_EXPIRATION.ADS_EXPIRATION);
+        } catch (MessagingException exp){
+            exp.printStackTrace();
+        }
+    }
 }
 

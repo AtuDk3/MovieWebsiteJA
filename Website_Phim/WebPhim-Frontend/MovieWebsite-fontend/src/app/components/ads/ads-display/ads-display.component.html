@@ -1,0 +1,14 @@
+<dialog #dialog class="ads-dialog" >
+    <div class="dialog-content" *ngFor="let ads of ads">
+      <button class="close-button" (click)="closeModal()">×</button>
+      <a href="/login">
+      <img *ngFor="let url of ads.list_img_url" [src]="url" alt="Advertisement" class="ad-image">
+      <div class="ad-text">
+        <h2>Quảng cáo đặc biệt</h2>
+        <p>Đây là nội dung quảng cáo của bạn. Hãy thêm mô tả hấp dẫn ở đây.</p>
+      </div>
+    </a>
+      <button class="action-button" (click)="closeModal()">Đóng</button>
+    </div>
+</dialog>
+

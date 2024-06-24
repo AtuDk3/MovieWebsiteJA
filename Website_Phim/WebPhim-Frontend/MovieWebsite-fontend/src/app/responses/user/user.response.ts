@@ -15,9 +15,6 @@ export interface UserResponse{
     img_avatar: string;
     created_at: Date;
     updated_at: Date;
-    created_at_formatted: string;
-    update_at_formatted: string;
-    date_of_birth_formatted: string;
     user_vip: UserVip;
     image_url?: SafeUrl;
 }

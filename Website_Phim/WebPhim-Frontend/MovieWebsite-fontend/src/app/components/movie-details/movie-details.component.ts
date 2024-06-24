@@ -50,17 +50,7 @@ export class MovieDetailsComponent implements OnInit {
           };
           if (this.movie && this.movie.image) {
             this.movie.url = `${environment.apiBaseUrl}/movies/images/${this.movie.image}`;
-          }
-          if (this.movie && this.movie.release_date) {
-            const releaseDate = new Date(this.movie.release_date);
-            const day = releaseDate.getDate();
-            const month = releaseDate.getMonth() + 1;
-            const year = releaseDate.getFullYear();
-            const formattedDate = `${day}/${month}/${year}`;
-            this.movie.release_date_formated = formattedDate;
-          } else {
-            console.log("Ngày phát hành không tồn tại.");
-          }
+          }         
         },
         error: (error: any) => {
           console.log(error);
@@ -95,18 +85,7 @@ export class MovieDetailsComponent implements OnInit {
                       date_of_birth: new Date(response.date_of_birth),
                       created_at: new Date(response.created_at)
                     };
-                    if (this.userResponse) {
-                      const day = ('0' + new Date(this.userResponse.created_at).getDate()).slice(-2);
-                      const month = ('0' + (new Date(this.userResponse.created_at).getMonth() + 1)).slice(-2);
-                      const year = new Date(this.userResponse.created_at).getFullYear();
-                      const formattedDate = `${day}/${month}/${year}`;
-                      this.userResponse.created_at_formatted = formattedDate;
-
-                      const day_of_birth = ('0' + new Date(this.userResponse.date_of_birth).getDate()).slice(-2);
-                      const month_of_birth = ('0' + (new Date(this.userResponse.date_of_birth).getMonth() + 1)).slice(-2);
-                      const year_of_birth = new Date(this.userResponse.date_of_birth).getFullYear();
-                      const formatted_of_birth = `${day_of_birth}/${month_of_birth}/${year_of_birth}`;
-                      this.userResponse.date_of_birth_formatted = formatted_of_birth;
+                    if (this.userResponse) {                      
                       this.userService.removeUserFromLocalStorage();
                       this.userService.removeVipPeriodFromLocalStorage();
                       this.userService.saveUserResponseToLocalStorage(this.userResponse);
@@ -161,8 +140,13 @@ export class MovieDetailsComponent implements OnInit {
           this.router.navigate([`/watching/${movieId}`])
         }else{
           alert('Phim không phụ hợp với độ tuổi của bạn!');
+        }     
+      }else{
+        if(limit_age>=18){
+          this.router.navigate(['']);
+        }else{
+          this.router.navigate([`/watching/${movieId}`])
         }
-      
       }
     }
   }

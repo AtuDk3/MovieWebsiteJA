@@ -26,7 +26,6 @@ export class MovieRelatedComponent implements OnInit, AfterViewInit, AfterViewCh
 
   ngOnInit() {
     const idParam = this.activatedRoute.snapshot.paramMap.get('id');
-    console.log(idParam)
     if (idParam !== null) {
       this.movieId = +idParam;
       this.getMoviesRelated(this.movieId, this.currentPage, this.itemsPerPage);
@@ -71,7 +70,6 @@ export class MovieRelatedComponent implements OnInit, AfterViewInit, AfterViewCh
           movie.url = `${environment.apiBaseUrl}/movies/images/${movie.image}`;
         });                
         this.moviesRelated = response.movies;
-
       },
       error: (error: any) => {
         console.error('Error fetching movies by related:', error);

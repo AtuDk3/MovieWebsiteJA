@@ -18,12 +18,13 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 public class SecurityConfig {
 
     private final UserRepository userRepository;
+
     @Bean
     public UserDetailsService userDetailsService(){
 
-        return phoneNumber -> userRepository
-                .findByPhoneNumber(phoneNumber)
-                .orElseThrow(() -> new UsernameNotFoundException("Cannot find user with phone number= "+phoneNumber));
+        return email -> userRepository
+                .findByEmail(email)
+                .orElseThrow(() -> new UsernameNotFoundException("Cannot find user with email= "+email));
     }
 
     @Bean

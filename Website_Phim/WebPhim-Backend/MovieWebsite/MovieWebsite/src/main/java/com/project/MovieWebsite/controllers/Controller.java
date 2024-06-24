@@ -1,10 +1,10 @@
 package com.project.MovieWebsite.controllers;
 
 import com.project.MovieWebsite.services.VNPAYService;
+import com.project.MovieWebsite.services.VNPayAdsService;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
@@ -13,6 +13,8 @@ import org.springframework.web.bind.annotation.*;
 public class Controller {
     @Autowired
     private VNPAYService vnPayService;
+    @Autowired
+    private VNPayAdsService vnPayAdsService;
 
     // Chuyển hướng người dùng đến cổng thanh toán VNPAY
     @PostMapping("/create_order")
@@ -23,6 +25,18 @@ public class Controller {
         String vnpayUrl = vnPayService.createOrder(request, orderTotal, orderInfo, baseUrl);
         return "redirect:" + vnpayUrl;
     }
+
+    // Chuyển hướng người dùng đến cổng thanh toán VNPAY Ads
+    @PostMapping("/create_order_ads")
+    public String submidOrderAds(@RequestParam("amount") int orderTotal,
+                              @RequestParam("orderInfo") String orderInfo,
+                              HttpServletRequest request) {
+        String baseUrl = request.getScheme() + "://" + request.getServerName() + ":" + request.getServerPort();
+        String vnpayUrl = vnPayAdsService.createOrder(request, orderTotal, orderInfo, baseUrl);
+        return "redirect:" + vnpayUrl;
+    }
+
+
 
     // Sau khi hoàn tất thanh toán, VNPAY sẽ chuyển hướng trình duyệt về URL này
     @GetMapping("/vnpay_payment_return")

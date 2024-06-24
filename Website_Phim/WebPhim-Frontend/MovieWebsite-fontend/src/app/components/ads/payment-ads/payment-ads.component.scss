@@ -1,0 +1,73 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;500&display=swap');
+*{
+    font-family: 'Poppins', sans-serif;
+}
+
+
+body, p, .btn, .form-control {
+    font-size: 1.5rem !important;
+}
+
+h2 {
+    font-size: 4rem !important;
+}
+
+small {
+    font-size: 1.5rem !important;
+    font-weight: 500;
+}
+
+.fs-2 {
+    font-size: 4rem !important;
+}
+
+/* Tăng kích thước ảnh */
+img {
+    width: calc(100% * 1.5);
+}
+
+/* Tăng kích thước các thành phần khác */
+.input-group, .form-check-label {
+    font-size: 2rem !important;
+}
+
+/*------------ Login container ------------*/
+.box-area{
+    width: 930px;
+}
+/*------------ Right box ------------*/
+.right-box{
+    padding: 40px 30px 40px 40px;
+}
+/*------------ Custom Placeholder ------------*/
+::placeholder{
+    font-size: 16px;
+}
+.rounded-4{
+    border-radius: 20px;
+}
+.rounded-5{
+    border-radius: 30px;
+}
+
+.text-danger {
+    font-size: 14px;
+}
+
+/*------------ For small screens------------*/
+@media only screen and (max-width: 768px){
+     .box-area{
+        margin: 0 10px;
+     }
+     .left-box{
+        height: 100px;
+        overflow: hidden;
+     }
+     .right-box{
+        padding: 20px;
+     }
+}
+
+button, span {
+    font-size: 1.5rem !important;
+}

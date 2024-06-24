@@ -57,6 +57,7 @@ export class HeaderComponent implements OnInit {
     this.getGenres();
     this.getCountries();
     this.getYears();
+
     if(!this.tokenService.isTokenExpired()){
       this.userResponse= this.userService.getUserResponseFromLocalStorage();
       if(this.userResponse?.user_vip.name.includes('vip') && this.userService.getVipPeriodResponseFromLocalStorage()===null){
@@ -73,6 +74,7 @@ export class HeaderComponent implements OnInit {
       this.userResponse= this.userService.getUserResponseFromLocalStorage();
     }
   }
+
   
   getGenres() {
     this.genreService.getGenres().subscribe({
@@ -150,7 +152,7 @@ export class HeaderComponent implements OnInit {
     this.userService.removeVipPeriodFromLocalStorage();
     this.tokenService.removeToken();
     this.userResponse= this.userService.getUserResponseFromLocalStorage();
-    this.bookmarkService.resetBookmarkCount();
+    this.bookmarkService.resetBookmarkCount();           
     this.router.navigate(['']);
   }
 
@@ -161,18 +163,7 @@ export class HeaderComponent implements OnInit {
         this.vipPeriodResponse={
           ... response                                
        } 
-        if (this.vipPeriodResponse) {                  
-          const day =  ('0' + (new Date(this.vipPeriodResponse.registration_date).getDate())).slice(-2);
-          const month = ('0' + (new Date(this.vipPeriodResponse.registration_date).getMonth() +1 )).slice(-2); 
-          const year = new Date(this.vipPeriodResponse.registration_date).getFullYear();
-          const formattedDate = `${day}/${month}/${year}`;
-          this.vipPeriodResponse.registration_date_formatted = formattedDate;
-
-          const day1 =  ('0' + (new Date(this.vipPeriodResponse.expiration_date).getDate())).slice(-2);
-          const month1 = ('0' + (new Date(this.vipPeriodResponse.expiration_date).getMonth() +1 )).slice(-2); 
-          const year1 = new Date(this.vipPeriodResponse.expiration_date).getFullYear();
-          const formattedDate1 = `${day1}/${month1}/${year1}`;
-          this.vipPeriodResponse.expiration_date_formatted = formattedDate1;
+        if (this.vipPeriodResponse) {                          
           this.userService.saveVipPeriodResponseToLocalStorage(this.vipPeriodResponse); 
       }             
 

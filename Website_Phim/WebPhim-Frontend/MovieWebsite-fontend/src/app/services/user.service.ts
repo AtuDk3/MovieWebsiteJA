@@ -7,7 +7,8 @@ import { environment } from '../environments/environment';
 import { UserResponse } from '../responses/user/user.response';
 import { UpdateUserDTO } from '../dtos/user/updateuser.dto';
 import { VipPeriodResponse } from '../responses/user/vip_period.response';
-import { VipPeriodDTO } from '../dtos/user/vip_period.dto';
+import { RegisterDTO } from '../dtos/user/register.dto';
+import { LoginGGDTO } from '../dtos/user/logingg.dto';
 @Injectable({
   providedIn: 'root'
 })
@@ -15,6 +16,7 @@ export class UserService {
 
   private apiRegister = `${environment.apiBaseUrl}/users/register`;
   private apiLogin = `${environment.apiBaseUrl}/users/login`;
+  private apiLoginGG = `${environment.apiBaseUrl}/users/login_gg`;
   private apiUserDetail = `${environment.apiBaseUrl}/users/details`;
   private apiUserImg = `${environment.apiBaseUrl}/users/images`;
   private apiUser = `${environment.apiBaseUrl}/users`;
@@ -50,6 +52,10 @@ export class UserService {
 
   login(loginDTO: LoginDTO): Observable<any> {
     return this.http.post(this.apiLogin, loginDTO, this.apiConfig);
+  }
+
+  loginGG(loginGGData: LoginGGDTO): Observable<any> {
+    return this.http.post(this.apiLoginGG, loginGGData, this.apiConfig);
   }
 
   updateUserDetails(userId: number, userUpdateDTO: UpdateUserDTO, token: string): Observable<any> {
@@ -241,14 +247,6 @@ export class UserService {
 
   getUserVip(): Observable<any>{
     return this.http.get(this.apiGetUserVip);   
-  }
-
-  loginGoogle(): void {
-    window.location.href = 'http://localhost:8088/oauth2/authorization/google';
-  }
-
-  getUser(): Observable<any> {
-    return this.http.get<any>('http://localhost:8088/api/v1/users/signingoogle');
   }
 
 }

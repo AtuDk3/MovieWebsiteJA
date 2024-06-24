@@ -286,7 +286,7 @@ public class MovieController {
 
                 return ResponseEntity.ok().body(response);
             }
-            return ResponseEntity.badRequest().body("Loi upload image from create movie");
+            return ResponseEntity.ok().build();
         } catch (Exception e) {
             return ResponseEntity.badRequest().body(e.getMessage());
         }

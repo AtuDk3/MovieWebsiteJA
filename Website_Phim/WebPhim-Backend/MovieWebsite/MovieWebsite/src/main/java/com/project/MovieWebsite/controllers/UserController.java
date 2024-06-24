@@ -5,6 +5,7 @@ import com.project.MovieWebsite.constants.MessageKeys;
 import com.project.MovieWebsite.dtos.UpdateUserDTO;
 import com.project.MovieWebsite.dtos.UserDTO;
 import com.project.MovieWebsite.dtos.UserLoginDTO;
+import com.project.MovieWebsite.dtos.UserLoginGGDTO;
 import com.project.MovieWebsite.exceptions.DataNotFoundException;
 import com.project.MovieWebsite.exceptions.MailErrorExeption;
 import com.project.MovieWebsite.models.User;
@@ -25,9 +26,6 @@ import org.springframework.core.io.UrlResource;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.core.annotation.AuthenticationPrincipal;
-import org.springframework.security.oauth2.core.user.OAuth2User;
-import org.springframework.ui.Model;
 import org.springframework.util.StringUtils;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.FieldError;
@@ -200,6 +198,28 @@ public class UserController {
         }
     }
 
+    @PostMapping("/login_gg")
+    public ResponseEntity<?> loginGG(@Valid @RequestBody UserLoginGGDTO userLoginGGDTO, BindingResult result){
+        try{
+            if (result.hasErrors()) {
+                // Nếu có lỗi trong dữ liệu đầu vào, trả về danh sách các lỗi
+                List<String> errors = result.getFieldErrors()
+                        .stream()
+                        .map(FieldError::getDefaultMessage)
+                        .collect(Collectors.toList());
+                return ResponseEntity.badRequest().body(errors);
+            }
+                String token = userService.loginGG(userLoginGGDTO);
+                return ResponseEntity.ok(
+                        LoginResponse.builder()
+                                .message(localizationUtil.getLocalizedMessage(MessageKeys.LOGIN_SUCCESSFULLY))
+                                .token(token)
+                                .build());
+        }catch (Exception e){
+            return ResponseEntity.badRequest().build();
+        }
+    }
+
     @PutMapping("/details/{userId}")
     public ResponseEntity<UserResponse> updateUserDetails(
             @PathVariable int userId,
@@ -253,7 +273,8 @@ public class UserController {
     @PostMapping("/forgot-password")
     public ResponseEntity<?> forgotPassword(@RequestBody Map<String, String> request) {
         String email = request.get("email");
-        User user = userRepository.findByEmail(email);
+        Optional<User> userOptional = userRepository.findByEmail(email);
+        User user= userOptional.get();
         if (user == null) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Email not found");
         }
@@ -277,7 +298,8 @@ public class UserController {
     public ResponseEntity<?> resetPassword(@RequestBody Map<String, String> request) {
         String newPassword = request.get("newPassword");
         String email = request.get("email");
-        User user = userRepository.findByEmail(email);
+        Optional<User> userOptional = userRepository.findByEmail(email);
+        User user= userOptional.get();
         if (user == null) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Invalid token");
         }

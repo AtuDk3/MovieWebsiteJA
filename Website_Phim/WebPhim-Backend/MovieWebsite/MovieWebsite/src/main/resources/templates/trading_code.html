@@ -1,0 +1,32 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns:th="http://www.thymeleaf.org" xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <link href='http://fonts.googleapis.com/css?family=Roboto' rel='stylesheet' type='text/css'/>
+    <style>
+        body {
+            font-family: 'Roboto', sans-serif;
+            font-size: 16px;
+        }
+        .important {
+            font-size: 13px;
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+<p>Xin chào,</p>
+<p>Chúng tôi đã nhận được yêu cầu của bạn về giao dịch banner quảng cáo trên trang web.</p>
+<p>Vui lòng sử dụng mã giao dịch sau để hoàn tất thanh toán:</p>
+<p class="important" th:text="${'Mã giao dịch của bạn là: ' + trading_code}"></p>
+
+<p>Lưu ý: Mã giao dịch này không cung cấp cho bất kì nhằm đảm bảo vấn đề về giao dịch.</p>
+<p>
+    <a href="http://localhost:4200/check-trading-code" target="_blank">Nhấp vào đây để hoàn tất giao dịch</a>
+</p>
+<p>Xin cảm ơn và chúc bạn một ngày làm việc hiệu quả!</p>
+<p>Trân trọng,</p>
+<p>BQT Quảng cáo</p>
+<p>Đây là email tự động, vui lòng không trả lời.</p>
+</body>
+</html>

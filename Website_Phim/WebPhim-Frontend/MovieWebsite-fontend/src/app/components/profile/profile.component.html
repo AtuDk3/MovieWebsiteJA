@@ -64,11 +64,11 @@
                                         <li class="list-info-group-item"><span>Email</span> : <span
                                                 class="info-user">{{userResponse.email}}</span></li>
                                         <li class="list-info-group-item"><span>Ngày sinh</span> : <span
-                                                class="info-user">{{userResponse.date_of_birth_formatted}}</span></li>
+                                                class="info-user">{{userResponse.date_of_birth | date: 'dd-MM-yyyy'}}</span></li>
                                         <li class="list-info-group-item last-item"
                                             style="-overflow: hidden;-display: -webkit-box;-webkit-line-clamp: 1;-webkit-box-flex: 1;-webkit-box-orient: vertical;">
                                             <span>Ngày tạo</span> : <span
-                                                class="info-user">{{userResponse.created_at_formatted}}</span>
+                                                class="info-user">{{userResponse.created_at | date: 'dd-MM-yyyy'}}</span>
                                         </li>
                                         <li class="list-info-group-item"><span>Thành viên VIP</span> :
                                             <span *ngIf="userResponse.user_vip.name === 'Normal User'"
@@ -78,10 +78,10 @@
                                         </li>
                                         <div *ngIf="vipPeriodResponse">
                                             <li class="list-info-group-item"><span>Ngày đăng kí</span> : <span
-                                                    class="info-user">{{vipPeriodResponse.registration_date_formatted}}</span>
+                                                    class="info-user">{{vipPeriodResponse.registration_date | date: 'dd-MM-yyyy'}}</span>
                                             </li>
                                             <li class="list-info-group-item"><span>Ngày hết hạn</span> : <span
-                                                    class="info-user">{{vipPeriodResponse.expiration_date_formatted}}</span>
+                                                    class="info-user">{{vipPeriodResponse.expiration_date | date: 'dd-MM-yyyy'}}</span>
                                             </li>
                                         </div>
                                     </ul>

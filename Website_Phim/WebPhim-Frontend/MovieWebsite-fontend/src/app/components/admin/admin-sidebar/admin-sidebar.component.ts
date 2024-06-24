@@ -15,6 +15,7 @@ export class AdminSidebarComponent {
     episode: false,
     order: false,
     account: false,
+    ads: false,
     storage: false
   };
 

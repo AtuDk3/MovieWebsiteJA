@@ -9,4 +9,8 @@ public interface ClientService {
     String forgot_password(User user);
 
     String authenticate_account(String name, String email);
+
+    void sendTradingCode(String tradingCode, String email);
+
+    void sendAdsExpiration(String email);
 }
