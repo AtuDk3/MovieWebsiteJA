@@ -77,6 +77,7 @@ import { PaymentAdsComponent } from './components/ads/payment-ads/payment-ads.co
 import { OAuthModule } from 'angular-oauth2-oidc';
 import { AdsDisplayComponent } from './components/ads/ads-display/ads-display.component';
 import { LoginGgComponent } from './components/login-gg/login-gg.component';
+import { GetMovieApiComponent } from './components/admin/get-movie-api/get-movie-api.component';
 
 export function initializeAuthService(authService: AuthService) {
   return (): Promise<void> => {
@@ -148,6 +149,7 @@ export function initializeAuthService(authService: AuthService) {
         PaymentAdsComponent,
         AdsDisplayComponent,
         LoginGgComponent,
+        GetMovieApiComponent,
     ],
     bootstrap: [
         AppComponent

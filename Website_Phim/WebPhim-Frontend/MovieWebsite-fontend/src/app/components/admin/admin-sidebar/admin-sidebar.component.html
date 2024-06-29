@@ -106,6 +106,15 @@
                 <li><a routerLink="/admin/ads/add-ads">Add Advertising</a></li>
             </ul>
         </li>
+        <li (mouseenter)="openDropdown('movie-api')" (mouseleave)="closeDropdown('movie-api')">
+            <a href="#">
+                <i class='bx bx-book-add'></i> Get Movie API
+                <i class='bx bx-chevron-right icon-right' [class.rotate]="isDropdownOpen('movie-api')"></i>
+            </a>
+            <ul class="side-dropdown" [class.show]="isDropdownOpen('movie-api')">
+                <li><a routerLink="/admin/api/get-movie">MOVIE API</a></li>             
+            </ul>
+        </li>
     </ul>
     <div class="ads">
         <div class="wrapper">

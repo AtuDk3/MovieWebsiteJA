@@ -13,4 +13,6 @@ public interface ClientService {
     void sendTradingCode(String tradingCode, String email);
 
     void sendAdsExpiration(String email);
+
+    void sendAdsSuccess(String registrationDate, String expiryDate, String email);
 }

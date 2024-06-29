@@ -67,7 +67,11 @@ export class MovieRelatedComponent implements OnInit, AfterViewInit, AfterViewCh
     this.movieService.getMoviesRelated(movie_id, page, limit).subscribe({
       next: (response: any) => {
         response.movies.forEach((movie: FavouriteResponse) => {
-          movie.url = `${environment.apiBaseUrl}/movies/images/${movie.image}`;
+          if(!movie.image.includes('http')){
+            movie.url = `${environment.apiBaseUrl}/movies/images/${movie.image}`;
+          }else{
+            movie.url = movie.image;
+          }
         });                
         this.moviesRelated = response.movies;
       },

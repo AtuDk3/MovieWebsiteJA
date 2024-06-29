@@ -42,7 +42,11 @@ export class ListMovieComponent  implements OnInit {
   this.movieService.getMovies(page, limit).subscribe({
     next: (response: any) => {
       response.movies.forEach((movie: Movie) => {
-        movie.url = `${environment.apiBaseUrl}/movies/images/${movie.image}`;
+        if(!movie.image.includes('http')){
+          movie.url = `${environment.apiBaseUrl}/movies/images/${movie.image}`;
+        }else{
+          movie.url = movie.image;
+        }
         // release_date: new Date(response.release_date);
         const releaseDate = new Date(movie.release_date);
             const day = releaseDate.getDate();

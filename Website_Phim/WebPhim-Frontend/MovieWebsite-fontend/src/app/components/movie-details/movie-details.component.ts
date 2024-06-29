@@ -48,9 +48,13 @@ export class MovieDetailsComponent implements OnInit {
             ...response,
             release_date: new Date(response.release_date)
           };
-          if (this.movie && this.movie.image) {
-            this.movie.url = `${environment.apiBaseUrl}/movies/images/${this.movie.image}`;
-          }         
+          if (this.movie) {
+            if (!this.movie.image.includes('http')) {
+              this.movie.url = `${environment.apiBaseUrl}/movies/images/${this.movie.image}`;
+            } else {
+              this.movie.url = this.movie.image;
+            }
+          }
         },
         error: (error: any) => {
           console.log(error);
@@ -62,7 +66,7 @@ export class MovieDetailsComponent implements OnInit {
 
   checkFee(isFee: number, movieId: number, limit_age: number) {
     this.userResponse = this.userService.getUserResponseFromLocalStorage();
-    if (isFee === 1) {      
+    if (isFee === 1) {
       if (this.userResponse) {
         if (this.userResponse.user_vip.name.includes('vip')) {
           this.vipPeriodResponse = this.userService.getVipPeriodResponseFromLocalStorage();
@@ -85,7 +89,7 @@ export class MovieDetailsComponent implements OnInit {
                       date_of_birth: new Date(response.date_of_birth),
                       created_at: new Date(response.created_at)
                     };
-                    if (this.userResponse) {                      
+                    if (this.userResponse) {
                       this.userService.removeUserFromLocalStorage();
                       this.userService.removeVipPeriodFromLocalStorage();
                       this.userService.saveUserResponseToLocalStorage(this.userResponse);
@@ -128,7 +132,7 @@ export class MovieDetailsComponent implements OnInit {
       }
     } else {
       if (this.userResponse) {
-        const dob= new Date(this.userResponse.date_of_birth)
+        const dob = new Date(this.userResponse.date_of_birth)
         const today = new Date();
         let age = today.getFullYear() - dob.getFullYear();
         const monthDifference = today.getMonth() - dob.getMonth();
@@ -136,15 +140,15 @@ export class MovieDetailsComponent implements OnInit {
         if (monthDifference < 0 || (monthDifference === 0 && today.getDate() < dob.getDate())) {
           age--;
         }
-        if(age>=limit_age){
+        if (age >= limit_age) {
           this.router.navigate([`/watching/${movieId}`])
-        }else{
+        } else {
           alert('Phim không phụ hợp với độ tuổi của bạn!');
-        }     
-      }else{
-        if(limit_age>=18){
+        }
+      } else {
+        if (limit_age >= 18) {
           this.router.navigate(['']);
-        }else{
+        } else {
           this.router.navigate([`/watching/${movieId}`])
         }
       }

@@ -52,6 +52,7 @@ import { ThanksAdsComponent } from './components/ads/thanks-ads/thanks-ads.compo
 import { PaymentAdsComponent } from './components/ads/payment-ads/payment-ads.component';
 import { CheckTradingCodeComponent } from './components/ads/check-trading-code/check-trading-code.component';
 import { LoginGgComponent } from './components/login-gg/login-gg.component';
+import { GetMovieApiComponent } from './components/admin/get-movie-api/get-movie-api.component';
 
 const routes: Routes = [
   {
@@ -128,6 +129,8 @@ const routes: Routes = [
       // Order
       { path: 'order/list-order', component: ListOrderComponent, canActivate:[AdminGuardFn]},
       { path: 'order/list-history-order/:id', component: ListHistoryOrderComponent, canActivate:[AdminGuardFn]},
+       // Get Movie API
+       { path: 'api/get-movie', component: GetMovieApiComponent, canActivate:[AdminGuardFn]},
     ]
   }
 ];

@@ -33,4 +33,12 @@ public class Const {
         public final static String ADS_EXPIRATION = "ads_expiration";
     }
 
+    public final static class SEND_ADS_SUCCESS {
+        public final static String ADS_SUCCESS = "THANH TOÁN THÀNH CÔNG DỊCH VỤ QUẢNG CÁO";
+    }
+
+    public final static class TEMPLATE_FILE_NAME_ADS_SUCCESS{
+        public final static String ADS_SUCCESS = "success_payment_ads";
+    }
+
 }

@@ -48,10 +48,14 @@ export class HomeComponent implements OnInit {
   getTheatersMovie() {
     this.getMoviesByMovieTypeId(3, 0, 18).subscribe({
       next: (response: any) => {
-        this.theatersMovie = response.movies.map((movie: Movie) => ({
-          ...movie,
-          url: `${environment.apiBaseUrl}/movies/images/${movie.image}`
-        }));
+        response.movies.forEach((movie: Movie) => {
+          if(!movie.image.includes('http')){
+            movie.url = `${environment.apiBaseUrl}/movies/images/${movie.image}`;
+          }else{
+            movie.url = movie.image;
+          }         
+        });
+        this.theatersMovie= response.movies;
       },
       error: (error: any) => {
         console.error('Error fetching movies Chieu Rap:', error);
@@ -62,10 +66,14 @@ export class HomeComponent implements OnInit {
   getSingleMovie() {
     this.getMoviesByMovieTypeId(2, 0, 18).subscribe({
       next: (response: any) => {
-        this.singleMovie = response.movies.map((movie: Movie) => ({
-          ...movie,
-          url: `${environment.apiBaseUrl}/movies/images/${movie.image}`
-        }));
+        response.movies.forEach((movie: Movie) => {
+          if(!movie.image.includes('http')){
+            movie.url = `${environment.apiBaseUrl}/movies/images/${movie.image}`;
+          }else{
+            movie.url = movie.image;
+          }         
+        });
+        this.singleMovie= response.movies;
       },
       error: (error: any) => {
         console.error('Error fetching movies Le:', error);
@@ -76,10 +84,14 @@ export class HomeComponent implements OnInit {
   getSeriesMovie() {
     this.getMoviesByMovieTypeId(1, 0, 18).subscribe({
       next: (response: any) => {
-        this.seriesMovie = response.movies.map((movie: Movie) => ({
-          ...movie,
-          url: `${environment.apiBaseUrl}/movies/images/${movie.image}`
-        }));
+        response.movies.forEach((movie: Movie) => {
+          if(!movie.image.includes('http')){
+            movie.url = `${environment.apiBaseUrl}/movies/images/${movie.image}`;
+          }else{
+            movie.url = movie.image;
+          }         
+        });
+        this.seriesMovie= response.movies;
       },
       error: (error: any) => {
         console.error('Error fetching movies Bo:', error);

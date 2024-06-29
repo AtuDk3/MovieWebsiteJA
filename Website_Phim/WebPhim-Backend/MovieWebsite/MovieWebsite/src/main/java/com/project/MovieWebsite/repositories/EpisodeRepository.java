@@ -11,4 +11,7 @@ public interface EpisodeRepository extends JpaRepository<Episode, Integer> {
     List<Episode> findByMovieId(int movieId);
 
     List<Episode> findByMovieAndEpisode(Movie movie, int episode);
+
+    boolean existsByMovieAndEpisode(Movie movie, int episode);
+
 }

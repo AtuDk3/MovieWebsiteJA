@@ -27,7 +27,11 @@ export class TopViewsComponent implements OnInit {
       this.topViewService.getTopViewByDay().subscribe({
         next: (response: any) => {
           response.forEach((movie_view: TopViewResponse) => {
-            movie_view.url = `${environment.apiBaseUrl}/movies/images/${movie_view.image}`;
+            if(!movie_view.image.includes('http')){
+              movie_view.url = `${environment.apiBaseUrl}/movies/images/${movie_view.image}`;
+            }else{
+              movie_view.url = movie_view.image;
+            }        
           });
           this.statusDay= 'active'
           this.statusWeek= ''
@@ -54,7 +58,11 @@ export class TopViewsComponent implements OnInit {
       this.topViewService.getTopViewByWeek().subscribe({
         next: (response: any) => {
           response.forEach((movie_view: TopViewResponse) => {
-            movie_view.url = `${environment.apiBaseUrl}/movies/images/${movie_view.image}`;
+            if(!movie_view.image.includes('http')){
+              movie_view.url = `${environment.apiBaseUrl}/movies/images/${movie_view.image}`;
+            }else{
+              movie_view.url = movie_view.image;
+            }
           });
           this.statusWeek= 'active'
           this.statusDay= ''
@@ -71,7 +79,11 @@ export class TopViewsComponent implements OnInit {
       this.topViewService.getTopViewByMonth().subscribe({
         next: (response: any) => {
           response.forEach((movie_view: TopViewResponse) => {
-            movie_view.url = `${environment.apiBaseUrl}/movies/images/${movie_view.image}`;
+            if(!movie_view.image.includes('http')){
+              movie_view.url = `${environment.apiBaseUrl}/movies/images/${movie_view.image}`;
+            }else{
+              movie_view.url = movie_view.image;
+            }
           });
           this.statusMonth= 'active'
           this.statusDay= ''

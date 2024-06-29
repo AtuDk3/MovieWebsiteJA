@@ -18,6 +18,7 @@ import org.springframework.stereotype.Service;
 import java.security.SecureRandom;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -107,10 +108,14 @@ public class AdsServiceImpl implements AdsService {
     public Ads updateAdsPayment(String trading_code) throws Exception{
         Ads ads= adsRepository.findByTradingCode(trading_code);
         LocalDateTime now = LocalDateTime.now();
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
         if (ads!=null){
             ads.setIsConfirm(1);
             ads.setCreateAt(now);
             ads.setExpirationAt(now.plusDays(ads.getNumberDays()*1L));
+            clientService.sendAdsSuccess(ads.getCreateAt().format(formatter),
+                                            ads.getExpirationAt().format(formatter),
+                                            ads.getEmail());
             return adsRepository.save(ads);
         }else{
             throw new DataNotFoundException("Error Existing Ads");

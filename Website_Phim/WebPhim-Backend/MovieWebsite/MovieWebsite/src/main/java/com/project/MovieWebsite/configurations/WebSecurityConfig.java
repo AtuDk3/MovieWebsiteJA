@@ -57,7 +57,8 @@ public class WebSecurityConfig {
                                     String.format("%s/ads/update_ads_payment", apiPrefix),
                                     String.format("%s/comments/**", apiPrefix),
                                     String.format("%s/users/login_gg", apiPrefix),
-                                    String.format("%s/ads/get_ads/**", apiPrefix)
+                                    String.format("%s/ads/get_ads/**", apiPrefix),
+                                    String.format("%s/ads/images/**", apiPrefix)
                             )
                             .permitAll()
                             .requestMatchers(HttpMethod.GET, String.format("%s/roles", apiPrefix)).permitAll()

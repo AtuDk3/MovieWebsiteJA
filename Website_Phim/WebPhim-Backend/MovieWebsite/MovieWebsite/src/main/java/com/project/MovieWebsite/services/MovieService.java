@@ -2,7 +2,9 @@
 package com.project.MovieWebsite.services;
 
 
+import com.project.MovieWebsite.dtos.ListEpisodeDTOFromAPI;
 import com.project.MovieWebsite.dtos.MovieDTO;
+import com.project.MovieWebsite.dtos.MovieDTOFromAPI;
 import com.project.MovieWebsite.exceptions.DataNotFoundException;
 import com.project.MovieWebsite.models.Movie;
 import com.project.MovieWebsite.responses.MovieResponse;
@@ -19,11 +21,15 @@ public interface MovieService {
 
     Movie createMovie (MovieDTO movieDTO) throws DataNotFoundException;
 
+    Movie createMovieFromAPI (MovieDTOFromAPI movieDTO, List<ListEpisodeDTOFromAPI> listEpisodeDTOFromAPI) throws DataNotFoundException;
+
     Movie getMovieById(int id);
 
     Page<MovieResponse> getAllMoviesByGenreId(String keyword, int genreId, PageRequest pageRequest);
 
     Page<MovieResponse> getAllMoviesByYear(int year, PageRequest pageRequest);
+
+    Page<MovieResponse> getAllMoviesToday(PageRequest pageRequest);
 
     Page<MovieResponse> getAllMoviesByCountryId(String keyword, int countryId, PageRequest pageRequest);
 

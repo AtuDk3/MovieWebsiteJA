@@ -7,12 +7,16 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 
 public interface MovieRepository extends JpaRepository<Movie, Integer> {
 
     boolean existsByName(String name);
+
+    Movie findByName(String name);
 
     Page<Movie> findAll(Pageable pageable);
 
@@ -28,6 +32,9 @@ public interface MovieRepository extends JpaRepository<Movie, Integer> {
 
     @Query("select m from Movie m")
     Page<Movie> getAllMovies(Pageable pageable);
+
+    @Query("SELECT e.movie FROM Episode e WHERE e.episode = 1 AND DATE(e.createAt) = DATE(:today)")
+    Page<Movie> getAllMoviesToday(@Param("today") LocalDateTime today, Pageable pageable);
 
 
 

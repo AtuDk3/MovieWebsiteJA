@@ -44,8 +44,12 @@ export class UpdateMovieComponent implements OnInit {
       this.movieService.getMovieById(id).subscribe({
         next: (response: Movie) => {   
           this.movie = response;
-          this.imageUrl = `${environment.apiBaseUrl}/movies/images/${this.movie.image}`;
-          
+          if(!this.movie.image.includes('http')){
+            this.imageUrl = `${environment.apiBaseUrl}/movies/images/${this.movie.image}`;
+          }else{
+            this.imageUrl = this.movie.image;
+          }
+                  
           this.movie.release_date = new Date(response.release_date);
           const releaseDate = new Date(this.movie.release_date);
           const day = ('0' + releaseDate.getDate()).slice(-2); // Thêm số 0 nếu cần

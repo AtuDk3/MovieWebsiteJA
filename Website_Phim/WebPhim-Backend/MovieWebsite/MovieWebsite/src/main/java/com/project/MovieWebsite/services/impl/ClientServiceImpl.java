@@ -107,5 +107,22 @@ public class ClientServiceImpl implements ClientService {
             exp.printStackTrace();
         }
     }
+
+    @Override
+    public void sendAdsSuccess(String registrationDate, String expiryDate, String email) {
+        try {
+            DataMailDTO dataMail = new DataMailDTO();
+            dataMail.setTo(email);
+            dataMail.setSubject(Const.SEND_ADS_SUCCESS.ADS_SUCCESS);
+            Map<String, Object> props = new HashMap<>();
+            props.put("registration_date", registrationDate);
+            props.put("expiry_date", expiryDate);
+            dataMail.setProps(props);
+            mailService.sendHtmlMail(dataMail, Const.TEMPLATE_FILE_NAME_ADS_SUCCESS.ADS_SUCCESS);
+        } catch (MessagingException exp){
+            exp.printStackTrace();
+        }
+
+    }
 }
 
