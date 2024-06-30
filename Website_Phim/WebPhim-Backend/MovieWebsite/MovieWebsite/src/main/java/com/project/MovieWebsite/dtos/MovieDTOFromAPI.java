@@ -26,8 +26,8 @@ public class MovieDTOFromAPI {
 
     private String slug;
 
-    @JsonProperty("release_date")
-    private Date releaseDate= new Date();
+    @JsonProperty("year")
+    private int releaseDate;
 
     @JsonProperty("time")
     private String duration;

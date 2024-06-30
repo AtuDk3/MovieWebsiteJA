@@ -49,14 +49,7 @@ export class UpdateMovieComponent implements OnInit {
           }else{
             this.imageUrl = this.movie.image;
           }
-                  
-          this.movie.release_date = new Date(response.release_date);
-          const releaseDate = new Date(this.movie.release_date);
-          const day = ('0' + releaseDate.getDate()).slice(-2); // Thêm số 0 nếu cần
-          const month = ('0' + (releaseDate.getMonth() + 1)).slice(-2); // Thêm số 0 nếu cần
-          const year = releaseDate.getFullYear();
-          const formattedDate = `${year}-${month}-${day}`; // Định dạng thành yyyy-mm-dd
-          this.movie.release_date_formated = formattedDate;
+                          
         },
         error: (error: any) => {
           console.log(error);
@@ -102,9 +95,7 @@ export class UpdateMovieComponent implements OnInit {
   }
 
   updateMovie() {
-    if (this.movie) {
-      this.movie.release_date = new Date(this.movie.release_date_formated);
-
+    if (this.movie) {     
       this.movieService.updateMovie(this.movie).subscribe({
         next: (response: any) => {
           this.toastr.success('The movie was updated successfully!', 'Update Success', {

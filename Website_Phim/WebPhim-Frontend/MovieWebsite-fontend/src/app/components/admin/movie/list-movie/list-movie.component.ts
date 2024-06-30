@@ -47,15 +47,7 @@ export class ListMovieComponent  implements OnInit {
         }else{
           movie.url = movie.image;
         }
-        // release_date: new Date(response.release_date);
-        const releaseDate = new Date(movie.release_date);
-            const day = releaseDate.getDate();
-            const month = releaseDate.getMonth() + 1;
-            const year = releaseDate.getFullYear();
-            const formattedDate = `${day}/${month}/${year}`;
-            movie.release_date_formated = formattedDate;
-
-            console.log(response);
+        
       });
 
       this.movies = response.movies;

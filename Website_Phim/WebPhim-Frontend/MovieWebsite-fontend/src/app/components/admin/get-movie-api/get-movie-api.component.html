@@ -46,7 +46,7 @@
                 <td>{{ (movie.description.length > 50 ? (movie.description | slice:0:50) + '...' : movie.description)}}</td>
                 <td><img src="{{ movie.url }}" alt="{{ movie.name }}"></td>
                 <td>{{ movie.slug }}</td>
-                <td>{{ movie.release_date | date: 'yyyy' }}</td>
+                <td>{{ movie.release_date}}</td>
                 <td>{{ movie.duration }}</td>
                 <td>{{ movie.genre_name }}</td>
                 <td>{{ movie.movie_type_name }}</td>

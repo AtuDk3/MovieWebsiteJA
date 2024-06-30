@@ -54,7 +54,7 @@ public interface MovieRepository extends JpaRepository<Movie, Integer> {
             + " m.genre.isActive = 1 and"
             + " m.movieType.isActive = 1 and"
             + " m.country.isActive = 1 and"
-            + " YEAR(m.releaseDate) = :year")
+            + " m.releaseDate = :year")
     Page<Movie> searchMoviesByYear(
             @Param("year") int year,
             Pageable pageable
@@ -106,7 +106,7 @@ public interface MovieRepository extends JpaRepository<Movie, Integer> {
             Pageable pageable
     );
 
-    @Query("SELECT DISTINCT YEAR(m.releaseDate) FROM Movie m ORDER BY YEAR(m.releaseDate)")
+    @Query("SELECT DISTINCT m.releaseDate FROM Movie m ORDER BY m.releaseDate")
     List<Integer> findDistinctYears();
 
     Optional<List<Movie>> findByGenreId(int genreId);

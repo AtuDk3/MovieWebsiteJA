@@ -30,7 +30,7 @@ public class MovieDTO {
     private String slug;
 
     @JsonProperty("release_date")
-    private Date releaseDate;
+    private int releaseDate;
 
     @NotBlank(message = "Duration required")
     private String duration;

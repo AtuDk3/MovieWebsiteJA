@@ -47,7 +47,7 @@
                         <h1 class="movie-title title-1"
                            style="display:block;line-height:35px;margin-bottom: -14px;color: #ffed4d;text-transform: uppercase;font-size: 18px;">
                            {{ movie.name }}</h1>
-                        <h2 class="movie-title title-2" style="font-size: 12px;">{{ movie.genre_name }} ({{ movie.release_date | date: 'yyyy' }})</h2>
+                        <h2 class="movie-title title-2" style="font-size: 12px;">{{ movie.genre_name }} ({{ movie.release_date }})</h2>
                         <ul class="list-info-group">
                            <li class="list-info-group-item"><span>Trạng Thái</span> : <span
                                  class="quality">HD</span><span class="episode">Vietsub</span></li>
@@ -86,7 +86,7 @@
                   <div class="video-item halim-entry-box">
                      <article id="post-38424" class="item-content">
                         Phim <a href="">{{ movie.name }}</a> - {{
-                        movie.release_date_formated }} - {{ movie.country_name }}:
+                        movie.release_date }} - {{ movie.country_name }}:
                         <p>{{ movie.name }} &#8211; {{ movie.description }}</p>
                         <h5>Từ Khoá Tìm Kiếm:</h5>
                         <ul>

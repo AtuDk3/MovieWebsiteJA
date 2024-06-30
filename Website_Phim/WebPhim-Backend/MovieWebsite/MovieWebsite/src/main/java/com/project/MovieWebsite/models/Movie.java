@@ -31,7 +31,7 @@ public class Movie {
     private String slug;
 
     @Column(name="release_date", nullable= false)
-    private Date releaseDate;
+    private int releaseDate;
 
     @Column(name="duration", nullable= false, length=255)
     private String duration;
@@ -75,9 +75,5 @@ public class Movie {
     @Column(name="is_active")
     private int isActive;
 
-    @PrePersist
-    protected void onCreate() {
-        this.releaseDate = new Date();
-    }
 
 }

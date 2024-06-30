@@ -45,8 +45,7 @@ export class MovieDetailsComponent implements OnInit {
       this.movieService.getDetailMovie(this.movieId).subscribe({
         next: (response: any) => {
           this.movie = {
-            ...response,
-            release_date: new Date(response.release_date)
+            ...response,           
           };
           if (this.movie) {
             if (!this.movie.image.includes('http')) {
