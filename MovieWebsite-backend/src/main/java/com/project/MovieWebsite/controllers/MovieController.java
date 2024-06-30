@@ -1,7 +1,7 @@
 
 package com.project.MovieWebsite.controllers;
 
-import com.project.MovieWebsite.dtos.MovieDTO;
+import com.project.MovieWebsite.dtos.*;
 import com.project.MovieWebsite.exceptions.DataNotFoundException;
 import com.project.MovieWebsite.models.Movie;
 import com.project.MovieWebsite.repositories.MovieRepository;
@@ -9,13 +9,16 @@ import com.project.MovieWebsite.responses.FavouriteListResponse;
 import com.project.MovieWebsite.responses.FavouriteResponse;
 import com.project.MovieWebsite.responses.MovieListResponse;
 import com.project.MovieWebsite.responses.MovieResponse;
+import com.project.MovieWebsite.services.EpisodeService;
 import com.project.MovieWebsite.services.MovieService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.core.io.UrlResource;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
+import org.springframework.http.HttpMethod;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -23,6 +26,8 @@ import org.springframework.util.StringUtils;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.FieldError;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.client.RestClientException;
+import org.springframework.web.client.RestTemplate;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
@@ -31,6 +36,7 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.nio.file.StandardCopyOption;
 import java.util.*;
+import java.util.stream.Collectors;
 
 
 @RestController
@@ -40,6 +46,8 @@ public class MovieController {
 
     private final MovieService movieService;
     private final MovieRepository movieRepository;
+    private final EpisodeService episodeService;
+    private final RestTemplate restTemplate = new RestTemplate();
 
     @PutMapping("/{id}")
     public ResponseEntity<Map<String, String>> updateMovie(@PathVariable int id, @Valid @RequestBody MovieDTO movieDTO, BindingResult result) throws Exception {
@@ -286,7 +294,7 @@ public class MovieController {
 
                 return ResponseEntity.ok().body(response);
             }
-            return ResponseEntity.badRequest().body("Loi upload image from create movie");
+            return ResponseEntity.ok().build();
         } catch (Exception e) {
             return ResponseEntity.badRequest().body(e.getMessage());
         }
@@ -325,4 +333,80 @@ public class MovieController {
         Files.copy(file.getInputStream(), destination, StandardCopyOption.REPLACE_EXISTING);
         return uniqueFilename;
     }
+
+    //Get new data from api
+    @GetMapping("/create_movie_api")
+    public void fetchDataAndStoreToDatabase() {
+        // Gọi API thứ nhất để lấy danh sách các phim
+        String api1Url = "https://ophim1.com/danh-sach/phim-moi-cap-nhat?page=" + 1;
+        List<String> slugs = getSlugsFromApi(api1Url);
+        // Lấy chi tiết từng phim và lưu vào cơ sở dữ liệu
+        for (String slug : slugs) {
+            String api2Url ="https://ophim1.com/phim/" + slug;
+            try {
+                getMovieDetailsFromApi(api2Url);
+            }catch (Exception e){
+                continue;
+            }
+        }
+    }
+
+    @GetMapping("/movies_today")
+    public ResponseEntity<MovieListResponse> getMoviesToday(
+            @RequestParam(defaultValue = "0") int page,
+            @RequestParam(defaultValue = "10") int limit
+    ){
+        PageRequest pageRequest = PageRequest.of(page, limit, Sort.by("id").descending());
+        Page<MovieResponse> moviePage = movieService.getAllMoviesToday(pageRequest);
+        int totalPages = moviePage.getTotalPages();
+        List<MovieResponse> movies = moviePage.getContent();
+        return ResponseEntity.ok(MovieListResponse.builder()
+                .movies(movies).totalPages(totalPages).build());
+    }
+
+    private List<String> getSlugsFromApi(String apiUrl) {
+        // Gọi API thứ nhất, parse dữ liệu và trả về danh sách slug
+        ResponseEntity<ApiResponse1> responseEntity = restTemplate.exchange(
+                apiUrl,
+                HttpMethod.GET,
+                null,
+                new ParameterizedTypeReference<ApiResponse1>() {});
+
+        ApiResponse1 apiResponse = responseEntity.getBody();
+        if (apiResponse != null && apiResponse.getItems() != null) {
+            return apiResponse.getItems().stream()
+                    .map(Item::getSlug)
+                    .collect(Collectors.toList());
+        } else {
+            return Collections.emptyList();
+        }
+    }
+
+    private void getMovieDetailsFromApi(String apiUrl) {
+        try {
+            ResponseEntity<MovieFromAPI> responseEntity = restTemplate.exchange(
+                    apiUrl,
+                    HttpMethod.GET,
+                    null,
+                    MovieFromAPI.class);
+
+            if (responseEntity.getStatusCode().is2xxSuccessful()) {
+                MovieFromAPI apiResponse = responseEntity.getBody();
+                if (apiResponse != null) {
+                    movieService.createMovieFromAPI(apiResponse.getMovie(), apiResponse.getEpisodes());
+                } else {
+                    System.out.println("Response body is null for API: " + apiUrl);
+                }
+            } else {
+                System.out.println("API call failed with status code: " + responseEntity.getStatusCode());
+                // Xử lý logic tùy theo yêu cầu
+            }
+        } catch (RestClientException e) {
+            e.printStackTrace();
+            // Xử lý lỗi, ví dụ như ghi log hoặc thông báo người dùng
+        } catch (DataNotFoundException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
 }

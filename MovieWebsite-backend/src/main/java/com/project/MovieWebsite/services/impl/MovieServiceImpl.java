@@ -1,15 +1,9 @@
 package com.project.MovieWebsite.services.impl;
 
-import com.project.MovieWebsite.dtos.MovieDTO;
+import com.project.MovieWebsite.dtos.*;
 import com.project.MovieWebsite.exceptions.DataNotFoundException;
-import com.project.MovieWebsite.models.Country;
-import com.project.MovieWebsite.models.Genre;
-import com.project.MovieWebsite.models.Movie;
-import com.project.MovieWebsite.models.MovieType;
-import com.project.MovieWebsite.repositories.CountryRepository;
-import com.project.MovieWebsite.repositories.GenreRepository;
-import com.project.MovieWebsite.repositories.MovieRepository;
-import com.project.MovieWebsite.repositories.MovieTypeRepository;
+import com.project.MovieWebsite.models.*;
+import com.project.MovieWebsite.repositories.*;
 import com.project.MovieWebsite.responses.MovieResponse;
 import com.project.MovieWebsite.services.MovieService;
 import lombok.RequiredArgsConstructor;
@@ -17,6 +11,8 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 
@@ -27,6 +23,7 @@ public class MovieServiceImpl implements MovieService {
     private final MovieRepository movieRepository;
     private final MovieTypeRepository movieTypeRepository;
     private  final CountryRepository countryRepository;
+    private final EpisodeRepository episodeRepository;
     private  final GenreRepository genreRepository;
 
     @Override
@@ -60,6 +57,85 @@ public class MovieServiceImpl implements MovieService {
                 .isActive(movieDTO.getIsActive())
                 .build();
         return movieRepository.save(newMovie);
+    }
+
+    @Override
+    public Movie createMovieFromAPI(MovieDTOFromAPI movieDTO, List<ListEpisodeDTOFromAPI> listEpisodeDTOFromAPI) throws DataNotFoundException{
+
+        Movie movie= movieRepository.findByName(movieDTO.getName());
+
+
+        if (movie == null) {
+            MovieType existingMovieType;
+            if (movieDTO.getChieurap().equals("true")) {
+                existingMovieType = movieTypeRepository.findByName("Phim Chiếu Rạp");
+                movieDTO.setIsFee(1);
+            } else {
+                if (movieDTO.getType().equalsIgnoreCase("single")) {
+                    existingMovieType = movieTypeRepository.findByName("Phim Lẻ");
+                } else {
+                    existingMovieType = movieTypeRepository.findByName("Phim Bộ");
+                }
+            }
+            if (!countryRepository.existsByName(movieDTO.getCountryDTOList().get(0).getName())) {
+                Country newCountry = Country.builder()
+                        .name(movieDTO.getCountryDTOList().get(0).getName())
+                        .isActive(1)
+                        .build();
+                countryRepository.save(newCountry);
+            }
+            Country existingCountry = countryRepository.findByName(movieDTO.getCountryDTOList().get(0).getName());
+
+            if (!genreRepository.existsByName(movieDTO.getGenreDTOList().get(0).getName())) {
+                Genre newGenre = Genre.builder()
+                        .name(movieDTO.getGenreDTOList().get(0).getName())
+                        .description(movieDTO.getGenreDTOList().get(0).getName())
+                        .slug("")
+                        .isActive(1)
+                        .build();
+                genreRepository.save(newGenre);
+            }
+            Genre existingGenre = genreRepository.findByName(movieDTO.getGenreDTOList().get(0).getName());
+
+            Integer season = movieDTO.getSeasonDTO().getSeason();
+            if (season == null) {
+                season = 1;
+            }
+            Movie newMovie = Movie.builder()
+                    .name(movieDTO.getName())
+                    .description(movieDTO.getDescription())
+                    .image(movieDTO.getImage())
+                    .slug(movieDTO.getSlug())
+                    .releaseDate(movieDTO.getReleaseDate())
+                    .duration(movieDTO.getDuration())
+                    .genre(existingGenre)
+                    .movieType(existingMovieType)
+                    .country(existingCountry)
+                    .episode(Integer.parseInt(movieDTO.getEpisode().split(" ")[0]))
+                    .hot(movieDTO.getHot())
+                    .isFee(movieDTO.getIsFee())
+                    .season(season)
+                    .limitedAge(movieDTO.getLimitedAge())
+                    .isActive(movieDTO.getIsActive())
+                    .build();
+            movie = movieRepository.save(newMovie);
+        }
+        for (EpisodeDTOFromAPI episodeDTOFromAPI : listEpisodeDTOFromAPI.get(0).getEpisodeDTOList()) {
+            if (episodeDTOFromAPI.getName().equalsIgnoreCase("Full")) {
+                episodeDTOFromAPI.setName("1");
+            }
+            if (!episodeRepository.existsByMovieAndEpisode(movie, Integer.parseInt(episodeDTOFromAPI.getName()))) {
+                Episode newEpisode = Episode.builder()
+                        .movie(movie)
+                        .episode(Integer.parseInt(episodeDTOFromAPI.getName()))
+                        .movieUrl(episodeDTOFromAPI.getMovieUrl())
+                        .build();
+                episodeRepository.save(newEpisode);
+            }
+
+        }
+
+        return movie;
     }
 
     @Override
@@ -113,6 +189,12 @@ public class MovieServiceImpl implements MovieService {
     @Override
     public Page<MovieResponse> getAllMoviesByYear(int year, PageRequest pageRequest) {
         Page<Movie> moviesPage = movieRepository.searchMoviesByYear(year,pageRequest);
+        return mapToMovieResponsePage(moviesPage);
+    }
+
+    @Override
+    public Page<MovieResponse> getAllMoviesToday(PageRequest pageRequest) {
+        Page<Movie> moviesPage = movieRepository.getAllMoviesToday(LocalDateTime.now(), pageRequest);
         return mapToMovieResponsePage(moviesPage);
     }
 

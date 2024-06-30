@@ -1,6 +1,7 @@
 package com.project.MovieWebsite.services;
 
 import com.project.MovieWebsite.dtos.OrderDTO;
+import com.project.MovieWebsite.dtos.TotalPriceByMonthDTO;
 import com.project.MovieWebsite.exceptions.DataNotFoundException;
 import com.project.MovieWebsite.models.Order;
 import com.project.MovieWebsite.responses.MovieResponse;
@@ -19,6 +20,10 @@ public interface OrderService {
     Page<OrderResponse> getAllOrders(PageRequest pageRequest);
 
     Page<OrderResponse> getAllOrderByUser(int userId, PageRequest pageRequest);
+
+    List<TotalPriceByMonthDTO> getTotalPriceByMonth(int year);
+
+    List<Integer> getDistinctYears();
 
     Order updateOrder(int id, OrderDTO order) throws DataNotFoundException;
 

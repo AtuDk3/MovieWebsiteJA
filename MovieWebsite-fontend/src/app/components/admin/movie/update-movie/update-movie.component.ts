@@ -44,15 +44,12 @@ export class UpdateMovieComponent implements OnInit {
       this.movieService.getMovieById(id).subscribe({
         next: (response: Movie) => {   
           this.movie = response;
-          this.imageUrl = `${environment.apiBaseUrl}/movies/images/${this.movie.image}`;
-          
-          this.movie.release_date = new Date(response.release_date);
-          const releaseDate = new Date(this.movie.release_date);
-          const day = ('0' + releaseDate.getDate()).slice(-2); // Thêm số 0 nếu cần
-          const month = ('0' + (releaseDate.getMonth() + 1)).slice(-2); // Thêm số 0 nếu cần
-          const year = releaseDate.getFullYear();
-          const formattedDate = `${year}-${month}-${day}`; // Định dạng thành yyyy-mm-dd
-          this.movie.release_date_formated = formattedDate;
+          if(!this.movie.image.includes('http')){
+            this.imageUrl = `${environment.apiBaseUrl}/movies/images/${this.movie.image}`;
+          }else{
+            this.imageUrl = this.movie.image;
+          }
+                          
         },
         error: (error: any) => {
           console.log(error);
@@ -98,14 +95,9 @@ export class UpdateMovieComponent implements OnInit {
   }
 
   updateMovie() {
-    if (this.movie) {
-      this.movie.release_date = new Date(this.movie.release_date_formated);
-
+    if (this.movie) {     
       this.movieService.updateMovie(this.movie).subscribe({
-
         next: (response: any) => {
-
-          console.log(this.movie?.image)
           this.toastr.success('The movie was updated successfully!', 'Update Success', {
             timeOut: 3000,
             positionClass: 'toast-bottom-right'
@@ -146,7 +138,6 @@ export class UpdateMovieComponent implements OnInit {
       const reader = new FileReader();
       reader.onload = e => this.imageUrl = reader.result;
       reader.readAsDataURL(file);
-      console.log(this.movieId)
       this.movieService.uploadImageMovie(this.movieId, file).subscribe({
         next: (response) => {
           console.log('File uploaded successfully', response);

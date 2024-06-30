@@ -60,6 +60,19 @@ export class MovieService {
     return this.http.post(this.apiGetMovies, movie, this.apiConfig);
   }
 
+  createMovieAPI(): Observable<any> {
+    const url = `${this.apiGetMovies}/create_movie_api`;
+    return this.http.get(url, this.apiConfig);
+  }
+
+  getMovieAPI(page: number, limit: number): Observable<any> {
+    const url = `${this.apiGetMovies}/movies_today`;
+    let params = new HttpParams()
+      .set('page', page.toString())
+      .set('limit', limit.toString());
+    return this.http.get(url, {params});
+  }
+
   updateMovie(movie: Movie): Observable<Movie> {
     const url = `${this.apiGetMovies}/${movie.id}`;
     return this.http.put<Movie>(url, movie);

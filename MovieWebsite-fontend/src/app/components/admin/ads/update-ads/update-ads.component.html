@@ -2,70 +2,49 @@
     integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
 
 <section id="content">
+    <!-- MAIN -->
     <main>
         <div *ngIf="ads" class="container-form-add-product">
-            <h2 class="text-center">Update Ads</h2>
-            <form (ngSubmit)="updateAds()">
+            <h2 class="text-center">Update Movie</h2>
+            <form (ngSubmit)="updateAds()" enctype="multipart/form-data">
                 <div class="row g-1">
                     <div class="col">
-                        <label for="name">Ads Name</label>
-                        <input [(ngModel)]="ads.name" type="text" name="name" class="form-control" required>
-                    </div>           
+                        <label for="name">Name</label>
+                        <input value="Phim hay" type="text" name="name" [(ngModel)]="ads.name" class="form-control"
+                            required>
+                    </div>
                 </div>
 
                 <div class="row g-1">
                     <div class="col">
                         <label for="description">Description</label>
-                        <textarea [(ngModel)]="ads.description" name="description" class="form-control" required></textarea>
-                    </div>           
-                </div>    
-                
-                <div class="row g-1">
-                    <div class="col">
-                        <label for="description">Banner Image Ads</label>
-                        <input type="file" name="banner_ads" class="form-control" (change)="onFileSelected($event)">
-                    <p> <img class="image" [src]="imageUrl" height="178px" width="100px"></p>
-                    </div>          
-                </div>
-
-                <div class="row g-1">
-                    <div class="col">
-                        <label for="description">Create At</label>
-                        <input type="date" [(ngModel)]="ads.create_at_formated" name="create_at" class="form-control" required>
-                    </div>           
-                </div>
-
-                <div class="row g-1">
-                    <div class="col">
-                        <label for="description">Expiration At</label>
-                        <input type="date" [(ngModel)]="ads.expiration_at_formated" name="expiration_at" class="form-control" required>
-                    </div>           
-                </div>
-
-                <div class="row g-1">
-                    <div class="col">
-                        <label for="description">Amount</label>
-                        <input type="number" [(ngModel)]="ads.amount" name="amount" class="form-control" required>
-                    </div>           
-                </div>
-
-                <div class="row g-1">
-                    <div class="col">
-                        <label>Active :</label>
-                        <select [(ngModel)]="ads.is_active" name="is_active" class="form-select">
-                            <ng-container *ngIf="ads.is_active === 1; else inactiveFirst">
-                              <option [value]="1">Active</option>
-                              <option [value]="0">Inactive</option>
-                            </ng-container>
-                            <ng-template #inactiveFirst>
-                              <option [value]="0">Inactive</option>
-                              <option [value]="1">Active</option>
-                            </ng-template>                           
-                          </select>
+                        <textarea type="text" id="editor1" name="description" [(ngModel)]="ads.description"
+                            class="form-control" required></textarea>
                     </div>
-                </div> 
-                
-                <button type="submit" class="btn btn-primary">Update Ads</button>
+                </div>
+
+                <div class="row g-1">
+                    <div class="col">
+                        <label for="image">Movie Image</label>
+                        <!-- <input type="file" name="image" class="form-control" (change)="onFileSelected($event)" multiple>
+                        
+                        <p><img class="image" *ngFor="let url of ads.list_img_url" [src]="url" height="80px" width="80px"></p> -->
+                        <input type="file" (change)="onFileSelected($event)" name="image" class="form-control" multiple>
+                      <div *ngFor="let imageUrl of imageUrls">
+                        <p><img class="image" [src]="imageUrl" height="100px" width="100px"></p>
+                      </div>
+                      
+                    </div>
+                </div>
+
+                <div class="col">
+                    <label>Active:</label>
+                    <select name="is_active" [(ngModel)]="ads.is_active" class="form-select">
+                        <option [value]="1">Yes</option>
+                        <option [value]="0">No</option>
+                    </select>
+                </div>
+                <button id="btn" type="submit" class="btn btn-primary">Update Ads</button>
             </form>
         </div>
     </main>

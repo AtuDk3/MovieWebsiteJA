@@ -13,7 +13,8 @@ export class OrderService {
   private apiOrders = `${environment.apiBaseUrl}/orders`;
   private apiGetAllOrders = `${environment.apiBaseUrl}/orders/all_orders`;
   private apiGetAllOrderByUser = `${environment.apiBaseUrl}/orders/order_by_user`;
-  
+  private apiGetTotalPriceByMonth = `${environment.apiBaseUrl}/orders/order_by_month`;
+  private apiGetYear = `${environment.apiBaseUrl}/orders/years`;
 
   constructor(private http: HttpClient) { }
 
@@ -50,6 +51,16 @@ export class OrderService {
       .set('limit', limit.toString())
       .set('user_id', user_id.toString());;      
     return this.http.get(this.apiGetAllOrderByUser, {params});
+  }
+
+  getOrderByMonth(year: number): Observable<any> {
+    let params = new HttpParams()
+      .set('year', year.toString());      
+    return this.http.get(this.apiGetTotalPriceByMonth, {params});
+  }
+
+  getYears(): Observable<number[]> {
+    return this.http.get<number[]>(`${this.apiGetYear}`);
   }
 
   getOrderStatistics(): Observable<any>{

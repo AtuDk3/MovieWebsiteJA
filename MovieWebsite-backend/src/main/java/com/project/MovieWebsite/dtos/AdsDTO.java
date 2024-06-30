@@ -1,3 +1,4 @@
+
 package com.project.MovieWebsite.dtos;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
@@ -5,6 +6,7 @@ import jakarta.validation.constraints.NotBlank;
 import lombok.*;
 
 import java.util.Date;
+import java.util.List;
 
 @Data
 @Getter
@@ -13,24 +15,27 @@ import java.util.Date;
 @NoArgsConstructor
 
 public class AdsDTO {
+
+    @NotBlank(message = "email")
+    private String email;
+
     @NotBlank(message = "Name ads required")
     private String name;
 
     @NotBlank(message = "Description ads required")
     private String description;
 
-    @NotBlank(message = "Banner ads required")
-    private String bannerAds;
+    @JsonProperty("number_days")
+    private int numberDays;
 
-    @JsonProperty("create_at")
-    private Date createAt;
-
-    @JsonProperty("expiration_at")
-    private Date expirationAt;
-
-    private int amount;
+    private double amount;
 
     @JsonProperty("is_active")
     private int isActive=1;
 
+    @JsonProperty("is_confirm")
+    private int isConfirm=0;
+
+    @JsonProperty("list_img")
+    private List<String> listImg;
 }

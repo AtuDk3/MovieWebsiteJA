@@ -12,7 +12,7 @@ import { ActivatedRoute } from '@angular/router';
 export class GenreComponent implements OnInit {
   movies: Movie[] = [];
   currentPage: number = 0; 
-  itemsPerPage: number = 6;
+  itemsPerPage: number = 18;
   totalPages: number = 0;
   visiblePages: number[] = []; 
   genre_id: number = 0;
@@ -34,7 +34,11 @@ export class GenreComponent implements OnInit {
     this.movieService.getMoviesByGenreId(genre_id, page, limit).subscribe({
       next: (response: any) => {
         response.movies.forEach((movie: Movie) => {
-          movie.url = `${environment.apiBaseUrl}/movies/images/${movie.image}`;
+          if(!movie.image.includes('http')){
+            movie.url = `${environment.apiBaseUrl}/movies/images/${movie.image}`;
+          }else{
+            movie.url = movie.image;
+          }
           this.genreName = response.genre_name;
         });
 

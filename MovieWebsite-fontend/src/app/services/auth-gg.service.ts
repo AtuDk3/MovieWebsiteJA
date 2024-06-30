@@ -18,7 +18,7 @@ export class AuthGGService {
       issuer: 'https://accounts.google.com',
       strictDiscoveryDocumentValidation: false,
       clientId: '155822361355-4mcbcv266h8aof1056dvtk1udjeth901.apps.googleusercontent.com',
-      redirectUri: window.location.origin,
+      redirectUri: 'http://localhost:4200/login-google',
       scope: 'openid profile email',
     };
     this.oAuthService.configure(config);

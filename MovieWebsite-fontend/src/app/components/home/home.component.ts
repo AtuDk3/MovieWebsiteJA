@@ -4,6 +4,7 @@ import { MovieService } from '../../services/movie.service';
 import { Movie } from '../../models/movie';
 import { ActivatedRoute, Router } from '@angular/router';
 import { AuthGGService } from '../../services/auth-gg.service';
+import { LoginGGDTO } from '../../dtos/user/logingg.dto';
 
 @Component({
   selector: 'app-home',
@@ -24,7 +25,9 @@ export class HomeComponent implements OnInit {
   constructor(private movieService: MovieService, 
     private  router: Router, 
     private route: ActivatedRoute,
-    private authGGService: AuthGGService) {
+    private authGGService: AuthGGService,
+
+    ) {
     this.route.queryParams.subscribe(params => {
       this.keyword = params['search'] || '';
     });
@@ -32,8 +35,9 @@ export class HomeComponent implements OnInit {
 
   ngOnInit() {
     this.loadMovies();
-    this.showData();
   }
+
+  
 
   loadMovies() {
     this.getTheatersMovie();
@@ -44,10 +48,14 @@ export class HomeComponent implements OnInit {
   getTheatersMovie() {
     this.getMoviesByMovieTypeId(3, 0, 18).subscribe({
       next: (response: any) => {
-        this.theatersMovie = response.movies.map((movie: Movie) => ({
-          ...movie,
-          url: `${environment.apiBaseUrl}/movies/images/${movie.image}`
-        }));
+        response.movies.forEach((movie: Movie) => {
+          if(!movie.image.includes('http')){
+            movie.url = `${environment.apiBaseUrl}/movies/images/${movie.image}`;
+          }else{
+            movie.url = movie.image;
+          }         
+        });
+        this.theatersMovie= response.movies;
       },
       error: (error: any) => {
         console.error('Error fetching movies Chieu Rap:', error);
@@ -58,10 +66,14 @@ export class HomeComponent implements OnInit {
   getSingleMovie() {
     this.getMoviesByMovieTypeId(2, 0, 18).subscribe({
       next: (response: any) => {
-        this.singleMovie = response.movies.map((movie: Movie) => ({
-          ...movie,
-          url: `${environment.apiBaseUrl}/movies/images/${movie.image}`
-        }));
+        response.movies.forEach((movie: Movie) => {
+          if(!movie.image.includes('http')){
+            movie.url = `${environment.apiBaseUrl}/movies/images/${movie.image}`;
+          }else{
+            movie.url = movie.image;
+          }         
+        });
+        this.singleMovie= response.movies;
       },
       error: (error: any) => {
         console.error('Error fetching movies Le:', error);
@@ -72,10 +84,14 @@ export class HomeComponent implements OnInit {
   getSeriesMovie() {
     this.getMoviesByMovieTypeId(1, 0, 18).subscribe({
       next: (response: any) => {
-        this.seriesMovie = response.movies.map((movie: Movie) => ({
-          ...movie,
-          url: `${environment.apiBaseUrl}/movies/images/${movie.image}`
-        }));
+        response.movies.forEach((movie: Movie) => {
+          if(!movie.image.includes('http')){
+            movie.url = `${environment.apiBaseUrl}/movies/images/${movie.image}`;
+          }else{
+            movie.url = movie.image;
+          }         
+        });
+        this.seriesMovie= response.movies;
       },
       error: (error: any) => {
         console.error('Error fetching movies Bo:', error);
@@ -87,30 +103,6 @@ export class HomeComponent implements OnInit {
     return this.movieService.getMoviesByMovieTypeId(movie_type_id, page, limit);
   }
 
-  showData(){
-    const data = JSON.stringify(this.authGGService.getProfile());
-
-    console.log(data);
-    // Parse the JSON string to an object
-    const profile = JSON.parse(data);
-
-    // Extract the information you need
-    const issuer = profile.iss;
-    const email = profile.email;
-    const emailVerified = profile.email_verified;
-    const name = profile.name;
-    const picture = profile.picture;
-    const givenName = profile.given_name;
-    const familyName = profile.family_name;
-
-    // Log the extracted information
-    console.log('Issuer:', issuer);
-    console.log('Email:', email);
-    console.log('Email Verified:', emailVerified);
-    console.log('Name:', name);
-    console.log('Picture URL:', picture);
-    console.log('Given Name:', givenName);
-    console.log('Family Name:', familyName);
-  }
+  
 
 }

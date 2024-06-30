@@ -29,6 +29,4 @@ public class Episode extends BaseEntity{
     private String movieUrl;
 
 
-
-
 }

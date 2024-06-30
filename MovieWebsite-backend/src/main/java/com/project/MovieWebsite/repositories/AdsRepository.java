@@ -1,3 +1,4 @@
+
 package com.project.MovieWebsite.repositories;
 
 import com.project.MovieWebsite.models.Ads;
@@ -13,6 +14,13 @@ public interface AdsRepository extends JpaRepository<Ads, Integer> {
 
     Optional<Ads> findById(int adsId);
 
-    @Query("select a from Ads a")
+    Ads findByTradingCode(String tradingCode);
+
+    @Query("select a from Ads a " +
+            "where a.isConfirm = 1 " +
+            "and a.isActive= 1")
     Page<Ads> getAllAds(Pageable pageable);
+
+    @Query("select a from Ads a")
+    Page<Ads> getAllAdsAdmin(Pageable pageable);
 }

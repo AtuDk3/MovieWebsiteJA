@@ -1,16 +1,16 @@
+
 package com.project.MovieWebsite.controllers;
 
 import com.project.MovieWebsite.dtos.AdsDTO;
-import com.project.MovieWebsite.dtos.MovieDTO;
 import com.project.MovieWebsite.exceptions.DataNotFoundException;
 import com.project.MovieWebsite.models.Ads;
-import com.project.MovieWebsite.models.Movie;
+import com.project.MovieWebsite.models.AdsImage;
+import com.project.MovieWebsite.repositories.AdsImageRepository;
 import com.project.MovieWebsite.repositories.AdsRepository;
 import com.project.MovieWebsite.responses.AdsListResponse;
 import com.project.MovieWebsite.responses.AdsResponse;
-import com.project.MovieWebsite.responses.MovieListResponse;
-import com.project.MovieWebsite.responses.MovieResponse;
 import com.project.MovieWebsite.services.AdsService;
+import com.project.MovieWebsite.services.ClientService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.core.io.UrlResource;
@@ -40,14 +40,16 @@ import java.util.*;
 public class AdsController {
     private final AdsService adsService;
     private final AdsRepository adsRepository;
+    private final ClientService clientService;
+    private final AdsImageRepository adsImageRepository;
 
-    @GetMapping("")
+    @GetMapping("/get_ads")
     public ResponseEntity<AdsListResponse> getAllAds(
             @RequestParam(defaultValue = "") String keyword,
             @RequestParam(defaultValue = "0") int page,
             @RequestParam(defaultValue = "10") int limit
     ){
-        PageRequest pageRequest = PageRequest.of(page, limit, Sort.by("id").descending());
+        PageRequest pageRequest = PageRequest.of(page, limit, Sort.by("id").ascending());
         Page<AdsResponse> adsPage = adsService.getAllAds(keyword, pageRequest);
         int totalPages = adsPage.getTotalPages();
         List<AdsResponse> adsList = adsPage.getContent();
@@ -55,30 +57,56 @@ public class AdsController {
                 .adsList(adsList).totalPages(totalPages).build());
     }
 
+    @GetMapping("/ads_admin")
+    public ResponseEntity<AdsListResponse> getAllAdsAdmin(
+            @RequestParam(defaultValue = "0") int page,
+            @RequestParam(defaultValue = "10") int limit
+    ){
+        PageRequest pageRequest = PageRequest.of(page, limit, Sort.by("id").ascending());
+        Page<AdsResponse> adsPage = adsService.getAllAdsAdmin(pageRequest);
+        int totalPages = adsPage.getTotalPages();
+        List<AdsResponse> adsList = adsPage.getContent();
+        return ResponseEntity.ok(AdsListResponse.builder()
+                .adsList(adsList).totalPages(totalPages).build());
+    }
+
     @PutMapping("/{id}")
-    public ResponseEntity<Map<String, String>> updateAds(@PathVariable int id, @Valid @RequestBody AdsDTO adsDTO, BindingResult result) throws Exception {
-        if (result.hasErrors()){
-            List<String> errorsMessage = result.getFieldErrors().stream().map(FieldError::getDefaultMessage).toList();
-            return ResponseEntity.badRequest().body(Collections.singletonMap("errors", String.join(", ", errorsMessage)));
+    public ResponseEntity<?> updateAds(@PathVariable int id, @RequestBody AdsDTO adsDTO) throws Exception {
+        try{
+            adsService.updateAds(id, adsDTO);
+            return ResponseEntity.ok().build();
+        }catch (Exception e){
+            return ResponseEntity.badRequest().body(e.getMessage());
         }
-        adsService.updateAds(id, adsDTO);
-        return ResponseEntity.ok(Collections.singletonMap("message", "Update ads successfully!"));
+    }
+
+    @PutMapping("/update_ads_payment")
+    public ResponseEntity<?> updateAdsPayment(@RequestBody Map<String, String> request) throws Exception {
+        try{
+            String trading_code= request.get("trading_code");
+            Ads ads= adsService.updateAdsPayment(trading_code);
+            return ResponseEntity.ok(AdsResponse.fromAds(ads));
+        }catch (Exception e){
+            return ResponseEntity.badRequest().body(e.getMessage());
+        }
     }
 
     @PostMapping("")
     public ResponseEntity<?> createAds(@Valid @RequestBody AdsDTO adsDTO, BindingResult result) throws DataNotFoundException {
+
         if (result.hasErrors()){
             List<String> errorsMessage = result.getFieldErrors().stream().map(FieldError::getDefaultMessage).toList();
             return ResponseEntity.badRequest().body(Collections.singletonMap("errors", String.join(", ", errorsMessage)));
         }
-        adsService.createAds(adsDTO);
-        return ResponseEntity.ok(Collections.singletonMap("message", "Create ads successfully!"));
+        Ads ads = adsService.createAds(adsDTO);
+        return ResponseEntity.ok(AdsResponse.fromAds(ads));
     }
 
+
     @DeleteMapping("/{id}")
-    public ResponseEntity<Map<String, String>> deleteAds(@PathVariable int id) {
+    public ResponseEntity<?> deleteAds(@PathVariable int id) {
         adsService.deleteAds(id);
-        return ResponseEntity.ok(Collections.singletonMap("message", "Delete ads successfully!"));
+        return ResponseEntity.ok().build();
     }
 
     @GetMapping("/{id}")
@@ -87,8 +115,32 @@ public class AdsController {
     ){
         try {
             Ads existingAds = adsService.getAdsById(adsId);
-            return ResponseEntity.ok(AdsResponse.fromAds(existingAds));
+            return ResponseEntity.ok(adsService.mapToAdsResponse(existingAds));
         } catch (Exception e){
+            return ResponseEntity.badRequest().body(e.getMessage());
+        }
+    }
+
+    @PostMapping("/send_trading_code")
+    public ResponseEntity<?> sendTradingCode(@RequestBody Map<String, String> request) {
+        try{
+            String email = request.get("email");
+            String trading_code = request.get("trading_code");
+            clientService.sendTradingCode(trading_code, email);
+            Map<String, String> response = new HashMap<>();
+            return ResponseEntity.ok().build();
+        }catch (Exception e){
+            return ResponseEntity.badRequest().body(e.getMessage());
+        }
+    }
+
+    @PostMapping("/check_trading_code")
+    public ResponseEntity<?> checkTradingCode(@RequestBody Map<String, String> request) {
+        try{
+            String trading_code = request.get("trading_code");
+            Ads ads= adsService.checkTradingCode(trading_code);
+            return ResponseEntity.ok(AdsResponse.fromAds(ads));
+        }catch (Exception e){
             return ResponseEntity.badRequest().body(e.getMessage());
         }
     }
@@ -96,11 +148,19 @@ public class AdsController {
     @PostMapping(value= "upload_ads/{id}", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
     public ResponseEntity<?> uploadAds (
             @PathVariable("id") int adsId,
-            @Valid @ModelAttribute("file") MultipartFile file){
+            @ModelAttribute("files") List<MultipartFile> files){
 
         try {
             Ads existingAds= adsService.getAdsById(adsId);
-            if (file != null) {
+            List<AdsImage> listAdsImg= adsImageRepository.findByAds(existingAds);
+            files = files == null ? new ArrayList<MultipartFile>() : files;
+
+            List<String> filenames = new ArrayList<>();
+
+            for (MultipartFile file : files) {
+                if (file.getSize() == 0) {
+                    continue; // Skip empty files
+                }
                 if (file.getSize() > 10 * 1024 * 1024) {
                     return ResponseEntity.status(HttpStatus.PAYLOAD_TOO_LARGE).body("File is too large! Maximum size is 10MB");
                 }
@@ -109,8 +169,7 @@ public class AdsController {
                     return ResponseEntity.status(HttpStatus.UNSUPPORTED_MEDIA_TYPE).body("File must be an image");
                 }
                 String filename = storeFile(file);
-                existingAds.setBannerAds(filename);
-                adsRepository.save(existingAds);
+                filenames.add(filename); // Add filename to the list
             }
             return ResponseEntity.ok("Upload Success Banner Ads");
         } catch (Exception e) {
@@ -119,9 +178,16 @@ public class AdsController {
     }
 
     @PostMapping(value = "upload_image_ads", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
-    public ResponseEntity<?> uploadBannerAdsFromCreate(@Valid @ModelAttribute("file") MultipartFile file) {
+    public ResponseEntity<?> uploadBannerAdsFromCreate(@Valid @ModelAttribute("files") List<MultipartFile> files) {
         try {
-            if (file != null) {
+            files = files == null ? new ArrayList<MultipartFile>() : files;
+
+            List<String> filenames = new ArrayList<>();
+
+            for (MultipartFile file : files) {
+                if (file.getSize() == 0) {
+                    continue; // Skip empty files
+                }
                 if (file.getSize() > 10 * 1024 * 1024) {
                     return ResponseEntity.status(HttpStatus.PAYLOAD_TOO_LARGE).body("File is too large! Maximum size is 10MB");
                 }
@@ -130,18 +196,19 @@ public class AdsController {
                     return ResponseEntity.status(HttpStatus.UNSUPPORTED_MEDIA_TYPE).body("File must be an image");
                 }
                 String filename = storeFile(file);
-
-                // Create a JSON response
-                Map<String, String> response = new HashMap<>();
-                response.put("filename", filename);
-
-                return ResponseEntity.ok().body(response);
+                filenames.add(filename); // Add filename to the list
             }
-            return ResponseEntity.badRequest().body("Loi upload image from create ads");
+
+            // Create a JSON response with the list of filenames
+            Map<String, Object> response = new HashMap<>();
+            response.put("filenames", filenames);
+            return ResponseEntity.ok().body(response);
+
         } catch (Exception e) {
             return ResponseEntity.badRequest().body(e.getMessage());
         }
     }
+
 
 
     @GetMapping("/images/{imageName}")

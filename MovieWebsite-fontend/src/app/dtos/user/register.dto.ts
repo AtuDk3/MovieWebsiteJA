@@ -13,14 +13,12 @@ import{
      phone_number: string;
  
      @IsString()
-     @IsNotEmpty()
      password: string;
   
      @IsDate()
      date_of_birth: Date;
  
      @IsString()
-     @IsNotEmpty()
      email: string;
  
      constructor(data: any){

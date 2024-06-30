@@ -26,7 +26,7 @@ public class MovieResponse {
     private String slug;
 
     @JsonProperty("release_date")
-    private Date releaseDate;
+    private int releaseDate;
 
     private String duration;
 

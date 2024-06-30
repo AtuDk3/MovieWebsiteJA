@@ -5,7 +5,7 @@ export interface Movie {
     description: string,
     image: string,
     slug: string,
-    release_date: Date,
+    release_date: number,
     duration: string,
     id_genre: number,
     id_movie_type: number,

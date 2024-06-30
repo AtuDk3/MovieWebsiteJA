@@ -1,3 +1,4 @@
+
 package com.project.MovieWebsite.services;
 
 import com.project.MovieWebsite.dtos.AdsDTO;
@@ -13,9 +14,17 @@ public interface AdsService {
 
     Ads getAdsById(int adsId);
 
+    Ads checkTradingCode(String tradingCode) throws Exception;
+
     Page<AdsResponse> getAllAds(String keyword, PageRequest pageRequest);
 
-    Ads updateAds(int adsId, AdsDTO adsDTO);
+    Page<AdsResponse> getAllAdsAdmin(PageRequest pageRequest);
+
+    Ads updateAdsPayment(String trading_code) throws Exception;
+
+    void updateAds(int adsId, AdsDTO adsDTO) throws Exception;
+
+    AdsResponse mapToAdsResponse(Ads ads);
 
     void deleteAds(int adsId);
 }

@@ -42,16 +42,12 @@ export class ListMovieComponent  implements OnInit {
   this.movieService.getMovies(page, limit).subscribe({
     next: (response: any) => {
       response.movies.forEach((movie: Movie) => {
-        movie.url = `${environment.apiBaseUrl}/movies/images/${movie.image}`;
-        // release_date: new Date(response.release_date);
-        const releaseDate = new Date(movie.release_date);
-            const day = releaseDate.getDate();
-            const month = releaseDate.getMonth() + 1;
-            const year = releaseDate.getFullYear();
-            const formattedDate = `${day}/${month}/${year}`;
-            movie.release_date_formated = formattedDate;
-
-            console.log(response);
+        if(!movie.image.includes('http')){
+          movie.url = `${environment.apiBaseUrl}/movies/images/${movie.image}`;
+        }else{
+          movie.url = movie.image;
+        }
+        
       });
 
       this.movies = response.movies;
@@ -59,7 +55,7 @@ export class ListMovieComponent  implements OnInit {
       this.visiblePages = this.generateVisiblePageArray(this.currentPage, this.totalPages);
     },
     error: (error: any) => {
-      console.error('Error fetching movies by genre:', error);
+      console.error('Error fetching movies!', error);
     }
   });
 }

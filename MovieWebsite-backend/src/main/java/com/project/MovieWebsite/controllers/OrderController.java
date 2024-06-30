@@ -2,11 +2,9 @@ package com.project.MovieWebsite.controllers;
 
 import com.project.MovieWebsite.dtos.MovieTypeDTO;
 import com.project.MovieWebsite.dtos.OrderDTO;
+import com.project.MovieWebsite.dtos.TotalPriceByMonthDTO;
 import com.project.MovieWebsite.models.User;
-import com.project.MovieWebsite.responses.MovieListResponse;
-import com.project.MovieWebsite.responses.MovieResponse;
-import com.project.MovieWebsite.responses.OrderListResponse;
-import com.project.MovieWebsite.responses.OrderResponse;
+import com.project.MovieWebsite.responses.*;
 import com.project.MovieWebsite.services.UserService;
 import com.project.MovieWebsite.services.impl.OrderServiceImpl;
 import jakarta.validation.Valid;
@@ -19,6 +17,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.FieldError;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.ArrayList;
 import java.util.List;
 
 
@@ -89,5 +89,16 @@ public class OrderController {
                 .orders(orders).totalPages(totalPages).build());
     }
 
+    @GetMapping("/order_by_month")
+    public ResponseEntity<TotalPriceByMonthResponse> getTotalPriceByMonth(@RequestParam("year") int year) {
+        List<TotalPriceByMonthDTO> result = orderService.getTotalPriceByMonth(year);
+        TotalPriceByMonthResponse response = new TotalPriceByMonthResponse(result);
+        return ResponseEntity.ok(response);
+    }
 
+    @GetMapping("/years")
+    public ResponseEntity<List<Integer>> getYears() {
+        List<Integer> years = orderService.getDistinctYears();
+        return ResponseEntity.ok(years);
+    }
 }

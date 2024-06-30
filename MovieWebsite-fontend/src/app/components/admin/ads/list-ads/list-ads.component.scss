@@ -451,3 +451,16 @@ button {
 .text-center {
 	margin: 10px;
 }
+
+nav {
+    display: flex;
+    justify-content: center;
+}
+
+.confirmed {
+	color: green;
+  }
+  
+  .not-confirmed {
+	color: red;
+  }

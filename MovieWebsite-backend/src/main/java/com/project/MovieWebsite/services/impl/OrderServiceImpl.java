@@ -1,6 +1,7 @@
 package com.project.MovieWebsite.services.impl;
 
 import com.project.MovieWebsite.dtos.OrderDTO;
+import com.project.MovieWebsite.dtos.TotalPriceByMonthDTO;
 import com.project.MovieWebsite.exceptions.DataNotFoundException;
 import com.project.MovieWebsite.models.Movie;
 import com.project.MovieWebsite.models.Order;
@@ -54,6 +55,14 @@ public class OrderServiceImpl implements OrderService {
     public Page<OrderResponse> getAllOrderByUser(int userId, PageRequest pageRequest) {
         Page<Order> ordersPage = orderRepository.getAllOrderByUser(userId, pageRequest);
         return mapToOrderResponsePage(ordersPage);
+    }
+
+    public List<TotalPriceByMonthDTO> getTotalPriceByMonth(int year) {
+        return orderRepository.getTotalPriceByMonth(year);
+    }
+
+    public List<Integer> getDistinctYears() {
+        return orderRepository.findDistinctYears();
     }
 
     private Page<OrderResponse> mapToOrderResponsePage(Page<Order> ordersPage) {

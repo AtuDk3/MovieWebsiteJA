@@ -23,7 +23,7 @@ public class Order {
     @JoinColumn(name="user_id")
     private User user;
 
-    @Column(name="order-date")
+    @Column(name="order_date")
     private LocalDateTime orderDate;
 
     @Column(name="price")

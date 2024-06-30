@@ -10,4 +10,6 @@ public interface CountryRepository extends JpaRepository<Country, Integer> {
     boolean existsByName(String name);
 
     Optional<Country> findById(int countryId);
+
+    Country findByName(String name);
 }

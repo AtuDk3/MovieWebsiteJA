@@ -34,7 +34,11 @@ export class MovieTypeComponent implements OnInit {
     this.movieService.getMoviesByMovieTypeId(movie_type_id, page, limit).subscribe({
       next: (response: any) => {
         response.movies.forEach((movie: Movie) => {
-          movie.url = `${environment.apiBaseUrl}/movies/images/${movie.image}`;
+          if(!movie.image.includes('http')){
+            movie.url = `${environment.apiBaseUrl}/movies/images/${movie.image}`;
+          }else{
+            movie.url = movie.image;
+          }
           this.movieTypeName = response.movie_type_name;
         });
 

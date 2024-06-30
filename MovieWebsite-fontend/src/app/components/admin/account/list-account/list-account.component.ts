@@ -31,23 +31,7 @@ export class ListAccountComponent implements OnInit {
     this.accountService.getListAccount().subscribe({
       next: (response: UserResponse[]) => {
         response.forEach((user: UserResponse) => {
-
           this.loadImage(user);
-
-          const day_create = ('0' + (new Date(user.created_at).getDate())).slice(-2);
-          const month_create = ('0' + (new Date(user.created_at).getMonth() + 1)).slice(-2);
-          const year_create = new Date(user.created_at).getFullYear();
-          user.created_at_formatted = `${day_create}/${month_create}/${year_create}`;
-
-          const day_update = ('0' + (new Date(user.updated_at).getDate())).slice(-2);
-          const month_update = ('0' + (new Date(user.updated_at).getMonth() + 1)).slice(-2);
-          const year_update = new Date(user.updated_at).getFullYear();
-          user.update_at_formatted = `${day_update}/${month_update}/${year_update}`;
-
-          const day_of_birth = ('0' + (new Date(user.date_of_birth).getDate())).slice(-2);
-          const month_of_birth = ('0' + (new Date(user.date_of_birth).getMonth() + 1)).slice(-2);
-          const year_of_birth = new Date(user.date_of_birth).getFullYear();
-          user.date_of_birth_formatted = `${day_of_birth}/${month_of_birth}/${year_of_birth}`;
         });
 
         this.userResponse = response;

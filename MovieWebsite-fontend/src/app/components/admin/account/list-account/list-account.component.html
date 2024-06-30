@@ -35,9 +35,9 @@
                     <td><img class="image" [src]="user.image_url" height="100px" width="100px"></td>
                     <td>{{user.phone_number}}</td>
                     <td>{{user.email}}</td>
-                    <td>{{user.created_at_formatted}}</td>                        
-                    <td>{{user.update_at_formatted}}</td>
-                    <td>{{user.date_of_birth_formatted}}</td>                   
+                    <td>{{user.created_at | date: 'dd-MM-yyyy'}}</td>                        
+                    <td>{{user.updated_at | date: 'dd-MM-yyyy'}}</td>
+                    <td>{{user.date_of_birth | date: 'dd-MM-yyyy'}}</td>                   
                     <td>{{user.facebook_account_id}}</td>
                     <td>{{user.google_account_id}}</td>
                     <td>{{user.user_vip.name}}</td>

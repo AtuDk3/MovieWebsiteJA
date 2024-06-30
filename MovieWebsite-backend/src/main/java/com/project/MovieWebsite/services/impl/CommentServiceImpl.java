@@ -8,10 +8,18 @@ import com.project.MovieWebsite.models.User;
 import com.project.MovieWebsite.repositories.CommentRepository;
 import com.project.MovieWebsite.repositories.MovieRepository;
 import com.project.MovieWebsite.repositories.UserRepository;
+import com.project.MovieWebsite.responses.CommentResponse;
+import com.project.MovieWebsite.responses.MovieResponse;
+import com.project.MovieWebsite.responses.UserResponse;
 import com.project.MovieWebsite.services.CommentService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDateTime;
+import java.time.ZoneId;
+import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 
@@ -46,8 +54,10 @@ public class CommentServiceImpl implements CommentService {
     }
 
     @Override
-    public List<Comment> getAllComments() {
-        return commentRepository.findAll();
+    public List<Comment> getAllCommentsByMovie(int movieId) throws Exception{
+        Movie existingMovie= movieRepository.findById(movieId)
+                .orElseThrow(() -> new DataNotFoundException("Cannot find movie with id: "+movieId));
+        return commentRepository.findByMovie(existingMovie);
     }
 
     @Override
@@ -63,4 +73,28 @@ public class CommentServiceImpl implements CommentService {
             commentRepository.deleteById(id);
         }
     }
+
+    @Override
+    public Page<CommentResponse> getAllCommentByMovie(int movieId, PageRequest pageRequest) {
+        Page<Comment> commentPage = commentRepository.getAllCommentByMovie(movieId, pageRequest);
+        return mapToCommentResponsePage(commentPage);
+    }
+
+    private Page<CommentResponse> mapToCommentResponsePage(Page<Comment> commentPage) {
+        return commentPage.map(comment -> {
+            CommentResponse commentResponse = CommentResponse.builder()
+                    .movieId(comment.getMovie().getId())
+                    .userResponse(UserResponse.fromUser(comment.getUser()))
+                    .description(comment.getDescription())
+                    .createAt(convertToDate(comment.getCreateAt()))
+                    .build();
+            return commentResponse;
+        });
+    }
+
+    private static Date convertToDate(LocalDateTime dateTime) {
+        return dateTime != null ? Date.from(dateTime.atZone(ZoneId.systemDefault()).toInstant()) : null;
+    }
+
+
 }

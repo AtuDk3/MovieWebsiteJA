@@ -1,48 +1,54 @@
-<!-- admin-dashboard.component.html -->
 <section id="content">
-    <main>
-      <h1 class="title">Dashboard</h1>
-      <ul class="breadcrumbs">
-        <li><a href="#">Home</a></li>
-        <li class="divider">/</li>
-        <li><a href="#" class="active">Dashboard</a></li>
-      </ul>
-      <div class="info-data">
-        <div class="card" *ngFor="let item of progressData">
-          <div class="head">
-            <div>
-              <h2>{{ item.value }}</h2>
-              <p>{{ item.label }}</p>
+  <main>
+    <h1 class="title">Dashboard</h1>
+    <ul class="breadcrumbs">
+      <li><a href="#">Home</a></li>
+      <li class="divider">/</li>
+      <li><a href="#" class="active">Dashboard</a></li>
+    </ul>
+    <div class="data">
+      <div class="content-data">
+        <div class="info-data">
+          <!-- Progress data cards -->
+          <div class="card" *ngFor="let item of progressData">
+            <div class="head">
+              <div>
+                <h2>{{ item.value }}</h2>
+                <p>{{ item.label }}</p>
+              </div>
+              <i class='bx bx-trending-up icon' style="color: #81D43A;"></i>
             </div>
-            <i class='bx bx-trending-up icon' style="color: #81D43A;" ></i>
-          </div>
-          <span class="progress">
-            <span class="progress-bar" [ngStyle]="{'width': item.percentage}"></span>
-          </span>
-          <span class="label">{{ item.percentage }}</span>
-        </div>
-      </div>
-      <div class="data">
-        <div class="content-data">
-          <div class="head">
-            <h3>Sales Report</h3>
-            <div class="menu">
-              <i class='bx bx-dots-horizontal-rounded icon'></i>
-              <ul class="menu-link">
-                <li><a href="#">Edit</a></li>
-                <li><a href="#">Save</a></li>
-                <li><a href="#">Remove</a></li>
-              </ul>
-            </div>
-          </div>
-          <div class="chart">
-            <div class="col-lg-12">
-              <h2>Bar Chart</h2>
-              <canvas id="barchart"></canvas>
-            </div>
+            <span class="progress">
+              <span class="progress-bar" [ngStyle]="{'width': item.percentage}"></span>
+            </span>
+            <span class="label">{{ item.percentage }}</span>
           </div>
         </div>
       </div>
-    </main>
-  </section>
-  
+    </div>
+    <div class="data">
+      <div class="content-data">
+        <div class="head">
+          <h3>Sales Report</h3>
+          <div class="menu">
+            <i class='bx bx-dots-horizontal-rounded icon' style="font-size: 20px;"></i>
+            <ul class="menu-link">
+              <li><a href="#">Edit</a></li>
+              <li><a href="#">Save</a></li>
+              <li><a href="#">Remove</a></li>
+            </ul>
+          </div>
+        </div>
+        <div class="chart">
+          <div class="chart-options">
+            <!-- Select for year -->
+            <select (change)="onYearChange($event)" class="form-select" style="width: 200px; font-size: 15px;">
+              <option *ngFor="let year of years" [value]="year">{{ year }}</option>
+            </select>
+          </div>
+          <canvas id="barchart"></canvas>
+        </div>
+      </div>
+    </div>
+  </main>
+</section>

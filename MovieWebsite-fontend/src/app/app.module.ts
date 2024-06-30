@@ -68,8 +68,16 @@ import { ListHistoryOrderComponent } from './components/admin/order/list-history
 import { MovieYearComponent } from './components/movie-year/movie-year.component';
 import { MovieFilterComponent } from './components/movie-filter/movie-filter.component';
 import { ReactiveFormsModule } from '@angular/forms';
+import { AddAdsComponent } from './components/admin/ads/add-ads/add-ads.component';
+import { ListAdsComponent } from './components/admin/ads/list-ads/list-ads.component';
+import { UpdateAdsComponent } from './components/admin/ads/update-ads/update-ads.component';
+import { CheckTradingCodeComponent } from './components/ads/check-trading-code/check-trading-code.component';
+import { ThanksAdsComponent } from './components/ads/thanks-ads/thanks-ads.component';
+import { PaymentAdsComponent } from './components/ads/payment-ads/payment-ads.component';
 import { OAuthModule } from 'angular-oauth2-oidc';
-import { AdsComponent } from './components/ads/ads.component';
+import { AdsDisplayComponent } from './components/ads/ads-display/ads-display.component';
+import { LoginGgComponent } from './components/login-gg/login-gg.component';
+import { GetMovieApiComponent } from './components/admin/get-movie-api/get-movie-api.component';
 
 export function initializeAuthService(authService: AuthService) {
   return (): Promise<void> => {
@@ -133,7 +141,15 @@ export function initializeAuthService(authService: AuthService) {
         ListHistoryOrderComponent,
         MovieYearComponent,
         MovieFilterComponent,
-        AdsComponent
+        AddAdsComponent,
+        ListAdsComponent,
+        UpdateAdsComponent,
+        CheckTradingCodeComponent,
+        ThanksAdsComponent,
+        PaymentAdsComponent,
+        AdsDisplayComponent,
+        LoginGgComponent,
+        GetMovieApiComponent,
     ],
     bootstrap: [
         AppComponent
@@ -146,7 +162,8 @@ export function initializeAuthService(authService: AuthService) {
         ReactiveFormsModule,
         BrowserAnimationsModule, // cần thiết cho Toastr
         ToastrModule.forRoot(), // Cấu hình mặc định của Toastr
-        OAuthModule.forRoot(),
+        //ModalModule.forRoot()
+        OAuthModule.forRoot()
     ], providers: [
         AuthService,
         {

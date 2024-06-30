@@ -7,12 +7,16 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 
 public interface MovieRepository extends JpaRepository<Movie, Integer> {
 
     boolean existsByName(String name);
+
+    Movie findByName(String name);
 
     Page<Movie> findAll(Pageable pageable);
 
@@ -29,6 +33,9 @@ public interface MovieRepository extends JpaRepository<Movie, Integer> {
     @Query("select m from Movie m")
     Page<Movie> getAllMovies(Pageable pageable);
 
+    @Query("SELECT e.movie FROM Episode e WHERE e.episode = 1 AND DATE(e.createAt) = DATE(:today)")
+    Page<Movie> getAllMoviesToday(@Param("today") LocalDateTime today, Pageable pageable);
+
 
 
     @Query("select m from Movie m where"
@@ -39,7 +46,7 @@ public interface MovieRepository extends JpaRepository<Movie, Integer> {
             + " m.genre.id = :genreId")
     Page<Movie> searchMoviesByGenreId(
             @Param("genreId") int genreId,
-             Pageable pageable
+            Pageable pageable
     );
 
     @Query("select m from Movie m where"
@@ -47,7 +54,7 @@ public interface MovieRepository extends JpaRepository<Movie, Integer> {
             + " m.genre.isActive = 1 and"
             + " m.movieType.isActive = 1 and"
             + " m.country.isActive = 1 and"
-            + " YEAR(m.releaseDate) = :year")
+            + " m.releaseDate = :year")
     Page<Movie> searchMoviesByYear(
             @Param("year") int year,
             Pageable pageable
@@ -99,7 +106,7 @@ public interface MovieRepository extends JpaRepository<Movie, Integer> {
             Pageable pageable
     );
 
-    @Query("SELECT DISTINCT YEAR(m.releaseDate) FROM Movie m ORDER BY YEAR(m.releaseDate)")
+    @Query("SELECT DISTINCT m.releaseDate FROM Movie m ORDER BY m.releaseDate")
     List<Integer> findDistinctYears();
 
     Optional<List<Movie>> findByGenreId(int genreId);

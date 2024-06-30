@@ -1,41 +1,40 @@
 import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute, Router } from '@angular/router';
-import { AdsService } from '../../../../services/ads.service';
 import { Ads } from '../../../../models/ads';
+import { DomSanitizer, SafeUrl } from '@angular/platform-browser';
+import { AdsService } from '../../../../services/ads.service';
+import { ActivatedRoute, Router } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
 import { environment } from '../../../../environments/environment';
-import { DomSanitizer, SafeUrl } from '@angular/platform-browser';
-
 @Component({
   selector: 'app-update-ads',
   templateUrl: './update-ads.component.html',
   styleUrl: './update-ads.component.scss'
 })
 export class UpdateAdsComponent implements OnInit {
+
   ads: Ads | null = null;
-  selectedFile: File | null = null;
-  imageUrl: SafeUrl | string | null = null;
-  adsId: number = 0;
+  selectedFiles: File[] = [];
+  imageUrls: SafeUrl[] = [];
+  ads_id: number = 0;
+
 
   constructor(
-    private route: ActivatedRoute,
     private adsService: AdsService,
     private router: Router,
     private toastr: ToastrService,
     private sanitizer: DomSanitizer,
-  ) {}
+    private route: ActivatedRoute,
+  ) { }
 
   ngOnInit() {
     const id = Number(this.route.snapshot.paramMap.get('id'));
     if (id) {
-      this.adsId = Number(id);
+      this.ads_id = Number(id);
       this.adsService.getAdsById(id).subscribe({
-        next: (response: Ads) => {   
+        next: (response: Ads) => {
+          debugger
           this.ads = response;
-          this.imageUrl = `${environment.apiBaseUrl}/ads/images/${this.ads.banner_ads}`;
-        
-          this.ads.create_at_formated = this.formatDate(this.ads.create_at);
-          this.ads.expiration_at_formated = this.formatDate(this.ads.expiration_at);
+          this.loadImage(this.ads);
         },
         error: (error: any) => {
           console.log(error);
@@ -44,75 +43,82 @@ export class UpdateAdsComponent implements OnInit {
     }
   }
 
-  formatDate(d: Date): string {
-    const date = new Date(d);
-    const day = date.getDate();
-    const month = date.getMonth() + 1; // getMonth() is zero-based
-    const year = date.getFullYear();
-    return `${day}/${month}/${year}`;
-  }
-
-  updateAds() {
-    if (this.ads) {
-      this.ads.create_at_formated = this.formatDate(this.ads.create_at);
-      this.ads.expiration_at_formated = this.formatDate(this.ads.expiration_at);
-
-      this.adsService.updateAds(this.ads).subscribe({
-
-        next: (response: any) => {
-
-          console.log(this.ads?.banner_ads)
-          this.toastr.success('The ads was updated successfully!', 'Update Success', {
-            timeOut: 3000,
-            positionClass: 'toast-bottom-right'
-          });
-          this.router.navigate(['/admin/ads/list-ads']);
+  loadImage(ads: Ads) {
+    if (!Array.isArray(ads.list_img_url)) {
+      ads.list_img_url = [];
+    }
+    ads.list_img.forEach(img => {
+      this.adsService.getImage(img).subscribe({
+        next: (imageBlob: Blob) => {
+          const objectURL = URL.createObjectURL(imageBlob);
+          this.imageUrls.push(this.sanitizer.bypassSecurityTrustUrl(objectURL));
         },
-        error: (error: any) => {
-          console.log(error);
-          this.toastr.error('There was a problem updating the ads.', 'Update Failed', {
-            timeOut: 3000,
-            positionClass: 'toast-bottom-right'
-          });
+        error: (error) => {
+          if (error.status === 403) {
+            console.error('Access denied to image URL:', error.url);
+          } else {
+            console.error('Error loading image', error);
+          }
+        },
+        complete: () => {
+          console.log('Image loading complete for ads');
         }
       });
-    }
-  }
-
-  loadImage(imageName: string) {
-    this.adsService.getImage(imageName).subscribe({
-      next: (imageBlob: Blob) => {
-        const objectURL = URL.createObjectURL(imageBlob);
-        this.imageUrl = this.sanitizer.bypassSecurityTrustUrl(objectURL);
-      },
-      error: (error) => {
-        console.error('Error loading image', error);
-      },
-      complete: () => {
-        console.log('Image loading complete');
-      }
     });
   }
 
   onFileSelected(event: any): void {
-    const file: File = event.target.files[0];
-    debugger
-    if (file) {
-      this.selectedFile = file;
-      const reader = new FileReader();
-      reader.onload = e => this.imageUrl = reader.result;
-      reader.readAsDataURL(file);
-      console.log(this.adsId)
-      this.adsService.uploadImageAds(this.adsId, file).subscribe({
-        next: (response) => {
-          console.log('File uploaded successfully', response);
-          // Handle response here if needed
-        },
-        error: (error) => {
-          console.error('Error uploading file', error);
-          // Handle error here
-        }
+    const files: FileList = event.target.files;
+    if (files && files.length > 0) {
+      this.selectedFiles = Array.from(files);
+      this.imageUrls = [];
+      Array.from(files).forEach(file => {
+        const reader = new FileReader();
+        reader.onload = e => this.imageUrls.push(reader.result as string);
+        reader.readAsDataURL(file);
       });
     }
+  }
+  updateAds() {
+    if (this.ads_id && this.ads) {
+      debugger
+      if (this.selectedFiles.length>0) {
+        this.adsService.uploadImagesFromCreateAds(this.selectedFiles).subscribe({
+          next: (response: any) => {
+            if (this.ads) {
+              this.ads.list_img = response.filenames;// Use the filename from the response 
+              this.adsService.updateAds(this.ads_id, this.ads).subscribe({
+                next: () => {  
+                  this.router.navigate(['admin/ads/list-ads']); 
+                },
+                error: (error: any) => {
+                  console.log(error);
+                }       
+              });
+            }          
+          },
+          error: (error: any) => {
+            console.error('Failed to upload image:', error);
+            this.toastr.error('There was a problem uploading the image.', 'Upload Failed', {
+              timeOut: 3000,
+              positionClass: 'toast-bottom-right'
+            });
+          }
+        });
+      }else{       
+          this.adsService.updateAds(this.ads_id, this.ads!).subscribe({
+            next: () => {  
+              this.router.navigate(['admin/ads/list-ads']); 
+            },
+            error: (error: any) => {
+              console.log(error);
+            }       
+          });             
+      }
+
+
+
+    }
+
   }
 }

@@ -12,7 +12,7 @@ import { ActivatedRoute } from '@angular/router';
 export class CountryComponent implements OnInit {
   movies: Movie[] = [];
   currentPage: number = 0; 
-  itemsPerPage: number = 6;
+  itemsPerPage: number = 18;
   totalPages: number = 0;
   visiblePages: number[] = []; 
   country_id: number = 0;
@@ -34,7 +34,11 @@ export class CountryComponent implements OnInit {
     this.movieService.getMoviesByCountryId(country_id, page, limit).subscribe({
       next: (response: any) => {
         response.movies.forEach((movie: Movie) => {
-          movie.url = `${environment.apiBaseUrl}/movies/images/${movie.image}`;
+          if(!movie.image.includes('http')){
+            movie.url = `${environment.apiBaseUrl}/movies/images/${movie.image}`;
+          }else{
+            movie.url = movie.image;
+          }
         });
 
         this.movies = response.movies;

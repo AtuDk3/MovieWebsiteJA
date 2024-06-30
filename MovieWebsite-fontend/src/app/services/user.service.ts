@@ -7,8 +7,8 @@ import { environment } from '../environments/environment';
 import { UserResponse } from '../responses/user/user.response';
 import { UpdateUserDTO } from '../dtos/user/updateuser.dto';
 import { VipPeriodResponse } from '../responses/user/vip_period.response';
-import { VipPeriodDTO } from '../dtos/user/vip_period.dto';
-import { AuthConfig, OAuthService } from 'angular-oauth2-oidc';
+import { RegisterDTO } from '../dtos/user/register.dto';
+import { LoginGGDTO } from '../dtos/user/logingg.dto';
 @Injectable({
   providedIn: 'root'
 })
@@ -16,6 +16,7 @@ export class UserService {
 
   private apiRegister = `${environment.apiBaseUrl}/users/register`;
   private apiLogin = `${environment.apiBaseUrl}/users/login`;
+  private apiLoginGG = `${environment.apiBaseUrl}/users/login_gg`;
   private apiUserDetail = `${environment.apiBaseUrl}/users/details`;
   private apiUserImg = `${environment.apiBaseUrl}/users/images`;
   private apiUser = `${environment.apiBaseUrl}/users`;
@@ -32,8 +33,7 @@ export class UserService {
     headers: this.createHeader(),
   }
 
-  constructor(private http: HttpClient,
-    private oAuthService: OAuthService) { }
+  constructor(private http: HttpClient) { }
 
   private createHeader(): HttpHeaders {
     return new HttpHeaders({
@@ -52,6 +52,10 @@ export class UserService {
 
   login(loginDTO: LoginDTO): Observable<any> {
     return this.http.post(this.apiLogin, loginDTO, this.apiConfig);
+  }
+
+  loginGG(loginGGData: LoginGGDTO): Observable<any> {
+    return this.http.post(this.apiLoginGG, loginGGData, this.apiConfig);
   }
 
   updateUserDetails(userId: number, userUpdateDTO: UpdateUserDTO, token: string): Observable<any> {
@@ -244,36 +248,5 @@ export class UserService {
   getUserVip(): Observable<any>{
     return this.http.get(this.apiGetUserVip);   
   }
-
-  // loginGoogle(): void {
-  //   window.location.href = 'http://localhost:8080/oauth2/authorization/google';
-  // }
-
-  // getUser(): Observable<any> {
-  //   return this.http.get<any>('http://localhost:8080/api/v1/users/signingoogle');
-  // }
-
-  initLoginGG(){
-    const config: AuthConfig = {
-      issuer: 'htts:/accounts.google.com',
-      strictDiscoveryDocumentValidation: false,
-      clientId: '155822361355-4mcbcv266h8aof1056dvtk1udjeth901.apps.googleusercontent.com',
-      redirectUri: window.location.origin,
-      scope: 'openid profile email',
-    }
-    this.oAuthService.configure(config);
-    this.oAuthService.setupAutomaticSilentRefresh();
-    this.oAuthService.loadDiscoveryDocumentAndTryLogin();
-  }
-
-  loginGG(){
-    this.oAuthService.initLoginFlow();
-  }
-
-  getProfile(){
-    return this.oAuthService.getIdentityClaims();
-  }
-
-
 
 }

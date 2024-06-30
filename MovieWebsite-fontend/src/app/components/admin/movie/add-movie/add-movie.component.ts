@@ -23,7 +23,7 @@ export class AddMovieComponent implements OnInit {
     description: '',
     image: '',
     slug: '',
-    release_date: new Date(),
+    release_date: 0,
     duration: '',
     id_genre: 0,
     id_movie_type: 0,

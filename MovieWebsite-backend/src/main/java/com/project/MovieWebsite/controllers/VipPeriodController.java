@@ -1,21 +1,17 @@
 package com.project.MovieWebsite.controllers;
 
-import com.project.MovieWebsite.dtos.VipPeriodDTO;
+
 import com.project.MovieWebsite.models.User;
 import com.project.MovieWebsite.models.VipPeriod;
 import com.project.MovieWebsite.repositories.VipPeriodRepository;
-import com.project.MovieWebsite.responses.UserResponse;
 import com.project.MovieWebsite.responses.VipPeriodResponse;
 import com.project.MovieWebsite.services.UserService;
 import com.project.MovieWebsite.services.VipPeriodService;
-import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
-import org.springframework.validation.BindingResult;
-import org.springframework.validation.FieldError;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.List;
+
 
 @RestController
 @RequiredArgsConstructor
