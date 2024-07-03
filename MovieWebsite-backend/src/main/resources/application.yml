@@ -1,0 +1,81 @@
+app:
+  base:
+    url: http://localhost:4200
+
+spring:
+  datasource:
+    url: jdbc:mysql://localhost:3306/movie_website
+    username: root
+    password:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+
+  jpa:
+    show-sql: true
+    hibernate:
+      ddl-auto: none
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.MySQL8Dialect
+        format_sql: true
+
+  #  security:
+  #    oauth2:
+  #      client:
+  #        registration:
+  #          google:
+  #            client-id: "376310187656-48ht7enjmq150efgtos8p2kfi9ghs0dh.apps.googleusercontent.com"
+  #            client-secret: "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"
+
+
+
+  #  mail:
+  #    host: smtp.gmail.com
+  #    port: 587
+  #    username: webphimm@gmail.com
+  #    password: ampg tgio aebn vqls
+  #    properties:
+  #      mail:
+  #        smtp:
+  #          auth: true
+  #          starttls:
+  #            enable: true
+  #            required: true
+
+  servlet:
+    multipart:
+      max-file-size: 10MB
+      max-request-size: 10MB
+logging:
+  level:
+    root: info
+jwt:
+  expiration: 2592000 #30days
+  secretKey: N8FG9C3xK8jqH9/y7+D7w8yDbEoYgA1i6+i4j2R7VsI=
+
+api:
+  prefix: api/v1
+
+mailServer:
+  host: smtp.gmail.com
+  port: 587
+  email: webphimm@gmail.com
+  password: ampg tgio aebn vqls
+  protocol: smtp
+  isSSL: false
+
+twilio:
+  account-sid: AC099a28495ff61a4c70769ccec10ca34f
+  auth-token: ba05e35bb44b2b317c9ffd892a04fd51
+  phone-number: +17085728487
+
+payment:
+  vnPay:
+    tmnCode: BOOQ2DBY
+    secretKey: 1ZIOLIJJLQD0QIWVH32KND8RK0CPGLBX
+    url: https://sandbox.vnpayment.vn/paymentv2/vpcpay.html
+    returnUrl: http://localhost:8080/api/v1/payments/vn_pay_callback
+    version: 2.1.0
+    command: pay
+    orderType: other
+
+
