@@ -1,29 +1,79 @@
-<!-- comment.component.html -->
-<div class="comment-form d-flex align-items-center mb-3">
-  <img *ngIf="userResponse" [src]="userResponse.image_url" alt="Avatar" class="avatar mr-3">
-  <img *ngIf="!userResponse" src="assets/images/user_default.webp" alt="Avatar" class="avatar mr-3">
+<link rel="stylesheet" href="../../../assets/css/style.css">
 
-  <form (ngSubmit)="onSubmit()" class="flex-grow-1">
-    <div class="form-group d-flex align-items-center">
-      <textarea [formControl]="contentControl" class="form-control" (click)="checkBeforeComment()" id="content" placeholder="Thêm bình luận..."></textarea>
-      <button type="submit" class="btn btn-primary ml-2">Đăng</button>
-    </div>
-    <div *ngIf="submitted && contentControl.invalid" class="text-danger">
-      Nội dung comment không được để trống.
-    </div>
-  </form>
-</div>
-
-
-<div class="comment-list" *ngIf="commentRes.length">
-  <div *ngFor="let comment of commentRes" class="comment mb-3">
-    <div class="comment-header d-flex align-items-center">
-      <img [src]="comment.user_response.image_url" alt="{{ comment.user_response.full_name }}" class="avatar mr-3">
-      <div>
-        <span class="username">{{ comment.user_response.full_name }}</span>
-        <small class="text-muted">{{ comment.create_at | date: 'HH:mm dd/MM/yyyy' }}</small>
+    <body>
+      <div class="container">
+          <div class="row fullwith-slider"></div>
       </div>
-    </div>
-    <p class="mt-2">{{ comment.description }}</p>
-  </div>
-</div>
+      <div class="container">
+          <div class="row container" id="wrapper">
+  
+              <main id="main-contents" class="col-xs-12 col-sm-12 col-md-8">
+  
+                  <div class="container bootstrap snippet">
+                      <form (ngSubmit)="onSubmit()">
+                          <div class="row">
+                              <div class="col-sm-12">
+                                  <div class="tab-content">
+                                      <div class="tab-pane active">
+                                          <div class="form-group"> 
+                                              <div class="col-xs-8">
+                                                  <label for="full_name">
+                                                    <div class="info-user" *ngIf="userResponse">
+                                                      <img [src]="userResponse.image_url" alt="Avatar" class="avatar mr-3">
+                                                      <h5>{{ userResponse.full_name }}</h5>
+                                                    </div>
+                                                    <img *ngIf="!userResponse" src="assets/images/user_default.webp" alt="Avatar" class="avatar mr-3">
+                                                  </label>
+                                                  <textarea type="text" [formControl]="contentControl" class="form-control" (click)="checkBeforeComment()" id="content" placeholder="Thêm bình luận..."></textarea>
+                                                  <div *ngIf="submitted && contentControl.invalid" class="text-danger">
+                                                    Nội dung comment không được để trống.
+                                                  </div>
+                                                </div>
+                                          </div>
+  
+                                          <div class="form-group">
+                                              <div class="col-xs-12">
+                                                  <br>
+                                                  <button type="submit" class="btn btn-warning">Bình luận</button>
+                                              </div>
+                                          </div>
+                                      </div>
+                                  </div>
+                              </div>
+                          </div>
+                      </form>
+                  </div>
+  
+                  <div class="container bootstrap snippet">
+                        <div class="row">
+                            <div class="col-sm-12">
+                                <div class="tab-content">
+                                    <div class="tab-pane active">
+
+                                        <div class="form-group"> 
+                                          <div class="col-xs-8">
+                                            <h5 class="all-comment">Tất cả bình luận: </h5>
+                                            <div class="comment-list" *ngIf="commentRes.length">
+                                              <div *ngFor="let comment of commentRes" class="comment mb-3">
+                                                <div class="comment-header d-flex align-items-center">
+                                                  <img [src]="comment.user_response.image_url" alt="{{ comment.user_response.full_name }}" class="avatar mr-3">
+                                                  <div>
+                                                    <span class="username">{{ comment.user_response.full_name }}</span>
+                                                    <small class="text-muted">{{ comment.create_at | date: 'HH:mm dd/MM/yyyy' }}</small>
+                                                  </div>
+                                                </div>
+                                                <p class="mt-2">{{ comment.description }}</p>
+                                              </div>
+                                            </div>
+                                            </div>
+                                      </div>
+
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                </div>
+              </main>
+          </div>
+      </div>
+  </body>

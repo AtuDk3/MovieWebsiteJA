@@ -43,12 +43,13 @@ export class CommentComponent implements OnInit {
   }
 
   getComments(movieId: number) {
+    this.currentPage=0;
     this.commentService.getComments(movieId, this.currentPage, this.itemsPerPage).subscribe({
       next: (response: any) => {
         response.comments.forEach((comment: CommentResponse) => {
           this.loadImage(comment.user_response);
-        });
-        this.commentRes = response.comments;
+        });      
+        this.commentRes = response.comments;       
       },
       error: (error: any) => {
         console.error('Error fetching movies by related:', error);
@@ -80,11 +81,16 @@ export class CommentComponent implements OnInit {
           description: this.contentControl.value,
           user_id: this.userResponse.id
         };
-        this.commentService.createComment(newComment).subscribe(() => {
-          this.getComments(this.movieId);
-          this.contentControl.reset();
-          this.submitted = false;
-        });
+        this.commentService.createComment(newComment).subscribe({
+          next: (data: any) => {  
+            this.getComments(this.movieId);
+            this.contentControl.reset();
+            this.submitted = false;      
+          },
+          error: (error) => {
+            console.error('Error loading more comments:', error);
+          }
+        });          
       }
     }
   }
@@ -98,7 +104,7 @@ export class CommentComponent implements OnInit {
   // Implementing infinite scrolling
   @HostListener('window:scroll', ['$event'])
   onWindowScroll(event: any) {
-    if ((window.innerHeight + window.scrollY) >= document.body.offsetHeight) {
+    if ((window.innerHeight + window.scrollY) >= document.body.offsetHeight - 10) {
       this.loadMoreComments();
     }
   }
@@ -111,7 +117,7 @@ export class CommentComponent implements OnInit {
           data.comments.forEach((comment: CommentResponse) => {
             this.loadImage(comment.user_response);
           });   
-            this.commentRes = [...this.commentRes, ...data.comments];         
+            this.commentRes = [...this.commentRes, ...data.comments];               
         },
         error: (error) => {
           console.error('Error loading more comments:', error);
