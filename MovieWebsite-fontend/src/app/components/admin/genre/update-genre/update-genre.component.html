@@ -1,0 +1,51 @@
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"
+    integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+
+<section id="content">
+    <!-- MAIN -->
+    <main>
+        <div *ngIf="genreDTO" class="container-form-add-product">
+            <h2 class="text-center">Update Genre</h2>
+            <form (ngSubmit)="updateGenre()">
+                <div class="row g-1">
+                    <div class="col">
+                        <label for="name">Genre Name</label>
+                        <input [(ngModel)]="genreDTO.name" type="text" name="name" class="form-control" required>
+                    </div>           
+                </div>
+
+                <div class="row g-1">
+                    <div class="col">
+                        <label for="description">Description</label>
+                        <textarea [(ngModel)]="genreDTO.description" name="description" class="form-control" required></textarea>
+                    </div>           
+                </div>    
+                
+                <div class="row g-1">
+                    <div class="col">
+                        <label for="slug">Slug</label>
+                        <input [(ngModel)]="genreDTO.slug" type="text" name="slug" class="form-control" required>
+                    </div>           
+                </div>
+
+                <div class="row g-1">
+                    <div class="col">
+                        <label>Active :</label>
+                        <select [(ngModel)]="genreDTO.is_active" name="is_active" class="form-select">
+                            <ng-container *ngIf="genreDTO.is_active === 1; else inactiveFirst">
+                              <option [value]="1">Active</option>
+                              <option [value]="0">Inactive</option>
+                            </ng-container>
+                            <ng-template #inactiveFirst>
+                              <option [value]="0">Inactive</option>
+                              <option [value]="1">Active</option>
+                            </ng-template>                           
+                          </select>
+                    </div>
+                </div> 
+                
+                <button type="submit" class="btn btn-primary">Update Genre</button>
+            </form>
+        </div>
+    </main>
+</section>
