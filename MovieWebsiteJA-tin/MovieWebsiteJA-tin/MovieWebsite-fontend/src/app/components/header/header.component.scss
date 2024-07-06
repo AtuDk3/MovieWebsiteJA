@@ -1,0 +1,33 @@
+.dropdown-menu {
+    display: none;
+  }
+  
+  .show .dropdown-menu {
+    display: block;
+  }
+  
+  .input-group {
+    position: relative; /* Đặt vị trí tương đối để có thể sử dụng vị trí tuyệt đối cho nút */
+  }
+  
+  .input-group .form-control {
+    padding-right: 40px; /* Đảm bảo có đủ không gian bên phải cho nút */
+  }
+  
+  .input-group button {
+    position: absolute; /* Đặt vị trí tuyệt đối */
+    right: 0; /* Đặt nút tìm kiếm bên phải */
+    top: 0; /* Đặt vị trí đứng chính giữa theo chiều dọc */
+    height: 100%; /* Đảm bảo nút có chiều cao giống với ô nhập */
+    z-index: 99;
+    background-color: transparent; /* Xóa nền */
+    border: none; /* Xóa viền */
+    opacity: 0.5; /* Đặt độ mờ */
+    transition: opacity 0.3s ease;
+    margin-right: 10px;
+    color: #7aa6ce;
+  }
+  
+  .input-group button:hover {
+    opacity: 1; 
+  }

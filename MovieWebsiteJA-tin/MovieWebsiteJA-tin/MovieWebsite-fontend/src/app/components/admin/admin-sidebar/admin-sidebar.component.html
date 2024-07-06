@@ -1,0 +1,126 @@
+
+
+<!-- SIDEBAR -->
+<section id="sidebar">
+    <ul class="side-menu">
+        <li class="active"><a href="" class="active"><i class='bx bxs-dashboard icon'></i> Dashboard</a></li>
+                    
+        <li class="divider" data-text="main">Main</li>
+                    
+        <li>
+            <a routerLink=""><i class='bx bx-home-heart' ></i> Home Page<i class='bx bx-chevron-right icon-right'></i></a>
+        </li>
+        <li (mouseenter)="openDropdown('genre')" (mouseleave)="closeDropdown('genre')">
+            <a href="#">
+                <i class='bx bx-category-alt' ></i> Genre Manager
+                <i class='bx bx-chevron-right icon-right' [class.rotate]="isDropdownOpen('genre')"></i>
+            </a>
+            <ul class="side-dropdown" [class.show]="isDropdownOpen('genre')">
+                <li><a routerLink="/admin/genre/list-genre">List Genre</a></li>
+                <li><a routerLink="/admin/genre/add-genre">Add Genre</a></li>
+            </ul>
+        </li>
+
+        <li (mouseenter)="openDropdown('country')" (mouseleave)="closeDropdown('country')">
+            <a href="#">
+                <i class='bx bx-category-alt' ></i> Country Manager
+                <i class='bx bx-chevron-right icon-right' [class.rotate]="isDropdownOpen('country')"></i>
+            </a>
+            <ul class="side-dropdown" [class.show]="isDropdownOpen('country')">
+                <li><a routerLink="/admin/country/list-country">List Country</a></li>
+                <li><a routerLink="/admin/country/add-country">Add Country</a></li>
+            </ul>
+        </li>
+
+        <li (mouseenter)="openDropdown('movie_type')" (mouseleave)="closeDropdown('movie_type')">
+            <a href="#">
+                <i class='bx bx-category-alt' ></i> Movie Type Manager
+                <i class='bx bx-chevron-right icon-right' [class.rotate]="isDropdownOpen('movie_type')"></i>
+            </a>
+            <ul class="side-dropdown" [class.show]="isDropdownOpen('movie_type')">
+                <li><a routerLink="/admin/movie-type/list-movie-type">List Movie Type</a></li>
+                <li><a routerLink="/admin/movie-type/add-movie-type">Add Movie Type</a></li>
+            </ul>
+        </li>
+                    
+        <li (mouseenter)="openDropdown('movie')" (mouseleave)="closeDropdown('movie')">
+            <a href="#">
+                <i class='bx bx-camera-movie'></i> Movie Manager
+                <i class='bx bx-chevron-right icon-right' [class.rotate]="isDropdownOpen('movie')"></i>
+            </a>
+            <ul class="side-dropdown" [class.show]="isDropdownOpen('movie')">
+                <li><a routerLink="/admin/movie/list-movie">List Movie</a></li>
+                <li><a routerLink="/admin/movie/add-movie">Add Movie</a></li>
+            </ul>
+        </li>
+
+        <li (mouseenter)="openDropdown('episode')" (mouseleave)="closeDropdown('episode')">
+            <a href="#">
+                <i class='bx bx-movie-play'></i> Episode Manager
+                <i class='bx bx-chevron-right icon-right' [class.rotate]="isDropdownOpen('episode')"></i>
+            </a>
+            <ul class="side-dropdown" [class.show]="isDropdownOpen('episode')">
+                <li><a routerLink="/admin/episode/list-episode">List Episode</a></li>
+                <!-- <li><a routerLink="/admin/episode/add-episode">Add Episode</a></li> -->
+            </ul>
+        </li>
+
+        <li (mouseenter)="openDropdown('order')" (mouseleave)="closeDropdown('order')">
+            <a href="#">
+                <i class='bx bx-cart' ></i> Order Manager
+                <i class='bx bx-chevron-right icon-right' [class.rotate]="isDropdownOpen('order')"></i>
+            </a>
+            <ul class="side-dropdown" [class.show]="isDropdownOpen('order')">
+                <li><a routerLink="/admin/order/list-order">List Order</a></li>
+            </ul>
+        </li>
+                    
+        <li (mouseenter)="openDropdown('account')" (mouseleave)="closeDropdown('account')">
+            <a href="#">
+                <i class='bx bx-user'></i> Account Manager
+                <i class='bx bx-chevron-right icon-right' [class.rotate]="isDropdownOpen('account')"></i>
+            </a>
+            <ul class="side-dropdown" [class.show]="isDropdownOpen('account')">
+                <li><a routerLink="/admin/account/list-account">List Account</a></li>
+            </ul>
+        </li>
+
+        <li (mouseenter)="openDropdown('storage')" (mouseleave)="closeDropdown('storage')">
+            <a href="#">
+                <i class='bx bxl-play-store' ></i> Manager Storage
+                <i class='bx bx-chevron-right icon-right' [class.rotate]="isDropdownOpen('storage')"></i>
+            </a>
+            <ul class="side-dropdown" [class.show]="isDropdownOpen('storage')">
+                <li><a routerLink="/admin/storage/storage-top-view">Storage top-view</a></li>
+                <li><a routerLink="/admin/storage/storage-rate">Storage top-rate</a></li>
+            </ul>
+        </li>
+
+        <li (mouseenter)="openDropdown('ads')" (mouseleave)="closeDropdown('ads')">
+            <a href="#">
+                <i class='bx bx-book-add'></i> Advertising Manager
+                <i class='bx bx-chevron-right icon-right' [class.rotate]="isDropdownOpen('ads')"></i>
+            </a>
+            <ul class="side-dropdown" [class.show]="isDropdownOpen('ads')">
+                <li><a routerLink="/admin/ads/list-ads">List Advertising</a></li>
+                <li><a routerLink="/admin/ads/add-ads">Add Advertising</a></li>
+            </ul>
+        </li>
+        <li (mouseenter)="openDropdown('movie-api')" (mouseleave)="closeDropdown('movie-api')">
+            <a href="#">
+                <i class='bx bx-book-add'></i> Get Movie API
+                <i class='bx bx-chevron-right icon-right' [class.rotate]="isDropdownOpen('movie-api')"></i>
+            </a>
+            <ul class="side-dropdown" [class.show]="isDropdownOpen('movie-api')">
+                <li><a routerLink="/admin/api/get-movie">MOVIE API</a></li>             
+            </ul>
+        </li>
+    </ul>
+    <div class="ads">
+        <div class="wrapper">
+            <a href="#" class="btn-upgrade">Upgrade</a>
+            <p>Become a <span>PRO</span> member and enjoy <span>All Features</span></p>
+        </div>
+    </div>
+</section>
+<!-- SIDEBAR -->

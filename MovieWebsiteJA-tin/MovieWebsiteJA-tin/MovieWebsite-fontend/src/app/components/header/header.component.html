@@ -1,0 +1,116 @@
+<link rel="stylesheet" href="../../../assets/css/style.css">
+<link rel="stylesheet" href="">
+<header id="header">
+  <div class="container">
+     <div class="row" id="headwrap">
+        <div class="col-md-3 col-sm-6 slogan">
+           <p class="site-title"><a class="logo" href="" title="phim hay "></a>Phim Hay</p>
+           
+        </div>
+        <div class="col-md-5 col-sm-6 halim-search-form hidden-xs">
+           <div class="header-nav">
+              <div class="col-xs-12">
+                 <form id="search-form-pc" name="halimForm" role="search" action="" method="GET">
+                    <div class="form-group">
+                       <div class="input-group col-xs-12">
+                          <input id="search" type="text" name="search" class="form-control" [(ngModel)]="search" placeholder="Tìm kiếm..." autocomplete="off"  required>
+                          <button (click)="searchMovie()"><i class="fa-solid fa-magnifying-glass"></i></button>
+                       </div>
+                    </div>
+                 </form>
+                 <ul class="ui-autocomplete ajax-results hidden"></ul>
+              </div>
+           </div>
+        </div>
+        <div class="col-md-4 hidden-xs" *ngIf="userResponse">       
+         <div routerLink="/bookmark" id="get-bookmark" class="box-shadow"><i class="fa-regular fa-bookmark"></i><span> Bookmarks</span><span class="count">{{ bookmarkCount }}</span></div>       
+          <div id="get-bookmark" class="box-shadow"> 
+              <li style="list-style-type: none;" class="mega dropdown" [class.show]="showProfileMenu" (mouseenter)="showMenu('profile')" (mouseleave)="hideMenu('profile')">
+                  <a style="color: white;" title="Tài khoản" href="#" data-toggle="dropdown" class="dropdown-toggle" aria-haspopup="true"><i class="fa-regular fa-user"></i> Hello, {{ userResponse.full_name }} <span class="caret"></span></a>
+                  <ul role="menu" class="dropdown-menu">
+                      <li><a title="Thông tin tài khoản" routerLink="/profile/{{ userResponse.id }}"> Thông tin tài khoản</a></li>
+                      <li><a title="Đăng xuất" (click)="logout()"><i class="fa-solid fa-arrow-right-from-bracket"></i> Đăng xuất</a></li>
+                      <li><a title="Cài đặt" href=""><i class="fa-solid fa-gear"></i> Cài đặt</a></li>
+                  </ul>
+              </li>
+          </div>
+        
+
+           <div id="bookmark-list" class="hidden bookmark-list-on-pc">
+              <ul style="margin: 0;"></ul>
+           </div>
+        </div>
+        <div class="col-md-4 hidden-xs" *ngIf="!userResponse">
+         <a href="/login"><div id="get-bookmark" class="box-shadow"><i class="fa-solid fa-right-to-bracket"></i><span> Đăng nhập</span></div></a>
+         <a href="/register"><div id="get-bookmark" class="box-shadow"><i class="fa-solid fa-user-plus"></i><span> Đăng kí</span></div></a>
+
+         <div id="bookmark-list" class="hidden bookmark-list-on-pc">
+            <ul style="margin: 0;"></ul>
+         </div>
+      </div>
+     </div>
+  </div>
+</header>
+<div class="navbar-container">
+  <div class="container">
+     <nav class="navbar halim-navbar main-navigation" role="navigation" data-dropdown-hover="1">
+        <div class="navbar-header">
+           <button type="button" class="navbar-toggle collapsed pull-left" data-toggle="collapse" data-target="#halim" aria-expanded="false">
+           <span class="sr-only">Menu</span>
+           <span class="icon-bar"></span>
+           <span class="icon-bar"></span>
+           <span class="icon-bar"></span>
+           </button>
+           <button type="button" class="navbar-toggle collapsed pull-right expand-search-form" data-toggle="collapse" data-target="#search-form" aria-expanded="false">
+           <span class="hl-search" aria-hidden="true"></span>
+           </button>
+           <button type="button" class="navbar-toggle collapsed pull-right get-bookmark-on-mobile">
+           Bookmarks<i class="fa-regular fa-bookmark"></i>
+           <span class="count">0</span>
+           </button>
+           <button type="button" class="navbar-toggle collapsed pull-right get-locphim-on-mobile">
+           <a href="javascript:;" id="expand-ajax-filter" style="color: #ffed4d;">Lọc <i class="fa-solid fa-filter"></i></a>
+           </button>
+        </div>
+        
+        <div class="collapse navbar-collapse" id="halim">
+           <div class="menu-menu_1-container">
+              <ul id="menu-menu_1" class="nav navbar-nav navbar-left">
+                 <li class="current-menu-item active"><a title="Trang Chủ" routerLink="/">Trang Chủ</a></li>
+                 <li class="mega"><a title="Phim Hot" routerLink="/movie-hot">Phim Hot</a></li>
+                 <li class="mega dropdown" [class.show]="showYearMenu" (mouseenter)="showMenu('year')" (mouseleave)="hideMenu('year')">
+                    <a title="Năm" href="#" data-toggle="dropdown" class="dropdown-toggle" aria-haspopup="true">Năm <span class="caret"></span></a>
+                    <ul role="menu" class="dropdown-menu" >
+                       <li *ngFor="let year of movieYears"><a title="Phim {{year}}" routerLink="/movie_year/{{ year }}">Phim {{year}}</a></li>
+                    </ul>
+                 </li>
+                 <li class="mega dropdown" [class.show]="showGenreMenu" (mouseenter)="showMenu('genre')" (mouseleave)="hideMenu('genre')">
+                  <a title="Thể Loại" href="#" data-toggle="dropdown" class="dropdown-toggle" aria-haspopup="true">Thể Loại <span class="caret"></span></a>
+                  <ul role="menu" class="dropdown-menu">
+                     <li *ngFor="let genre of genres"><a title="{{ genre.name }}" routerLink="/genre/{{ genre.id }}">{{ genre.name }}</a></li>
+                  </ul>
+                </li>
+                 <li class="mega dropdown" [class.show]="showCountryMenu" (mouseenter)="showMenu('country')" (mouseleave)="hideMenu('country')">
+                    <a title="Quốc Gia" href="#" data-toggle="dropdown" class="dropdown-toggle" aria-haspopup="true">Quốc Gia <span class="caret"></span></a>
+                    <ul role="menu" class=" dropdown-menu">
+                     <li *ngFor="let country of countries"><a title="{{ country.name }}" routerLink="/country/{{ country.id }}">{{ country.name }}</a></li>
+                    </ul>
+                 </li>
+                 <li><a title="Phim Lẻ" routerLink="/movie_type/2">Phim Lẻ</a></li>
+                 <li><a title="Phim Bộ" routerLink="/movie_type/1">Phim Bộ</a></li>
+                 <li><a title="Phim Chiếu Rạp" routerLink="/movie_type/3">Phim Chiếu Rạp</a></li>
+              </ul>
+           </div>
+           <ul class="nav navbar-nav navbar-left" style="background:#000;">
+              <li><a href="#" onclick="locphim()" style="color: #ffed4d;">Lọc Phim</a></li>            
+           </ul>
+        </div>
+     </nav>
+     <div class="collapse navbar-collapse" id="search-form">
+        <div id="mobile-search-form" class="halim-search-form"></div>
+     </div>
+     <div class="collapse navbar-collapse" id="user-info">
+        <div id="mobile-user-login"></div>
+     </div>
+  </div>
+</div>

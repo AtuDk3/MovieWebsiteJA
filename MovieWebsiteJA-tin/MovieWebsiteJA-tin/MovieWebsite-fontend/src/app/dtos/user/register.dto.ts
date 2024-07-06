@@ -1,0 +1,31 @@
+import{
+    IsString,
+    IsNotEmpty,
+    IsPhoneNumber,
+    IsDate
+ }from 'class-validator'
+ 
+ export class RegisterDTO{
+     @IsString()
+     full_name: string;
+ 
+     @IsPhoneNumber()
+     phone_number: string;
+ 
+     @IsString()
+     password: string;
+  
+     @IsDate()
+     date_of_birth: Date;
+ 
+     @IsString()
+     email: string;
+ 
+     constructor(data: any){
+         this.full_name= data.fullName;
+         this.phone_number= data.phone_number;
+         this.password= data.password;
+         this.date_of_birth= data.date_of_birth;
+         this.email= data.email;
+     }
+ }

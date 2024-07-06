@@ -1,0 +1,184 @@
+
+import { APP_INITIALIZER, NgModule, OnInit  } from '@angular/core';
+import { BrowserModule } from '@angular/platform-browser';
+import { AppRoutingModule } from './app-routing.module';
+import { AppComponent } from './app.component';
+import { HomeComponent } from './components/home/home.component';
+import { HeaderComponent } from './components/header/header.component';
+import { FooterComponent } from './components/footer/footer.component';
+import { LoginComponent } from './components/login/login.component';
+import { IonicModule } from '@ionic/angular';
+import { CarouselModule } from 'ngx-owl-carousel-o';
+import { GenreComponent } from './components/genre/genre.component';
+import { RegisterComponent } from './components/register/register.component';
+import { FormsModule } from '@angular/forms';
+import { HTTP_INTERCEPTORS, provideHttpClient, withInterceptorsFromDi } from '@angular/common/http';
+import { TokenInterceptor } from './intercrptors/token.interceptor';
+import { TopViewsComponent } from './components/top-views/top-views.component';
+import { MovieDetailsComponent } from './components/movie-details/movie-details.component';
+import { WatchingComponent } from './components/watching/watching.component';
+import { MovieRelatedComponent } from './components/movie-related/movie-related.component';
+import { CountryComponent } from './components/country/country.component';
+import { ProfileComponent } from './components/profile/profile.component';
+import { LoginLayoutComponent } from './layouts/login-layout/login-layout.component';
+import { MainLayoutComponent } from './layouts/main-layout/main-layout.component';
+import { ChangePasswordComponent } from './components/change-password/change-password.component';
+import { RatingComponent } from './components/rating/rating.component';
+import { CommentComponent } from './components/comment/comment.component';
+import { AdminSidebarComponent } from './components/admin/admin-sidebar/admin-sidebar.component';
+import { AdminHeaderComponent } from './components/admin/admin-header/admin-header.component';
+import { AdminDashboardComponent } from './components/admin/admin-dashboard/admin-dashboard.component';
+import { AdminLayoutComponent } from './layouts/admin-layout/admin-layout.component';
+import { MovieTypeComponent } from './components/movie-type/movie-type.component';
+import { ForgotPasswordComponent } from './components/forgot-password/forgot-password.component';
+import { ResetPasswordComponent } from './components/reset-password/reset-password.component';
+import { ListMovieComponent } from './components/admin/movie/list-movie/list-movie.component';
+import { UpdateMovieComponent } from './components/admin/movie/update-movie/update-movie.component';
+import { AddMovieComponent } from './components/admin/movie/add-movie/add-movie.component';
+import { ListCountryComponent } from './components/admin/country/list-country/list-country.component';
+import { UpdateCountryComponent } from './components/admin/country/update-country/update-country.component';
+import { AddCountryComponent } from './components/admin/country/add-country/add-country.component';
+import { ListGenreComponent } from './components/admin/genre/list-genre/list-genre.component';
+import { UpdateGenreComponent } from './components/admin/genre/update-genre/update-genre.component';
+import { AddGenreComponent } from './components/admin/genre/add-genre/add-genre.component';
+import { ListMovieTypeComponent } from './components/admin/movie-type/list-movie-type/list-movie-type.component';
+import { UpdateMovieTypeComponent } from './components/admin/movie-type/update-movie-type/update-movie-type.component';
+import { AddMovieTypeComponent } from './components/admin/movie-type/add-movie-type/add-movie-type.component';
+import { ListEpisodeComponent } from './components/admin/episode/list-episode/list-episode.component';
+import { UpdateEpisodeComponent } from './components/admin/episode/update-episode/update-episode.component';
+import { AddEpisodeComponent } from './components/admin/episode/add-episode/add-episode.component';
+import { ListAccountComponent } from './components/admin/account/list-account/list-account.component';
+import { ListOrderComponent } from './components/admin/order/list-order/list-order.component';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { ToastrModule } from 'ngx-toastr';
+import { MovieHotComponent } from './components/movie-hot/movie-hot.component';
+import { AuthenticateAccountComponent } from './components/authenticate-account/authenticate-account.component';
+import { BookmarkComponent } from './components/bookmark/bookmark.component';
+import { PaymentComponent } from './components/payments/payments.component';
+import { AuthService } from './services/auth.service';
+import { RouterModule } from '@angular/router';
+//import { ModalModule } from 'ngx-bootstrap/modal';
+import { UpgradeComponent } from './components/upgrade/upgrade.component';
+import { ThanksComponent } from './components/thanks/thanks.component';
+import { SearchMovieComponent } from './components/search-movie/search-movie.component';
+import { StorageRateComponent } from './components/admin/manager-storage/storage-rate/storage-rate.component';
+import { StorageTopViewComponent } from './components/admin/manager-storage/storage-top-view/storage-top-view.component';
+import { ListEpisodeByMovieComponent } from './components/admin/episode/list-episode-by-movie/list-episode-by-movie.component';
+import { ListHistoryOrderComponent } from './components/admin/order/list-history-order/list-history-order.component';
+import { MovieYearComponent } from './components/movie-year/movie-year.component';
+import { MovieFilterComponent } from './components/movie-filter/movie-filter.component';
+import { ReactiveFormsModule } from '@angular/forms';
+import { AddAdsComponent } from './components/admin/ads/add-ads/add-ads.component';
+import { ListAdsComponent } from './components/admin/ads/list-ads/list-ads.component';
+import { UpdateAdsComponent } from './components/admin/ads/update-ads/update-ads.component';
+import { CheckTradingCodeComponent } from './components/ads/check-trading-code/check-trading-code.component';
+import { ThanksAdsComponent } from './components/ads/thanks-ads/thanks-ads.component';
+import { PaymentAdsComponent } from './components/ads/payment-ads/payment-ads.component';
+import { OAuthModule } from 'angular-oauth2-oidc';
+import { AdsDisplayComponent } from './components/ads/ads-display/ads-display.component';
+import { LoginGgComponent } from './components/login-gg/login-gg.component';
+import { GetMovieApiComponent } from './components/admin/get-movie-api/get-movie-api.component';
+
+export function initializeAuthService(authService: AuthService) {
+  return (): Promise<void> => {
+    return authService.initialize(); 
+  };
+}
+
+@NgModule({ declarations: [
+        AppComponent,
+        HomeComponent,
+        HeaderComponent,
+        FooterComponent,
+        LoginComponent,
+        GenreComponent,
+        RegisterComponent,
+        TopViewsComponent,
+        MovieDetailsComponent,
+        WatchingComponent,
+        MovieRelatedComponent,
+        CountryComponent,
+        ProfileComponent,
+        LoginLayoutComponent,
+        MainLayoutComponent,
+        ChangePasswordComponent,
+        RatingComponent,
+        CommentComponent,
+        AdminSidebarComponent,
+        AdminHeaderComponent,
+        AdminDashboardComponent,
+        AdminLayoutComponent,
+        MovieTypeComponent,
+        ForgotPasswordComponent,
+        ResetPasswordComponent,
+        ListMovieComponent,
+        UpdateMovieComponent,
+        AddMovieComponent,
+        ListCountryComponent,
+        UpdateCountryComponent,
+        AddCountryComponent,
+        ListGenreComponent,
+        UpdateGenreComponent,
+        AddGenreComponent,
+        ListMovieTypeComponent,
+        UpdateMovieTypeComponent,
+        AddMovieTypeComponent,
+        ListEpisodeComponent,
+        UpdateEpisodeComponent,
+        AddEpisodeComponent,
+        ListAccountComponent,
+        ListOrderComponent,
+        MovieHotComponent,
+        AuthenticateAccountComponent,
+        BookmarkComponent,
+        PaymentComponent,
+        UpgradeComponent,
+        ThanksComponent,
+        SearchMovieComponent,
+        StorageRateComponent,
+        StorageTopViewComponent,
+        ListEpisodeByMovieComponent,
+        ListHistoryOrderComponent,
+        MovieYearComponent,
+        MovieFilterComponent,
+        AddAdsComponent,
+        ListAdsComponent,
+        UpdateAdsComponent,
+        CheckTradingCodeComponent,
+        ThanksAdsComponent,
+        PaymentAdsComponent,
+        AdsDisplayComponent,
+        LoginGgComponent,
+        GetMovieApiComponent,
+    ],
+    bootstrap: [
+        AppComponent
+    ], imports: [BrowserModule,
+        AppRoutingModule,
+        IonicModule.forRoot(),
+        CarouselModule,
+        FormsModule,
+        RouterModule,
+        ReactiveFormsModule,
+        BrowserAnimationsModule, // cần thiết cho Toastr
+        ToastrModule.forRoot(), // Cấu hình mặc định của Toastr
+        //ModalModule.forRoot()
+        OAuthModule.forRoot()
+    ], providers: [
+        AuthService,
+        {
+            provide: APP_INITIALIZER,
+            useFactory: initializeAuthService,
+            deps: [AuthService],
+            multi: true
+        },
+        {
+            provide: HTTP_INTERCEPTORS,
+            useClass: TokenInterceptor,
+            multi: true
+        },
+        provideHttpClient(withInterceptorsFromDi())
+    ] })
+export class AppModule { 
+
+}
