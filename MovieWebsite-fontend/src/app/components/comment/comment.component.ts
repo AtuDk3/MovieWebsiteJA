@@ -43,6 +43,7 @@ export class CommentComponent implements OnInit {
   }
 
   getComments(movieId: number) {
+    this.currentPage = 0;
     this.commentService.getComments(movieId, this.currentPage, this.itemsPerPage).subscribe({
       next: (response: any) => {
         response.comments.forEach((comment: CommentResponse) => {

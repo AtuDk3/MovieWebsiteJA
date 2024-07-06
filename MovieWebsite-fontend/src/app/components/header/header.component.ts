@@ -144,7 +144,6 @@ export class HeaderComponent implements OnInit {
 
   searchMovie(){   
     this.router.navigate(['/search_movie'], { queryParams: {search: this.search } });
-    this.search='';
   }
 
   logout(){

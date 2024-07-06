@@ -5,7 +5,7 @@
         <div class="plan-card" *ngFor="let uservip of userVip">
           <h3>Gói {{uservip.numberMonth}} Tháng</h3>
           <p>Truy cập trên một thiết bị cùng một thời điểm</p>
-          <h4>{{uservip.price}} VND/tháng</h4>
+          <h4>{{uservip.price | currency:'VND':'symbol':'1.0-0'}}/tháng</h4>
           <ul>
             <li>Chất lượng video HD</li>
             <li>1080p (Full HD)</li>
@@ -30,91 +30,6 @@
           <button type="button" (click)="subscribe(uservip.price , uservip.name)">Đăng ký ngay</button>
         </form>
         </div>
-
-        <!-- <div class="plan-card">
-            <h3>Gói 3 Tháng</h3>
-            <p>Truy cập trên hai  thiết bị cùng một thời điểm</p>
-            <h4>120.000 VND/3 tháng</h4>
-            <ul>
-              <li>Chất lượng video HD</li>
-              <li>1080p (Full HD)</li>
-              <li>4K (Ultra HD) + HDR</li>
-            </ul>
-            <hr>
-            <ul>
-              <li>Thiết bị được hỗ trợ</li>
-              <li>Điện thoại di động, máy tính bảng</li>
-            </ul>
-            <hr>
-            <ul>
-              <li>Các thiết bị mà gia đình bạn có thể xem cùng một lúc</li>
-              <li>1</li>
-            </ul>
-            <hr>
-            <ul>
-              <li>Tải xuống thiết bị</li>
-              <li>1</li>
-            </ul>
-            <form>
-              <button type="button" (click)="subscribe(120000)">Đăng ký ngay</button>
-            </form>
-          </div>
-
-          <div class="plan-card">
-            <h3>Gói 9 Tháng</h3>
-            <p>Truy cập trên một thiết bị cùng một thời điểm</p>
-            <h4>400.000 VND/9 tháng</h4>
-            <ul>
-              <li>Chất lượng video HD</li>
-              <li>1080p (Full HD)</li>
-              <li>4K (Ultra HD) + HDR</li>
-            </ul>
-            <hr>
-            <ul>
-              <li>Thiết bị được hỗ trợ</li>
-              <li>Điện thoại di động, máy tính bảng</li>
-            </ul>
-            <hr>
-            <ul>
-              <li>Các thiết bị mà gia đình bạn có thể xem cùng một lúc</li>
-              <li>1</li>
-            </ul>
-            <hr>
-            <ul>
-              <li>Tải xuống thiết bị</li>
-              <li>1</li>
-            </ul>
-            <form>
-            <button>Đăng ký ngay</button>
-          </form>
-          </div>
-
-          <div class="plan-card">
-            <h3>Gói 1 Năm</h3>
-            <p>Truy cập trên bốn thiết bị cùng một thời điểm</p>
-            <h4>500.000 VND/1 năm</h4>
-            <ul>
-              <li>Chất lượng video HD</li>
-              <li>1080p (Full HD)</li>
-              <li>4K (Ultra HD) + HDR</li>
-            </ul>
-            <hr>
-            <ul>
-              <li>Thiết bị được hỗ trợ</li>
-              <li>Điện thoại di động, máy tính bảng</li>
-            </ul>
-            <hr>
-            <ul>
-              <li>Các thiết bị mà gia đình bạn có thể xem cùng một lúc</li>
-              <li>1</li>
-            </ul>
-            <hr>
-            <ul>
-              <li>Tải xuống thiết bị</li>
-              <li>1</li>
-            </ul>
-            <button>Đăng ký ngay</button>
-          </div> -->
       
       </div>
       

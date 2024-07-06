@@ -27,7 +27,11 @@ export class SearchMovieComponent {
     this.movieService.getSearchMovies(keyword, page, limit).subscribe({
       next: (response: any) => {
         response.movies.forEach((movie: Movie) => {
-          movie.url = `${environment.apiBaseUrl}/movies/images/${movie.image}`;
+          if(!movie.image.includes('http')){
+            movie.url = `${environment.apiBaseUrl}/movies/images/${movie.image}`;
+          }else{
+            movie.url = movie.image;
+          }
         });   
         this.movies = response.movies;        
       },
