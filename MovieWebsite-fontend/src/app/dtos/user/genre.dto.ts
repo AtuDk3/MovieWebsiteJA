@@ -5,3 +5,4 @@ export interface GenreDTO {
     slug: string
     is_active: number
 }
+//
