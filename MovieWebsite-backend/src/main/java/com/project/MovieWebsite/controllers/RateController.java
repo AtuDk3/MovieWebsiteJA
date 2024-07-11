@@ -28,7 +28,7 @@ public class RateController {
 
     private final RateService rateService;
     private final UserService userService;
-
+	//
     @PostMapping("")
     public ResponseEntity<?> createRate(@Valid @RequestBody RateDTO rateDTO, BindingResult result,
                                         @RequestHeader("Authorization") String authorizationHeader) {
