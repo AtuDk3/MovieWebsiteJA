@@ -19,7 +19,7 @@ import java.util.Map;
 @RequestMapping("${api.prefix}/genres")
 @RequiredArgsConstructor
 public class GenreController {
-    
+    //
     // Injecting GenreService dependency
     private final GenreService genreService;
 
