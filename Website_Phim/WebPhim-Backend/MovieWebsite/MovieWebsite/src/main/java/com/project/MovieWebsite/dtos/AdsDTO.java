@@ -16,14 +16,15 @@ import java.util.List;
 
 public class AdsDTO {
 
-    @NotBlank(message = "email")
     private String email;
-
-    @NotBlank(message = "Name ads required")
+    
     private String name;
 
-    @NotBlank(message = "Description ads required")
     private String description;
+
+    private String position;
+
+    private String video;
 
     @JsonProperty("number_days")
     private int numberDays;

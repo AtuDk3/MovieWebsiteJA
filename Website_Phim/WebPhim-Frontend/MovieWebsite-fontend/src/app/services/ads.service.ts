@@ -37,6 +37,11 @@ export class AdsService {
     return this.http.post<Ads>(this.apiGetAds, ads);
   }
 
+  createOrderAds(ads_id: number, ads: AdsDTO): Observable<Ads> {
+    const url = `${this.apiGetAds}/${ads_id}`;
+    return this.http.post<Ads>(url, ads);
+  }
+
   updateAdsPayment(trading_code:string): Observable<Ads> {
     return this.http.put<Ads>(this.apiUpdateAdsPayment, {trading_code});
   }
@@ -64,6 +69,11 @@ export class AdsService {
       formData.append('files', file); // Use 'files' as key to match with @ModelAttribute("files")
     });
     return this.http.post(`${this.apiGetAds}/upload_ads/${adsId}`, formData);
+  }
+
+  uploadVideo(formData: FormData) {
+    const url = `${this.apiGetAds}/upload-video`;
+    return this.http.post<any>(url, formData);
   }
 
   uploadImagesFromCreateAds(files: File[]): Observable<any> {

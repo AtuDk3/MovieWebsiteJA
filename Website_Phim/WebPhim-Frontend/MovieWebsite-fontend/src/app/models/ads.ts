@@ -4,6 +4,8 @@ export interface Ads {
     id: number,
     name: string,
     description: string,
+    position: string,
+    video: string,
     trading_code: string,
     email: string,
     list_img: string[],

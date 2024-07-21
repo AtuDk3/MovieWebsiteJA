@@ -78,6 +78,12 @@ import { OAuthModule } from 'angular-oauth2-oidc';
 import { AdsDisplayComponent } from './components/ads/ads-display/ads-display.component';
 import { LoginGgComponent } from './components/login-gg/login-gg.component';
 import { GetMovieApiComponent } from './components/admin/get-movie-api/get-movie-api.component';
+import { CreateOrderAdsComponent } from './components/admin/ads/create-order-ads/create-order-ads.component';
+import { provideAnimationsAsync } from '@angular/platform-browser/animations/async';
+import { AdPopupComponentComponent } from './components/ad-popup-component/ad-popup-component.component';
+import { VideoAdsComponent } from './components/video-ads/video-ads.component';
+
+
 
 export function initializeAuthService(authService: AuthService) {
   return (): Promise<void> => {
@@ -150,6 +156,9 @@ export function initializeAuthService(authService: AuthService) {
         AdsDisplayComponent,
         LoginGgComponent,
         GetMovieApiComponent,
+        CreateOrderAdsComponent,
+        AdPopupComponentComponent,
+        VideoAdsComponent,
     ],
     bootstrap: [
         AppComponent
@@ -177,7 +186,8 @@ export function initializeAuthService(authService: AuthService) {
             useClass: TokenInterceptor,
             multi: true
         },
-        provideHttpClient(withInterceptorsFromDi())
+        provideHttpClient(withInterceptorsFromDi()),
+        provideAnimationsAsync()
     ] })
 export class AppModule { 
 

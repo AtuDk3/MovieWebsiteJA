@@ -1,0 +1,24 @@
+<div class="popup-container" *ngIf="showPopup">
+    <div class="popup">
+      <h2>Chọn nơi đặt quảng cáo và giá cả</h2>
+      <table>
+        <thead>
+          <tr>
+            <th>Vị trí</th>
+            <th>Giá tiền</th>
+            <th>Chọn</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let option of adOptions">
+            <td>{{ option.position }}</td>
+            <td>{{ option.price }}</td>
+            <td><input type="radio" name="adOption" [value]="option" [(ngModel)]="selectedOption"></td>
+          </tr>
+        </tbody>
+      </table>
+      <button (click)="save()">Lưu</button>
+      <button (click)="close()">Hủy</button>
+    </div>
+  </div>
+  

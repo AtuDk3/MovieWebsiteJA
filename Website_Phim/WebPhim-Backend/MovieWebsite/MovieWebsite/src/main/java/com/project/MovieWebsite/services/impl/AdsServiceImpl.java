@@ -39,19 +39,12 @@ public class AdsServiceImpl implements AdsService {
     @Override
     public Ads createAds(AdsDTO adsDTO) {
 
-        String trading_code="";
-        while (true){
-            trading_code= generateRandomTradingCode(10);
-            if(adsRepository.findByTradingCode(trading_code)!=null){
-                continue;
-            }
-            break;
-        }
         Ads newAds = Ads.builder()
-                .tradingCode(trading_code)
                 .email(adsDTO.getEmail())
                 .name(adsDTO.getName())
                 .description(adsDTO.getDescription())
+                .position(adsDTO.getPosition())
+                .video(adsDTO.getVideo())
                 .numberDays(adsDTO.getNumberDays())
                 .amount(adsDTO.getAmount())
                 .isActive(adsDTO.getIsActive())
@@ -66,6 +59,24 @@ public class AdsServiceImpl implements AdsService {
             adsImageRepository.save(newAdsImgae);
         }
         return adsRepository.save(newAds);
+    }
+
+    @Override
+    public Ads createOrderAds(int adsId, AdsDTO adsDTO) throws Exception{
+        Ads ads= adsRepository.findById(adsId).orElseThrow(() -> new RuntimeException("Ads not found!"));
+        String trading_code="";
+        while (true){
+            trading_code= generateRandomTradingCode(10);
+            if(adsRepository.findByTradingCode(trading_code)!=null){
+                continue;
+            }
+            break;
+        }
+        ads.setEmail(adsDTO.getEmail());
+        ads.setTradingCode(trading_code);
+        ads.setNumberDays(adsDTO.getNumberDays());
+        ads.setAmount(adsDTO.getAmount());
+        return adsRepository.save(ads);
     }
 
 
@@ -152,6 +163,8 @@ public class AdsServiceImpl implements AdsService {
                 .id(ads.getId())
                 .name(ads.getName())
                 .description(ads.getDescription())
+                .position(ads.getPosition())
+                .video(ads.getVideo())
                 .tradingCode(ads.getTradingCode())
                 .email(ads.getEmail())
                 .createAt(convertToDate(ads.getCreateAt()))
@@ -181,6 +194,8 @@ public class AdsServiceImpl implements AdsService {
                         .id(ads.getId())
                         .name(ads.getName())
                         .description(ads.getDescription())
+                        .position(ads.getPosition())
+                        .video(ads.getVideo())
                         .tradingCode(ads.getTradingCode())
                         .email(ads.getEmail())
                         .createAt(convertToDate(ads.getCreateAt()))
@@ -212,6 +227,8 @@ public class AdsServiceImpl implements AdsService {
                         .id(ads.getId())
                         .name(ads.getName())
                         .description(ads.getDescription())
+                        .position(ads.getPosition())
+                        .video(ads.getVideo())
                         .tradingCode(ads.getTradingCode())
                         .email(ads.getEmail())
                         .createAt(convertToDate(ads.getCreateAt()))

@@ -24,8 +24,12 @@
      <main id="main-contents" class="col-xs-12 col-sm-12 col-md-8">
        <section id="content" class="test">
          <div class="clearfix wrap-content">
-           <iframe width="100%" height="500" *ngIf="safeUrl" [src]="safeUrl" title="Video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
-           <div class="button-watch">
+
+          <app-video-ads *ngIf="showAd" (adSkipped)="onAdSkipped()"></app-video-ads>
+          <iframe width="100%" height="500" *ngIf="!showAd && safeUrl" [src]="safeUrl" title="Video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+
+           
+          <div class="button-watch">
              <ul class="halim-social-plugin col-xs-4 hidden-xs">
                <li class="fb-like" data-href="" data-layout="button_count" data-action="like" data-size="small" data-show-faces="true" data-share="true"></li>
              </ul>

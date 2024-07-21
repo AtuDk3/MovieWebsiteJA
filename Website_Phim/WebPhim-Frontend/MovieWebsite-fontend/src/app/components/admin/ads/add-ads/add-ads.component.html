@@ -7,12 +7,12 @@
         <div class="container-form-add-product">
             <h2 class="text-center">Add Movie</h2>
             <form (submit)="addAds()" enctype="multipart/form-data">
-                <div class="row g-1">
+                <!-- <div class="row g-1">
                     <div class="col">
                     <label for="name">Email Contact</label>
                     <input  type="text" name="email" [(ngModel)]="ads.email" class="form-control" required>
                     </div>           
-                </div>
+                </div> -->
 
                 <div class="row g-1">
                     <div class="col">
@@ -30,17 +30,17 @@
 
                 <div class="row g-1">
                     <div class="col">
-                        <label for="description">Number days</label>
-                        <textarea type="text" id="editor1" name="number_days" [(ngModel)]="ads.number_days" class="form-control" required></textarea>
+                        <label for="description">Position</label>
+                        <textarea type="text" id="editor1" name="position" [(ngModel)]="ads.position" class="form-control" required></textarea>
                     </div>           
                 </div>
 
-                <div class="row g-1">
+                <!-- <div class="row g-1">
                     <div class="col">
                         <label for="description">Amount</label>
                         <textarea type="text" id="editor1" name="amout" [(ngModel)]="ads.amount" class="form-control" required></textarea>
                     </div>           
-                </div>
+                </div> -->
 
                 <div class="row g-1">
                     <div class="col">
@@ -50,7 +50,18 @@
                         <p><img class="image" [src]="imageUrl" height="100px" width="100px"></p>
                       </div>
                     </div>           
+                </div>
+
+                <div class="row g-1">
+                    <div class="col">
+                      <label for="video">Banner Video</label>
+                      <input type="file" (change)="onVideoSelected($event)" name="video" class="form-control">
+                      <div *ngIf="ads.video">
+                        <video [src]="ads.video" height="100px" width="100px" controls></video>
+                      </div>
+                    </div>           
                   </div>
+                  
                                                            
                 <button id="btn" type="submit" class="btn btn-primary">Add Ads</button>
             </form>

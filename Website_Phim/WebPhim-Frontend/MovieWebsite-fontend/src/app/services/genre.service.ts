@@ -40,4 +40,6 @@ export class GenreService {
     return this.http.delete<any>(url);
   }
 
+  //man hinh -> service -> gọi api đã cấu hình sp boot ->
+
 }

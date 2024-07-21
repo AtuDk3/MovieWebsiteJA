@@ -1,4 +1,4 @@
-<link rel="stylesheet" href="../../../assets/css/style.css">
+<!-- <link rel="stylesheet" href="../../../assets/css/style.css">
 
 <body>
 <footer id="footer" class="clearfix">
@@ -15,3 +15,26 @@
 </footer>
 <div id='easy-top'></div>
 </body>
+-->
+
+<link rel="stylesheet" href="../../../assets/css/style.css"> 
+  <body>
+   <footer id="footer" class="clearfix">
+     <div class="container footer-columns">
+        <div class="row container">
+           <div class="widget about col-xs-12 col-sm-4 col-md-4">
+              <div class="footer-logo">
+                 <img class="img-responsive" src="assets/images/logo.png" alt="Phim hay 2021- Xem phim hay nhất" />
+              </div>
+              Liên hệ QC: <a href="#" (click)="openAdPopup()">Liên hệ quảng cáo</a>
+           </div>
+        </div>
+     </div>
+   </footer> 
+  </body>
+  <app-ad-popup-component
+     [showPopup]="showAdPopup"
+     (closePopup)="onPopupClose()"
+     (savePopup)="onPopupSave($event)">
+</app-ad-popup-component>
+ 

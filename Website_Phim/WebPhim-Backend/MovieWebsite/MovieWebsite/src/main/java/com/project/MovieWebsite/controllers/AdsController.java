@@ -70,6 +70,8 @@ public class AdsController {
                 .adsList(adsList).totalPages(totalPages).build());
     }
 
+
+
     @PutMapping("/{id}")
     public ResponseEntity<?> updateAds(@PathVariable int id, @RequestBody AdsDTO adsDTO) throws Exception {
         try{
@@ -102,6 +104,21 @@ public class AdsController {
         return ResponseEntity.ok(AdsResponse.fromAds(ads));
     }
 
+    @PostMapping("/{id}")
+    public ResponseEntity<?> createOrderAds(@PathVariable int id, @Valid @RequestBody AdsDTO adsDTO, BindingResult result) throws DataNotFoundException {
+
+        if (result.hasErrors()){
+            List<String> errorsMessage = result.getFieldErrors().stream().map(FieldError::getDefaultMessage).toList();
+            return ResponseEntity.badRequest().body(Collections.singletonMap("errors", String.join(", ", errorsMessage)));
+        }
+        try {
+            Ads ads = adsService.createOrderAds(id, adsDTO);
+            return ResponseEntity.ok(AdsResponse.fromAds(ads));
+        }catch (Exception e){
+            return ResponseEntity.badRequest().body(e.getMessage());
+        }
+    }
+
 
     @DeleteMapping("/{id}")
     public ResponseEntity<?> deleteAds(@PathVariable int id) {
@@ -127,7 +144,6 @@ public class AdsController {
             String email = request.get("email");
             String trading_code = request.get("trading_code");
             clientService.sendTradingCode(trading_code, email);
-            Map<String, String> response = new HashMap<>();
             return ResponseEntity.ok().build();
         }catch (Exception e){
             return ResponseEntity.badRequest().body(e.getMessage());
@@ -229,6 +245,32 @@ public class AdsController {
             return ResponseEntity.notFound().build();
         }
     }
+
+    @PostMapping("/upload-video")
+    public ResponseEntity<?> uploadVideo(@RequestParam("file") MultipartFile file) {
+        try {
+            String originalFilename = file.getOriginalFilename();
+            if (originalFilename == null) {
+                return ResponseEntity.badRequest().body("Filename is empty");
+            }
+
+            // Generate a unique filename
+            String uniqueFilename = System.currentTimeMillis() + "_" + originalFilename;
+            Path path = Paths.get("C:\\Users\\This PC\\Documents\\SWP391\\Website_Phim\\WebPhim-Frontend\\MovieWebsite-fontend\\src\\assets\\videos")
+                    .resolve(uniqueFilename);
+
+            // Save the file
+            Files.copy(file.getInputStream(), path, StandardCopyOption.REPLACE_EXISTING);
+
+            // Return the URL or path to the uploaded video
+            Map<String, String> response = new HashMap<>();
+            response.put("videoUrl", uniqueFilename);
+            return ResponseEntity.ok(response);
+        } catch (IOException e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Failed to upload video");
+        }
+    }
+
 
     private String storeFile(MultipartFile file) throws IOException {
         String filename = StringUtils.cleanPath(file.getOriginalFilename());

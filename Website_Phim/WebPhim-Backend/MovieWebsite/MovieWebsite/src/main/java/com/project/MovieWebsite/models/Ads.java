@@ -33,6 +33,12 @@ public class Ads {
     @Column(name="description", nullable= false, length=255)
     private String description;
 
+    @Column(name="position", nullable= false, length=255)
+    private String position;
+
+    @Column(name="video", nullable= false, length=255)
+    private String video;
+
     @Column(name="create_at", nullable= false)
     private LocalDateTime createAt;
 

@@ -53,6 +53,7 @@ import { PaymentAdsComponent } from './components/ads/payment-ads/payment-ads.co
 import { CheckTradingCodeComponent } from './components/ads/check-trading-code/check-trading-code.component';
 import { LoginGgComponent } from './components/login-gg/login-gg.component';
 import { GetMovieApiComponent } from './components/admin/get-movie-api/get-movie-api.component';
+import { CreateOrderAdsComponent } from './components/admin/ads/create-order-ads/create-order-ads.component';
 
 const routes: Routes = [
   {
@@ -122,6 +123,7 @@ const routes: Routes = [
       // Ads
       { path: 'ads/list-ads', component: ListAdsComponent, canActivate:[AdminGuardFn]},
       { path: 'ads/update-ads/:id', component: UpdateAdsComponent, canActivate:[AdminGuardFn]},
+      { path: 'ads/create-order-ads/:id', component: CreateOrderAdsComponent, canActivate:[AdminGuardFn]},
       { path: 'ads/add-ads', component: AddAdsComponent, canActivate:[AdminGuardFn]},
       // Storage
       { path: 'storage/storage-top-view', component: StorageTopViewComponent, canActivate:[AdminGuardFn]},

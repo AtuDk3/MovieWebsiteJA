@@ -11,8 +11,10 @@
             <th>No</th>
             <th>Name</th>
             <th>Description</th>
+            <th>Position</th>
             <th>Email Contact</th>
             <th>Banner Ads</th>
+            <th>Video Ads</th> 
             <th>Create At</th>
             <th>Expiration At</th>
             <th>Active</th>
@@ -25,8 +27,12 @@
             <td>{{ i + 1 }}</td>
             <td>{{ ads.name }}</td>
             <td>{{ ads.description }}</td>
+            <td>{{ ads.position }}</td>
             <td>{{ ads.email }}</td>
             <img *ngFor="let url of ads.list_img_url" [src]="url" height="80px" width="80px">
+            <td *ngIf="ads.video">
+              <video *ngIf="ads.video" [src]="getVideoUrl(ads.video)" height="80px" width="80px" controls></video>
+            </td>            
             <td>{{ ads.create_at | date: 'dd-MM-yyyy'}}</td>
             <td>{{ ads.expiration_at| date: 'dd-MM-yyyy'}}</td>
             <td>{{ ads.is_active === 1 ? 'Active' : 'Inactive' }}</td>
@@ -36,6 +42,7 @@
             <td>
               <button type="button" class="btn btn-danger" (click)="deleteAds(ads.id)">Delete</button>
               <button type="button" class="btn btn-warning" (click)="updateAds(ads.id)">Update</button>
+              <button type="button" class="btn btn-warning" (click)="createOrderAds(ads.id)">Create order</button>
             </td>
           </tr>
 

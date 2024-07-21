@@ -68,6 +68,11 @@ export class ListAdsComponent {
     });
   }
 
+  getVideoUrl(videoFilename: string): SafeUrl {
+    // Return a safe URL for the video
+    return this.sanitizer.bypassSecurityTrustUrl(`assets/videos/${videoFilename}`);
+  }
+
   generateVisiblePageArray(currentPage: number, totalPages: number): number[] {
     const maxVisiblePages = 5;
     const halfVisiblePages = Math.floor(maxVisiblePages / 2);
@@ -104,6 +109,10 @@ export class ListAdsComponent {
       }
 
     });
+  }
+
+  createOrderAds(ads_id: number){
+    this.router.navigate(['admin/ads/create-order-ads', ads_id]);
   }
    
 }

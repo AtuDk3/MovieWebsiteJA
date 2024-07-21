@@ -17,14 +17,17 @@ export class AddAdsComponent implements OnInit {
     email: '',
     name: '',
     description: '',
+    position: '',
     number_days: 0,
     amount: 0,
-    list_img: []
+    list_img: [],
+    video: ''
   }
 
   imageUrls: SafeUrl[] = [];
   selectedFiles: File[] = [];
   adsResponse: Ads | null = null;
+  selectedVideo: File | null = null; 
 
   constructor(
     private adsService: AdsService,
@@ -39,6 +42,8 @@ export class AddAdsComponent implements OnInit {
   addAds() {
     if (this.selectedFiles.length > 0) {
       this.uploadImageAndCreateAds();
+    } else if (this.selectedVideo) { // Check if selectedVideo is not null
+      this.uploadVideoAndCreateAds();
     } else {
       this.createAds();
     }
@@ -75,23 +80,52 @@ export class AddAdsComponent implements OnInit {
     }
   }
 
+  onVideoSelected(event: any): void {
+  const file: File = event.target.files[0];
+  if (file && file.type.startsWith('video/')) {
+    const reader = new FileReader();
+    this.selectedVideo = file;
+    reader.onload = e => this.ads.video = reader.result as string;
+    reader.readAsDataURL(file);
+  } else {
+    // Handle invalid file type
+    this.toastr.error('Please select a valid video file.', 'Invalid File', {
+      timeOut: 3000,
+      positionClass: 'toast-bottom-right'
+    });
+  }
+}
+
+uploadVideoAndCreateAds() {
+  if (this.selectedVideo) { // Check if selectedVideo is not null
+    const formData = new FormData();
+    formData.append('file', this.selectedVideo);
+    this.adsService.uploadVideo(formData).subscribe({
+      next: (response: any) => {
+        this.ads.video = response.videoUrl;
+        this.createAds();
+      },
+      error: (error: any) => {
+        console.error('Failed to upload video:', error);
+        this.toastr.error('There was a problem uploading the video.', 'Upload Failed', {
+          timeOut: 3000,
+          positionClass: 'toast-bottom-right'
+        });
+      }
+    });
+  } else {
+    this.createAds();
+  }
+}
+
   createAds() {
     this.adsService.createAds(this.ads).subscribe({
       next: (response: any) => {
         this.toastr.success('The ads was added successfully!', 'Add Success', {
           timeOut: 3000,
           positionClass: 'toast-bottom-right'
-        });
-        this.adsResponse = response
-        if (this.adsResponse) {
-          this.adsService.sendTradingCode(this.adsResponse.trading_code, this.adsResponse.email).subscribe({
-            next: (response: any) => {             
-            },
-            error: (error: any) => {
-            }
-          });
-          this.router.navigate(['admin/ads/list-ads']);
-        }
+        });      
+        this.router.navigate(['admin/ads/list-ads']);       
       },
       error: (error: any) => {
         console.error('Failed to add movie:', error);

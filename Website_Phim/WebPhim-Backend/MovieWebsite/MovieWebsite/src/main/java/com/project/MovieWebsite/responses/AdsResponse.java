@@ -25,6 +25,10 @@ public class AdsResponse {
 
     private String description;
 
+    private String position;
+
+    private String video;
+
     @JsonProperty("trading_code")
     private String tradingCode;
 
@@ -62,6 +66,8 @@ public class AdsResponse {
                 .id(ads.getId())
                 .name(ads.getName())
                 .description(ads.getDescription())
+                .position(ads.getPosition())
+                .video(ads.getVideo())
                 .tradingCode(ads.getTradingCode())
                 .email(ads.getEmail())
                 .amount(ads.getAmount())
